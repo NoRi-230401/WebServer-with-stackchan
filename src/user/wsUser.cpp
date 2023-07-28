@@ -1,7 +1,7 @@
 // ---------------------------< wsUser.cpp >------------------------------------
 #include "wsUser.h"
 
-String ServerName = "stackchan";
+
 const String U01_HTML_SPIFFS = "/u01.html";
 const String U02_HTML_SPIFFS = "/u02.html";
 const String U03_HTML_SPIFFS = "/u03.html";
@@ -146,7 +146,7 @@ bool htmlConv(const String flname)
 String processor05(const String &var)
 {
   // ********************* SAMPLE : 本体の内容をWEBに表示　********************
-  // Htmlファイル内の %IP_ADDR% , %ServerName%, %VOLUME_VALUE% に指定された箇所
+  // Htmlファイル内の %IP_ADDR% , %SERVER_NAME%, %VOLUME_VALUE% に指定された箇所
   // を書き換える。本体の状態をWEB上で表示することができます。
   // **************************************************************************
   Serial.println(var);
@@ -155,10 +155,10 @@ String processor05(const String &var)
     Serial.println(IP_ADDR);
     return IP_ADDR;
   }
-  else if (var == "ServerName")
+  else if (var == "SERVER_NAME")
   {
-    Serial.println(ServerName);
-    return ServerName;
+    Serial.println(SERVER_NAME);
+    return SERVER_NAME;
   }
   if (var == "VOLUME_VALUE")
   {
@@ -201,13 +201,8 @@ String processor05(const String &var)
 void Home()
 {
   webpage = HTML_Header();
-  // webpage += "<h2>Home</h2>";
-  // webpage += "<br>";
-  // webpage += "<h4><pre>[Home]　<b>" + ServerName + "</b></pre></h4>";
-  webpage += "<h2><pre>[ Home ] " + ServerName + "</pre></h2>";
+  webpage += "<h3><pre>[ Home ] <b>" + SERVER_NAME + "  ip=" + IP_ADDR + "</b></pre></h3>";
   webpage += "<img src = 'icon' alt='icon'>";
-  // webpage += "<br>";
-  // webpage += "<h4>- Select 'Main', Do Web Service -</h4>";
   webpage += "<h4>- Files, Upload, Download, Stream , Delete , Rename File in SPIFFS -</h4>";
   webpage += HTML_Footer();
 }
@@ -283,21 +278,18 @@ String HTML_Header()
   page += "<title>Home</title>";
   page += "<meta charset='UTF-8'>";
   page += "<style>";
-  // page += "body {width:75em;margin-left:auto;margin-right:auto;font-family:Arial,Helvetica,sans-serif;font-size:16px;color:blue;background-color:#e1e1ff;text-align:center;}";
   page += "body {width:50em;margin-left:auto;margin-right:auto;font-family:Arial,Helvetica,sans-serif;font-size:14px;color:#2f4f4f;background-color:#fffacd;text-align:center;}";
-  // page += "footer {padding:0.08em;background-color:cyan;font-size:1.1em;}";
   page += "footer {padding:0.08em;background-color:cyan;font-size:0.9em;}";
   page += "table {font-family:arial,sans-serif;border-collapse:collapse;width:70%;}"; // 70% of 75em!
   page += "table.center {margin-left:auto;margin-right:auto;}";
   page += "td, th {border:1px solid #dddddd;text-align:left;padding:8px;}";
   page += "tr:nth-child(even) {background-color:#dddddd;}";
+  page += "h3 {color:green;font:1.2em;font-style:normal;text-align:center;}";
   page += "h4 {color:slateblue;font:0.8em;text-align:left;font-style:oblique;text-align:center;}";
   page += ".center {margin-left:auto;margin-right:auto;}";
 
   // TOPNAV
-  // page += ".topnav {overflow: hidden;background-color:lightcyan;}";
   page += ".topnav {overflow: hidden;background-color:lightPink;}";
-  // page += ".topnav a {float:left;color:blue;text-align:center;padding:0.6em 0.6em;text-decoration:none;font-size:1.3em;}";
   page += ".topnav a {float:center;color:blue;text-align:center;padding:0.6em 0.6em;text-decoration:none;font-size:1.1em;}";
   page += ".topnav a:hover {background-color:deepskyblue;color:white;}";
   page += ".topnav a.active {background-color:lightblue;color:blue;}";
@@ -308,11 +300,9 @@ String HTML_Header()
   page += ".topnav2 a:hover {background-color:deepskyblue;color:white;}";
   page += ".topnav2 a.active {background-color:lightblue;color:blue;}";
 
-  // page += ".notfound {padding:0.8em;text-align:center;font-size:1.5em;}";
   page += ".notfound {padding:0.8em;text-align:center;font-size:1.3em;}";
   page += ".left {text-align:left;}";
   page += ".medium {font-size:1.4em;padding:0;margin:0}";
-  // page += ".ps {font-size:0.7em;padding:0;margin:0}";
   page += ".ps {font-size:0.9em;padding:0;margin:0}";
   page += ".sp {background-color:silver;white-space:nowrap;width:2%;}";
   page += "</style>";
@@ -346,7 +336,7 @@ String HTML_Footer()
 {
   String page;
   page += "<br><footer>";
-  page += "<p class='medium'>" + ServerName + " is a super-kawaii robot.</p>";
+  page += "<p class='medium'>" + SERVER_NAME + " is a super-kawaii robot.</p>";
   page += "<p class='ps'><i> " + WS_VERSION + "</i></p>";
   page += "</footer>";
   page += "</body>";

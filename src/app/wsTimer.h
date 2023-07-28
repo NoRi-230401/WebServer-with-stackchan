@@ -25,7 +25,7 @@ extern void led_setColor4(uint16_t n, uint8_t r, uint8_t g, uint8_t b);
 extern uint32_t led_ColorLED3(uint8_t r, uint8_t g, uint8_t b);
 extern void led_show();
 extern void led_clear();
-extern void ttsDo(char *text, const char *tts_parms);
+void ttsDo( const String& text );
 extern String webpage;
 extern void randomSpeakStop2();
 

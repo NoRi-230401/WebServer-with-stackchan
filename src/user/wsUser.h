@@ -8,7 +8,7 @@
 
 extern AsyncWebServer server;
 extern String IP_ADDR;
-extern String ServerName;
+extern String SERVER_NAME;
 extern size_t VOLUME_VALUE;
 extern const String WS_VERSION;
 extern String webpage;

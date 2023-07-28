@@ -54,7 +54,7 @@ extern void REBOOT(const String msg);
 extern const String random_words[];
 extern const String json_ChatString;
 extern bool isJP();
-void ttsDo(char *text, const char *tts_parms);
+extern void ttsDo( const String& text );
 extern String webpage;
 extern int TTS_PARMS_NO;
 extern void sysInfoDispEnd();

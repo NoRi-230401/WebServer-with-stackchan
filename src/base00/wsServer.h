@@ -17,7 +17,7 @@
 #include <WiFi.h>  
 #include <Wire.h>
 
-extern String ServerName;
+extern String SERVER_NAME;
 extern const String WS_VERSION;
 extern String NAME_U01;
 extern String NAME_U02;

@@ -58,6 +58,7 @@
 #define EX_SERVOJSON_SIZE 5 * 128
 #define EX_DOC_SIZE 1024 * 2
 
+extern void ttsDo( const String& text );
 extern String webpage;
 void wsHandleSysInfo(String txS, String dispS, String modeS);
 
@@ -73,6 +74,7 @@ void sysInfo_m00_DispMake();
 void sysInfo_m99_DispMake();
 void randomSpeakStop2();
 
+extern String SERVER_NAME;
 extern int WK_CNT;
 extern int WK_ERR_NO;
 extern int WK_ERR_CODE;
@@ -122,7 +124,6 @@ extern String TTS2_PARMS;
 extern String KEYWORDS[];
 
 extern bool isJP();
-extern void ttsDo(char *text, const char *tts_parms);
 
 // --exLed.cpp -------
 extern bool LED_OnOff_STATE;

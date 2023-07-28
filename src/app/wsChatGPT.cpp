@@ -238,15 +238,11 @@ void randomSpeakStop2()
 
 void randomSpeak(bool mode)
 {
-  String tmp;
+  String speakMsg;
 
   if (mode)
   {
-    if (isJP())
-      tmp = "独り言始めます。";
-    else
-      tmp = "Talk to myself.";
-
+    speakMsg = "独り言始めます。";
     SPEECH_TEXT_BUFFER = "";
     LASTMS1 = millis();
     RANDOM_TIME = 40000 + 1000 * random(30);
@@ -254,20 +250,14 @@ void randomSpeak(bool mode)
   }
   else
   {
-    if (isJP())
-      tmp = "独り言やめます。";
-    else
-      tmp = "Stop talking to myself.";
-
+    speakMsg = "独り言やめます。";
     SPEECH_TEXT_BUFFER = "";
     RANDOM_TIME = -1;
     RANDOM_SPEAK_STATE = false;
   }
   RANDOM_SPEAK_ON_GET = false;
   avatar.setExpression(Expression::Happy);
-  // ttsDo((char *)tmp.c_str(), tts_parms2);
-  ttsDo((char *)tmp.c_str(), TTS2_PARMS.c_str());
-  
+  ttsDo(speakMsg);
   avatar.setExpression(Expression::Neutral);
   Serial.println("mp3 begin");
 }

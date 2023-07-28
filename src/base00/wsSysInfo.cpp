@@ -67,24 +67,16 @@ void wsHandleSysInfo(String txS, String dispS, String modeS)
 
 void report_batt_level()
 {
-  char buff[100];
+  String buff="";
   int level = M5.Power.getBatteryLevel();
+  
   if (M5.Power.isCharging())
-  {
-    if (isJP())
-      sprintf(buff, "充電中、バッテリーのレベルは%d％です。", level);
-    else
-      sprintf(buff, "Charging, battery level is %d percent .", level);
-  }
+      buff = "充電中、バッテリーのレベルは" + String(level,DEC) + "％です。";
   else
-  {
-    if (isJP())
-      sprintf(buff, "バッテリーのレベルは%d％です。", level);
-    else
-      sprintf(buff, "battery level is %d . ", level);
-  }
+      buff = "バッテリーのレベルは" + String(level,DEC) + "％です。";
+
   avatar.setExpression(Expression::Happy);
-  ttsDo(buff, TTS2_PARMS.c_str());
+  ttsDo(buff);
   avatar.setExpression(Expression::Neutral);
   Serial.println("mp3 begin");
 }
@@ -319,9 +311,9 @@ void sysInfo_m01_DispMake()
 
   SYSINFO_MSG += "\nSSID_PASSWD = " + SSID_PASSWD;
   SYSINFO_MSG += "\nopenAiApiKey = " + OPENAI_API_KEY;
-  SYSINFO_MSG += "\nvoiceTextApiKey = " + VOICETEXT_API_KEY;
+  // SYSINFO_MSG += "\nvoiceTextApiKey = " + VOICETEXT_API_KEY;
   SYSINFO_MSG += "\nvoicevoxApiKey = " + VOICEVOX_API_KEY;
-  SYSINFO_MSG += "\nsttApiKey = " + STT_API_KEY;
+  // SYSINFO_MSG += "\nsttApiKey = " + STT_API_KEY;
   SYSINFO_MSG += "\ntimer = " + String(TIMER_SEC_VALUE,DEC) + "sec";
 
   if (MUTE_ON_STATE)
@@ -356,7 +348,8 @@ void sysInfo_m00_DispMake()
   // SYSINFO_MSG = "*** System Information ***\n";
   SYSINFO_MSG = "";
   SYSINFO_MSG += WS_VERSION;
-  SYSINFO_MSG += "\nIP_Addr = " + IP_ADDR;
+  SYSINFO_MSG += "\nserverName = " + SERVER_NAME ;
+    SYSINFO_MSG += "\nIP_Addr = " + IP_ADDR;
   SYSINFO_MSG += "\nSSID = " + SSID;
 
   sprintf(msg2, "\nbatteryLevel = %d %%", getBatteryLevel());
@@ -364,9 +357,10 @@ void sysInfo_m00_DispMake()
 
   sprintf(msg2, "\nvolume = %d", VOLUME_VALUE);
   SYSINFO_MSG += msg2;
-  SYSINFO_MSG += "\nttsSelect = " + String(TTS_NAME[TTS_TYPE]);
+  // SYSINFO_MSG += "\nttsSelect = " + String(TTS_NAME[TTS_TYPE]);
+  
   SYSINFO_MSG += "\nvoicevoxSpeakerNo = " + TTS2_SPEAKER_NO;
-  SYSINFO_MSG += "\nlang = " + LANG_CODE;
+  // SYSINFO_MSG += "\nlang = " + LANG_CODE;
 
   if (RANDOM_SPEAK_STATE)
   {

@@ -4,7 +4,9 @@
 // -------------------------------------------------------
 #include <Arduino.h>
 
+
 extern const String WS_VERSION;
+// extern String SERVER_NAME;
 
 extern void M5StackConfig();
 extern void apiKeyFileRead();

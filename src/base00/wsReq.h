@@ -34,7 +34,7 @@ extern Avatar avatar;
 extern const Expression expressions_table[];
 extern char *tts_parms_table[];
 extern char tts_parms2[];
-extern void ttsDo(char *text, const char *tts_parms);
+extern void ttsDo( const String& text );
 extern bool SV_ADJUST_STATE;
 extern int SV_MD;
 extern uint16_t SHUTDOWN_TM_SEC;

@@ -6,9 +6,13 @@ const char *APIKEY_NVS = "apikey"; // apikey  -- NVS の設定用ファイル
 
 const String APIKEY_SPIFFS = "/wsApiKey.json";
 const String STARTUP_SPIFFS = "/wsStartup.json";
+// const String STARTUP_ITEM[] = {
+//     "ttsSelect", "voicevoxSpeakerNo", "lang", "volume",
+//     "led", "randomSpeak", "toneMode", "mute", "keyLock", "timer"};
 const String STARTUP_ITEM[] = {
-    "ttsSelect", "voicevoxSpeakerNo", "lang", "volume",
+    "serverName", "voicevoxSpeakerNo", "lang", "volume",
     "led", "randomSpeak", "toneMode", "mute", "keyLock", "timer"};
+
 const String APIKEY_ITEM[] = {"openAiApiKey", "voiceTextApiKey", "voicevoxApiKey"};
 
 size_t VOLUME_VALUE;
@@ -407,14 +411,14 @@ bool apiKeyFileRead()
   }
 
   // voiceTextApiKey
-  String getStr1 = object[APIKEY_ITEM[1]];
-  if (getStr1 != "" && (getStr1 != "null"))
-  {
-    VoiceText_TTS_USER = getStr1;
-    VOICETEXT_API_KEY = VoiceText_TTS_USER;
-    Serial.println("ApiKey : " + APIKEY_ITEM[1] + " = " + getStr1);
-    cnt++;
-  }
+  // String getStr1 = object[APIKEY_ITEM[1]];
+  // if (getStr1 != "" && (getStr1 != "null"))
+  // {
+  //   VoiceText_TTS_USER = getStr1;
+  //   VOICETEXT_API_KEY = VoiceText_TTS_USER;
+  //   Serial.println("ApiKey : " + APIKEY_ITEM[1] + " = " + getStr1);
+  //   cnt++;
+  // }
 
   // voicevoxApiKey
   String getStr2 = object[APIKEY_ITEM[2]];
@@ -432,6 +436,7 @@ bool apiKeyFileRead()
 bool startupFileRead()
 {
   // ****** 初期値設定　**********
+  SERVER_NAME = "stackchan";
   TTS_TYPE = 2; // VOICEVOX
   TTS2_SPEAKER_NO = "3";
   LANG_CODE = String(LANG_CODE_JP);
@@ -460,22 +465,32 @@ bool startupFileRead()
   int cnt = 0;
 
   // ttsSelect
+  // String getStr0 = object[STARTUP_ITEM[0]];
+  // if (getStr0 != "" && (getStr0 != "null"))
+  // {
+  //   String getData = getStr0;
+  //   getData.toUpperCase();
+  //   if (getData == "VOICETEXT")
+  //     TTS_TYPE = 0;
+  //   if (getData == "GOOGLETTS")
+  //     TTS_TYPE = 1;
+  //   if (getData == "VOICEVOX")
+  //     TTS_TYPE = 2;
+
+  //   Serial.println("Startup : " + STARTUP_ITEM[0] + " = " + TTS_NAME[TTS_TYPE]);
+  //   cnt++;
+  // }
+
+  // serverName
   String getStr0 = object[STARTUP_ITEM[0]];
   if (getStr0 != "" && (getStr0 != "null"))
   {
     String getData = getStr0;
-    getData.toUpperCase();
-    if (getData == "VOICETEXT")
-      TTS_TYPE = 0;
-    if (getData == "GOOGLETTS")
-      TTS_TYPE = 1;
-    if (getData == "VOICEVOX")
-      TTS_TYPE = 2;
-
-    Serial.println("Startup : " + STARTUP_ITEM[0] + " = " + TTS_NAME[TTS_TYPE]);
+    SERVER_NAME = getData;
+    Serial.println("Startup : " + STARTUP_ITEM[0] + " = " + SERVER_NAME);
     cnt++;
   }
-
+  
   // --- SPEAKER ---
   String getStr1 = object[STARTUP_ITEM[1]];
   if ((getStr1 != "") && (getStr1 != "-1") && (getStr1 != "null"))
@@ -502,13 +517,13 @@ bool startupFileRead()
   TTS2_PARMS = TTS2_SPEAKER + TTS2_SPEAKER_NO;
 
   // lang
-  String getStr2 = object[STARTUP_ITEM[2]];
-  if (getStr2 != "" && (getStr2 != "null"))
-  {
-    LANG_CODE = getStr2;
-    Serial.println("Startup : " + STARTUP_ITEM[2] + " = " + getStr2);
-    cnt++;
-  }
+  // String getStr2 = object[STARTUP_ITEM[2]];
+  // if (getStr2 != "" && (getStr2 != "null"))
+  // {
+  //   LANG_CODE = getStr2;
+  //   Serial.println("Startup : " + STARTUP_ITEM[2] + " = " + getStr2);
+  //   cnt++;
+  // }
 
   // volume
   String getStr3 = object[STARTUP_ITEM[3]];

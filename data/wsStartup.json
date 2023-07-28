@@ -1,9 +1,8 @@
 {
   "startup": [
     {
-      "ttsSelect": "VOICEVOX",
+      "serverName": "wsStackChan",
       "voicevoxSpeakerNo": "-1",
-      "lang": "ja-JP",
       "volume": "-1",
       "led": "on",
       "randomSpeak": "off",

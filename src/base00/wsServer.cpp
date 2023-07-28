@@ -26,6 +26,7 @@
 */
 #include "wsServer.h"
 
+String SERVER_NAME = "stackchan";
 AsyncWebServer server(80);
 bool isSPIFFS = true;
 
@@ -45,13 +46,13 @@ int start, downloadtime = 1, uploadtime = 1, downloadsize, uploadsize, downloadr
 
 void serverSetup()
 {
-  if (!StartMDNSservice(ServerName.c_str()))
+  if (!StartMDNSservice(SERVER_NAME.c_str()))
   {
     Serial.println("Error starting mDNS Service...");
     ;
     StartupErrors = true;
   }
-  Serial.println("ServerName = " + ServerName);
+  Serial.println("ServerName = " + SERVER_NAME);
 
   // ***** M5StackConfig() で、SPIFFSの初期化を行うので削除 **********
   // if (!SPIFFS.begin(true))

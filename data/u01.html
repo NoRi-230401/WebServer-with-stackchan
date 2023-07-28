@@ -34,14 +34,14 @@
   　　<a href="http://192.168.0.100/timer?mode=Stop">「タイマー」停止</a>
   <br><br>
   <p>
-  SPIFFSの "wsStartup.json", "exServo.json", "wsWifi.json",<br>
+  SPIFFSの "wsStartup.json", "wsServo.json", "wsWifi.json",<br>
   "wsApikey.json" のファイルを使用しています。<br>
   <b>★設定ファイルは、破損に備えて必ずバックアップを取ってください。</b><br>
   </p>
   <br>
   <a href="#top">トップ</a>　<a href="http://192.168.0.100/sysInfo"">システム情報</a>　<a
     href="http://192.168.0.100/startup"">wsStartup.json</a>
-    　<a href="http://192.168.0.100/exServo">exServo.json</a>
+    　<a href="http://192.168.0.100/servoSetting">wsServo.json</a>
     　<a href="http://192.168.0.100/wifiSelect">wsWifi.json</a>　<a
     href="http://192.168.0.100/shutdown?reboot=on" >再起動</a>
   <br><br>
@@ -54,9 +54,15 @@
       value="送信" />
   </form>
   <br>
+    
   「独り言」 ：　<a href="http://192.168.0.100/randomSpeak?mode=on" >開始</a>
   　　<a href="http://192.168.0.100/randomSpeak?mode=off" >停止</a>
   <br><br>
+  <form action="http://192.168.0.100/setting?" method="get">話者番号：（VOICEVOX）　<input type="text" name="speaker" value="3"
+    size="2" maxlength="2" />　 <input type="submit" value="送信" />
+</form>
+<br>
+  
   <form action="http://192.168.0.100/timer" method="get">
     タイマー時間設定(30-3599秒)：<input type="text" name="setTime" value="180" size="5" maxlength="5" />　　<input type="submit"
       value="送信" />　30秒～60分未満
@@ -65,23 +71,7 @@
   タイマー開始/停止：　<a href="http://192.168.0.100/timer?mode=Go" >開始</a>
   　　<a href="http://192.168.0.100/timer?mode=Stop" >停止</a>
   <br><br>
-  TextToSpeech(TTS)切替え：<br>
-  　　<a href="http://192.168.0.100/setting?ttsSelect=VOICEVOX" >VOICEVOX</a>
-  　　<a href="http://192.168.0.100/setting?ttsSelect=VoiceText" >VoiceText</a>
-  　　<a href="http://192.168.0.100/setting?ttsSelect=GoogleTTS" >GoogleTTS</a>
-  <br><br>
-
-  <form action="http://192.168.0.100/setting?" method="get">話者番号：（VOICEVOX）　<input type="text" name="speaker" value="3"
-      size="2" maxlength="2" />　 <input type="submit" value="送信" />
-  </form>
-  <br>
-
-  言語：(GoogleTTS)　<br>
-  　<a href="http://192.168.0.100/setting?lang=ja-JP" >ja-JP(日本語)</a>　　<a
-    href="http://192.168.0.100/setting?lang=en-US" >en-US(英語)</a>
-  <form action="http://192.168.0.100/setting?" method="get">　その他：<input type="text" name="lang" value="" size="6"
-      maxlength="6" />　 <input type="submit" value="送信" />
-  </form>
+  
   <br>
   LEDのON/OFF：　<a href="http://192.168.0.100/setting?led=on" >LED_ON</a>
   　　<a href="http://192.168.0.100/setting?led=off" >LED_OFF</a>
@@ -110,6 +100,7 @@
   　<a href="http://192.168.0.100/face?expression=4" >4:悲しい</a>
   　<a href="http://192.168.0.100/face?expression=5" >5:怒り</a>
   <br>
+  
   <br>
   <form action="http://192.168.0.100/speech" method="get">
     <p>
@@ -157,42 +148,14 @@
   <p>
   <h3>※　TextToSpeech(TTS)について</h3>
   
-  TTSの切替え：　<a href="http://192.168.0.100/setting?ttsSelect=VOICEVOX" >VOICEVOX</a>
-  　　<a href="http://192.168.0.100/setting?ttsSelect=VoiceText" >VoiceText</a>
-   <!--
-  　　<a href="http://192.168.0.100/setting?ttsSelect=GoogleTTS" >GoogleTTS</a>
-   -->
-  <br><br>
-
+  
   <p>
     ・　[ <b>VOICEVOX</b> ]の場合には、<b>話者番号</b>（０－６６）の選択ができます。<br>
   <form action="http://192.168.0.100/setting?" method="get">話者番号：（0-66）　<input type="text" name="speaker" value="3"
       size="2" maxlength="2" />　 <input type="submit" value="送信" />
   </form>
   </p>
-  
-  <p>
-  ・　[ <b>VoiceText</b> ]の場合には、<b>感情表現</b>に対応しています。<br>
-  ロール設定に次の文言を加えてください。<br>
-  「 　 (Happy)のように、必ず括弧で囲んで感情の種類を表し、返答の先頭に付けてください。<br>
-  感情の種類には、Neutral、Happy、Sleepy、Doubt、Sad、Angry の６種類があります。　」<br>
-  </p>
-
-  <!--
-  ・　[ <b>GoogleTTS</b> ]の場合は、<b>多言語対応</b>です。日本語以外を使用する場合は、<br>
-  他の言語で応答させるため、ロールの設定で次のような追加が必要となります。<br>
-  （例）言語に「en-US(英語)」を選択したは、次の文言を加えてください。<br>
-  　" Please repley to questions in English. "　または、<br>
-  　" Questions must be answered in English. "<br>
-  他の言語でも同様なロール設定が必要となります。
-
-  言語指定：(GoogleTTS)　<br>
-  　<a href="http://192.168.0.100/setting?lang=ja-JP" >ja-JP(日本語)</a>　　<a
-    href="http://192.168.0.100/setting?lang=en-US" >en-US(英語)</a>
-  <form action="http://192.168.0.100/setting?" method="get">　その他：<input type="text" name="lang" value="" size="6"
-      maxlength="6" />　 <input type="submit" value="送信" />
-  </form>
-  -->
+    
   <br>
   <a href="#top">トップ</a>
   　<a href="http://192.168.0.100/sysInfo" >システム情報</a>
@@ -204,9 +167,8 @@
   <h4> <a name="inst"></a> ★３.インストール手順</h4>
   <p>
     （１）．<a href="https://github.com/NoRi-230401/StackChanEx"
-      >GitHubで提供している</a>「ex」ファルダ内の５つのファイルを<br>
-    　<b>SD直下に「ex」フォルダを作成し、そこにコピーしてください。</b><br>
-    　wsStartup.json, wsApikey.json, exServo.json, wsWifi.json, index.html<br>
+      >GitHubで提供している</a>「ws」ファルダ内の５つのファイルを<br>
+    　wsStartup.json, wsApikey.json, wsServo.json, wsWifi.json, index.html<br>
     <br>
     （２）．テキストエディタで、次の箇所を自分用に書き換える<br>
     　・　wsWifi.json の [ssid]、[passwd]<br>
@@ -239,38 +201,28 @@
   <br>
   <hr>
   <h4> <a name="kantan"></a> ★４.簡単設定</h4>
-　Apikeyの新規または変更入力と、基本設定がここでできます。<br>
+　Apikeyの新規設定または変更、および基本の設定ができます。<br>
   <br>
-  <form action="http://192.168.0.100/apikey" method="get">openAiApiKey　：　<input type="text" name="openAiApiKey"
-      value="" size="55" maxlength="60" /><br>
-    　<input type="submit" value="送信" />
+  <form action="http://192.168.0.100/apikey" method="get">openAiApiKey　：<input type="text" name="openAiApiKey"
+      value="" size="55" maxlength="60" />　<input type="submit" value="送信" />
   </form>
   <br>
-  <form action="http://192.168.0.100/apikey" method="get">voicevoxApiKey：　<input type="text" name="voicevoxApiKey"
-      value="" size="20" maxlength="30" /><br>
-    　<input type="submit" value="送信" />　VOICEVOXを使わなければ必要なし
+  <form action="http://192.168.0.100/apikey" method="get">voicevoxApiKey：<input type="text" name="voicevoxApiKey"
+      value="" size="20" maxlength="30" />　<input type="submit" value="送信" />
   </form>
   <br>
-  <form action="http://192.168.0.100/apikey" method="get">voiceTextApiKey：　<input type="text" name="voiceTextApiKey"
-      value="" size="20" maxlength="30" /><br>
-    　<input type="submit" value="送信" />　voiceTextを使わなければ必要なし
-  </form>
-  <br>
-  servo　 ：　<a href="http://192.168.0.100/exServo?servo=on" >on</a>
-  　　<a href="http://192.168.0.100/exServo?servo=off" >off</a>
+  servo　 ：　<a href="http://192.168.0.100/servoSetting?servo=on" >on</a>
+  　　<a href="http://192.168.0.100/servoSetting?servo=off" >off</a>
   <br><br>
-  servoPort：　<a href="http://192.168.0.100/exServo?servoPort=portA" >portA</a>
-  　　<a href="http://192.168.0.100/exServo?servoPort=portC" >portC</a>
+  servoPort：　<a href="http://192.168.0.100/servoSetting?servoPort=portA" >portA</a>
+  　　<a href="http://192.168.0.100/servoSetting?servoPort=portC" >portC</a>
   <br><br>
-  ttsSelect：　<a href="http://192.168.0.100/startup?ttsSelect=VOICEVOX" >VOICEVOX</a>　　<a
-    href="http://192.168.0.100/startup?ttsSelect=VoiceText" >VoiceText</a>
-  　　<a href="http://192.168.0.100/startup?ttsSelect=GoogleTTS" >GoogleTTS</a>
-  <br><br>
+  
   <p><b>変更を反映させるには、必ず再起動してください。</b> </p>
   <br>
   <a href="#top">トップ</a>　<a href="http://192.168.0.100/sysInfo" >システム情報</a>　<a
     href="http://192.168.0.100/startup" >wsStartup.json</a>
-    　<a href="http://192.168.0.100/exServo" >exServo.json</a>
+    　<a href="http://192.168.0.100/servoSetting" >wsServo.json</a>
     　<a href="http://192.168.0.100/apikey" >wsApikey.json</a>
     　<a href="http://192.168.0.100/shutdown?reboot=on" >再起動</a>
   <br>
@@ -280,22 +232,15 @@
   起動時に設定ファイル("wsStartup.Json")を読み込みます。<br>
   ここでは、ファイルの内容を書き換えます。変更を反映するには、再起動が必要です。
   <br>
-  <p>
-    ttsSelect：　
-    <a href="http://192.168.0.100/startup?ttsSelect=VOICEVOX" >VOICEVOX</a>
-    　　<a href="http://192.168.0.100/startup?ttsSelect=VoiceText" >VoiceText</a>
-    　　<a href="http://192.168.0.100/startup?ttsSelect=GoogleTTS" >GoogleTTS</a>
-    <br>
+  <br>
+  <form action="http://192.168.0.100/startup" method="get">
+    serverName：<input type="text" name="serverName" value="" size="20" maxlength="20" />　<input type="submit"
+      value="送信" />
+  </form>
+  <br>  
   <form action="http://192.168.0.100/startup" method="get">
     voicevoxSpeakerNo : ( -1 to 66 )、-1は現状維持：<input type="text" name="voicevoxSpeakerNo" value="-1" size="2"
       maxlength="2" />　<input type="submit" value="送信" />
-  </form>
-  <br>
-  lang：　<a href="http://192.168.0.100/startup?lang=ja-JP" >ja-JP(日本語)</a>
-  　<a href="http://192.168.0.100/startup?lang=en-US" target="StackChank">en-US(英語)</a>
-
-  <form action="http://192.168.0.100/startup" method="get">　その他の言語　<input type="text" name="lang" value="" size="6"
-      maxlength="6" />　<input type="submit" value="送信" />
   </form>
   <br>
   </p>

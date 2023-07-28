@@ -4,7 +4,6 @@
 int REQUEST_GET = 0; // 0 : no request
 String REQ_MSG = "";
 bool REQ_chatGPT_GET = false;
-// bool SHUTDOWN_REQ_GET = false;
 int REQ_SHUTDOWN_REBOOT = 0;
 int REQ_SPK_PARMS_NO;
 int REQ_SPK_EXPR;
@@ -77,7 +76,7 @@ void RequestManage()
 void ReqSpkMsgDo2()
 {
   avatar.setExpression(expressions_table[REQ_SPK_EXPR]);
-  ttsDo((char *)REQ_MSG.c_str(), TTS2_PARMS.c_str());
+  ttsDo(REQ_MSG);
 }
 
 
@@ -94,7 +93,7 @@ void Req_SpkMsgDo()
 
   avatar.setExpression(Expression::Happy);
   avatar.setSpeechText(REQ_MSG.c_str());
-  ttsDo((char *)REQ_MSG.c_str(), TTS2_PARMS.c_str());
+  ttsDo(REQ_MSG);
   avatar.setExpression(Expression::Neutral);
   // SERVO_MSG = "";
 }
@@ -105,7 +104,7 @@ void Req_SpkDo()
     return;
 
   avatar.setExpression(Expression::Happy);
-  ttsDo((char *)REQ_MSG.c_str(), TTS2_PARMS.c_str());
+  ttsDo(REQ_MSG);
   avatar.setExpression(Expression::Neutral);
 }
 

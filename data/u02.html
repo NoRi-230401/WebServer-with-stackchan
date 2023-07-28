@@ -1,0 +1,307 @@
+<!doctype html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Servo</title>
+  <base target="StackChanSub">
+  <!-- comment -->
+  <meta name="author" content="NoRi-230801">
+  <meta name="content-language" content="ja">
+  <meta name="build" content="2023-06-23">
+</head>
+<!-- comment -->
+<body bgcolor="#fffacd" text="#2f4f4f" leftmargin="10" topmargin="20">
+  <a name="top"></a>
+  <font color="87ceeb" size="5">　<b>Servo</b></font><br><br>
+  <hr color="#87ceeb" width="100%" size="3">
+  <p>
+    <br><a href="http://192.168.0.100/">０.Home</a><br><br>
+    <a href="#svCont">１.サーボ制御（コントロール）</a><br><br>
+    <a href="#svSetting">２.サーボ設定（起動時）</a><br><br>
+      ３.サーボ調整<br>
+      　<a href="#svAdjust">（３ー０）準備</a><br>
+      　<a href="#svAdjust1">（３－１）固定前</a><br>
+      　<a href="#svAdjust2">（３ー２）固定後</a><br>
+      　<a href="#svAdjust3">（３ー３）調整終了後</a><br><br>
+    </p>
+  <hr color="#87ceeb" width="100%" size="3">
+  <br>
+  <h4><a name="svCont"></a> ★１.サーボ制御（コントロール）</h4>
+  <br>
+  　<a href="http://192.168.0.100/servo?mode=moving" >Moving</a>
+  ：（通常動作）　　　　<a href="http://192.168.0.100/servo?mode=stop" >Stop</a>：（動作停止）<br>
+  <br>
+  　<a href="http://192.168.0.100/servo?mode=home" >Home </a>
+  ：（ホーム位置）　　　<a href="http://192.168.0.100/servo?mode=center" >Center</a>
+  ：（X=90,Y=90）
+  <br><br>
+
+  <p>
+    <b>Swing</b><br>
+    　XY軸、X軸、Y軸の３種類の移動方向を選べ、それぞれ回数指定ができます。<br>
+
+  <form action="http://192.168.0.100/servo" method="get">
+    　SwingXY　:　 <input type="text" name="swingXY" value="1" size="2" maxlength="2" />　 repeat　(1 to 10)
+    　<input type="submit" value="送信" />
+  </form>
+
+
+  <form action="http://192.168.0.100/servo" method="get">
+    <br>
+    　SwingX:（ 90 → 0 → 180 → 90 ）<input type="text" name="swingX" value="1" size="2" maxlength="2" />　repeat　(1 to 10)
+    <input type="submit" value="送信" />
+  </form>
+  <br>
+  <form action="http://192.168.0.100/servo" method="get">
+    　SwingY:（ 90 → 50 → 90 ）　　　<input type="text" name="swingY" value="1" size="2" maxlength="2" />　repeat　(1 to 10)
+    <input type="submit" value="送信" />
+  </form>
+  <br>
+  </p>
+
+  <p>
+    <b>Random</b>　　　<a href="http://192.168.0.100/servo?mode=random" >Random</a>
+    　　　　<a href="http://192.168.0.100/servo?mode=stop" >Stop</a>：（動作停止）<br>
+    　　(X: 45-135) , (Y: 60-90) の範囲でランダムな動きをします。<br><br>
+  </p>
+
+
+  <p>
+    <b>PointXY</b>　は、絶対位置(X:0 to 180,　 Y:50 to 100) を指定: degree<br>
+  <form action="http://192.168.0.100/servo" method="get">
+    　PointXY:　X(0 to 180)　　 <input type="text" name="pointX" value="90" size="3" maxlength="3" />　　Y(50 to 100) <input
+      type="text" name="pointY" value="90" size="3" maxlength="3" />　<input type="submit" value="送信" />
+  </form>
+  </p>
+  <br>
+  <p>
+    <b>DeltaXY</b>　は、現在の位置からの相対位置(X:-180 to 180,　 Y:-50 to 50)を指定 : degree<br>
+    指定された値が、サーボ設定範囲を超えた場合には、最小、最大値に張り付きます。<br>
+    サーボ設定範囲（ 0＜＝X＜＝180,　50＜＝Y＜＝100 ）
+  <form action="http://192.168.0.100/servo" method="get">
+    <br>　DeltaXY:　X(-180 to 180) <input type="text" name="deltaX" value="0" size="4" maxlength="4" />　Y(-50 to 50)
+    <input type="text" name="deltaY" value="0" size="3" maxlength="3" />　<input type="submit" value="送信" />
+  </form>
+  </p>
+  <br>
+  <p>
+    <b>サーボ位置取得</b>　　現在のX、Yの位置を取得できます。<br>
+    　　　<a href="http://192.168.0.100/servo?tx=xy" >サーボ位置(X,Y)の取得 </a>
+  </p>
+  <br>
+  <p>
+
+    ※注意：wsServo.jsonファイルの「servo」項目が「off」の場合は、サーボ制御はできません。<br>
+  </p>
+  <br>
+  <a href="#top">トップ</a>
+  　<a href="http://192.168.0.100/sysInfo" >システム情報</a>
+  　<a href="http://192.168.0.100/servoSetting" >wsServo.json</a>
+  　<a href="http://192.168.0.100/shutdown?reboot=on" >再起動</a>
+
+
+  <br><br>
+  <hr>
+  <h4><a name="svSetting"></a> ★２.サーボ設定（起動時）</h4>
+  起動時にサーボ設定ファイル("wsServo.Json")を読み込みます。<br>
+  ここでは、ファイルの内容を書き換えます。変更を反映するには、再起動が必要です。<br>
+
+  <p>
+    servo：　<a href="http://192.168.0.100/servoSetting?servo=on" >on</a>
+    　　<a href="http://192.168.0.100/servoSetting?servo=off" >off</a>
+    <br><br>
+    servoPort：　<a href="http://192.168.0.100/servoSetting?servoPort=portA" >portA</a>
+    　　<a href="http://192.168.0.100/servoSetting?servoPort=portC" >portC</a>
+    <br><br>
+
+    servoMode：　<a href="http://192.168.0.100/servoSetting?servoMode=moving" >moving(通常)</a>
+    　　<a href="http://192.168.0.100/servoSetting?servoMode=home" >home</a>
+    　　<a href="http://192.168.0.100/servoSetting?servoMode=adjust" >adjust(調整モード)</a>
+    <br><br>
+
+  <form action="http://192.168.0.100/servoSetting" method="get">
+    サーボのホーム位置(XY)を変更します。<br>
+    servoHomeX：( 70 to 110 ) :　<input type="text" name="servoHomeX" value="90" size="3" maxlength="3" />　<input
+      type="submit" value="送信" />
+  </form>
+  <br>
+  <form action="http://192.168.0.100/servoSetting" method="get">
+    servoHomeY：( 60 to 100 ) :　<input type="text" name="servoHomeY" value="80" size="3" maxlength="3" />　<input
+      type="submit" value="送信" />
+  </form>
+  <br><br>
+  </p>
+  <br>
+  <a href="#top">トップ</a>
+  　<a href="http://192.168.0.100/sysInfo" >システム情報</a>
+  　<a href="http://192.168.0.100/servoSetting" >wsServo.json</a>
+  　<a href="http://192.168.0.100/shutdown?reboot=on" >再起動</a>
+
+
+  <br><br>
+  <hr>
+
+
+  <h4><a name="svAdjust"></a>★３. サーボ調整</h4>
+
+  <a name="svAdjust0"></a><b>（３－０）準備:　ソフトウエアの設定</b><br><br>
+  最初に、ソフトウエアのサーボ関連の設定を行います。<br>
+  <p>
+    servo：　　　<a href="http://192.168.0.100/servoSetting?servo=on" >on</a>
+    <br>
+    servoPort：　<a href="http://192.168.0.100/servoSetting?servoPort=portA" >portA</a>
+    　　<a href="http://192.168.0.100/servoSetting?servoPort=portC" >portC</a>　（どちらかを選択）
+    <br>
+    servoMode：　<a href="http://192.168.0.100/servoSetting?servoMode=adjust" >adjust</a>　(「サーボ調整」モードで起動)<br>
+  </p>
+
+  ※ M5Stack_Core2_for_AWSの servoPortは、画面に向かって上面の右側は"portC" / 左面は"portA"です。<br>
+  そこのGroveコネクタに、Groveケーブルで結線したサーボ接続基盤ユニットがつながります。
+  <p>
+    その後、"wsServo.json"ファイルの内容を確認後に、再起動してください。<br>
+    再起動後は、画面に（「サーボ調整」）と表示されます。<br>
+    「サーボ調整」起動後は、Center（X=90,Y=90）位置で停止、およびKeyLock状態になります。<br>
+    「サーボ調整」モード起動が確認できたら、いったん電源OFFにするため、<br>
+    下記の「終了（電源OFF）」を押下して、電源OFFの状態にしてください。<br><br>
+    <a href="#top">トップ</a>
+    　　　<a href="http://192.168.0.100/servoSetting" >wsServo.json</a>
+    　　　<a href="http://192.168.0.100/shutdown?reboot=on" >再起動</a>
+    　　　<a href="http://192.168.0.100/shutdown" >終了（電源OFF）</a>
+  </p>
+  <br> -----------------------------------------------------------------------<br>
+  <a name="svAdjust1"></a><b>（３－１）固定前:</b><br>
+  ここでは、スタックチャンのボディ組み立て前（固定前）に、サーボが、<br>
+  正常に動くかどうかのチェックと、「センター出し」を行います。<br>
+  <br>
+  サーボ・モータに付属するサーボ・ホーン（白や黒いプラスチックの羽みたいなもの）を<br>
+  サーボに付けます。これは、サーボの動きがよくわかるようにするためです。<br>
+  電源OFF状態のまま、本体のポート（portAまたは、portC）のGroveコネクタに、<br>
+  Groveケーブルにつながった接続基盤経由で、サーボを接続してください。<br><br>
+  その後、電源ONして、本体が「サーボ調整」画面になったら、ここに戻ってきてください。<br><br>
+  <p>
+    <b>（３－１－１）動作チェック</b><br>
+    サーボが、正常に動くかどうかの動作チェックをおこないます。<br><br>
+    <b>Swing</b> は、XY軸、X軸、Y軸の３種類の移動方向を選べ、それぞれ回数指定ができます。<br>
+    <b>Random</b> は、(X: 45-135) , (Y: 60-90) の範囲でランダムな動きをします。<br>
+    <b>Moving</b> は、通常使用している動作を試すことができます。<br>
+    <b>Stop</b> は、Randomまたは、Movingを停止させる場合に使用してください。<br><br>
+
+  <form action="http://192.168.0.100/servo" method="get">
+    　SwingXY　:　 <input type="text" name="swingXY" value="1" size="2" maxlength="2" />　 repeat　(1 to 10)
+    　<input type="submit" value="送信" />
+  </form>
+
+
+  <form action="http://192.168.0.100/servo" method="get">
+    <br>
+    　SwingX:（ 90 → 0 → 180 → 90 ）<input type="text" name="swingX" value="1" size="2" maxlength="2" />　repeat　(1 to 10)
+    <input type="submit" value="送信" />
+  </form>
+  <br>
+  <form action="http://192.168.0.100/servo" method="get">
+    　SwingY:（ 90 → 50 → 90 ）　　　<input type="text" name="swingY" value="1" size="2" maxlength="2" />　repeat　(1 to 10)
+    <input type="submit" value="送信" />
+  </form>
+  <br>
+  </p>
+
+  　<a href="http://192.168.0.100/servo?mode=random" >Random</a>
+  　　　<a href="http://192.168.0.100/servo?mode=moving" >Moving</a>：（通常）
+  　　<a href="http://192.168.0.100/servo?mode=stop" >Stop</a>：（停止）<br>
+  <br><br>
+
+  <b>（３－１－２）センター出し</b><br>
+  サーボの回転角を90度の位置に初期化します。（これが「センター出し」）<br>
+  サーボを固定する時は、サーボをセンター（X=90,Y=90）位置で取り付けます。<br>
+  <br>
+
+  　<a href="http://192.168.0.100/servo?mode=center" >Center</a> ：（X=90,Y=90）
+  　　　　<a href="http://192.168.0.100/shutdown" >終了（電源OFF）</a>
+  <br><br>
+  センターに移動後、終了（電源OFF）して電源を切ってください。<br>
+  Groveケーブル、サーボ・ホーン等を取り外し、<br>
+  その後、サーボの固定作業（スタックチャンのボディ組み立て）を行ってください。<br>
+  <br>
+  <p>
+  <a href="#top">トップ</a>
+    　　　<a href="http://192.168.0.100/servoSetting" >wsServo.json</a>
+    　　　<a href="http://192.168.0.100/shutdown?reboot=on" >再起動</a>
+    　　　<a href="http://192.168.0.100/shutdown" >終了（電源OFF）</a>
+  </p>
+  <br> -----------------------------------------------------------------------<br><br>
+
+  <a name="svAdjust2"></a><b>（３－２）固定後:　ホーム位置調整</b><br><br>
+  サーボの固定作業（スタックチャンのボディ組み立て）が完了しましたら、<br>
+  電源ONにして、本体が「サーボ調整」画面になったら、再びこの場所に戻ってきてください。<br>
+  <br>
+  サーボは、指定場所から少しずれる場合があります。たとえば、本来のセンター位置<br>
+  （X=90,Y=90）は、画面の正面（両足の真ん中）で、水平面に垂直であるのが理想的な位置です。<br>
+  これに、ずれが発生している場合にその調整をおこない、ずれを修正することができます。<br><br>
+  　<a href="http://192.168.0.100/servo?mode=center" >Center</a>
+  ：（X=90,Y=90）　センター位置の確認<br><br><br>
+
+  実際の調整は、ホーム位置の設定でずれ分を吸収せる形で調整を行います。<br>
+  ホームの位置を中心にして、本体のサーボ動作をおこなってようになっています。<br> <br>
+  　<a href="http://192.168.0.100/servo?mode=home" >Home </a>
+  ：（現在のホーム位置）　初期設定では、X=90,Y=80 です。
+
+  <p>
+    Home　の位置に移動したあとで、下記でどれくらい移動すればいいのか試し、<br>
+    調整をするHome位置を決めてください。XYの値は画面に表示されます。<br>
+    Xは画面の正面の中心、Yは若干の上向き方向にするのがお勧めです。<br>
+    画面を正面に見て、Xはプラスは右向き、Yはプラスが下向きに移動します。<br>
+    <br>
+    　<a href="http://192.168.0.100/servo?deltaX=-1&deltaY=0" >deltaX = -1</a>
+    ：　<a href="http://192.168.0.100/servo?deltaX=1&deltaY=0" >deltaX= +1</a>
+    　　<a href="http://192.168.0.100/servo?deltaX=0&deltaY=-1" >deltaY = -1</a>
+    ：　<a href="http://192.168.0.100/servo?deltaX=0&deltaY=1" >deltaY= +1</a>
+    <br><br>
+    　<a href="http://192.168.0.100/servo?deltaX=-3&deltaY=0" >deltaX = -3</a>
+    ：　<a href="http://192.168.0.100/servo?deltaX=3&deltaY=0" >deltaX= +3</a>
+    　　<a href="http://192.168.0.100/servo?deltaX=0&deltaY=-3" >deltaY = -3</a>
+    ：　<a href="http://192.168.0.100/servo?deltaX=0&deltaY=3" >deltaY= +3</a>
+    <br><br>
+    　<a href="http://192.168.0.100/servo?deltaX=-5&deltaY=0" >deltaX = -5</a>
+    ：　<a href="http://192.168.0.100/servo?deltaX=5&deltaY=0" >deltaX= +5</a>
+    　　<a href="http://192.168.0.100/servo?deltaX=0&deltaY=-5" >deltaY = -5</a>
+    ：　<a href="http://192.168.0.100/servo?deltaX=0&deltaY=5" >deltaY= +5</a>
+    <br><br>
+    　<a href="http://192.168.0.100/servo?deltaX=-10&deltaY=0" >deltaX = -10</a>
+    ：<a href="http://192.168.0.100/servo?deltaX=10&deltaY=0" >deltaX= +10</a>
+    　　<a href="http://192.168.0.100/servo?deltaX=0&deltaY=-10" >deltaY = -10</a>
+    ：<a href="http://192.168.0.100/servo?deltaX=0&deltaY=10" >deltaY= +10</a>
+    <br> <br>
+
+
+  <form action="http://192.168.0.100/servoSetting" method="get">
+    調整するホーム位置(XY)が決定しましたら、ここで変更をおこないます。<br> <br>
+    　servoHomeX：( 70 to 110 ) :　<input type="text" name="servoHomeX" value="90" size="3" maxlength="3" />　<input
+      type="submit" value="送信" />
+  </form>
+  <br>
+  <form action="http://192.168.0.100/servoSetting" method="get">
+    　servoHomeY：( 60 to 100 ) :　<input type="text" name="servoHomeY" value="80" size="3" maxlength="3" />　<input
+      type="submit" value="送信" />
+  </form>
+  <br><br> -----------------------------------------------------------------------<br>
+  <a name="svAdjust3"></a><b>（３－３）調整終了後</b><br>
+  <br>
+  通常動作に戻します。<br>
+  最後に、サーボ・モードを moving(通常)にして、設定ファイル "wsServo.json"の<br>
+  servoHomeX,　servoHomeY,　servoMode が指定した値になっていること確認してください。<br>
+  確認後に、再起動すると、新しいホーム位置の値が反映された通常動作に戻ります。<br>
+  <br>
+  <br>
+  <a href="#top">トップ</a>
+  　　servoMode：<a href="http://192.168.0.100/servoSetting?servoMode=moving" >moving(通常)</a>
+  　　<a href="http://192.168.0.100/servoSetting" >wsServo.json</a>
+  　　<a href="http://192.168.0.100/shutdown?reboot=on" >再起動</a>
+  <br>
+  </p>
+  <br>
+  <hr>
+  <br><br><br><br><br><br><br><br><br>
+</body>
+
+</html>

@@ -1,0 +1,9 @@
+{
+  "apikey": [
+    {
+      "openAiApiKey": "*****",
+      "voiceTextApiKey": "*****",
+      "voicevoxApiKey": "*****"
+    }
+  ]
+}

@@ -1,0 +1,446 @@
+<!doctype html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <title>StackChan</title>
+  <base target="StackChanSub">
+  <!-- comment -->
+  <meta name="author" content="NoRi-230401">
+  <meta name="content-language" content="ja">
+  <meta name="build" content="2023-06-23">
+</head>
+
+<body bgcolor="#fffacd" text="#2f4f4f" leftmargin="10" topmargin="20">
+  <a name="top"></a>
+  <font size="3">Welcome to</font><br>
+  <font color="87ceeb" size="5"><b>　Web Server with StackChan　(WSS)</b></font><br>
+
+  <hr color="#87ceeb" width="100%" size="3">
+  <br>
+  <a href="http://192.168.0.100/" target="Home">０.Home</a><br>
+  <a href="#kihon">１.基本操作</a><br>
+  <a href="#chatgpt">２.chatGPT（ロール設定とTTS）</a><br>
+
+  <a href="#inst">３.インストール手順</a><br>
+  <a href="#kantan">４.簡単設定</a><br>
+  <a href="#startup">５.スタートアップ設定</a><br>
+  <a href="#wifiSelect">６.Wifi設定</a><br>
+  <a href="#info">７.ApiKey取得と情報（リンク）</a><br>
+
+  <br>
+  <b>★応答に時間がかかるので動作中であれば停止してください。</b><br>
+  　　<a href="http://192.168.0.100/randomSpeak?mode=off">「独り言」停止</a>
+  　　<a href="http://192.168.0.100/timer?mode=Stop">「タイマー」停止</a>
+  <br><br>
+  <p>
+  SPIFFSの "wsStartup.json", "exServo.json", "wsWifi.json",<br>
+  "wsApikey.json" のファイルを使用しています。<br>
+  <b>★設定ファイルは、破損に備えて必ずバックアップを取ってください。</b><br>
+  </p>
+  <br>
+  <a href="#top">トップ</a>　<a href="http://192.168.0.100/sysInfo"">システム情報</a>　<a
+    href="http://192.168.0.100/startup"">wsStartup.json</a>
+    　<a href="http://192.168.0.100/exServo">exServo.json</a>
+    　<a href="http://192.168.0.100/wifiSelect">wsWifi.json</a>　<a
+    href="http://192.168.0.100/shutdown?reboot=on" >再起動</a>
+  <br><br>
+  <hr color="#87ceeb" width="100%" size="3">
+
+  <h4><a name="kihon"></a>★１. 基本操作</h4>
+
+  <form action="http://192.168.0.100/setting" method="get">
+    音量( 0 - 255 )：<input type="text" name="volume" value="200" size="3" maxlength="3" />　<input type="submit"
+      value="送信" />
+  </form>
+  <br>
+  「独り言」 ：　<a href="http://192.168.0.100/randomSpeak?mode=on" >開始</a>
+  　　<a href="http://192.168.0.100/randomSpeak?mode=off" >停止</a>
+  <br><br>
+  <form action="http://192.168.0.100/timer" method="get">
+    タイマー時間設定(30-3599秒)：<input type="text" name="setTime" value="180" size="5" maxlength="5" />　　<input type="submit"
+      value="送信" />　30秒～60分未満
+  </form>
+  <br>
+  タイマー開始/停止：　<a href="http://192.168.0.100/timer?mode=Go" >開始</a>
+  　　<a href="http://192.168.0.100/timer?mode=Stop" >停止</a>
+  <br><br>
+  TextToSpeech(TTS)切替え：<br>
+  　　<a href="http://192.168.0.100/setting?ttsSelect=VOICEVOX" >VOICEVOX</a>
+  　　<a href="http://192.168.0.100/setting?ttsSelect=VoiceText" >VoiceText</a>
+  　　<a href="http://192.168.0.100/setting?ttsSelect=GoogleTTS" >GoogleTTS</a>
+  <br><br>
+
+  <form action="http://192.168.0.100/setting?" method="get">話者番号：（VOICEVOX）　<input type="text" name="speaker" value="3"
+      size="2" maxlength="2" />　 <input type="submit" value="送信" />
+  </form>
+  <br>
+
+  言語：(GoogleTTS)　<br>
+  　<a href="http://192.168.0.100/setting?lang=ja-JP" >ja-JP(日本語)</a>　　<a
+    href="http://192.168.0.100/setting?lang=en-US" >en-US(英語)</a>
+  <form action="http://192.168.0.100/setting?" method="get">　その他：<input type="text" name="lang" value="" size="6"
+      maxlength="6" />　 <input type="submit" value="送信" />
+  </form>
+  <br>
+  LEDのON/OFF：　<a href="http://192.168.0.100/setting?led=on" >LED_ON</a>
+  　　<a href="http://192.168.0.100/setting?led=off" >LED_OFF</a>
+  <br><br>
+
+  toneMode(0-3):　<a href="http://192.168.0.100/setting?toneMode=0" >0:無音</a>
+  　<a href="http://192.168.0.100/setting?toneMode=1" >1:ボタン押下</a>
+  　<a href="http://192.168.0.100/setting?toneMode=2" >2:コマンド受信</a>
+  　<a href="http://192.168.0.100/setting?toneMode=3" >3:両方</a>
+  <br><br>
+
+  音声ミュート：　<a href="http://192.168.0.100/setting?mute=on" >ミュートON(無音) </a>
+  　　<a href="http://192.168.0.100/setting?mute=off" >ミュートOFF（有音）</a>
+  <br><br>
+
+  KEYロック：　<a href="http://192.168.0.100/setting?keyLock=on" >ロックON (ボタン操作無効) </a>
+  　　<a href="http://192.168.0.100/setting?keyLock=off" >ロックOFF（ボタン操作有効）</a>
+  <br><br>
+  終了/再起動：　<a href="http://192.168.0.100/shutdown" >「終了」を実行</a>
+  　　<a href="http://192.168.0.100/shutdown?reboot=on" >「再起動」を実行</a>
+  <br><br>
+  表情：<a href="http://192.168.0.100/face?expression=0" >0:普通</a>
+  　<a href="http://192.168.0.100/face?expression=1" >1:楽しい</a>
+  　<a href="http://192.168.0.100/face?expression=2" >2:眠い</a>
+  　<a href="http://192.168.0.100/face?expression=3" >3:怪しい</a>
+  　<a href="http://192.168.0.100/face?expression=4" >4:悲しい</a>
+  　<a href="http://192.168.0.100/face?expression=5" >5:怒り</a>
+  <br>
+  <br>
+  <form action="http://192.168.0.100/speech" method="get">
+    <p>
+      <b>セリフ（発声）</b>： テキスト入力<br>
+      <textarea rows="6" cols="60" name="say" wrap="soft"></textarea><br>
+      話者・音声： VOICEVOX(0-66),　VoiceText(0-4) 　<input type="text" name="voice" value="" size="2" maxlength="2" /><br>
+      表情(0-5)：<input type="text" name="expression" value="0" size="1" maxlength="1" />　上の「表情」番号を入力<br>
+      <input type="submit" value="送信" />
+    </p>
+  </form>
+  <br>
+  <a href="#top">トップ</a>
+  　<a href="http://192.168.0.100/sysInfo" >システム情報</a>
+  　<a href="http://192.168.0.100/startup" >wsStartup.json</a>
+  　<a href="http://192.168.0.100/shutdown?reboot=on" >再起動</a>
+
+  <br><br>
+  <hr>
+  <h4><a name="chatgpt"></a>★２.chatGPT　(ロール設定とTTS)</h4>
+
+<p>
+  <h3>　chatGPT</h3>
+　テキストを入力してAIと会話してください。<br>
+  <form action="http://192.168.0.100/chat" method="get">
+      <textarea rows="6" cols="60" name="text" wrap="soft"> </textarea><br>
+      話者・音声： VOICEVOX(0-66), VoiceText(0-4)　　<input type="text" name="voice" value="1" size="2" maxlength="2" />
+      <br>
+      <input type="submit" value="送信" />
+  </form>
+</p>
+<br>
+  <p>
+    <h3>※　ロール設定</h3>
+    <p>chatGPTのロール設定の確認と変更ができます。　  
+    <a href="http://192.168.0.100/role_get" >ロール設定の確認</a>
+    <br>
+    <form action="http://192.168.0.100/role_set" method="post">      
+      <label for="textarea">ロール設定の変更　（何も入力しないとロール情報は消去されます。）</label><br>
+      <textarea id="role_textarea" name="textarea" rows="6" cols="60" ></textarea><br>
+      <input type="submit" value="送信">
+    </form>
+  </p>
+  <br>
+
+  <p>
+  <h3>※　TextToSpeech(TTS)について</h3>
+  
+  TTSの切替え：　<a href="http://192.168.0.100/setting?ttsSelect=VOICEVOX" >VOICEVOX</a>
+  　　<a href="http://192.168.0.100/setting?ttsSelect=VoiceText" >VoiceText</a>
+   <!--
+  　　<a href="http://192.168.0.100/setting?ttsSelect=GoogleTTS" >GoogleTTS</a>
+   -->
+  <br><br>
+
+  <p>
+    ・　[ <b>VOICEVOX</b> ]の場合には、<b>話者番号</b>（０－６６）の選択ができます。<br>
+  <form action="http://192.168.0.100/setting?" method="get">話者番号：（0-66）　<input type="text" name="speaker" value="3"
+      size="2" maxlength="2" />　 <input type="submit" value="送信" />
+  </form>
+  </p>
+  
+  <p>
+  ・　[ <b>VoiceText</b> ]の場合には、<b>感情表現</b>に対応しています。<br>
+  ロール設定に次の文言を加えてください。<br>
+  「 　 (Happy)のように、必ず括弧で囲んで感情の種類を表し、返答の先頭に付けてください。<br>
+  感情の種類には、Neutral、Happy、Sleepy、Doubt、Sad、Angry の６種類があります。　」<br>
+  </p>
+
+  <!--
+  ・　[ <b>GoogleTTS</b> ]の場合は、<b>多言語対応</b>です。日本語以外を使用する場合は、<br>
+  他の言語で応答させるため、ロールの設定で次のような追加が必要となります。<br>
+  （例）言語に「en-US(英語)」を選択したは、次の文言を加えてください。<br>
+  　" Please repley to questions in English. "　または、<br>
+  　" Questions must be answered in English. "<br>
+  他の言語でも同様なロール設定が必要となります。
+
+  言語指定：(GoogleTTS)　<br>
+  　<a href="http://192.168.0.100/setting?lang=ja-JP" >ja-JP(日本語)</a>　　<a
+    href="http://192.168.0.100/setting?lang=en-US" >en-US(英語)</a>
+  <form action="http://192.168.0.100/setting?" method="get">　その他：<input type="text" name="lang" value="" size="6"
+      maxlength="6" />　 <input type="submit" value="送信" />
+  </form>
+  -->
+  <br>
+  <a href="#top">トップ</a>
+  　<a href="http://192.168.0.100/sysInfo" >システム情報</a>
+  　<a href="http://192.168.0.100/apikey" >wsApikey.json</a>
+  　<a href="http://192.168.0.100/shutdown?reboot=on" >再起動</a>
+  <br>
+  <br>
+  <hr>
+  <h4> <a name="inst"></a> ★３.インストール手順</h4>
+  <p>
+    （１）．<a href="https://github.com/NoRi-230401/StackChanEx"
+      >GitHubで提供している</a>「ex」ファルダ内の５つのファイルを<br>
+    　<b>SD直下に「ex」フォルダを作成し、そこにコピーしてください。</b><br>
+    　wsStartup.json, wsApikey.json, exServo.json, wsWifi.json, index.html<br>
+    <br>
+    （２）．テキストエディタで、次の箇所を自分用に書き換える<br>
+    　・　wsWifi.json の [ssid]、[passwd]<br>
+    　・　wsApikey.json の [openAiApiKey]、[voiceTextApiKey](使用する場合)<br>
+    　　　　　　　　　　　[voicevoxApiKey](使用する場合)<br>
+    <br>
+    （３）．電源を入れ Wifiでつながったら、IPアドレスの確認<br>
+    　　（ブート時、またはＣボタン押下で確認できます）<br>
+    <br>
+    （４）．PCのWEBアドレス入力欄に、ipアドレスを入力<br>
+    　　　（例）　 http://192.168.0.100/　 <br>
+    <br>
+    （５）．画面に「 Welcome to StackChanEx 」が表示されたら接続成功<br>
+    次の（６）に進んでください。<br><br>
+    表示がでない場合には、Wifiの接続に失敗しています。<br>
+    <b>Wifiの設定の間違いや、SDの相性問題があるのでは思います。</b>
+    <br>設定等を見直してください。
+    <br><br>
+
+    （６）．「４．簡単設定」に移動し、残りの設定をします。<br>
+    サーボ・ポートや使用するTTSを選択することができます。<br>
+  </p>
+  <br>
+  <a href="#top">トップ</a>
+    　<a href="http://192.168.0.100/sysInfo" >システム情報</a>
+    　<a href="http://192.168.0.100/apikey" >wsApikey.json</a>
+    　<a href="http://192.168.0.100/wifiSelect" >wsWifi.json</a>
+    　<a href="http://192.168.0.100/shutdown?reboot=on" >再起動</a>
+
+  <br>
+  <hr>
+  <h4> <a name="kantan"></a> ★４.簡単設定</h4>
+　Apikeyの新規または変更入力と、基本設定がここでできます。<br>
+  <br>
+  <form action="http://192.168.0.100/apikey" method="get">openAiApiKey　：　<input type="text" name="openAiApiKey"
+      value="" size="55" maxlength="60" /><br>
+    　<input type="submit" value="送信" />
+  </form>
+  <br>
+  <form action="http://192.168.0.100/apikey" method="get">voicevoxApiKey：　<input type="text" name="voicevoxApiKey"
+      value="" size="20" maxlength="30" /><br>
+    　<input type="submit" value="送信" />　VOICEVOXを使わなければ必要なし
+  </form>
+  <br>
+  <form action="http://192.168.0.100/apikey" method="get">voiceTextApiKey：　<input type="text" name="voiceTextApiKey"
+      value="" size="20" maxlength="30" /><br>
+    　<input type="submit" value="送信" />　voiceTextを使わなければ必要なし
+  </form>
+  <br>
+  servo　 ：　<a href="http://192.168.0.100/exServo?servo=on" >on</a>
+  　　<a href="http://192.168.0.100/exServo?servo=off" >off</a>
+  <br><br>
+  servoPort：　<a href="http://192.168.0.100/exServo?servoPort=portA" >portA</a>
+  　　<a href="http://192.168.0.100/exServo?servoPort=portC" >portC</a>
+  <br><br>
+  ttsSelect：　<a href="http://192.168.0.100/startup?ttsSelect=VOICEVOX" >VOICEVOX</a>　　<a
+    href="http://192.168.0.100/startup?ttsSelect=VoiceText" >VoiceText</a>
+  　　<a href="http://192.168.0.100/startup?ttsSelect=GoogleTTS" >GoogleTTS</a>
+  <br><br>
+  <p><b>変更を反映させるには、必ず再起動してください。</b> </p>
+  <br>
+  <a href="#top">トップ</a>　<a href="http://192.168.0.100/sysInfo" >システム情報</a>　<a
+    href="http://192.168.0.100/startup" >wsStartup.json</a>
+    　<a href="http://192.168.0.100/exServo" >exServo.json</a>
+    　<a href="http://192.168.0.100/apikey" >wsApikey.json</a>
+    　<a href="http://192.168.0.100/shutdown?reboot=on" >再起動</a>
+  <br>
+  <br>
+  <hr>
+  <h4><a name="startup"></a> ★５.スタートアップ設定</h4>
+  起動時に設定ファイル("wsStartup.Json")を読み込みます。<br>
+  ここでは、ファイルの内容を書き換えます。変更を反映するには、再起動が必要です。
+  <br>
+  <p>
+    ttsSelect：　
+    <a href="http://192.168.0.100/startup?ttsSelect=VOICEVOX" >VOICEVOX</a>
+    　　<a href="http://192.168.0.100/startup?ttsSelect=VoiceText" >VoiceText</a>
+    　　<a href="http://192.168.0.100/startup?ttsSelect=GoogleTTS" >GoogleTTS</a>
+    <br>
+  <form action="http://192.168.0.100/startup" method="get">
+    voicevoxSpeakerNo : ( -1 to 66 )、-1は現状維持：<input type="text" name="voicevoxSpeakerNo" value="-1" size="2"
+      maxlength="2" />　<input type="submit" value="送信" />
+  </form>
+  <br>
+  lang：　<a href="http://192.168.0.100/startup?lang=ja-JP" >ja-JP(日本語)</a>
+  　<a href="http://192.168.0.100/startup?lang=en-US" target="StackChank">en-US(英語)</a>
+
+  <form action="http://192.168.0.100/startup" method="get">　その他の言語　<input type="text" name="lang" value="" size="6"
+      maxlength="6" />　<input type="submit" value="送信" />
+  </form>
+  <br>
+  </p>
+  <form action="http://192.168.0.100/startup" method="get">
+    volume：( -1 to 255 )、-1は現状維持：<input type="text" name="volume" value="-1" size="3" maxlength="3" />　<input
+      type="submit" value="送信" />
+  </form>
+  <br>
+  led：　<a href="http://192.168.0.100/startup?led=on" >on</a>
+  　　<a href="http://192.168.0.100/startup?led=off" >off</a>
+  <br><br>
+  randomSpeak：　<a href="http://192.168.0.100/startup?randomSpeak=on" >on</a>
+  　　<a href="http://192.168.0.100/startup?randomSpeak=off" >off</a>
+  <br><br>
+
+  toneMode(0-3):　<a href="http://192.168.0.100/startup?toneMode=0" >0:無音</a>
+  　<a href="http://192.168.0.100/startup?toneMode=1" >1:ボタン押下</a>
+  　<a href="http://192.168.0.100/startup?toneMode=2" >2:コマンド受信</a>
+  　<a href="http://192.168.0.100/startup?toneMode=3" >3:両方</a>
+  <br><br>
+  mute：　<a href="http://192.168.0.100/startup?mute=on" >on</a>
+  　　<a href="http://192.168.0.100/startup?mute=off" >off</a>
+  <br><br>
+
+  keyLock：　<a href="http://192.168.0.100/startup?keyLock=on" >on</a>
+  　　<a href="http://192.168.0.100/startup?keyLock=off" >off</a>
+  <br><br>
+
+  <form action="http://192.168.0.100/startup" method="get">
+    timer(30-3599)：<input type="text" name="timer" value="180" size="3" maxlength="3" />　　　　　<input type="submit"
+      value="送信" />　30秒～60分未満
+  </form>
+  <br>
+  <br>
+  <a href="#top">トップ</a>
+  　<a href="http://192.168.0.100/sysInfo" >システム情報</a>
+  　<a href="http://192.168.0.100/startup" >wsStartup.json</a>
+  　<a href="http://192.168.0.100/shutdown?reboot=on" >再起動</a>
+
+  <br>
+  <br>
+  <hr>
+  <h4><a name="wifiSelect"></a>★６. Wifi設定（複数AP, DHCP/固定IP対応）</h4>
+<p>
+  複数のアクセスポイント（AP）情報を登録できます。<br>
+DHCP接続の場合には、ssid-passwd の２つの情報が必要。<br>
+固定IP接続の場合は、ssid-passwd-ip-gateway-subnet の５つ、<br>
+または、dns情報を含めた６つの情報の登録が必要となります。<br>
+</p>
+
+<p>
+登録後の設定を反映するには、再起動が必要です。<br>
+先に登録したAPの順（0から開始）に接続を試み登録した全てのAPを試します。<br>
+全てが失敗した場合には、以前接続したWiFi情報を使用し接続を試します。<br>
+それも失敗したら、最後にSmartConfig接続を試みます。<br>
+</p>
+<br>
+  <b>アクセスポイント(AP)の追加</b><br>
+  <form action="http://192.168.0.100/wifiSelect" method="get">ssid　　：<input type="text" name="ssid" value="" size="40"
+      maxlength="60" action="http://192.168.0.100/wifiSelect" method="get"><br>passwd ：<input type="text" name="passwd"
+      value="" size="40" maxlength="60" action="http://192.168.0.100/wifiSelect" method="get"><br>ip　　　：<input
+      type="text" name="ip" value="" size="20" maxlength="20" action="http://192.168.0.100/wifiSelect"
+      method="get">(xxx.xxx.xxx.xxx)の書式<br>gateway：<input type="text" name="gateway" value="" size="20" maxlength="20"
+      action="http://192.168.0.100/wifiSelect" method="get"><br>subnet ：<input type="text" name="subnet" value=""
+      size="20" maxlength="20" action="http://192.168.0.100/wifiSelect" method="get"><br>dns　　：<input type="text"
+      name="dns" value="" size="20" maxlength="20" />　　　<input type="submit" value="送信" />
+  </form>
+  <br><br>
+  <form action="http://192.168.0.100/wifiSelect" method="get">
+    AP削除：<input type="text" name="remove" value="" size="1" maxlength="1" />　番号を入力、（ 0 が最優先のAP番号）<br>
+    　<input type="submit" value="送信" />
+  </form>
+  <br>
+  <a href="http://192.168.0.100/wifiSelect?init=on" >設定を初期化（全削除）</a>　-最初から作成する場合-
+  <br>
+  <br>
+  <b>最後に必ず、下の「wsWifi.json」で確認してください。</b>
+  <br><br>
+  <a href="#top">トップ</a>
+  　<a href="http://192.168.0.100/sysInfo" >システム情報</a>
+  　<a href="http://192.168.0.100/wifiSelect" >wsWifi.json</a>　<a
+    href="http://192.168.0.100/shutdown?reboot=on" >再起動</a>
+
+  <br><br>
+   <hr>
+  <h4><a name="info"></a>★７. ApiKey取得と情報（リンク）</h4>
+  <br>
+  [ API ]<br>
+  ApiKey取得は、下記のリンクを参考にして取得してください。<br>
+  なお、VoiceTextは、現在は個人のApiKey取得ができなくなりました。<br>
+  　<a href="https://openai.com/" >OpenAI</a><br>
+  　<a href="https://qiita.com/mikito/items/b69f38c54b362c20e9e6" >ChatGPT API利用方法の簡単解説</a><br>
+  <br>
+  　<a href="https://voicevox.hiroshiba.jp/" >VOICEVOX</a><br>
+  　<a href="https://su-shiki.com/api/" >VOICEVOX用API取得</a><br>
+  <br>
+  　<a href="https://cloud.voicetext.jp/webapi" >VoiceText Web API</a><br>
+  <br><br>
+
+  [ GitHub ]<br>
+  　<a href="https://github.com/NoRi-230401/StackChanEx" >StackChanEx</a><br>
+
+  　<a href="https://github.com/robo8080/M5Unified_StackChan_ChatGPT"
+    >M5Unified_StackChan_ChatGPT</a><br>
+
+  　<a href="https://github.com/robo8080/M5Unified_StackChan_ChatGPT_Global/"
+    >M5Unified_StackChan_ChatGPT_Global</a><br>
+
+  　<a href="https://github.com/robo8080/M5Unified_StackChan_ChatGPT_Google/"
+    >M5Unified_StackChan_ChatGPT_Google</a><br>
+
+  　<a href="https://github.com/yh1224/AIStackchan-hrs/" >AIStackchan-hrs</a><br>
+
+  　<a href="https://github.com/robo8080/AI_StackChan2/" >AI_StackChan2</a><br>
+  <br><br>
+  [ サーボ調整 ]<br>
+  　<a href="https://github.com/mongonta0716/stack-chan-tester/" >stack-chan-tester</a><br>
+  　<a href="https://raspberrypi.mongonta.com/how-to-move-with-sg90-arduinoframework/" >「M５スタック沼人ノニッキ」</a><br>
+  　<a href="https://note.com/ku_nel_5/n/n8c57b19884bd/" >「電子工作素人によるスタックチャン製作記４」</a>
+    <br><br><br>
+  
+  
+  [ アプリ / ショートカット ]<br>
+  　<a href="https://notes.yh1224.com/stackchan-connect/" >スタックチャンCONNECT</a>
+    　<a href="https://twitter.com/tie2/status/1655260749848252416/" >AIｽﾀｯｸﾁｬﾝ v2.00i & more</a><br>
+  <br><br>
+  [ Twitter ]<br>
+  　<a
+    href="https://twitter.com/hashtag/%EF%BD%BD%EF%BE%80%EF%BD%AF%EF%BD%B8%EF%BE%81%EF%BD%AC%EF%BE%9D?src=hashtag_click/"
+    >＃ｽﾀｯｸﾁｬﾝ</a>　　<a
+    href="https://twitter.com/hashtag/AI%EF%BD%BD%EF%BE%80%EF%BD%AF%EF%BD%B8%EF%BE%81%EF%BD%AC%EF%BE%9D?src=hashtag_click/"
+    >＃AIｽﾀｯｸﾁｬﾝ</a><br>
+  <br>
+  <br>
+  <br>
+  <a href="#top">トップ</a>
+  　<a href="http://192.168.0.100/sysInfo" >システム情報</a>　<a
+    href="http://192.168.0.100/startup" >wsStartup.json</a>　<a href="http://192.168.0.100/apikey"
+    >wsApikey.json</a>　<a href="http://192.168.0.100/wifiSelect" >wsWifi.json</a>　<a
+    href="http://192.168.0.100/shutdown?reboot=on" >再起動</a>
+
+
+  <br><br>
+  <hr>
+  <br><br><br><br><br><br><br><br><br>
+</body>
+
+</html>

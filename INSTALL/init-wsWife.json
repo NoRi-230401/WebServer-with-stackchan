@@ -1,0 +1,15 @@
+{
+  "timeout": 10,
+  "accesspoint":
+  [
+    {
+      "ssid": "*****",
+      "passwd": "*****",
+      "ip": "",
+      "gateway": "",
+      "subnet": "",
+      "dns": ""
+}
+  ]
+}
+

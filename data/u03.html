@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="utf-8">
+  <!-- <meta http-equiv="refresh" content="3"> -->
+  <title>StackChan</title>
+  <link rel="stylesheet" type="text/css" href="style.css">
+  <base target="StackChanSub">
+</head>
+
+<body bgcolor="#fffacd" text="#2f4f4f" leftmargin="10" topmargin="20"></body>
+<h1><b>StackChan Remote Control</b></h1>
+
+<p>
+  <input type="submit" value="PowerOff" class="button-shutdown" onclick="MovePowerOffCheck();">
+  　　　　　　　　　　<input type="submit" value="Reboot" class="button-reboot" onclick="MoveRebootCheck();">
+  　　　　　　　　　　<a href="http://192.168.0.100/" class="btn btn--orange btn--orange">Home</a>
+
+</p>
+<br><br><br>
+
+<p>
+  <a href="http://192.168.0.100/button?push=BOX_STT" class="btn btn--LightSkyBlue btn--LightSkyBlue"
+    onclick="window.open('http://192.168.0.100/button?push=BOX_STT','subwin','width=300,height=200');return false;">STT</a>
+  　　　　　　　　　<a href="http://192.168.0.100/button?push=BOX_SERVO" class="btn btn--LightSkyBlue btn--LightSkyBlue"
+    onclick="window.open('http://192.168.0.100/button?push=BOX_SERVO','subwin','width=300,height=200');return false;">Servo</a>
+  　　　　　　　　　<a href="http://192.168.0.100/sysInfo" class="btn btn--pink btn--pink"
+    onclick="window.open('http://192.168.0.100/sysInfo','subwin','width=400,height=650','scrollbars=yes');return false;">SysInfo</a>
+</p>
+<br><br>
+
+<p>
+  <a href="http://192.168.0.100/servo?deltaY=-15" class="triangle-top"
+    onclick="window.open('http://192.168.0.100/servo?deltaY=-15','subwin','width=300,height=200');return false;"></a><br>
+  <a href="http://192.168.0.100/servo?deltaX=-20" class="triangle-left"
+    onclick="window.open('http://192.168.0.100/servo?deltaX=-20','subwin','width=300,height=200');return false;"></a>
+  　　　　　　　　　　<a href="http://192.168.0.100/servo?deltaX=20" class="triangle-right"
+    onclick="window.open('http://192.168.0.100/servo?deltaX=20','subwin','width=300,height=200');return false;"></a>
+  <br>
+  <a href="http://192.168.0.100/servo?deltaY=15" class="triangle-bottom"
+    onclick="window.open('http://192.168.0.100/servo?deltaY=15','subwin','width=300,height=200');return false;"></a>
+</p>
+<br><br>
+
+<p>
+  <a href="http://192.168.0.100/button?push=BtnA" class=" btn btn--Lavender btn--Lavender"
+    onclick="window.open('http://192.168.0.100/button?push=BtnA','subwin','width=300,height=200');return false;">BtnA</a>
+  　　　　　　　　　<a href="http://192.168.0.100/button?push=BtnB" class="btn btn--Lavender btn--Lavender"
+    onclick="window.open('http://192.168.0.100/button?push=BtnB','subwin','width=300,height=200');return false;">BtnB</a>
+  　　　　　　　　　<a href="http://192.168.0.100/button?push=BtnC" class="btn btn--Lavender btn--Lavender"
+    onclick="window.open('http://192.168.0.100/button?push=BtnC','subwin','width=300,height=200');return false;">BtnC</a>
+</p>
+
+<p>
+  <br><br><br>
+  <a href="http://192.168.0.100/setting?led=toggle" class="btn btn--yellow btn--yellow"
+    onclick="window.open('http://192.168.0.100/setting?led=toggle','subwin','width=300,height=200');return false;">LED</a>
+  　　　　　　　　　<a href="http://192.168.0.100/setting2?toneMode=next" class="btn btn--green btn--green"
+    onclick="window.open('http://192.168.0.100/setting2?toneMode=next','subwin','width=300,height=200');return false;">ToneMode</a>
+  　　　　　　　　　<a href="http://192.168.0.100/setting2?mute=toggle" class="btn btn--lightblue btn--lightblue"
+    onclick="window.open('http://192.168.0.100/setting2?mute=toggle','subwin','width=300,height=200');return false;">Mute</a>
+</p>
+<br><br>
+
+<form action="http://192.168.0.100/setting" method="get">
+  <p class="formbottom">
+    <font size="6"><b>Volume (0 - 255)　</b></font>
+    <input type="text" style="text-align:right;font-size:200%;" name="volume" value="200" size="3" maxlength="3">
+    　　　　　　<input type="submit" style="font-size:220%;" value="SUBMIT" class="btns submit" onclick="disp('http://192.168.0.100/setting')">
+  </p>
+</form>
+<br><br><br><br><br><br>
+
+<p>
+  <a href="http://192.168.0.100/timer?setTimeMin=1&mode=Start" class="btn btn--green btn--green"
+    onclick="window.open('http://192.168.0.100/timer?setTimeMin=1&mode=Start','subwin','width=300,height=200');return false;">1min</a>
+  　　　　　　　　　<a href="http://192.168.0.100/timer?setTimeMin=3&mode=Start" class="btn btn--lightblue btn--lightblue"
+    onclick="window.open('http://192.168.0.100/timer?setTimeMin=3&mode=Start','subwin','width=300,height=200');return false;">3min</a>
+  　　　　　　　　　<a href="http://192.168.0.100/timer?setTimeMin=5&mode=Start" class="btn btn--orange btn--orenge"
+    onclick="window.open('http://192.168.0.100/timer?setTimeMin=5&mode=Start','subwin','width=300,height=200');return false;">5min</a>
+</p>
+<br><br><br>
+<p>
+  <a href="http://192.168.0.100/timer?setTimeMin=7&mode=Start" class="btn btn--pink btn--pink"
+    onclick="window.open('http://192.168.0.100/timer?setTimeMin=7&mode=Start','subwin','width=300,height=200');return false;">7min</a>
+  　　　　　　　　　<a href="http://192.168.0.100/timer?mode=Start" class="btn btn--blue btn--blue"
+    onclick="window.open('http://192.168.0.100/timer?mode=Start','subwin','width=300,height=200');return false;">TmrStart</a>
+  　　　　　　　　　<a href="http://192.168.0.100/timer?mode=Stop" class="btn btn--red btn--red"
+    onclick="window.open('http://192.168.0.100/timer?mode=Stop','subwin','width=300,height=200');return false;">TmrStop</a>
+</p>
+<br><br><br><br><br>
+
+<form action="http://192.168.0.100/timer" method="get">
+  <p class="formbottom">
+    <font size="6"><b>Timer : Min(1-59)</b></font>
+    <input type="text" style="text-align:right;font-size:200%;" name="setTimeMin" size="2" maxlength="2">
+    　<font size="6"><b>Sec(0-59)</b></font>
+    <input type="text" style="text-align:right;font-size:200%;" name="setTimeSec" value="0" size="2" maxlength="2">
+    　　　　　　 <input type="submit" style="font-size:220%;" value="SUBMIT" class="btns submit" onclick="disp('http://192.168.0.100/timer')">
+  </p>
+</form>
+<br><br><br>
+<br><br><br>
+
+
+<footer>
+</footer>
+<script>
+  function disp(url) {
+    window.open(url, "StackChanSub", "width=300,height=200");
+  }
+
+  function MovePowerOffCheck() {
+    if (confirm("終了してもいいですか？")) {
+      window.location.href = "http://192.168.0.100/shutdown";
+    }
+    else {
+      alert("「終了」をやめました。");
+    }
+  }
+
+  function MoveRebootCheck() {
+    if (confirm("再起動してもいいですか？")) {
+      window.location.href = "http://192.168.0.100/shutdown?reboot=on";
+    }
+    else {
+      alert("「再起動」をやめました。");
+    }
+  }
+</script>
+</body>
+
+</html>

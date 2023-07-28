@@ -1,0 +1,13 @@
+{
+  "timeout": 10,
+  "accesspoint": [
+    {
+      "ssid": "aterm-d5c4c3-g",
+      "passwd": "86c71a78ea6e1",
+      "ip": "192.168.0.100",
+      "gateway": "192.168.0.1",
+      "subnet": "255.255.255.0",
+      "dns": "192.168.0.1"
+    }
+  ]
+}

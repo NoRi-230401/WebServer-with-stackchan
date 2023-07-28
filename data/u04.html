@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width">
+	<title>StackChan</title>
+	<link rel="stylesheet" type="text/css" href="style.css">
+	<base target="StackChanSub">
+	<!-- <base href="http://192.168.0.100/">	 -->
+</head>
+
+<body>
+	<h1>s04.html</h1>
+
+	<br>
+
+	<a href="http://192.168.0.100/button?push=BtnA" class="btn btn--red btn--red"
+		onclick="window.open('http://192.168.0.100/button?push=BtnA','subwin','width=300,height=300');return false; ">BtnA</a>
+
+	<a href="http://192.168.0.100/button?push=BtnB" class="btn btn--yellow btn--yellow"
+		onclick="window.open('http://192.168.0.100/button?push=BtnB','subwin','width=300,height=300');return false; ">BtnB</a>
+
+	<a href="http://192.168.0.100/button?push=BtnC" class="btn btn--blue btn--blue"
+		onclick="window.open('http://192.168.0.100/button?push=BtnC','subwin','width=300,height=300');return false; ">BtnC</a>
+
+	<a href="http://192.168.0.100/" class="btn btn--orange btn--orange">Home</a>	
+	<br><br><br><br><br>
+	
+	
+	<form action="http://192.168.0.100/setting" method="get">
+		<p class="formbottom">
+			<font size="6"><b>Volume (0 - 255)　</b></font>
+			<input type="text" style="text-align:right;font-size:200%;" name="volume" value="200" size="3" maxlength="3">
+			　　　　　　<input type="submit" style="font-size:220%;" value="SUBMIT" class="btns submit" onclick="disp('http://192.168.0.100/setting')">
+		</p>
+	</form>
+	<br><br><br><br><br><br>
+
+
+
+	
+
+
+	
+	<br><br><br><br><br><br>
+
+
+
+	
+	<br><br><br><br>
+	<!-- <p id="RealtimeClockArea2"></p> -->
+
+
+
+	<script>
+		function disp(url) {
+			window.open(url, "StackChanSub", "width=300,height=200,scrollbars=yes");
+		}
+
+
+
+		// リンクの要素を取得
+		var element = document.getElementById("link");
+		element.addEventListener("click", function (e) {
+			// リンクがクリックされたときの処理
+			e.preventDefault();  // 画面遷移を無効化
+		}, false);
+
+		// function set2fig(num) {
+		// 	// 桁数が1桁だったら先頭に0を加えて2桁に調整する
+		// 	var ret;
+		// 	if (num < 10) { ret = "0" + num; }
+		// 	else { ret = num; }
+		// 	return ret;
+		// }
+		// function showClock2() {
+		// 	var nowTime = new Date();
+		// 	var nowHour = set2fig(nowTime.getHours());
+		// 	var nowMin = set2fig(nowTime.getMinutes());
+		// 	var nowSec = set2fig(nowTime.getSeconds());
+		// 	var msg = "時刻は、" + nowHour + ":" + nowMin + ":" + nowSec + " です。";
+		// 	document.getElementById("RealtimeClockArea2").innerHTML = msg;
+		// }
+		// setInterval('showClock2()', 1000);
+
+	</script>
+
+
+
+
+
+</body>
+
+</html>

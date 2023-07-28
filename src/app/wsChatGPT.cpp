@@ -101,15 +101,15 @@ void wsHandelChat(String textS, String voiceS)
 
   if (voiceS != "")
   { // voiceText
-    if (TTS_TYPE == 1)
-    {
-      TTS_PARMS_NO = 1;
-      TTS_PARMS_NO = voiceS.toInt();
-      if (TTS_PARMS_NO < 0)
-        TTS_PARMS_NO = 0;
-      if (TTS_PARMS_NO > 4)
-        TTS_PARMS_NO = 4;
-    }
+    // if (TTS_TYPE == 1)
+    // {
+    //   TTS_PARMS_NO = 1;
+    //   TTS_PARMS_NO = voiceS.toInt();
+    //   if (TTS_PARMS_NO < 0)
+    //     TTS_PARMS_NO = 0;
+    //   if (TTS_PARMS_NO > 4)
+    //     TTS_PARMS_NO = 4;
+    // }
 
     if (TTS_TYPE == 2)
     { // voicevox
@@ -265,7 +265,9 @@ void randomSpeak(bool mode)
   }
   RANDOM_SPEAK_ON_GET = false;
   avatar.setExpression(Expression::Happy);
-  ttsDo((char *)tmp.c_str(), tts_parms2);
+  // ttsDo((char *)tmp.c_str(), tts_parms2);
+  ttsDo((char *)tmp.c_str(), TTS2_PARMS.c_str());
+  
   avatar.setExpression(Expression::Neutral);
   Serial.println("mp3 begin");
 }

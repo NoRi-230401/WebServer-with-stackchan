@@ -12,6 +12,8 @@
 #define TIMER_MIN 30            // 最小タイマー設定値：３０秒
 #define TIMER_MAX (60 * 60 - 1) // 最大タイマー設定値：６０分未満 (59分59秒)
 
+extern String TTS2_PARMS;
+
 extern const char tts_parms2[];
 extern const char tts_parms6[];
 using namespace m5avatar;

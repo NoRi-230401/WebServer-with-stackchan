@@ -27,6 +27,8 @@
 #define REQ_SPEAK_MSG2 4
 #define REQ_SV_MD_ADJUST 9
 
+extern String TTS2_PARMS;
+
 using namespace m5avatar;
 extern Avatar avatar;
 extern const Expression expressions_table[];

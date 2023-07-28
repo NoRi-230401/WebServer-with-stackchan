@@ -84,7 +84,7 @@ void report_batt_level()
       sprintf(buff, "battery level is %d . ", level);
   }
   avatar.setExpression(Expression::Happy);
-  ttsDo(buff, tts_parms2);
+  ttsDo(buff, TTS2_PARMS.c_str());
   avatar.setExpression(Expression::Neutral);
   Serial.println("mp3 begin");
 }

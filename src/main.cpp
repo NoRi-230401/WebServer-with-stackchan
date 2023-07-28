@@ -1,6 +1,6 @@
 // ---- <main.cpp>-------------------------------------------------------
 #include "main.h"
-const String WS_VERSION = "wsStackChan_V201-230721";
+const String WS_VERSION = "WebSever-with-stackchan_V301-230728";
 // ----------------------------------------------------------------------
 // Extended from
 //  ESPAsynch_Server_v1.1              : 2022        David Bird

@@ -77,7 +77,7 @@ void RequestManage()
 void ReqSpkMsgDo2()
 {
   avatar.setExpression(expressions_table[REQ_SPK_EXPR]);
-  ttsDo((char *)REQ_MSG.c_str(), tts_parms_table[REQ_SPK_PARMS_NO]);
+  ttsDo((char *)REQ_MSG.c_str(), TTS2_PARMS.c_str());
 }
 
 
@@ -94,7 +94,7 @@ void Req_SpkMsgDo()
 
   avatar.setExpression(Expression::Happy);
   avatar.setSpeechText(REQ_MSG.c_str());
-  ttsDo((char *)REQ_MSG.c_str(), tts_parms2);
+  ttsDo((char *)REQ_MSG.c_str(), TTS2_PARMS.c_str());
   avatar.setExpression(Expression::Neutral);
   // SERVO_MSG = "";
 }
@@ -105,7 +105,7 @@ void Req_SpkDo()
     return;
 
   avatar.setExpression(Expression::Happy);
-  ttsDo((char *)REQ_MSG.c_str(), tts_parms2);
+  ttsDo((char *)REQ_MSG.c_str(), TTS2_PARMS.c_str());
   avatar.setExpression(Expression::Neutral);
 }
 

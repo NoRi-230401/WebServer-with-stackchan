@@ -38,13 +38,9 @@ void wsHandleShutdown(String reboot_get_str, String time_get_str)
   return;
 }
 
-void errSTOP(const String msg)
+void errSTOP()
 {
-  M5.Display.println();
-  M5.Display.println(msg);
-  Serial.println("");
   Serial.println("Stop : Fatal Error Occurred!");
-
   SD.end();
   SPIFFS.end();
   led_allOff();
@@ -56,13 +52,10 @@ void errSTOP(const String msg)
   }
 }
 
-void REBOOT(const String msg)
-{
-  M5.Display.println();
-  M5.Display.println(msg);
-  Serial.println(msg);
-  Serial.println(" *** Reboot ***");
 
+void REBOOT()
+{
+  Serial.println(" *** Reboot ***");
   SD.end();
   SPIFFS.end();
   led_allOff();
@@ -76,11 +69,8 @@ void REBOOT(const String msg)
 }
 
 
-void POWER_OFF(const String msg)
+void POWER_OFF()
 {
-  M5.Display.println();
-  M5.Display.println(msg);
-  Serial.println(msg);
   Serial.println(" *** POWER OFF ***");
 
   SD.end();
@@ -94,7 +84,6 @@ void POWER_OFF(const String msg)
     delay(1000);
   }
 }
-
 
 
 
@@ -148,7 +137,7 @@ void SD_end()
   SD.end();
 }
 
-File SD_open(const String &path, const char *mode)
+File SD_open(const String path, const char *mode)
 {
   // 途中で SD.end()を呼び出している箇所があるので必ずおこなう。
   // if (!isSD_enable)
@@ -157,20 +146,30 @@ File SD_open(const String &path, const char *mode)
   return (SD.open(path, mode));
 }
 
-File fileOpen(int flType, const String &path, const char *mode)
+static File FILE_PT; 
+File fileOpen(int flType, const String path, const char *mode)
 {
-  if (flType == FLTYPE_SPIFFS)
-    return (SPIFFS.open(path, mode));
 
-  else if (flType == FLTYPE_SD)
-    return (SD_open(path, mode));
+  if (flType == FLTYPE_SPIFFS)
+  {
+    FILE_PT = SPIFFS.open(path.c_str(), mode);
+
+    Serial.println("###  SPIFFS.open(" + path + "," + String(mode) +")  ###" ); 
+    return FILE_PT;
+  }
+  else if(flType == FLTYPE_SD)
+  {
+    FILE_PT = SD_open(path.c_str(), mode);
+    Serial.println("###  SD.open(" + path + "," + String(mode) +")  ###" ); 
+    return FILE_PT;
+  }
 
   return ((File)0);
 }
 
 bool jsonRead(int flType, DynamicJsonDocument &jsonDoc, String filePath)
 {
-  File file = fileOpen(flType, filePath, FILE_READ);
+  File file = fileOpen(flType, filePath, "r");
   if (!file)
   {
     Serial.println("Fail : Open file for reading #: " + filePath);
@@ -183,29 +182,103 @@ bool jsonRead(int flType, DynamicJsonDocument &jsonDoc, String filePath)
 
   if (error)
   {
-    Serial.println("Fail : DeserializationError in jsonDoc #: " + filePath);
+    Serial.print(F("deserializeJson() failed: "));
+    Serial.println(error.c_str());
     return false;
   }
 
   return true;
 }
 
-bool jsonSave(int flType, DynamicJsonDocument &jsonDoc, String filePath)
+// bool jsonSave(int flType, DynamicJsonDocument &jsonDoc, const String filePath)
+// {
+//   // -----------------------------------------------------------------
+//   // File file = fileOpen(flType, filePath, "w");
+//   // if (!file)
+//   // {
+//   //   Serial.println("Fail : Open file for writing  #: " + filePath);
+//   //   file.close();
+//   //   return false;
+//   // }
+// // -----------------------------------------------------------------
+//   File file = SPIFFS.open(filePath.c_str(), "w");
+//   if (!file)
+//   {
+//     Serial.println("Failed to open file for writing");
+//     return false;
+//   }
+  
+//   // JSONデータをシリアル化して書き込む
+//   serializeJsonPretty(jsonDoc, file);
+//   // serializeJson(jsonDoc, file);
+//   file.close();
+  
+//   // Serial.println("### SUCCESS jsonSave : " + filePath + " ###" );
+//   // String json_str;                        
+//   // serializeJsonPretty(jsonDoc, json_str); 
+//   // Serial.println(json_str);
+//   return true;
+// }
+
+
+bool jsonSave( DynamicJsonDocument &jsonDoc, const String filePath)
 {
-  File file = fileOpen(flType, filePath, FILE_WRITE);
+  File file = SPIFFS.open(filePath.c_str(), "w");
   if (!file)
   {
-    Serial.println("Fail : Open file for writing  #: " + filePath);
-    file.close();
+    Serial.println("Failed to open file for writing");
     return false;
   }
-
-  // JSONデータをシリアル化して書き込む
-  serializeJson(jsonDoc, file);
-
+  
+  serializeJsonPretty(jsonDoc, file);
   file.close();
   return true;
 }
+
+
+
+
+
+bool jsonInitSave(DynamicJsonDocument &jsonDoc,const String inJson, const String saveFile)
+{
+  bool success = jsonInit(jsonDoc,inJson);
+
+  if(!success)
+    return false;
+  
+  File fl_SPIFFS = SPIFFS.open(saveFile, "w");
+  if (!fl_SPIFFS)
+  {
+    Serial.println("Failed to open file for writing");
+    return false;
+  }
+  // JSONデータをシリアル化して書き込む
+  serializeJsonPretty(jsonDoc,fl_SPIFFS);
+  // serializeJson(jsonDoc, fl_SPIFFS);
+  fl_SPIFFS.close();
+
+  return true;
+}
+
+
+bool jsonInit(DynamicJsonDocument &jsonDoc, const String inJson)
+{
+  DeserializationError error = deserializeJson(jsonDoc, inJson.c_str());
+  if (error)
+  {
+    Serial.print(F("deserializeJson() failed: "));
+    Serial.println(error.c_str());
+    return false;
+  }
+  
+  String json_str;                        
+  serializeJsonPretty(jsonDoc, json_str); 
+  Serial.println(json_str);
+
+  return true;
+}
+
+
 
 bool setJsonItem(String flName, String item, String setData, DynamicJsonDocument &jsonDoc, String arrayName)
 {
@@ -219,7 +292,7 @@ bool setJsonItem(String flName, String item, String setData, DynamicJsonDocument
   JsonObject object = jsonArray[0];
   object[item] = setData;
 
-  bool success = jsonSave(FLTYPE_SPIFFS, jsonDoc, flName);
+  bool success = jsonSave(jsonDoc, flName);
   if (!success)
   {
     return false;

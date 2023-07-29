@@ -28,7 +28,9 @@ extern Avatar avatar;
 extern HTTPClient http;
 extern WiFiClient client;
 extern const Expression expressions_table[];
-extern void errSTOP(const String msg);
+// extern void errSTOP(const String msg);
+extern void errSTOP();
+
 extern String webpage;
 extern int REQ_SPK_EXPR;
 extern int REQ_SPK_PARMS_NO;

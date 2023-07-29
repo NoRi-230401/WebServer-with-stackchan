@@ -6,7 +6,6 @@
 
 
 extern const String WS_VERSION;
-// extern String SERVER_NAME;
 
 extern void M5StackConfig();
 extern void apiKeyFileRead();
@@ -17,7 +16,7 @@ extern void serverSetup();
 extern void servoSetup();
 extern void ttsSetup();
 extern void chatGptSetup();
-extern void avatarSetup();
+extern void avatarSTART();
 extern void chatGptManage();
 extern void TimerManage();
 extern void ButtonManage();

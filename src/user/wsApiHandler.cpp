@@ -250,9 +250,10 @@ void handle_startup(AsyncWebServerRequest *request)
 {
   tone(2);
   webpage = "NG";
-  String ttsSelectS = request->arg("ttsSelect");
+  // String ttsSelectS = request->arg("ttsSelect");
+  String serverNameS = request->arg("serverName");
   String vvoxSpeakerNoS = request->arg("voicevoxSpeakerNo");
-  String langS = request->arg("lang");
+  // String langS = request->arg("lang");
   String volumeS = request->arg("volume");
   String ledS = request->arg("led");
   String randomSpeakS = request->arg("randomSpeak");
@@ -261,7 +262,7 @@ void handle_startup(AsyncWebServerRequest *request)
   String keyLockS = request->arg("keyLock");
   String timerS = request->arg("timer");
   String txS = request->arg("tx");
-  wsHandleStartup(ttsSelectS, vvoxSpeakerNoS,langS,volumeS, ledS,
+  wsHandleStartup(serverNameS, vvoxSpeakerNoS,volumeS, ledS,
       randomSpeakS, toneModeS, muteS, keyLockS, timerS, txS);
 }
 

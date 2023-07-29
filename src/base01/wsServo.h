@@ -56,7 +56,7 @@ extern int REQUEST_GET;
 extern String REQ_MSG;
 // extern bool jsonFlRd_Sd(const char *flName_SD, DynamicJsonDocument &jsonName);
 // extern bool jsonFlSv_Sd(const char *flName_SD, DynamicJsonDocument &jsonName);
-extern bool jsonSave(int flType, DynamicJsonDocument &jsonDoc, String saveFile);
+extern bool jsonSave(DynamicJsonDocument &jsonDoc, String saveFile);
 extern bool jsonRead(int flType, DynamicJsonDocument &jsonDoc, String readFile);
 extern void Req_SpkMsgDo(); 
 extern void Req_MsgOnlyDo();

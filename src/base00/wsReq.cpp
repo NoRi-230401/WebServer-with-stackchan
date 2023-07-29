@@ -50,23 +50,12 @@ void RequestManage()
     if (REQ_SHUTDOWN_REBOOT == 1)
     {
       // shutdown
-      SD.end();
-      SPIFFS.end();
-
-      delay(SHUTDOWN_TM_SEC * 1000);
-      M5.Power.powerOff();
-      // never
-      delay(100 * 1000);
+      POWER_OFF();
     }
     else if (REQ_SHUTDOWN_REBOOT == 2)
     {
       // reboot
-      SD.end();
-      SPIFFS.end();
-      delay(SHUTDOWN_TM_SEC * 1000);
-      ESP.restart();
-      // never
-      delay(100 * 1000);
+      REBOOT();
     }
     REQ_SHUTDOWN_REBOOT = 0;
   }
@@ -83,7 +72,6 @@ void ReqSpkMsgDo2()
 void servoReqSpkMsg()
 {
   REQUEST_GET = REQ_SPEAK_MSG;
-  // SERVO_MSG = String(msg);
 }
 
 void Req_SpkMsgDo()
@@ -95,7 +83,6 @@ void Req_SpkMsgDo()
   avatar.setSpeechText(REQ_MSG.c_str());
   ttsDo(REQ_MSG);
   avatar.setExpression(Expression::Neutral);
-  // SERVO_MSG = "";
 }
 
 void Req_SpkDo()
@@ -128,7 +115,6 @@ void Req_MsgOnly()
 
 void Req_MsgCls()
 {
-  // Serial.println("** Req_MsgCls called ** ");
   REQ_MSG = "";
   avatar.setSpeechText("");
   avatar.setExpression(Expression::Neutral);

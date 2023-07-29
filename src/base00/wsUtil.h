@@ -32,20 +32,26 @@ extern String webpage;
 extern int REQ_SHUTDOWN_REBOOT;
 
 void wsHandleShutdown(String reboot_get_str, String time_get_str);
-void errSTOP(const String msg);
-void REBOOT(const String msg);
-void POWER_OFF(const String msg);
+// void errSTOP(const String msg);
+// void REBOOT(const String msg);
+// void POWER_OFF(const String msg);
+void errSTOP();
+void REBOOT();
+void POWER_OFF();
 void MDCallback(void *cbData, const char *type, bool isUnicode, const char *string);
 void StatusCallback(void *cbData, int code, const char *string);
 
-bool jsonSave(int flType, DynamicJsonDocument &jsonDoc, String saveFile);
+bool jsonInitSave(DynamicJsonDocument &jsonDoc,const String inJson, const String saveFile);
+bool jsonSave(DynamicJsonDocument &jsonDoc, const String saveFile);
+bool jsonInit(DynamicJsonDocument &jsonDoc, const String inJson);
+
 bool jsonRead(int flType, DynamicJsonDocument &jsonDoc, String readFile);
 bool setJsonItem(String flName, String item, String setData, DynamicJsonDocument &jsonDoc, String arrayName);
 bool getJsonItem(String flName, String item, String& getData, DynamicJsonDocument &jsonDoc, String arrayName);
 
 bool SD_begin();
 void SD_end();
-File SD_open(const String &path, const char *mode);
-File fileOpen(int flType, const String &path, const char *mode);
+File SD_open(const String path, const char *mode);
+File fileOpen(int flType, const String path, const char *mode);
 
 #endif

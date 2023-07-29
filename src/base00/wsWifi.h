@@ -32,10 +32,11 @@ extern const String WIFI_SD;
 // bool jsonReadSPIFFS(DynamicJsonDocument &jsonDoc, String readFile);
 // bool jsonSaveSPIFFS(DynamicJsonDocument &jsonDoc, String saveFile);
 
-extern void REBOOT(const String msg);
-extern bool jsonSave(int flType, DynamicJsonDocument &jsonDoc, String saveFile);
+extern void REBOOT();
+extern bool jsonSave(DynamicJsonDocument &jsonDoc, String saveFile);
 extern bool jsonRead(int flType, DynamicJsonDocument &jsonDoc, String readFile);
-extern File fileOpen(int flType, const String &path, const char *mode);
+// extern File fileOpen(int flType, const String &path, const char *mode);
+extern File fileOpen(int flType, const String path, const char *mode);
 
 void wsHandleWifiSetting(String initS, String ssidS, String passwdS,String removeS, String ipS, String gatewayS, String subnetS, String dnsS  );
 bool initWifiJson(DynamicJsonDocument &wifiJson);

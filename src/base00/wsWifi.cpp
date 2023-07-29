@@ -58,7 +58,7 @@ void wsHandleWifiSetting(String initS, String ssidS, String passwdS,String remov
     {
       jsonArray.remove(ap_no); // データ削除
 
-      if (!jsonSave(FLTYPE_SPIFFS, wifiJson, WIFI_SPIFFS))
+      if (!jsonSave(wifiJson, WIFI_SPIFFS))
       {
         Serial.println("faile to Save to SPIFFS");
         return;
@@ -88,7 +88,7 @@ void wsHandleWifiSetting(String initS, String ssidS, String passwdS,String remov
     new_ap["subnet"] = subnetS;
     new_ap["dns"] = dnsS;
 
-    if (!jsonSave(FLTYPE_SPIFFS, wifiJson, WIFI_SPIFFS))
+    if (!jsonSave(wifiJson, WIFI_SPIFFS))
     {
       Serial.println("faile to Save to SPIFFS");
       return;
@@ -103,7 +103,14 @@ void wifiSetup()
   // *** wifi setup **********
   bool success = wifiConnect();
   if (!success)
-    REBOOT("wifi : cannot connected !!"); // --- Reboot
+  {
+      String msg = "wifi : cannot connected !!";
+    Serial.println(msg);
+    M5.Display.println();
+    M5.Display.println(msg);
+    Serial.println(" *** Reboot ***");
+    REBOOT();
+  }
 
   // --- Wifi connected !! ---
   IP_ADDR = WiFi.localIP().toString();
@@ -126,7 +133,7 @@ bool initWifiJson(DynamicJsonDocument &wifiJson)
     Serial.println("DeserializationError in initWiFiJson func");
     return false;
   }
-  jsonSave(FLTYPE_SPIFFS, wifiJson, WIFI_SPIFFS);
+  jsonSave(wifiJson, WIFI_SPIFFS);
   return true;
 }
 
@@ -367,7 +374,7 @@ bool wifiConnect()
 
 bool wifiTxtRead()
 {
-  File file = fileOpen(FLTYPE_SD, WIFITXT_SD, FILE_READ);
+  File file = fileOpen(FLTYPE_SD, WIFITXT_SD, "r");
   if (!file)
   {
     // SD.end();

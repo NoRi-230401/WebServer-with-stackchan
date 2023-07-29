@@ -48,7 +48,6 @@ extern int RANDOM_TIME;
 extern bool TIMER_STARTED;
 
 extern void led_allOff();
-extern void EX_touchOperation();
 extern void timerStop2(); 
 extern void randomSpeak(bool mode);
 extern void randomSpeakStop2();
@@ -57,33 +56,35 @@ extern void timerStop();
 extern void timerStop2(); 
 extern void report_batt_level();
 extern void sysInfoDispStart(uint8_t mode_no);
-extern void EX_sysInfoDisp();
-extern void sysInfoDispEnd();
-extern bool jsonSave(int flType, DynamicJsonDocument &jsonDoc, String saveFile);
+// extern void sysInfoDispEnd();
+extern bool jsonSave(DynamicJsonDocument &jsonDoc, String saveFile);
 extern bool jsonRead(int flType, DynamicJsonDocument &jsonDoc, String readFile);
 extern bool setJsonItem(String flName, String item, String setData, DynamicJsonDocument &jsonDoc, String arrayName);
 extern bool SD_begin();
+extern bool jsonInitSave(DynamicJsonDocument &jsonDoc,const String inJson, const String saveFile);
+// extern bool jsonSave(int flType, DynamicJsonDocument &jsonDoc, const String saveFile);
+extern bool jsonInit(DynamicJsonDocument &jsonDoc, const String inJson);
 
 using namespace m5avatar;
 extern Avatar avatar;
 void wsHandleSetting(String volumeS, String volumeDS, String speakerS, String ledS);
 void wsHandleSetting2(String langS, String ttsNameS, String muteS, String keyLockS, String toneModeS);
-void wsHandleApikeySet(String openai, String voicevox, String voicetext,String sttapikey );
-
-bool setGetStrToApiKeySetting(const char *item, DynamicJsonDocument &apikeyJson, String get_str);
-bool setGetStrToStartSetting(const String item, DynamicJsonDocument &startupJson, String get_str);
+// void wsHandleApikeySet(String openai, String voicevox, String voicetext,String sttapikey );
+// bool setGetStrToApiKeySetting(const char *item, DynamicJsonDocument &a\pikeyJson, String get_str);
+// bool setGetStrToStartSetting(const String item, DynamicJsonDocument &startupJson, String get_str);
 
 bool apiKeyFileRead();
+bool jsonSTARTUPinit(DynamicJsonDocument &jsonDoc);
 bool startupFileRead();
-
-void wsHandleStartup(String ttsSelectS, String vvoxSpeakerNoS,String langS,
-  String volumeS, String ledS, String randomSpeakS, String toneModeS, 
-  String muteS, String keyLockS, String timerS, String txS );
+// void wsHandleStartup(String ttsSelectS, String vvoxSpeakerNoS,String langS,
+//   String volumeS, String ledS, String randomSpeakS, String toneModeS, 
+//   String muteS, String keyLockS, String timerS, String txS );
+void wsHandleStartup(String serverNameS, String vvoxSpeakerNoS, String volumeS, String ledS,
+ String randomSpeakS, String toneModeS, String muteS, String keyLockS, String timerS, String txS);
 
 bool setStartup(String item, String data, DynamicJsonDocument &startupJson);
 bool setApiKey(String item, String data, DynamicJsonDocument &apikeyJson);
 bool setServo(String item, String setData, DynamicJsonDocument &servoJson);
-
 extern bool getJsonItem(String flName, String item, String& getData, DynamicJsonDocument &jsonDoc, String arrayName);
 bool getStartup(String item, String &data, DynamicJsonDocument &startupJson);
 bool getApiKey(String item, String &data, DynamicJsonDocument &apikeyJson);
@@ -94,6 +95,5 @@ void tone(int mode);
 void muteOn();
 void muteOff();
 void M5StackConfig();
-
 
 #endif

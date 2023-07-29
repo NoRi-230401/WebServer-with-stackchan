@@ -65,7 +65,10 @@ void ttsSetup()
   TTS_mp3buff = (uint8_t *)malloc(TTS_mp3buffSize);
   if (!TTS_mp3buff)
   {
-    errSTOP("FATAL ERROR:  Unable to preallocate " + String(TTS_mp3buffSize, DEC) + "bytes for app\n");
+    String msg = "\nFATAL ERROR:  Unable to preallocate " + String(TTS_mp3buffSize, DEC) + "bytes for app\n";
+    Serial.println(msg);
+    M5.Display.println(msg);
+    errSTOP();
     // --- Stop
   }
 
@@ -116,7 +119,7 @@ void SpeechTextNext()
 
 void ttsDo( const String& speechText )
 {
-  Serial.println("\nttsDo func speech Text = " + speechText);
+  Serial.println("\nSpeech Text = " + speechText);
   Voicevox_tts((char *)speechText.c_str(), (char *)TTS2_PARMS.c_str());
 }
 

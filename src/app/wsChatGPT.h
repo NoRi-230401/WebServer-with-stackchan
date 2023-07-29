@@ -50,7 +50,7 @@ extern void led_show();
 extern void led_clear();
 extern void led_allOff();
 extern void timerStop2(); 
-extern void REBOOT(const String msg);
+extern void REBOOT();
 extern const String random_words[];
 extern const String json_ChatString;
 extern bool isJP();

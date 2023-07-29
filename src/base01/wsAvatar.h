@@ -182,6 +182,6 @@ extern void tone(int mode);
 void servo(void *args);
 bool setFace(int expr);
 void lipSync(void *args);
-void avatarSetup();
+void avatarSTART();
 
 #endif

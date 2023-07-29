@@ -15,7 +15,7 @@ const Expression expressions_table[] = {
     Expression::Sad,
     Expression::Angry};
 
-void avatarSetup()
+void avatarSTART()
 {
   avatar.init();
   avatar.addTask(lipSync, "lipSync");

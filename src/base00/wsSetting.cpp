@@ -433,6 +433,15 @@ bool apiKeyFileRead()
   return true;
 }
 
+const String jsonSTARTUP =  "{\"startup\":[{\"serverName\":\"stackchan\",\"voicevoxSpeakerNo\":\"-1\",\"volume\":\"-1\",\"led\":\"on\",\"randomSpeak\":\"off\",\"toneMode\":\"1\",\"mute\":\"off\",\"keyLock\":\"off\",\"timer\":\"180\"}]}";
+
+bool jsonSTARTUPinit(DynamicJsonDocument &jsonDoc)
+{
+  return (jsonInitSave(jsonDoc,jsonSTARTUP,STARTUP_SPIFFS));
+}
+
+
+
 bool startupFileRead()
 {
   // ****** 初期値設定　**********
@@ -456,7 +465,9 @@ bool startupFileRead()
   if (!jsonRead(FLTYPE_SPIFFS, startupJson, STARTUP_SPIFFS))
   {
     Serial.println("DeserializationError in wsStartup.json in SPIFFS");
-    return false;
+    
+    Serial.println("initialize wsStartup.json in SPIFFS");
+    jsonSTARTUPinit(startupJson);
   }
 
   JsonArray jsonArray = startupJson["startup"];
@@ -679,9 +690,13 @@ bool startupFileRead()
 }
 
 
-void wsHandleStartup(String ttsSelectS, String vvoxSpeakerNoS, String langS,
-                     String volumeS, String ledS, String randomSpeakS, String toneModeS,
-                     String muteS, String keyLockS, String timerS, String txS)
+// void wsHandleStartup(String ttsSelectS, String vvoxSpeakerNoS, String langS,
+//                      String volumeS, String ledS, String randomSpeakS, String toneModeS,
+//                      String muteS, String keyLockS, String timerS, String txS)
+
+
+void wsHandleStartup(String serverNameS, String vvoxSpeakerNoS, String volumeS, String ledS,
+ String randomSpeakS, String toneModeS, String muteS, String keyLockS, String timerS, String txS)
 {
   DynamicJsonDocument startupJson(STARTUPJSON_SIZE);
 
@@ -694,10 +709,17 @@ void wsHandleStartup(String ttsSelectS, String vvoxSpeakerNoS, String langS,
     return;
   }
 
-  if(ttsSelectS !="")
+  // if(ttsSelectS !="")
+  // {
+  //   if(setStartup("ttsSelect",ttsSelectS,startupJson))
+  //     webpage = "wsStartup.Json : ttsSlect = " + ttsSelectS ;
+  //   return;  
+  // }
+
+  if(serverNameS !="")
   {
-    if(setStartup("ttsSelect",ttsSelectS,startupJson))
-      webpage = "wsStartup.Json : ttsSlect = " + ttsSelectS ;
+    if(setStartup("serverName",serverNameS, startupJson))
+      webpage = "wsStartup.Json : serverName = " + serverNameS ;
     return;  
   }
 
@@ -708,12 +730,12 @@ void wsHandleStartup(String ttsSelectS, String vvoxSpeakerNoS, String langS,
     return;  
   }
 
-  if(langS !="")
-  {
-    if(setStartup("lang",langS,startupJson))
-      webpage = "wsStartup.Json : lang = " + langS ;
-    return;  
-  }
+  // if(langS !="")
+  // {
+  //   if(setStartup("lang",langS,startupJson))
+  //     webpage = "wsStartup.Json : lang = " + langS ;
+  //   return;  
+  // }
 
   if(volumeS !="")
   {

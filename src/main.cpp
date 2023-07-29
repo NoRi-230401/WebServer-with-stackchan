@@ -10,7 +10,7 @@ const String WS_VERSION = "WebServer-with-stackchan_V301-230728";
 
 void setup()
 {
-  // *** initial Setting ***
+  // ** initial Setting **
   M5StackConfig();
   
   // *** Setting files ***
@@ -29,8 +29,8 @@ void setup()
   
   delay(3000);
     
-  // ** Avater Start **
-  avatarSetup();
+ //*** Wake UP! STACKCHAN ***
+  avatarSTART();
 }
 
 

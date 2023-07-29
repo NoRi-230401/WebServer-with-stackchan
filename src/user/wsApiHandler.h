@@ -146,7 +146,7 @@ extern bool RANDOM_SPEAK_ON_GET;
 extern void timerStop2();
 extern void randomSpeak(bool);
 
-extern bool jsonSave(int flType, DynamicJsonDocument &jsonDoc, String saveFile);
+extern bool jsonSave(DynamicJsonDocument &jsonDoc, String saveFile);
 extern bool jsonRead(int flType, DynamicJsonDocument &jsonDoc, String readFile);
 
 
@@ -166,9 +166,11 @@ extern char *tts_parms_table[];
 extern bool setFace(int expr);
 // extern void wsHandleApikeySet(String openai, String voicevox, String voicetext, String sttapikey);
 extern void wsHandleApikeySetting(String openAiS, String voicevoxS,String voiceTextS, String txS);
-extern void wsHandleStartup(String ttsSelectS, String vvoxSpeakerNoS,String langS,
-   String volumeS, String ledS, String randomSpeakS, String toneModeS, 
-   String muteS, String keyLockS, String timerS, String txS );
+// extern void wsHandleStartup(String serverNameS, String vvoxSpeakerNoS,String volumeS, String ledS, String randomSpeakS, String toneModeS, 
+//    String muteS, String keyLockS, String timerS, String txS );
+// extern void wsHandleStartup(serverNameS, vvoxSpeakerNoS,volumeS, ledS, randomSpeakS, toneModeS, muteS, keyLockS, timerS, txS);
+extern void wsHandleStartup(String serverNameS, String vvoxSpeakerNoS, String volumeS, String ledS,
+ String randomSpeakS, String toneModeS, String muteS, String keyLockS, String timerS, String txS);
 
 
 // ----------------------------------------------------------

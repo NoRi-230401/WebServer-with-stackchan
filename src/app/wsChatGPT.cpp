@@ -554,7 +554,14 @@ void chatGptSetup()
   // ***  chat_doc initialize  ****
   bool success = chatDocInit();
   if (!success)
-    REBOOT("cannnot init chat_doc! "); // --- Reboot
+  {
+    String msg = "cannnot init chat_doc! ";
+    Serial.println(msg);
+    M5.Display.println();
+    M5.Display.println(msg);
+    Serial.println(" *** Reboot ***");
+    REBOOT();
+  }
 
   // *** final msg in setup() ****
   Serial.println("HTTP server started");

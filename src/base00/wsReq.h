@@ -38,6 +38,9 @@ extern void ttsDo( const String& text );
 extern bool SV_ADJUST_STATE;
 extern int SV_MD;
 extern uint16_t SHUTDOWN_TM_SEC;
+extern void REBOOT();
+extern void POWER_OFF();
+
 
 // ---------------------------------------------------------------------
 void RequestManage();

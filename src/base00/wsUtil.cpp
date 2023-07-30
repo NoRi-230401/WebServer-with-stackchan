@@ -190,35 +190,6 @@ bool jsonRead(int flType, DynamicJsonDocument &jsonDoc, String filePath)
   return true;
 }
 
-// bool jsonSave(int flType, DynamicJsonDocument &jsonDoc, const String filePath)
-// {
-//   // -----------------------------------------------------------------
-//   // File file = fileOpen(flType, filePath, "w");
-//   // if (!file)
-//   // {
-//   //   Serial.println("Fail : Open file for writing  #: " + filePath);
-//   //   file.close();
-//   //   return false;
-//   // }
-// // -----------------------------------------------------------------
-//   File file = SPIFFS.open(filePath.c_str(), "w");
-//   if (!file)
-//   {
-//     Serial.println("Failed to open file for writing");
-//     return false;
-//   }
-  
-//   // JSONデータをシリアル化して書き込む
-//   serializeJsonPretty(jsonDoc, file);
-//   // serializeJson(jsonDoc, file);
-//   file.close();
-  
-//   // Serial.println("### SUCCESS jsonSave : " + filePath + " ###" );
-//   // String json_str;                        
-//   // serializeJsonPretty(jsonDoc, json_str); 
-//   // Serial.println(json_str);
-//   return true;
-// }
 
 
 bool jsonSave( DynamicJsonDocument &jsonDoc, const String filePath)

@@ -30,6 +30,15 @@ int SV_SWING_LEN = 3;
 int SV_PIN_X;
 int SV_PIN_Y;
 
+const String jsonSERVO = "{\"servo\":[{\"servo\":\"on\",\"servoPort\":\"portC\",\"servoMode\":\"home\",\"servoHomeX\":\"90\",\"servoHomeY\":\"80\"}]}";
+
+bool jsonSERVOinit(DynamicJsonDocument &jsonDoc)
+{
+  return (jsonInitSave(jsonDoc,jsonSERVO,SERVO_SPIFFS));
+}
+
+
+
 String BoxServoDo()
 {
   if (SV_USE)
@@ -622,7 +631,9 @@ bool servoFileRead()
   if (!jsonRead(FLTYPE_SPIFFS, servoJson, SERVO_SPIFFS))
   {
     Serial.println("DeserializationError in wsServo.json in SPIFFS");
-    return false;
+
+    Serial.println("initialize wsServo.json in SPIFFS");
+    jsonSERVOinit(servoJson);
   }
 
   JsonArray jsonArray = servoJson["servo"];

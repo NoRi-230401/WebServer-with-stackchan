@@ -1,21 +1,21 @@
 // ---------------------------< wsTTS.cpp >------------------------------------
 #include "wsTTS.h"
 
-extern const String TTS2_SPEAKER;
-uint8_t m5spk_virtual_channel = 0;
 String SPEECH_TEXT = "";
 String SPEECH_TEXT_BUFFER = "";
 
 // -- TTS2(VOICEVOX)　---
 String TTS2_SPEAKER_NO = "";
+extern const String TTS2_SPEAKER;
 const String TTS2_SPEAKER = "&speaker=";
 String TTS2_PARMS = TTS2_SPEAKER + TTS2_SPEAKER_NO;
+int TTS_mp3buffSize = 25 * 1024;
+uint8_t *TTS_mp3buff;
+uint8_t m5spk_virtual_channel = 0;
 
 AudioOutputM5Speaker out(&M5.Speaker, m5spk_virtual_channel);
 AudioGeneratorMP3 *mp3;
 AudioFileSourceHTTPSStream *file_TTS2 = nullptr;
-int TTS_mp3buffSize = 25 * 1024;
-uint8_t *TTS_mp3buff;
 AudioFileSourceBuffer *BUFF = nullptr;
 
 uint8_t TTS_TYPE = 2; // default "VOICEVOX"

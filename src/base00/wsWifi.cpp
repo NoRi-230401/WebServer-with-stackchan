@@ -5,9 +5,8 @@ const String WIFI_SPIFFS = "/wsWifi.json";
 const String WIFI_SD = "/wsWifi.json";
 const String WIFITXT_SD = "/wifi.txt";
 
-
-void wsHandleWifiSetting(String initS, String ssidS, String passwdS,String removeS,
-                    String ipS, String gatewayS, String subnetS, String dnsS)
+void wsHandleWifiSetting(String initS, String ssidS, String passwdS, String removeS,
+                         String ipS, String gatewayS, String subnetS, String dnsS)
 {
   DynamicJsonDocument wifiJson(WIFIJSON_SIZE);
 
@@ -98,13 +97,15 @@ void wsHandleWifiSetting(String initS, String ssidS, String passwdS,String remov
   }
 }
 
+// bool isWifiJsonINIT = false;
+
 void wifiSetup()
 {
   // *** wifi setup **********
-  bool success = wifiConnect();
-  if (!success)
+  int cnNo = wifiConnect2();
+  if (cnNo == CONNECT_FAIL)
   {
-      String msg = "wifi : cannot connected !!";
+    String msg = "wifi : cannot connected !!";
     Serial.println(msg);
     M5.Display.println();
     M5.Display.println(msg);
@@ -113,20 +114,52 @@ void wifiSetup()
   }
 
   // --- Wifi connected !! ---
-  IP_ADDR = WiFi.localIP().toString();
-  
-  M5.Lcd.println("\nConnected");
+  IP_ADDR = String(WiFi.localIP().toString());
+  SSID = String(WiFi.SSID());
+
   Serial.println("IP_ADDR = " + IP_ADDR);
   Serial.println("SSID = " + SSID);
   Serial.println("Go to http://" + IP_ADDR);
 
+  M5.Lcd.println("\nConnected");
   M5.Lcd.print("Go to http://");
-  M5.Lcd.println(WiFi.localIP());
+  M5.Lcd.println(IP_ADDR);
+
+  if (cnNo != 1)
+  {
+    addSuccessAP();
+  }
 }
 
+void addSuccessAP()
+{
+  DynamicJsonDocument wifiJson(WIFIJSON_SIZE);
+
+  if (!jsonRead(FLTYPE_SPIFFS, wifiJson, WIFI_SPIFFS))
+  {
+    Serial.println("faile to Read from SPIFFS");
+    return;
+  }
+
+  JsonArray jsonArray = wifiJson["accesspoint"];
+  JsonObject new_ap = jsonArray.createNestedObject();
+  new_ap["ssid"] = SSID;
+  new_ap["passwd"] = SSID_PASSWD;
+  new_ap["ip"] = "";
+  new_ap["gateway"] = "";
+  new_ap["subnet"] = "";
+  new_ap["dns"] = "";
+
+  if (!jsonSave(wifiJson, WIFI_SPIFFS))
+  {
+    Serial.println("faile to Save to SPIFFS");
+    return;
+  }
+}
+
+const String wifiJsonInitStr = " { \"timeout\": 10, \"accesspoint\": [ ] }";
 bool initWifiJson(DynamicJsonDocument &wifiJson)
 {
-  String wifiJsonInitStr = " { \"timeout\": 10, \"accesspoint\": [ ] }";
   DeserializationError error = deserializeJson(wifiJson, wifiJsonInitStr);
   if (error)
   {
@@ -137,6 +170,10 @@ bool initWifiJson(DynamicJsonDocument &wifiJson)
   return true;
 }
 
+bool jsonInitSave_wifi(DynamicJsonDocument &jsonDoc)
+{
+  return (jsonInitSave(jsonDoc, wifiJsonInitStr, WIFI_SPIFFS));
+}
 
 bool wifiSelect(int flType)
 {
@@ -146,7 +183,10 @@ bool wifiSelect(int flType)
   {
     if (!jsonRead(FLTYPE_SPIFFS, wifiJson, WIFI_SPIFFS))
     {
-      Serial.println("Fail : wsWife.json in SPIFFS");
+      Serial.println("Fail : wsWifi.json in SPIFFS");
+
+      Serial.println("initialize wsWifi.json in SPIFFS");
+      jsonInitSave_wifi(wifiJson);
       return false;
     }
   }
@@ -317,60 +357,112 @@ bool wifiSmartConfigConnect()
 }
 
 // #define EX_SMART_CONFIG_TEST
-bool wifiConnect()
+// // bool wifiConnect()
+// {
+
+//   Serial.println("### Connect WiFi Start ###");
+//   WiFi.disconnect();
+//   WiFi.softAPdisconnect(true);
+//   WiFi.mode(WIFI_STA);
+//   M5.Lcd.print("Connecting");
+
+// #ifndef EX_SMART_CONFIG_TEST
+//   Serial.println("#1. CONNECTING : wsWifi.json in SPIFFS");
+//   if (wifiSelect(FLTYPE_SPIFFS))
+//   {
+//     Serial.println("\nCONNECTED : wsWifi.json in SPIFFS");
+//     return true;
+//   }
+
+//   Serial.println("#2. CONNECTING : wsWifi.json in SD ");
+//   if (wifiSelect(FLTYPE_SD))
+//   {
+//     Serial.println("\nCONNECTED : wsWifi.json in SD");
+//     return true;
+//   }
+
+//   Serial.println("#3. CONNECTING : wifi.txt in SD");
+//   // "wifi.txt" の接続
+//   if (wifiTxtConnect())
+//   {
+//     Serial.println("\nCONNECTED : wifi.txt in SD");
+//     return true;
+//   }
+
+//   Serial.println("#4. CONNECTING : privious wifi settings");
+//   // 前回接続情報での接続
+//   if (wifiNoSetupFileConnect())
+//   {
+//     Serial.println("\nCONNECTED : privious Setup wifi settings");
+//     return true;
+//   }
+// #endif
+
+//   // SmartConfigでの接続
+//   Serial.println("#5. CONNECTING : SmartConfig");
+//   if (wifiSmartConfigConnect())
+//   {
+//     Serial.println("\nCONNECTED : SmartConfigConnect wifi");
+//     return true;
+//   }
+
+//   // 全てに失敗した場合
+//   Serial.println("\n*** Fail : All Wife Connect Settings Done ***");
+//   return false;
+// }
+
+int wifiConnect2()
 {
+  int cnNo = 0;
   Serial.println("### Connect WiFi Start ###");
   WiFi.disconnect();
   WiFi.softAPdisconnect(true);
   WiFi.mode(WIFI_STA);
   M5.Lcd.print("Connecting");
 
-#ifndef EX_SMART_CONFIG_TEST
-  Serial.println("#1. CONNECTING : wsWifi.json in SPIFFS");
+  Serial.println("## " + String(++cnNo, DEC) + ".  CONNECTING : wsWifi.json in SPIFFS");
   if (wifiSelect(FLTYPE_SPIFFS))
   {
     Serial.println("\nCONNECTED : wsWifi.json in SPIFFS");
-    return true;
+    return cnNo;
   }
 
-  Serial.println("#2. CONNECTING : wsWifi.json in SD ");
+  Serial.println("## " + String(++cnNo, DEC) + ".  CONNECTING : wsWifi.json in SD ");
   if (wifiSelect(FLTYPE_SD))
   {
     Serial.println("\nCONNECTED : wsWifi.json in SD");
-    return true;
+    return cnNo;
   }
 
-  Serial.println("#3. CONNECTING : wifi.txt in SD");
+  Serial.println("##  " + String(++cnNo, DEC) + ".  CONNECTING : wifi.txt in SD");
   // "wifi.txt" の接続
   if (wifiTxtConnect())
   {
     Serial.println("\nCONNECTED : wifi.txt in SD");
-    return true;
+    return cnNo;
   }
 
-  Serial.println("#4. CONNECTING : privious wifi settings");
+  Serial.println("##  " + String(++cnNo, DEC) + ".  CONNECTING : privious wifi settings");
   // 前回接続情報での接続
   if (wifiNoSetupFileConnect())
   {
     Serial.println("\nCONNECTED : privious Setup wifi settings");
-    return true;
+    return cnNo;
   }
-#endif
 
   // SmartConfigでの接続
-  Serial.println("#5. CONNECTING : SmartConfig");
+  Serial.println("##  " + String(++cnNo, DEC) + ".  CONNECTING : SmartConfig");
   if (wifiSmartConfigConnect())
   {
     Serial.println("\nCONNECTED : SmartConfigConnect wifi");
-    return true;
+    return cnNo;
   }
 
+  cnNo = CONNECT_FAIL;
   // 全てに失敗した場合
   Serial.println("\n*** Fail : All Wife Connect Settings Done ***");
-  return false;
+  return cnNo;
 }
-
-
 
 bool wifiTxtRead()
 {
@@ -409,9 +501,6 @@ bool wifiTxtRead()
 
   return true;
 }
-
-
-
 
 bool wifiTxtConnect()
 {

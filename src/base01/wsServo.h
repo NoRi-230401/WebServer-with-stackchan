@@ -67,6 +67,8 @@ extern void servoReqSpkMsg();
 extern String webpage;
 extern void Req_MsgCls();
 extern void tone(int mode);
+extern bool jsonInitSave(DynamicJsonDocument &jsonDoc,const String inJson, const String saveFile);
+bool jsonSERVOinit(DynamicJsonDocument &jsonDoc);
 String BoxServoDo();
 
 void wsHandleServo(String swingXYS,String swingXS, String swingYS,

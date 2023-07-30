@@ -377,20 +377,31 @@ void M5StackConfig()
 //   nvs_close(nvs_handle);
 // }
 
+const String jsonAPIKEY = "{\"apikey\":[{\"openAiApiKey\":\"***\",\"voicevoxApiKey\":\"***\"}]}";
+
+
+bool jsonAPIKEYinit(DynamicJsonDocument &jsonDoc)
+{
+  return (jsonInitSave(jsonDoc,jsonAPIKEY,APIKEY_SPIFFS));
+}
+
+
+
 
 bool apiKeyFileRead()
 {
   // ****** 初期値設定　**********
-  OPENAI_API_KEY = "*****";
-  STT_API_KEY = "*****";
-  VOICETEXT_API_KEY = "*****";
-  VOICEVOX_API_KEY = "*****";
+  OPENAI_API_KEY = "***";
+  VOICEVOX_API_KEY = "***";
+  STT_API_KEY = "***";
+  // VOICETEXT_API_KEY = "***";
   //----------------------------------
   DynamicJsonDocument apikeyJson(APIKEYJSON_SIZE);
 
   if (!jsonRead(FLTYPE_SPIFFS, apikeyJson, APIKEY_SPIFFS))
   {
-    Serial.println("faile to Read wsApiKey.json in SPIFFS");
+    Serial.println("initialize wsApiKey.json in SPIFFS");
+    jsonAPIKEYinit(apikeyJson);
     return false;
   }
 
@@ -440,6 +451,12 @@ bool jsonSTARTUPinit(DynamicJsonDocument &jsonDoc)
   return (jsonInitSave(jsonDoc,jsonSTARTUP,STARTUP_SPIFFS));
 }
 
+// const String jsonSERVO = "{\"servo\":[{\"servo\":\"on\",\"servoPort\":\"portC\",\"servoMode\":\"home\",\"servoHomeX\":\"90\",\"servoHomeY\":\"80\"}]}";
+
+// bool jsonSERVOinit(DynamicJsonDocument &jsonDoc)
+// {
+//   return (jsonInitSave(jsonDoc,jsonSERVO,SERVO_SPIFFS));
+// }
 
 
 bool startupFileRead()

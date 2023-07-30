@@ -4,6 +4,7 @@
 // ---------------------------
 #include <Arduino.h>
 #include <ArduinoJson.h>
+#include <FS.h>
 #include <SD.h>
 #include <SPIFFS.h>
 #include <M5Unified.h>

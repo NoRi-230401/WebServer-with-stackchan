@@ -284,7 +284,7 @@ String HTML_Header()
   page += "table.center {margin-left:auto;margin-right:auto;}";
   page += "td, th {border:1px solid #dddddd;text-align:left;padding:8px;}";
   page += "tr:nth-child(even) {background-color:#dddddd;}";
-  page += "h3 {color:green;font:1.2em;font-style:normal;text-align:center;}";
+  page += "h3 {color:green;font:1.4em;font-style:normal;text-align:center;}";
   page += "h4 {color:slateblue;font:0.8em;text-align:left;font-style:oblique;text-align:center;}";
   page += ".center {margin-left:auto;margin-right:auto;}";
 

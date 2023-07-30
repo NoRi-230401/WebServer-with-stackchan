@@ -65,6 +65,8 @@ extern bool jsonInitSave(DynamicJsonDocument &jsonDoc,const String inJson, const
 // extern bool jsonSave(int flType, DynamicJsonDocument &jsonDoc, const String saveFile);
 extern bool jsonInit(DynamicJsonDocument &jsonDoc, const String inJson);
 
+
+
 using namespace m5avatar;
 extern Avatar avatar;
 void wsHandleSetting(String volumeS, String volumeDS, String speakerS, String ledS);
@@ -73,9 +75,11 @@ void wsHandleSetting2(String langS, String ttsNameS, String muteS, String keyLoc
 // bool setGetStrToApiKeySetting(const char *item, DynamicJsonDocument &a\pikeyJson, String get_str);
 // bool setGetStrToStartSetting(const String item, DynamicJsonDocument &startupJson, String get_str);
 
+bool jsonAPIKEYinit(DynamicJsonDocument &jsonDoc);
 bool apiKeyFileRead();
 bool jsonSTARTUPinit(DynamicJsonDocument &jsonDoc);
 bool startupFileRead();
+
 // void wsHandleStartup(String ttsSelectS, String vvoxSpeakerNoS,String langS,
 //   String volumeS, String ledS, String randomSpeakS, String toneModeS, 
 //   String muteS, String keyLockS, String timerS, String txS );

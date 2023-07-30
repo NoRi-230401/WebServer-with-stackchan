@@ -464,6 +464,46 @@ int wifiConnect2()
   return cnNo;
 }
 
+// bool apiKeyTxtRead()
+// {
+//   File file = fileOpen(FLTYPE_SD, WIFITXT_SD, "r");
+//   if (!file)
+//   {
+//     // SD.end();
+//     Serial.println("Fail : wifi.txt not open ");
+//     return false;
+//   }
+
+//   size_t sz = file.size();
+//   char buf[sz + 1];
+//   file.read((uint8_t *)buf, sz);
+//   buf[sz] = 0;
+//   file.close();
+//   // SD.end();
+
+//   int y = 0;
+//   for (int x = 0; x < sz; x++)
+//   {
+//     if (buf[x] == 0x0a || buf[x] == 0x0d)
+//       buf[x] = 0;
+//     else if (!y && x > 0 && !buf[x - 1] && buf[x])
+//       y = x;
+//   }
+
+//   SSID = buf;
+//   SSID_PASSWD = &buf[y];
+
+//   if ((SSID == "") || (SSID_PASSWD == ""))
+//   {
+//     Serial.println("Fail : ssid or passwd is void ");
+//     return false;
+//   }
+
+//   return true;
+// }
+
+
+
 bool wifiTxtRead()
 {
   File file = fileOpen(FLTYPE_SD, WIFITXT_SD, "r");
@@ -490,8 +530,8 @@ bool wifiTxtRead()
       y = x;
   }
 
-  SSID = buf;
-  SSID_PASSWD = &buf[y];
+  SSID = String(buf);
+  SSID_PASSWD = String( &buf[y] );
 
   if ((SSID == "") || (SSID_PASSWD == ""))
   {

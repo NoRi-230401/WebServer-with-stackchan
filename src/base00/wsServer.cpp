@@ -158,11 +158,7 @@ void serverSetup()
     Display_System_Info(); // Build webpage ready for display
     request->send(200, "text/html", webpage); });
 
-  // ##################### IMAGE HANDLER #############################
-  server.on("/icon", HTTP_GET, [](AsyncWebServerRequest *request)
-            { request->send(SPIFFS, "/icon.gif", "image/gif"); });
-  // { request->send(SPIFFS, "/stack-chan.jpeg", "image/jpeg"); });
-
+  
   // ##################### NOT FOUND HANDLER #########################
   server.onNotFound(notFound);
 

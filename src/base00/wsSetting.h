@@ -56,35 +56,27 @@ extern void timerStop();
 extern void timerStop2(); 
 extern void report_batt_level();
 extern void sysInfoDispStart(uint8_t mode_no);
-// extern void sysInfoDispEnd();
 extern bool jsonSave(DynamicJsonDocument &jsonDoc, String saveFile);
 extern bool jsonRead(int flType, DynamicJsonDocument &jsonDoc, String readFile);
 extern bool setJsonItem(String flName, String item, String setData, DynamicJsonDocument &jsonDoc, String arrayName);
 extern bool SD_begin();
 extern bool jsonInitSave(DynamicJsonDocument &jsonDoc,const String inJson, const String saveFile);
-// extern bool jsonSave(int flType, DynamicJsonDocument &jsonDoc, const String saveFile);
 extern bool jsonInit(DynamicJsonDocument &jsonDoc, const String inJson);
-
+extern File fileOpen(int flType, const String path, const char *mode);
 
 
 using namespace m5avatar;
 extern Avatar avatar;
 void wsHandleSetting(String volumeS, String volumeDS, String speakerS, String ledS);
 void wsHandleSetting2(String langS, String ttsNameS, String muteS, String keyLockS, String toneModeS);
-// void wsHandleApikeySet(String openai, String voicevox, String voicetext,String sttapikey );
-// bool setGetStrToApiKeySetting(const char *item, DynamicJsonDocument &a\pikeyJson, String get_str);
-// bool setGetStrToStartSetting(const String item, DynamicJsonDocument &startupJson, String get_str);
-
 bool jsonAPIKEYinit(DynamicJsonDocument &jsonDoc);
+bool apiKeyTxtRead();
 bool apiKeyFileRead();
 bool jsonSTARTUPinit(DynamicJsonDocument &jsonDoc);
 bool startupFileRead();
 
-// void wsHandleStartup(String ttsSelectS, String vvoxSpeakerNoS,String langS,
-//   String volumeS, String ledS, String randomSpeakS, String toneModeS, 
-//   String muteS, String keyLockS, String timerS, String txS );
 void wsHandleStartup(String serverNameS, String vvoxSpeakerNoS, String volumeS, String ledS,
- String randomSpeakS, String toneModeS, String muteS, String keyLockS, String timerS, String txS);
+  String randomSpeakS, String toneModeS, String muteS, String keyLockS, String timerS, String txS);
 
 bool setStartup(String item, String data, DynamicJsonDocument &startupJson);
 bool setApiKey(String item, String data, DynamicJsonDocument &apikeyJson);
@@ -93,7 +85,6 @@ extern bool getJsonItem(String flName, String item, String& getData, DynamicJson
 bool getStartup(String item, String &data, DynamicJsonDocument &startupJson);
 bool getApiKey(String item, String &data, DynamicJsonDocument &apikeyJson);
 bool getServo(String item, String &getData, DynamicJsonDocument &servoJson);
-
 void toneOn();
 void tone(int mode);
 void muteOn();

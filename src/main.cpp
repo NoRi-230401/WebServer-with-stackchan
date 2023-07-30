@@ -14,9 +14,12 @@ void setup()
   M5StackConfig();
   
   // *** Setting files ***
-  apiKeyFileRead();
   startupFileRead();
   servoFileRead();
+
+  if(!apiKeyFileRead())
+      apiKeyTxtRead();
+
 
   // *** Network  ***
   wifiSetup();

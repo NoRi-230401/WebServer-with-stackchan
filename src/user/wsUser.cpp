@@ -33,25 +33,29 @@ void setupUserHandler()
             { request->send(SPIFFS, "/u05.html", String(), false, processor05); });
   
   // #########################################################################
-  //  --- StyleSheet -----
+  server.on("/icon", HTTP_GET, [](AsyncWebServerRequest *request)
+            { request->send(SPIFFS, "/icon.gif", "image/gif"); });
+
+  server.on("/script.js", HTTP_GET, [](AsyncWebServerRequest *request)
+            { request->send(SPIFFS, "/script.js", "application/javascript"); });
+
   server.on("/style.css", HTTP_GET, [](AsyncWebServerRequest *request)
             { request->send(SPIFFS, "/style.css", "text/css"); });
 
-  // style-u0x.css --- styleSheet -for user ----
-  server.on("/style-u01.css", HTTP_GET, [](AsyncWebServerRequest *request)
-            { request->send(SPIFFS, "/style-u01.css", "text/css"); });
+  // server.on("/style-u01.css", HTTP_GET, [](AsyncWebServerRequest *request)
+  //           { request->send(SPIFFS, "/style-u01.css", "text/css"); });
 
-  server.on("/style-u02.css", HTTP_GET, [](AsyncWebServerRequest *request)
-            { request->send(SPIFFS, "/style-u02.css", "text/css"); });
+  // server.on("/style-u02.css", HTTP_GET, [](AsyncWebServerRequest *request)
+  //           { request->send(SPIFFS, "/style-u02.css", "text/css"); });
 
-  server.on("/style-u03.css", HTTP_GET, [](AsyncWebServerRequest *request)
-            { request->send(SPIFFS, "/style-u03.css", "text/css"); });
+  // server.on("/style-u03.css", HTTP_GET, [](AsyncWebServerRequest *request)
+  //           { request->send(SPIFFS, "/style-u03.css", "text/css"); });
     
-  server.on("/style-u04.css", HTTP_GET, [](AsyncWebServerRequest *request)
-            { request->send(SPIFFS, "/style-u04.css", "text/css"); });
+  // server.on("/style-u04.css", HTTP_GET, [](AsyncWebServerRequest *request)
+  //           { request->send(SPIFFS, "/style-u04.css", "text/css"); });
   
-  server.on("/style-u05.css", HTTP_GET, [](AsyncWebServerRequest *request)
-            { request->send(SPIFFS, "/style-u05.css", "text/css"); });
+  // server.on("/style-u05.css", HTTP_GET, [](AsyncWebServerRequest *request)
+  //           { request->send(SPIFFS, "/style-u05.css", "text/css"); });
   // ###########################################################################
 }
 

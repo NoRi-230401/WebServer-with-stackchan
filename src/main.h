@@ -8,9 +8,10 @@
 extern const String WS_VERSION;
 
 extern void M5StackConfig();
-extern void apiKeyFileRead();
-extern void startupFileRead();
-extern void servoFileRead();
+extern bool apiKeyFileRead();
+extern bool apiKeyTxtRead();
+extern bool startupFileRead();
+extern bool servoFileRead();
 extern void wifiSetup();
 extern void serverSetup();
 extern void servoSetup();

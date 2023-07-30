@@ -2,9 +2,10 @@
 #include "wsSetting.h"
 
 const char *SETTING_NVS = "setting"; // setting --NVS の設定用ファイル
-const char *APIKEY_NVS = "apikey"; // apikey  -- NVS の設定用ファイル
+const char *APIKEY_NVS = "apikey";   // apikey  -- NVS の設定用ファイル
 
 const String APIKEY_SPIFFS = "/wsApiKey.json";
+const String APIKEY_TXT_SD = "/apikey.txt";
 const String STARTUP_SPIFFS = "/wsStartup.json";
 // const String STARTUP_ITEM[] = {
 //     "ttsSelect", "voicevoxSpeakerNo", "lang", "volume",
@@ -289,11 +290,10 @@ void M5StackConfig()
     // StartupErrors = true;
   }
 
-  if(!SD_begin())
+  if (!SD_begin())
   {
     Serial.println("Error preparing SD Filing System...");
   }
-
 }
 
 // void NVS_setting(void)
@@ -379,14 +379,52 @@ void M5StackConfig()
 
 const String jsonAPIKEY = "{\"apikey\":[{\"openAiApiKey\":\"***\",\"voicevoxApiKey\":\"***\"}]}";
 
-
 bool jsonAPIKEYinit(DynamicJsonDocument &jsonDoc)
 {
-  return (jsonInitSave(jsonDoc,jsonAPIKEY,APIKEY_SPIFFS));
+  return (jsonInitSave(jsonDoc, jsonAPIKEY, APIKEY_SPIFFS));
 }
 
+bool apiKeyTxtRead()
+{
+  File fs = fileOpen(FLTYPE_SD, APIKEY_TXT_SD, "r");
+  if (!fs)
+  {
+    fs.close();
+    Serial.println("Fail : apikey.txt not open ");
+    return false;
+  }
 
+  
+  size_t sz = fs.size();
+  char buf[sz + 1];
+  fs.read((uint8_t *)buf, sz);
+  buf[sz] = 0;
+  fs.close();
 
+  int y = 0;
+  int z = 0;
+  for (int x = 0; x < sz; x++)
+  {
+    if (buf[x] == 0x0a || buf[x] == 0x0d)
+      buf[x] = 0;
+    else if (!y && x > 0 && !buf[x - 1] && buf[x])
+      y = x;
+    else if (!z && x > 0 && !buf[x - 1] && buf[x])
+      z = x;
+  }
+
+  OPENAI_API_KEY = String(buf);
+  VOICEVOX_API_KEY = String(&buf[y]);
+  STT_API_KEY = OPENAI_API_KEY;
+  Serial.println("** Read data from apikey.txt in SD **");
+  
+  DynamicJsonDocument apikeyJson(APIKEYJSON_SIZE);  
+  setApiKey("openAiApiKey", OPENAI_API_KEY, apikeyJson);
+  setApiKey("voicevoxApiKey", VOICEVOX_API_KEY, apikeyJson);
+  Serial.println("** and Save to wsApikey.json in SPISS  **");
+  
+  return true;
+}
 
 bool apiKeyFileRead()
 {
@@ -444,11 +482,11 @@ bool apiKeyFileRead()
   return true;
 }
 
-const String jsonSTARTUP =  "{\"startup\":[{\"serverName\":\"stackchan\",\"voicevoxSpeakerNo\":\"-1\",\"volume\":\"-1\",\"led\":\"on\",\"randomSpeak\":\"off\",\"toneMode\":\"1\",\"mute\":\"off\",\"keyLock\":\"off\",\"timer\":\"180\"}]}";
+const String jsonSTARTUP = "{\"startup\":[{\"serverName\":\"stackchan\",\"voicevoxSpeakerNo\":\"-1\",\"volume\":\"-1\",\"led\":\"on\",\"randomSpeak\":\"off\",\"toneMode\":\"1\",\"mute\":\"off\",\"keyLock\":\"off\",\"timer\":\"180\"}]}";
 
 bool jsonSTARTUPinit(DynamicJsonDocument &jsonDoc)
 {
-  return (jsonInitSave(jsonDoc,jsonSTARTUP,STARTUP_SPIFFS));
+  return (jsonInitSave(jsonDoc, jsonSTARTUP, STARTUP_SPIFFS));
 }
 
 // const String jsonSERVO = "{\"servo\":[{\"servo\":\"on\",\"servoPort\":\"portC\",\"servoMode\":\"home\",\"servoHomeX\":\"90\",\"servoHomeY\":\"80\"}]}";
@@ -457,7 +495,6 @@ bool jsonSTARTUPinit(DynamicJsonDocument &jsonDoc)
 // {
 //   return (jsonInitSave(jsonDoc,jsonSERVO,SERVO_SPIFFS));
 // }
-
 
 bool startupFileRead()
 {
@@ -482,7 +519,7 @@ bool startupFileRead()
   if (!jsonRead(FLTYPE_SPIFFS, startupJson, STARTUP_SPIFFS))
   {
     Serial.println("DeserializationError in wsStartup.json in SPIFFS");
-    
+
     Serial.println("initialize wsStartup.json in SPIFFS");
     jsonSTARTUPinit(startupJson);
   }
@@ -518,7 +555,7 @@ bool startupFileRead()
     Serial.println("Startup : " + STARTUP_ITEM[0] + " = " + SERVER_NAME);
     cnt++;
   }
-  
+
   // --- SPEAKER ---
   String getStr1 = object[STARTUP_ITEM[1]];
   if ((getStr1 != "") && (getStr1 != "-1") && (getStr1 != "null"))
@@ -539,7 +576,7 @@ bool startupFileRead()
       TTS2_SPEAKER_NO = String(speaker_no);
       nvs_close(nvs_handle);
     }
-    Serial.println( "Startup : NVS " + STARTUP_ITEM[1] + " = " + String(speaker_no, DEC));
+    Serial.println("Startup : NVS " + STARTUP_ITEM[1] + " = " + String(speaker_no, DEC));
     cnt++;
   }
   TTS2_PARMS = TTS2_SPEAKER + TTS2_SPEAKER_NO;
@@ -576,9 +613,9 @@ bool startupFileRead()
       nvs_get_u32(nvs_handle, "volume", &volume);
       if (volume > 255)
         volume = 255;
-      if(volume < 0)
+      if (volume < 0)
         volume = 0;
-      
+
       VOLUME_VALUE = volume;
       nvs_close(nvs_handle);
       Serial.println("Startup : NVS " + STARTUP_ITEM[3] + " = " + String(volume, DEC));
@@ -706,14 +743,12 @@ bool startupFileRead()
   return true;
 }
 
-
 // void wsHandleStartup(String ttsSelectS, String vvoxSpeakerNoS, String langS,
 //                      String volumeS, String ledS, String randomSpeakS, String toneModeS,
 //                      String muteS, String keyLockS, String timerS, String txS)
 
-
 void wsHandleStartup(String serverNameS, String vvoxSpeakerNoS, String volumeS, String ledS,
- String randomSpeakS, String toneModeS, String muteS, String keyLockS, String timerS, String txS)
+                     String randomSpeakS, String toneModeS, String muteS, String keyLockS, String timerS, String txS)
 {
   DynamicJsonDocument startupJson(STARTUPJSON_SIZE);
 
@@ -721,8 +756,8 @@ void wsHandleStartup(String serverNameS, String vvoxSpeakerNoS, String volumeS, 
   if (txS != "")
   {
     String getStr = "";
-    if( getStartup(txS, getStr, startupJson) )
-      webpage = "wsStartup.json : " +  txS + " = " + getStr;
+    if (getStartup(txS, getStr, startupJson))
+      webpage = "wsStartup.json : " + txS + " = " + getStr;
     return;
   }
 
@@ -730,77 +765,77 @@ void wsHandleStartup(String serverNameS, String vvoxSpeakerNoS, String volumeS, 
   // {
   //   if(setStartup("ttsSelect",ttsSelectS,startupJson))
   //     webpage = "wsStartup.Json : ttsSlect = " + ttsSelectS ;
-  //   return;  
+  //   return;
   // }
 
-  if(serverNameS !="")
+  if (serverNameS != "")
   {
-    if(setStartup("serverName",serverNameS, startupJson))
-      webpage = "wsStartup.Json : serverName = " + serverNameS ;
-    return;  
+    if (setStartup("serverName", serverNameS, startupJson))
+      webpage = "wsStartup.Json : serverName = " + serverNameS;
+    return;
   }
 
-  if(vvoxSpeakerNoS !="")
+  if (vvoxSpeakerNoS != "")
   {
-    if(setStartup("voicevoxSpeakerNo",vvoxSpeakerNoS,startupJson))
-      webpage = "wsStartup.Json : voicevoxSpeakerNo = " + vvoxSpeakerNoS ;
-    return;  
+    if (setStartup("voicevoxSpeakerNo", vvoxSpeakerNoS, startupJson))
+      webpage = "wsStartup.Json : voicevoxSpeakerNo = " + vvoxSpeakerNoS;
+    return;
   }
 
   // if(langS !="")
   // {
   //   if(setStartup("lang",langS,startupJson))
   //     webpage = "wsStartup.Json : lang = " + langS ;
-  //   return;  
+  //   return;
   // }
 
-  if(volumeS !="")
+  if (volumeS != "")
   {
-    if(setStartup("volume",volumeS,startupJson))
-      webpage = "wsStartup.Json : volume = " + volumeS ;
-    return;  
+    if (setStartup("volume", volumeS, startupJson))
+      webpage = "wsStartup.Json : volume = " + volumeS;
+    return;
   }
 
-  if(ledS !="")
+  if (ledS != "")
   {
-    if(setStartup("led",ledS,startupJson))
-      webpage = "wsStartup.Json : led = " + ledS ;
-    return;  
+    if (setStartup("led", ledS, startupJson))
+      webpage = "wsStartup.Json : led = " + ledS;
+    return;
   }
 
-  if(randomSpeakS !="")
+  if (randomSpeakS != "")
   {
-    if(setStartup("randomSpeak",randomSpeakS,startupJson))
-      webpage = "wsStartup.Json : randomSpeak = " + randomSpeakS ;
-    return;  
+    if (setStartup("randomSpeak", randomSpeakS, startupJson))
+      webpage = "wsStartup.Json : randomSpeak = " + randomSpeakS;
+    return;
   }
 
-  if(toneModeS !="")
+  if (toneModeS != "")
   {
-    if(setStartup("toneMode",toneModeS,startupJson))
-      webpage = "wsStartup.Json : toneMode = " + toneModeS ;
-    return;  
+    if (setStartup("toneMode", toneModeS, startupJson))
+      webpage = "wsStartup.Json : toneMode = " + toneModeS;
+    return;
   }
 
-  if(muteS !="")
+  if (muteS != "")
   {
-    if(setStartup("mute",muteS,startupJson))
-      webpage = "wsStartup.Json : mute = " + muteS ;
-    return;  
+    if (setStartup("mute", muteS, startupJson))
+      webpage = "wsStartup.Json : mute = " + muteS;
+    return;
   }
 
-  if(keyLockS !="")
+  if (keyLockS != "")
   {
-    if(setStartup("keyLock",keyLockS,startupJson))
-      webpage = "wsStartup.Json : keyLock = " + keyLockS ;
-    return;  
+    if (setStartup("keyLock", keyLockS, startupJson))
+      webpage = "wsStartup.Json : keyLock = " + keyLockS;
+    return;
   }
 
-  if(timerS !="")
+  if (timerS != "")
   {
-    if(setStartup("timer",timerS,startupJson))
-      webpage = "wsStartup.Json : timer = " + timerS ;
-    return;  
+    if (setStartup("timer", timerS, startupJson))
+      webpage = "wsStartup.Json : timer = " + timerS;
+    return;
   }
 
   // -------------------------------------------------------
@@ -819,9 +854,6 @@ void wsHandleStartup(String serverNameS, String vvoxSpeakerNoS, String volumeS, 
     return;
   }
 }
-
-
-
 
 void wsHandleApikeySetting(String openAiS, String voicevoxS, String voiceTextS, String txS)
 {
@@ -846,7 +878,7 @@ void wsHandleApikeySetting(String openAiS, String voicevoxS, String voiceTextS, 
   if (txS != "")
   {
     String getStr = "";
-    if( getApiKey(txS, getStr, apikeyJson))
+    if (getApiKey(txS, getStr, apikeyJson))
     {
       webpage = "wsApikey.json : " + txS + " = " + getStr;
       Serial.println(webpage);
@@ -864,7 +896,7 @@ void wsHandleApikeySetting(String openAiS, String voicevoxS, String voiceTextS, 
     }
     return;
   }
-  
+
   // -------------------------------------------------------
   if (voicevoxS != "")
   {
@@ -890,27 +922,24 @@ void wsHandleApikeySetting(String openAiS, String voicevoxS, String voiceTextS, 
   return;
 }
 
-
-
 bool setApiKey(String item, String setData, DynamicJsonDocument &apikeyJson)
 {
-  return( setJsonItem(APIKEY_SPIFFS, item, setData, apikeyJson, "apikey"));
+  return (setJsonItem(APIKEY_SPIFFS, item, setData, apikeyJson, "apikey"));
 }
 
 bool setStartup(String item, String setData, DynamicJsonDocument &startupJson)
 {
-  return( setJsonItem(STARTUP_SPIFFS, item, setData, startupJson, "startup")) ;
+  return (setJsonItem(STARTUP_SPIFFS, item, setData, startupJson, "startup"));
 }
 
 bool getStartup(String item, String &getData, DynamicJsonDocument &startupJson)
 {
-  return( getJsonItem(STARTUP_SPIFFS, item, getData, startupJson, "startup") );
+  return (getJsonItem(STARTUP_SPIFFS, item, getData, startupJson, "startup"));
 }
-
 
 bool getApiKey(String item, String &getData, DynamicJsonDocument &apikeyJson)
 {
-  return( getJsonItem(APIKEY_SPIFFS, item, getData, apikeyJson, "apikey") );
+  return (getJsonItem(APIKEY_SPIFFS, item, getData, apikeyJson, "apikey"));
 }
 
 void toneOn()

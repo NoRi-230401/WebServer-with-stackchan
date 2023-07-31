@@ -1,0 +1,12 @@
+{
+  "setting00": [
+    {
+      "serverName": "stackchan",
+      "volume": "0",
+      "led": "on",
+      "toneMode": "1",
+      "mute": "off",
+      "keyLock": "off"
+    }
+  ]
+}

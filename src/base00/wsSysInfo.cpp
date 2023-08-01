@@ -213,10 +213,10 @@ bool sysInfoGet(String txArg, String &txData)
   {
     txData = "openAiApiKey = " + OPENAI_API_KEY;
   }
-  else if (txArg == "voiceTextApiKey")
-  {
-    txData = "voiceTextApiKey = " + VOICETEXT_API_KEY;
-  }
+  // else if (txArg == "voiceTextApiKey")
+  // {
+  //   txData = "voiceTextApiKey = " + VOICETEXT_API_KEY;
+  // }
   else if (txArg == "voicevoxApiKey")
   {
     txData = "voicevoxApiKey = " + VOICEVOX_API_KEY;
@@ -348,9 +348,9 @@ void sysInfo_m00_DispMake()
   // SYSINFO_MSG = "*** System Information ***\n";
   SYSINFO_MSG = "";
   SYSINFO_MSG += WS_VERSION;
-  SYSINFO_MSG += "\nserverName = " + SERVER_NAME ;
-    SYSINFO_MSG += "\nIP_Addr = " + IP_ADDR;
+  SYSINFO_MSG += "\nIP_Addr = " + IP_ADDR;
   SYSINFO_MSG += "\nSSID = " + SSID;
+  SYSINFO_MSG += "\nserverName = " + SERVER_NAME ;
 
   sprintf(msg2, "\nbatteryLevel = %d %%", getBatteryLevel());
   SYSINFO_MSG += msg2;
@@ -359,7 +359,7 @@ void sysInfo_m00_DispMake()
   SYSINFO_MSG += msg2;
   // SYSINFO_MSG += "\nttsSelect = " + String(TTS_NAME[TTS_TYPE]);
   
-  SYSINFO_MSG += "\nvoicevoxSpeakerNo = " + TTS2_SPEAKER_NO;
+  SYSINFO_MSG += "\nvSpeakerNo = " + TTS2_SPEAKER_NO;
   // SYSINFO_MSG += "\nlang = " + LANG_CODE;
 
   if (RANDOM_SPEAK_STATE)

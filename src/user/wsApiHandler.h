@@ -162,15 +162,19 @@ extern bool initWifiJson(DynamicJsonDocument &wifiJson);
 extern bool EX_wifiSelctFLSv(DynamicJsonDocument &wifiJson);
 extern bool wsWifiFLRd(DynamicJsonDocument &wifiJson);
 
+
+extern void wsHandleStartup(String serverNameS, String volumeS, String ledS, String toneModeS,
+   String muteS, String keyLockS, String vSpeakerNoS, String randomSpeakS,
+   String timerS, String txS);
+
+
+
 extern char *tts_parms_table[];
 extern bool setFace(int expr);
 // extern void wsHandleApikeySet(String openai, String voicevox, String voicetext, String sttapikey);
-extern void wsHandleApikeySetting(String openAiS, String voicevoxS,String voiceTextS, String txS);
-// extern void wsHandleStartup(String serverNameS, String vvoxSpeakerNoS,String volumeS, String ledS, String randomSpeakS, String toneModeS, 
+extern void wsHandleApikeySetting(String openAiS, String voicevoxS,String txS);
 //    String muteS, String keyLockS, String timerS, String txS );
-// extern void wsHandleStartup(serverNameS, vvoxSpeakerNoS,volumeS, ledS, randomSpeakS, toneModeS, muteS, keyLockS, timerS, txS);
-extern void wsHandleStartup(String serverNameS, String vvoxSpeakerNoS, String volumeS, String ledS,
- String randomSpeakS, String toneModeS, String muteS, String keyLockS, String timerS, String txS);
+extern void wsHandleSetting(String volumeS, String volumeDS, String speakerS, String ledS, String muteS, String keyLockS, String toneModeS);
 
 
 // ----------------------------------------------------------
@@ -184,8 +188,8 @@ bool setGetStrToApiKeySetting(const char *item, DynamicJsonDocument &apikeyJson,
 extern void wsHandleBtn(String arg);
 extern void wsHandleShutdown(String reboot_get_str, String time_get_str);
 extern void wsHandleTimer(String TmSecS, String TmMinS, String timerModeS);
-extern void wsHandleSetting2(String langS,String ttsNameS,String muteS,String keyLockS,String toneModeS );
-extern void wsHandleSetting(String volumeS,String volumeDS,String speakerS,String ledS );
+extern void wsHandleSetting01(String langS,String ttsNameS,String muteS,String keyLockS,String toneModeS );
+extern void wsHandleSetting00(String volumeS,String volumeDS,String speakerS,String ledS );
 extern void wsHandleSysInfo(String txS, String dispS, String modeS);
 extern void wsHandleServo(String swingXYS,String swingXS, String swingYS,
   String pointXS, String pointYS, String deltaXS, String deltaYS,

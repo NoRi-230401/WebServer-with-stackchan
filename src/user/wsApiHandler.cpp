@@ -7,10 +7,6 @@ void setupApiHandler()
   server.on("/setting", HTTP_GET, [](AsyncWebServerRequest *request)
             { handle_setting(request); serverSend(request); });
 
-  // ##################### setting2 ############################
-  server.on("/setting2", HTTP_GET, [](AsyncWebServerRequest *request)
-            { handle_setting2(request); serverSend(request); });
-
   // ##################### sysInfo ############################
   server.on("/sysInfo", HTTP_GET, [](AsyncWebServerRequest *request)
             { handle_sysInfo(request);   serverSend(request); });
@@ -121,22 +117,26 @@ void handle_setting(AsyncWebServerRequest *request)
   webpage = "NG";
   String volumeS = request->arg("volume");
   String volumeDS = request->arg("volumeDelta");
-  String speakerS = request->arg("speaker");
+  String vSpeakerNoS = request->arg("vSpeakerNo");
   String ledS = request->arg("led");
-  wsHandleSetting(volumeS, volumeDS, speakerS, ledS);
-}
-
-void handle_setting2(AsyncWebServerRequest *request)
-{
-  tone(2);
-  webpage = "NG";
-  String langS = request->arg("lang");
-  String ttsNameS = request->arg("ttsSelect");
   String muteS = request->arg("mute");
   String keyLockS = request->arg("keyLock");
   String toneModeS = request->arg("toneMode");
-  wsHandleSetting2(langS, ttsNameS, muteS, keyLockS, toneModeS);
+
+  wsHandleSetting(volumeS, volumeDS, vSpeakerNoS, ledS, muteS, keyLockS, toneModeS);
 }
+
+// void handle_setting2(AsyncWebServerRequest *request)
+// {
+//   tone(2);
+//   webpage = "NG";
+//   String langS = request->arg("lang");
+//   String ttsNameS = request->arg("ttsSelect");
+//   String muteS = request->arg("mute");
+//   String keyLockS = request->arg("keyLock");
+//   String toneModeS = request->arg("toneMode");
+//   wsHandleSetting01(langS, ttsNameS, muteS, keyLockS, toneModeS);
+// }
 
 void handle_shutdown(AsyncWebServerRequest *request)
 {
@@ -229,31 +229,16 @@ void handle_apikey(AsyncWebServerRequest *request)
   webpage = "NG";
   String openAiS = request->arg("openAiApiKey");
   String voicevoxS = request->arg("voicevoxApiKey");
-  String voiceTextS = request->arg("voiceTextApiKey");
   String txS = request->arg("tx");
-  wsHandleApikeySetting(openAiS,voicevoxS,voiceTextS,txS);
+  wsHandleApikeySetting(openAiS,voicevoxS,txS);
 }
-
-// void handle_apikey_set(AsyncWebServerRequest *request)
-// {
-//   tone(2);
-//   webpage = "NG";
-//   String openai = request->arg("openai");
-//   String voicevox = request->arg("voicevox");
-//   String voicetext = request->arg("voicetext");
-//   String sttapikey = request->arg("sttapikey");
-//  wsHandleApikeySet(openai, voicevox, voicetext, sttapikey);
-// }
-
 
 void handle_startup(AsyncWebServerRequest *request)
 {
   tone(2);
   webpage = "NG";
-  // String ttsSelectS = request->arg("ttsSelect");
   String serverNameS = request->arg("serverName");
-  String vvoxSpeakerNoS = request->arg("voicevoxSpeakerNo");
-  // String langS = request->arg("lang");
+  String vSpeakerNoS = request->arg("vSpeakerNo");
   String volumeS = request->arg("volume");
   String ledS = request->arg("led");
   String randomSpeakS = request->arg("randomSpeak");
@@ -262,9 +247,11 @@ void handle_startup(AsyncWebServerRequest *request)
   String keyLockS = request->arg("keyLock");
   String timerS = request->arg("timer");
   String txS = request->arg("tx");
-  wsHandleStartup(serverNameS, vvoxSpeakerNoS,volumeS, ledS,
-      randomSpeakS, toneModeS, muteS, keyLockS, timerS, txS);
+  wsHandleStartup(serverNameS,volumeS, ledS, toneModeS,muteS,
+   keyLockS, vSpeakerNoS, randomSpeakS, timerS, txS );
 }
+
+
 
 void handle_servoSetting(AsyncWebServerRequest *request)
 {

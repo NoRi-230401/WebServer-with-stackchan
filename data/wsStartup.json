@@ -1,15 +1,15 @@
 {
   "startup": [
     {
-      "serverName": "wsStackChan",
-      "voicevoxSpeakerNo": "-1",
+      "serverName": "stackchan",
       "volume": "-1",
       "led": "on",
-      "randomSpeak": "off",
-      "toneMode": "1",
+      "toneMode": "-1",
       "mute": "off",
       "keyLock": "off",
-      "timer": "180"
+      "vSpeakerNo": "-1",
+      "randomSpeak": "off",
+      "timer": "-1"
     }
   ]
 }

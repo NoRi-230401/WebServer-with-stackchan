@@ -5,7 +5,7 @@
       "servoPort": "portC",
       "servoMode": "home",
       "servoHomeX": "90",
-      "servoHomeY": "80"
+      "servoHomeY": "70"
     }
   ]
 }

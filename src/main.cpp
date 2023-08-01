@@ -15,11 +15,10 @@ void setup()
   
   // *** Setting files ***
   startupFileRead();
+  nvsSaveAll();
   servoFileRead();
-
   if(!apiKeyFileRead())
       apiKeyTxtRead();
-
 
   // *** Network  ***
   wifiSetup();

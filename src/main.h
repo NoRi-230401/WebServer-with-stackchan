@@ -11,6 +11,7 @@ extern void M5StackConfig();
 extern bool apiKeyFileRead();
 extern bool apiKeyTxtRead();
 extern bool startupFileRead();
+extern void nvsSaveAll();
 extern bool servoFileRead();
 extern void wifiSetup();
 extern void serverSetup();

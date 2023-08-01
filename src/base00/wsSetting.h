@@ -11,26 +11,27 @@
 #include <M5Unified.h>
 #include <Avatar.h>
 
-#define APIKEYJSON_SIZE 5 * 128
-#define STARTUPJSON_SIZE 15 * 128
-// #define SERVOJSON_SIZE 5 * 128
+#define TIMER_INIT 180          // タイマー初期値：３分
+#define TIMER_MIN 30            // 最小タイマー設定値：３０秒
+#define TIMER_MAX (60 * 60 - 1) // 最大タイマー設定値：６０分未満 (59分59秒)
+#define APIKEYJSON_SIZE 3 * 128
+#define STARTUPJSON_SIZE 10 * 128
 #define FLTYPE_SPIFFS 1
 #define FLTYPE_SD 2
 
 // ---- servo define ----------
-#define SV_CENTER_X 90
-#define SV_CENTER_Y 90
-#define SV_PIN_X_CORE2_PA 33 // Core2 PORT A
-#define SV_PIN_Y_CORE2_PA 32
-#define SV_PIN_X_CORE2_PC 13 // Core2 PORT C
-#define SV_PIN_Y_CORE2_PC 14
+// #define SV_CENTER_X 90
+// #define SV_CENTER_Y 90
+// #define SV_PIN_X_CORE2_PA 33 // Core2 PORT A
+// #define SV_PIN_Y_CORE2_PA 32
+// #define SV_PIN_X_CORE2_PC 13 // Core2 PORT C
+// #define SV_PIN_Y_CORE2_PC 14
 
 extern String SERVER_NAME;
 extern void BoxTouchSetup();
 extern bool KEYLOCK_STATE;
 extern bool SYSINFO_DISP_STATE;
 extern bool RANDOM_SPEAK_STATE;
-
 extern String TTS2_SPEAKER_NO;
 extern String TTS2_SPEAKER;
 extern String TTS2_PARMS;
@@ -39,14 +40,12 @@ extern uint8_t TTS_TYPE;
 extern String LANG_CODE;
 extern bool LED_OnOff_STATE;
 extern bool RANDOM_SPEAK_ON_GET;
-
 extern uint16_t TIMER_SEC_VALUE;
 extern const char *TTS_NAME[];
 extern uint8_t m5spk_virtual_channel;
 extern const char *LANG_CODE_JP;
 extern int RANDOM_TIME;
 extern bool TIMER_STARTED;
-
 extern void led_allOff();
 extern void timerStop2(); 
 extern void randomSpeak(bool mode);
@@ -63,32 +62,34 @@ extern bool SD_begin();
 extern bool jsonInitSave(DynamicJsonDocument &jsonDoc,const String inJson, const String saveFile);
 extern bool jsonInit(DynamicJsonDocument &jsonDoc, const String inJson);
 extern File fileOpen(int flType, const String path, const char *mode);
-
-
+extern bool getJsonItem(String flName, String item, String& getData, DynamicJsonDocument &jsonDoc, String arrayName);
 using namespace m5avatar;
 extern Avatar avatar;
-void wsHandleSetting(String volumeS, String volumeDS, String speakerS, String ledS);
-void wsHandleSetting2(String langS, String ttsNameS, String muteS, String keyLockS, String toneModeS);
+extern String webpage;
+
+
+void wsHandleSetting(String volumeS, String volumeDS, String speakerS,
+    String ledS, String muteS, String keyLockS, String toneModeS);
+void wsHandleStartup(String serverNameS, String volumeS, String ledS,
+    String toneModeS, String muteS, String keyLockS, String vSpeakerNoS,
+    String randomSpeakS,String timerS, String txS);
+void wsHandleApikeySetting(String openAiS, String voicevoxS, String txS);
+void M5StackConfig();
 bool jsonAPIKEYinit(DynamicJsonDocument &jsonDoc);
 bool apiKeyTxtRead();
 bool apiKeyFileRead();
 bool jsonSTARTUPinit(DynamicJsonDocument &jsonDoc);
+void nvsSaveAll();
 bool startupFileRead();
-
-void wsHandleStartup(String serverNameS, String vvoxSpeakerNoS, String volumeS, String ledS,
-  String randomSpeakS, String toneModeS, String muteS, String keyLockS, String timerS, String txS);
-
-bool setStartup(String item, String data, DynamicJsonDocument &startupJson);
 bool setApiKey(String item, String data, DynamicJsonDocument &apikeyJson);
-bool setServo(String item, String setData, DynamicJsonDocument &servoJson);
-extern bool getJsonItem(String flName, String item, String& getData, DynamicJsonDocument &jsonDoc, String arrayName);
-bool getStartup(String item, String &data, DynamicJsonDocument &startupJson);
 bool getApiKey(String item, String &data, DynamicJsonDocument &apikeyJson);
-bool getServo(String item, String &getData, DynamicJsonDocument &servoJson);
+bool setStartup(String item, String data, DynamicJsonDocument &startupJson);
+bool getStartup(String item, String &getData, DynamicJsonDocument &startupJson);
 void toneOn();
 void tone(int mode);
 void muteOn();
 void muteOff();
-void M5StackConfig();
 
+// bool setServo(String item, String setData, DynamicJsonDocument &servoJson);
+// bool getServo(String item, String &getData, DynamicJsonDocument &servoJson);
 #endif

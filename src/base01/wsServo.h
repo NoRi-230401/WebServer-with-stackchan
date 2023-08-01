@@ -78,6 +78,7 @@ void wsHandleServo(String swingXYS,String swingXS, String swingYS,
 void servo2(int mode);
 void servoSetup();
 void servoSetup2();
+void servoSetting();
 bool servoFileRead();
 void sv_setEaseToX(int x);
 void sv_setEaseToY(int y);

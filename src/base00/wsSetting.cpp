@@ -21,6 +21,18 @@ String VOICEVOX_API_KEY = "";
 String VOICETEXT_API_KEY = "";
 String STT_API_KEY = "";
 
+void startupSetting()
+{
+  startupFileRead();
+  nvsSaveAll();
+}
+
+void apikeySetting()
+{
+  if(!apiKeyFileRead())
+      apiKeyTxtRead();
+}
+
 void wsHandleSetting(String volumeS, String volumeDS, String vSpeakerNoS,
                      String ledS, String muteS, String keyLockS, String toneModeS)
 {

@@ -13,13 +13,11 @@ void setup()
   // ** initial Setting **
   M5StackConfig();
   
-  // *** Setting files ***
-  startupFileRead();
-  nvsSaveAll();
-  servoFileRead();
-  if(!apiKeyFileRead())
-      apiKeyTxtRead();
-
+  // ** Setting files **
+  startupSetting();
+  apikeySetting();
+  servoSetting();
+  
   // *** Network  ***
   wifiSetup();
   serverSetup();

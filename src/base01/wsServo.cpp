@@ -611,6 +611,11 @@ void wsServoSetting(String txS, String servoS, String servoPortS,
   }
 }
 
+void servoSetting()
+{
+  servoFileRead();
+}
+
 bool servoFileRead()
 {
   // ****** 初期値設定　**********

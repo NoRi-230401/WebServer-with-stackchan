@@ -67,6 +67,8 @@ using namespace m5avatar;
 extern Avatar avatar;
 extern String webpage;
 
+void startupSetting();
+void apikeySetting();
 
 void wsHandleSetting(String volumeS, String volumeDS, String speakerS,
     String ledS, String muteS, String keyLockS, String toneModeS);

@@ -19,10 +19,10 @@ AudioFileSourceHTTPSStream *file_TTS2 = nullptr;
 AudioFileSourceBuffer *BUFF = nullptr;
 
 uint8_t TTS_TYPE = 2; // default "VOICEVOX"
-String LANG_CODE = "";
-const char *TTS_NAME[] = {"VoiceText", "GoogleTTS", "VOICEVOX"};
-const char *LANG_CODE_JP = "ja-JP";
-const char *LANG_CODE_EN = "en-US";
+// String LANG_CODE = "";
+// const char *TTS_NAME[] = {"VoiceText", "GoogleTTS", "VOICEVOX"};
+// const char *LANG_CODE_JP = "ja-JP";
+// const char *LANG_CODE_EN = "en-US";
 
 void playMP3(AudioFileSourceBuffer *buff)
 {
@@ -114,19 +114,15 @@ void SpeechTextNext()
 
   avatar.setExpression(Expression::Neutral);
   SPEECH_TEXT_BUFFER = "";
-  Serial.println("***** End of Speaking *****");
+  Serial.println("--- end of speaking ---");
 }
 
 void ttsDo( const String& speechText )
 {
-  Serial.println("\nSpeech Text = " + speechText);
+  Serial.println("\n~~~~~ Speech-Text ~~~~~");
+  Serial.println(speechText);
+  Serial.println("~~~~~~~~~~~~~~~~~~~~~~~");
+  
   Voicevox_tts((char *)speechText.c_str(), (char *)TTS2_PARMS.c_str());
 }
-
-
-
-// bool isJP()
-// {
-//   return true;
-// }
 

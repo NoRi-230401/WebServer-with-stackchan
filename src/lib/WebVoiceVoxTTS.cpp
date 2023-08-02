@@ -121,8 +121,8 @@ bool voicevox_tts_json_status(const char* url, const char* json_key, const char*
   String payload = https_get(url, root_ca);
   if(payload != ""){
     Serial.println(payload);
- //    StaticJsonDocument<1000> doc;
-//    JsonObject object = doc.as();
+  //    StaticJsonDocument<1000> doc;
+  //    JsonObject object = doc.as();
     DeserializationError error = deserializeJson(doc, payload.c_str());
     if (error) {
       Serial.print(F("deserializeJson() failed: "));
@@ -145,9 +145,9 @@ String voicevox_tts_url(const char* url, const char* root_ca) {
       // Add a scoping block for HTTPClient https to make sure it is destroyed before WiFiClientSecure *client is 
       HTTPClient https;
   
-      Serial.print("[HTTPS] begin...\n");
+      // Serial.print("[HTTPS] begin...\n");
       if (https.begin(*client, url)) {  // HTTPS
-        Serial.print("[HTTPS] GET...\n");
+        // Serial.print("[HTTPS] GET...\n");
         // start connection and send HTTP header
         int httpCode = https.GET();
   
@@ -179,8 +179,18 @@ String voicevox_tts_url(const char* url, const char* root_ca) {
             const char* mp3url = doc["mp3StreamingUrl"];
             // Serial.println(mp3url);
             // Serial.print("isApiKeyValid:");
-            if(doc["isApiKeyValid"]) Serial.println("OK");
-            else Serial.println("NG");
+
+            if(doc["isApiKeyValid"])
+            {
+              //  Serial.println("OK");
+              ;
+            }
+            else
+            {
+              //  Serial.println("NG");
+              Serial.println("voicevox Apikey is NG");
+            }
+
             tts_url = String(mp3url);
 
             // const char* status_url = doc["audioStatusUrl"];
@@ -236,21 +246,11 @@ static String URLEncode(const char* msg) {
 
 
 void Voicevox_tts(char *text,char *tts_parms){
-//  String tts_url = String("https://api.tts.quest/v1/voicevox/?text=") +  URLEncode(text) + String(tts_parms);
-//  String tts_url = String("https://api.tts.quest/v3/voicevox/synthesis?key=y958S773N4I7356&text=") +  URLEncode(text) + String(tts_parms);
-
   String tts_url = String("https://api.tts.quest/v3/voicevox/synthesis?key=")+ VOICEVOX_API_KEY +  String("&text=") +  URLEncode(text) + String(tts_parms);
   String URL = voicevox_tts_url(tts_url.c_str(), root_ca);
-  // Serial.println(tts_url);
 
   if(URL == "") return;
-  // --------- modified by NoRi 2033-06-05 -------------------------
-  // file = new AudioFileSourceHTTPSStream(URL.c_str(), root_ca);
-  // buff = new AudioFileSourceBuffer(file, preallocateBuffer, preallocateBufferSize);
-  // playMP3(buff);
- 
   file_TTS2 = new AudioFileSourceHTTPSStream(URL.c_str(), root_ca);
   BUFF = new AudioFileSourceBuffer(file_TTS2, TTS_mp3buff, TTS_mp3buffSize );
   playMP3(BUFF);
-
 }

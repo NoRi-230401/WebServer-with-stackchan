@@ -103,7 +103,7 @@ extern char *STARTUP_SD;
 extern char *SETTING_NVS;
 extern uint8_t m5spk_virtual_channel;
 extern String IP_ADDR;
-extern String LANG_CODE;
+// extern String LANG_CODE;
 extern uint8_t TTS_TYPE;
 extern const char *TTS_NAME[];
 extern size_t VOLUME_VALUE;
@@ -144,7 +144,7 @@ extern void sysInfoDispStart(uint8_t mode_no);
 extern bool RANDOM_SPEAK_STATE;
 extern bool RANDOM_SPEAK_ON_GET;
 extern void timerStop2();
-extern void randomSpeak(bool);
+// extern void randomSpeak(bool);
 
 extern bool jsonSave(DynamicJsonDocument &jsonDoc, String saveFile);
 extern bool jsonRead(int flType, DynamicJsonDocument &jsonDoc, String readFile);
@@ -251,7 +251,7 @@ extern void timerStart();
 // extern int TTS_PARMS_NO;
 extern String INIT_BUFFER;
 extern bool init_chat_doc(const char *data);
-extern String Role_JSON;
+// extern String Role_JSON;
 extern bool save_json();
 extern void chatHistoryCls();
 extern void wsHandleWifiSetting(String initS, String ssidS, String passwdS,String removeS,

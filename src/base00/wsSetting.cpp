@@ -7,7 +7,7 @@ const String APIKEY_TXT_SD = "/apikey.txt";
 const String STARTUP_SPIFFS = "/wsStartup.json";
 const String OffOn[] = {"off", "on"};
 const String jsonAPIKEY = "{\"apikey\":[{\"openAiApiKey\":\"***\",\"voicevoxApiKey\":\"***\"}]}";
-const String jsonSTARTUP = "{\"startup\":[{\"serverName\":\"stackchan\",\"voicevoxSpeakerNo\":\"3\",\"volume\":\"200\",\"led\":\"on\",\"randomSpeak\":\"off\",\"toneMode\":\"1\",\"mute\":\"off\",\"keyLock\":\"off\",\"timer\":\"180\"}]}";
+const String jsonSTARTUP = "{\"startup\":[{\"serverName\":\"stackchan\",\"vSpeakerNo\":\"3\",\"volume\":\"200\",\"led\":\"on\",\"randomSpeak\":\"off\",\"toneMode\":\"1\",\"mute\":\"off\",\"keyLock\":\"off\",\"timer\":\"180\"}]}";
 
 size_t VOLUME_VALUE;
 bool MUTE_ON_STATE = false;

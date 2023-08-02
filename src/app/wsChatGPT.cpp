@@ -4,7 +4,7 @@
 const String json_ChatString =
     "{\"model\": \"gpt-3.5-turbo-0613\",\"messages\": [{\"role\": \"user\", \"content\": \""
     "\"}]}";
-String Role_JSON = "";
+// String Role_JSON = "";
 const String CHATDOC_SPI = "/data.json"; // chatDoc in SPIFFS
 const int MAX_HISTORY = 5;               // 保存する質問と回答の最大数
 String INIT_BUFFER = "";
@@ -29,6 +29,35 @@ int WK_LAST_ERR_CODE = 0;
 
 void chatGptManage()
 {
+  // --  RandomSpeakManage ---
+  if ( (RANDOM_SPEAK_ON_GET) && (SPEECH_TEXT_BUFFER == "") && (SPEECH_TEXT == "") )
+  {
+    RANDOM_SPEAK_ON_GET = false;
+
+    if (SYSINFO_DISP_STATE)
+      sysInfoDispEnd();
+
+    timerStop2();
+    randomSpeak(true);
+  }
+
+  if (RANDOM_SPEAK_OFF_GET && (SPEECH_TEXT_BUFFER == "") && (SPEECH_TEXT == ""))
+  {
+    RANDOM_SPEAK_OFF_GET = false;
+    randomSpeak(false);
+  }
+
+  if ((RANDOM_TIME >= 0) && (millis() - LASTMS1 > RANDOM_TIME))
+  {
+    LASTMS1 = millis();                      // 今回のRandomSpeak起動した時刻
+    RANDOM_TIME = 40000 + 1000 * random(30); // 次回のRandomSpeak起動までの時間
+    if ((!mp3->isRunning()) && (SPEECH_TEXT == "") && (SPEECH_TEXT_BUFFER == ""))
+    {
+      exec_chatGPT(random_words[random(18)]);
+    }
+  }
+
+  // --- chatGPT REQ ----------
   if (REQ_chatGPT_GET)
   {
     if (SYSINFO_DISP_STATE)
@@ -42,34 +71,8 @@ void chatGptManage()
     exec_chatGPT(REQ_MSG);
   }
 
-  // --  RandomSpeakManage ---
-  if ((RANDOM_TIME >= 0) && (millis() - LASTMS1 > RANDOM_TIME))
-  {
-    LASTMS1 = millis();                      // 今回のRandomSpeak起動した時刻
-    RANDOM_TIME = 40000 + 1000 * random(30); // 次回のRandomSpeak起動までの時間
-    if ((!mp3->isRunning()) && (SPEECH_TEXT == "") && (SPEECH_TEXT_BUFFER == ""))
-    {
-      exec_chatGPT(random_words[random(18)]);
-    }
-  }
-
-  if (RANDOM_SPEAK_ON_GET)
-  {
-    RANDOM_SPEAK_ON_GET = false;
-
-    if (SYSINFO_DISP_STATE)
-      sysInfoDispEnd();
-
-    timerStop2();
-    randomSpeak(true);
-  }
-
-  if (RANDOM_SPEAK_OFF_GET)
-  {
-    RANDOM_SPEAK_OFF_GET = false;
-    randomSpeak(false);
-  }
 }
+
 
 void wsHandleRandomSpeak(String modeS)
 {
@@ -131,7 +134,7 @@ void wsHandleRoleSet(String roleS)
   INIT_BUFFER = "";
   serializeJson(CHAT_DOC, INIT_BUFFER);
   Serial.println("INIT_BUFFER = " + INIT_BUFFER);
-  Role_JSON = INIT_BUFFER;
+  // Role_JSON = INIT_BUFFER;
 
   // JSONデータをspiffsへ出力する
   save_json();
@@ -206,7 +209,7 @@ bool chatDocInit()
   }
 
   serializeJson(CHAT_DOC, INIT_BUFFER);
-  Role_JSON = INIT_BUFFER;
+  // Role_JSON = INIT_BUFFER;
   String json_str;
   serializeJsonPretty(CHAT_DOC, json_str); // 文字列をシリアルポートに出力する
   Serial.println(json_str);
@@ -300,7 +303,7 @@ String https_post_json(const char *url, const char *json_string, const char *roo
           {
             payload = https.getString();
             Serial.println("/////payload-start/////");
-            Serial.println(payload);
+            Serial.print(payload);
             Serial.println("/////payload-end/////");
 
             if (payload == "")

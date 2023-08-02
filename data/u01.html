@@ -57,7 +57,7 @@
   「独り言」 ：　<a href="http://192.168.0.100/randomSpeak?mode=on" >開始</a>
   　　<a href="http://192.168.0.100/randomSpeak?mode=off" >停止</a>
   <br><br>
-  <form action="http://192.168.0.100/setting?" method="get">話者番号：（VOICEVOX）　<input type="text" name="speaker" value="3"
+  <form action="http://192.168.0.100/setting?" method="get">vSpeakerNo:話者番号(0-66)　<input type="text" name="speaker" value="3"
     size="2" maxlength="2" />　 <input type="submit" value="送信" />
 </form>
 <br>
@@ -105,7 +105,7 @@
     <p>
       <b>セリフ（発声）</b>： テキスト入力<br>
       <textarea rows="6" cols="60" name="say" wrap="soft"></textarea><br>
-      話者・音声： VOICEVOX(0-66),　VoiceText(0-4) 　<input type="text" name="voice" value="" size="2" maxlength="2" /><br>
+      vSpeakerNo:話者番号:( 0-66 ) 　<input type="text" name="voice" value="" size="2" maxlength="2" /><br>
       表情(0-5)：<input type="text" name="expression" value="0" size="1" maxlength="1" />　上の「表情」番号を入力<br>
       <input type="submit" value="送信" />
     </p>
@@ -125,7 +125,7 @@
 　テキストを入力してAIと会話してください。<br>
   <form action="http://192.168.0.100/chat" method="get">
       <textarea rows="6" cols="60" name="text" wrap="soft"> </textarea><br>
-      話者・音声： VOICEVOX(0-66), VoiceText(0-4)　　<input type="text" name="voice" value="1" size="2" maxlength="2" />
+      vSpeakerNo:話者番号(0-66)　　<input type="text" name="voice" value="1" size="2" maxlength="2" />
       <br>
       <input type="submit" value="送信" />
   </form>
@@ -145,14 +145,6 @@
   <br>
 
   
-  <h3>※　TextToSpeech(TTS)</h3>
-  <p>
-    ・　[ <b>VOICEVOX</b> ]は、<b>話者番号</b>（０－６６）の選択ができます。<br>
-  <form action="http://192.168.0.100/setting?" method="get">話者番号：（0-66）　<input type="text" name="speaker" value="3"
-      size="2" maxlength="2" />　 <input type="submit" value="送信" />
-  </form>
-  </p>
-    
   <br>
   <a href="#top">トップ</a>
   　<a href="http://192.168.0.100/sysInfo" >システム情報</a>
@@ -226,8 +218,10 @@
   <br>
   <hr>
   <h4><a name="startup"></a> ★５.スタートアップ設定</h4>
-  起動時に設定ファイル("wsStartup.Json")を読み込みます。<br>
-  ここでは、ファイルの内容を書き換えます。変更を反映するには、再起動が必要です。
+  起動時に設定ファイル("wsStartup.Json")を読み込み設定が反映されます。<br>
+  ここでは、ファイルの内容を書き換えます。変更を反映するには、再起動が必要です。<br>
+  "-1"  または、 "***" は、 最後に設定された状態を維持します。
+
   <br>
   <br>
   <form action="http://192.168.0.100/startup" method="get">
@@ -236,18 +230,19 @@
   </form>
   <br>  
   <form action="http://192.168.0.100/startup" method="get">
-    voicevoxSpeakerNo : ( -1 to 66 )、-1は現状維持：<input type="text" name="voicevoxSpeakerNo" value="-1" size="2"
+    vSpeakerNo : ( -1 to 66 )、-1は状態維持：<input type="text" name="vSpeakerNo" value="-1" size="2"
       maxlength="2" />　<input type="submit" value="送信" />
   </form>
   <br>
   </p>
   <form action="http://192.168.0.100/startup" method="get">
-    volume：( -1 to 255 )、-1は現状維持：<input type="text" name="volume" value="-1" size="3" maxlength="3" />　<input
+    volume：( -1 to 255 )、-1は状態維持：<input type="text" name="volume" value="-1" size="3" maxlength="3" />　<input
       type="submit" value="送信" />
   </form>
   <br>
   led：　<a href="http://192.168.0.100/startup?led=on" >on</a>
   　　<a href="http://192.168.0.100/startup?led=off" >off</a>
+  　　<a href="http://192.168.0.100/startup?led=***" >状態維持</a>
   <br><br>
   randomSpeak：　<a href="http://192.168.0.100/startup?randomSpeak=on" >on</a>
   　　<a href="http://192.168.0.100/startup?randomSpeak=off" >off</a>
@@ -257,6 +252,7 @@
   　<a href="http://192.168.0.100/startup?toneMode=1" >1:ボタン押下</a>
   　<a href="http://192.168.0.100/startup?toneMode=2" >2:コマンド受信</a>
   　<a href="http://192.168.0.100/startup?toneMode=3" >3:両方</a>
+  　<a href="http://192.168.0.100/startup?toneMode=-1" >-1:状態維持</a>
   <br><br>
   mute：　<a href="http://192.168.0.100/startup?mute=on" >on</a>
   　　<a href="http://192.168.0.100/startup?mute=off" >off</a>
@@ -268,7 +264,7 @@
 
   <form action="http://192.168.0.100/startup" method="get">
     timer(30-3599)：<input type="text" name="timer" value="180" size="3" maxlength="3" />　　　　　<input type="submit"
-      value="送信" />　30秒～60分未満
+      value="送信" />　30秒～60分未満　-1:状態維持
   </form>
   <br>
   <br>

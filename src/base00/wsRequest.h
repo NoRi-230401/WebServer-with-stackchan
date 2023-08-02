@@ -1,6 +1,6 @@
 // ---------------------------< wsReq.h >------------------------------------
-#ifndef WS_REQ_H
-#define WS_REQ_H
+#ifndef WS_REQUEST_H
+#define WS_REQUEST_H
 // ---------------------------------------------------------------------
 #include <Arduino.h>
 #include <Avatar.h>
@@ -40,7 +40,6 @@ extern int SV_MD;
 extern uint16_t SHUTDOWN_TM_SEC;
 extern void REBOOT();
 extern void POWER_OFF();
-
 
 // ---------------------------------------------------------------------
 void RequestManage();

@@ -34,7 +34,6 @@ extern void setupUserHandler();
 extern String IP_ADDR;
 
 void serverSetup();
-// void Home();
 void LogOut();
 void Directory();
 void Dir(AsyncWebServerRequest *request);
@@ -46,7 +45,6 @@ void File_Delete();
 void Handle_File_Delete(String filename);
 void File_Rename();
 void Handle_File_Rename(AsyncWebServerRequest *request, String filename, int Args);
-String processor(const String &var);
 void notFound(AsyncWebServerRequest *request);
 void Handle_File_Download();
 String getContentType(String filenametype);
@@ -55,7 +53,6 @@ void SelectInput(String Heading, String Command, String Arg_name);
 int GetFileSize(String filename);
 void Home();
 void LogOut();
-void Display_New_Page();
 void Page_Not_Found();
 void Display_System_Info();
 String ConvBinUnits(int bytes, int resolution);
@@ -63,6 +60,5 @@ String EncryptionType(wifi_auth_mode_t encryptionType);
 bool StartMDNSservice(const char *Name);
 String HTML_Header();
 String HTML_Footer();
-
 
 #endif

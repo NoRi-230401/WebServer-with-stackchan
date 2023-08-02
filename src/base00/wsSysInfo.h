@@ -58,38 +58,18 @@
 #define EX_SERVOJSON_SIZE 5 * 128
 #define EX_DOC_SIZE 1024 * 2
 
-extern void ttsDo( const String& text );
-extern String webpage;
-void wsHandleSysInfo(String txS, String dispS, String modeS);
-
-bool SYSINFO_DISP_STATE;
-void report_batt_level();
-bool sysInfoGet(String txArg, String &txData);
-void sysInfoDispStart(uint8_t mode_no);
-void sysInfoDispEnd();
-uint8_t getBatteryLevel();
-void sysInfoDispMake(uint8_t mode_no);
-void sysInfo_m01_DispMake();
-void sysInfo_m00_DispMake();
-void sysInfo_m99_DispMake();
-void randomSpeakStop2();
-
 extern String SERVER_NAME;
 extern int WK_CNT;
 extern int WK_ERR_NO;
 extern int WK_ERR_CODE;
 extern int WK_LAST_ERR_NO;
 extern int WK_LAST_ERR_CODE;
-
 extern bool RANDOM_SPEAK_STATE;
 extern bool RANDOM_SPEAK_ON_GET;
 extern int RANDOM_TIME;
-
-// --- exSetting.cpp ---
 extern size_t VOLUME_VALUE;
 extern bool MUTE_ON_STATE;
 extern uint8_t TONE_MODE;
-
 extern String SYSINFO_MSG;
 extern String IP_ADDR;
 extern String SSID;
@@ -99,33 +79,16 @@ extern bool KEYLOCK_STATE;
 extern String VOICEVOX_API_KEY;
 extern String OPENAI_API_KEY;
 extern String STT_API_KEY;
-
-// --- exTts.cpp ---
-extern char tts_parms1[];
-extern char tts_parms2[];
-extern char tts_parms3[];
-extern char tts_parms4[];
-extern char tts_parms5[];
-extern char tts_parms6[];
-extern char *tts_parms_table[];
-extern uint8_t TTS_TYPE;
-// extern String LANG_CODE;
-extern const char *TTS_NAME[];
-// extern const char *LANG_CODE_JP;
-// extern const char *LANG_CODE_EN;
+extern void ttsDo( const String& text );
+extern String webpage;
 extern String EXPRESSION_STRING[];
 extern int EXPRESSION_INDX;
-extern String VoiceText_TTS_USER;
 extern String SPEECH_TEXT;
 extern String SPEECH_TEXT_BUFFER;
 extern String TTS2_SPEAKER_NO;
 extern String TTS2_SPEAKER;
 extern String TTS2_PARMS;
 extern String KEYWORDS[];
-
-// extern bool isJP();
-
-// --exLed.cpp -------
 extern bool LED_OnOff_STATE;
 extern void led_setColor2(uint16_t n, uint32_t c);
 extern void led_setColor4(uint16_t n, uint8_t r, uint8_t g, uint8_t b);
@@ -133,7 +96,6 @@ extern uint32_t led_ColorLED3(uint8_t r, uint8_t g, uint8_t b);
 extern void led_show();
 extern void led_clear();
 extern void led_allOff();
-
 // -- exTimer.cpp --
 extern uint16_t TIMER_SEC_VALUE;
 extern bool TIMER_STARTED;
@@ -171,15 +133,25 @@ extern int SV_MD_NAME_NO;
 extern int SV_PIN_X;
 extern int SV_PIN_Y;
 extern const String WS_VERSION;
-
 extern uint16_t SHUTDOWN_TM_SEC;
 extern int REQ_SPK_PARMS_NO;
 extern int REQ_SPK_EXPR;
-
 extern void SV_random();
 extern void servoSetup();
 extern void servoSetup2();
 extern void serverSetup();
 
+void wsHandleSysInfo(String txS, String dispS, String modeS);
+bool SYSINFO_DISP_STATE;
+void report_batt_level();
+bool sysInfoGet(String txArg, String &txData);
+void sysInfoDispStart(uint8_t mode_no);
+void sysInfoDispEnd();
+uint8_t getBatteryLevel();
+void sysInfoDispMake(uint8_t mode_no);
+void sysInfo_m01_DispMake();
+void sysInfo_m00_DispMake();
+void sysInfo_m99_DispMake();
+void randomSpeakStop2();
 
 #endif

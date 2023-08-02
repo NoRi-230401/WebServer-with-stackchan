@@ -21,51 +21,47 @@ void setupApiHandler()
 
   // ##################### startup ############################
   server.on("/startup", HTTP_GET, [](AsyncWebServerRequest *request)
-            { handle_startup(request); serverSend(request); });
-
-  // ##################### wifiSelect ############################
-  server.on("/wifiSelect", HTTP_GET, [](AsyncWebServerRequest *request)
-            {  handle_WifiSetting(request); serverSend(request); });
+            { handle_startupSetting(request); serverSend(request); });
 
   // ##################### apiKey ############################
   server.on("/apikey", HTTP_GET, [](AsyncWebServerRequest *request)
-            {  handle_apikey(request); serverSend(request); });
+            {  handle_apikeySetting(request); serverSend(request); });
 
-  // ##################### apikey_set ############################
-  // server.on("/apikey_set", HTTP_GET, [](AsyncWebServerRequest *request)
-  //           {  handle_apikey_set(request); serverSend(request); });
-
-  // ##################### servo ############################
-  server.on("/servo", HTTP_GET, [](AsyncWebServerRequest *request)
-            {  handle_servo(request);  serverSend(request); });
+  // ##################### wifiSelect ############################
+  server.on("/wifiSelect", HTTP_GET, [](AsyncWebServerRequest *request)
+            {  handle_wifiSetting(request); serverSend(request); });
 
   // ##################### exServo ############################
   server.on("/servoSetting", HTTP_GET, [](AsyncWebServerRequest *request)
             { handle_servoSetting(request); serverSend(request); });
 
+  // ##################### servo ############################
+  server.on("/servo", HTTP_GET, [](AsyncWebServerRequest *request)
+            {  handle_servo(request);  serverSend(request); });
+
   // ##################### speech ############################
   server.on("/speech", HTTP_GET, [](AsyncWebServerRequest *request)
-            {    handle_speech(request);    serverSend(request); });
+            {    handle_speech(request);  serverSend(request); });
 
   // ##################### face ############################
   server.on("/face", HTTP_GET, [](AsyncWebServerRequest *request)
-            {    handle_face(request);    serverSend(request); });
+            {    handle_face(request); serverSend(request); });
 
   // ##################### chat ############################
   server.on("/chat", HTTP_GET, [](AsyncWebServerRequest *request)
-            { handle_chat(request); request->send(200, "text/plain", "OK"); });
-
-  // ##################### randomSpeak ############################
-  server.on("/randomSpeak", HTTP_GET, [](AsyncWebServerRequest *request)
-            { handle_randomSpeak(request);   serverSend(request); });
-
+            { handle_chat(request); serverSend(request); });
+  
   // ##################### role_set ############################
   server.on("/role_set", HTTP_POST, [](AsyncWebServerRequest *request)
-            { handle_role_set(request);  request->send(200, "text/html", webpage); });
+            { handle_role_set(request);  serverSend(request); });
 
   // ##################### role_get ############################
   server.on("/role_get", HTTP_GET, [](AsyncWebServerRequest *request)
             { handle_role_get(request);  request->send(200, "text/html", webpage); });
+
+  // ##################### randomSpeak ############################
+  server.on("/randomSpeak", HTTP_GET, [](AsyncWebServerRequest *request)
+            { handle_randomSpeak(request);   serverSend(request); });
 
   // ##################### timer ############################
   server.on("/timer", HTTP_GET, [](AsyncWebServerRequest *request)
@@ -122,21 +118,8 @@ void handle_setting(AsyncWebServerRequest *request)
   String muteS = request->arg("mute");
   String keyLockS = request->arg("keyLock");
   String toneModeS = request->arg("toneMode");
-
   wsHandleSetting(volumeS, volumeDS, vSpeakerNoS, ledS, muteS, keyLockS, toneModeS);
 }
-
-// void handle_setting2(AsyncWebServerRequest *request)
-// {
-//   tone(2);
-//   webpage = "NG";
-//   String langS = request->arg("lang");
-//   String ttsNameS = request->arg("ttsSelect");
-//   String muteS = request->arg("mute");
-//   String keyLockS = request->arg("keyLock");
-//   String toneModeS = request->arg("toneMode");
-//   wsHandleSetting01(langS, ttsNameS, muteS, keyLockS, toneModeS);
-// }
 
 void handle_shutdown(AsyncWebServerRequest *request)
 {
@@ -190,7 +173,6 @@ void handle_role_set(AsyncWebServerRequest *request)
   webpage = "NG";
   String roleS = request->arg("textarea");
   wsHandleRoleSet(roleS);
-  wsHandleRoleGet();
 }
 
 void handle_role_get(AsyncWebServerRequest *request)
@@ -208,7 +190,7 @@ void handle_randomSpeak(AsyncWebServerRequest *request)
   wsHandleRandomSpeak(modeS);
 }
 
-void handle_WifiSetting(AsyncWebServerRequest *request)
+void handle_wifiSetting(AsyncWebServerRequest *request)
 {
   tone(2);
   webpage = "NG";
@@ -223,7 +205,7 @@ void handle_WifiSetting(AsyncWebServerRequest *request)
   wsHandleWifiSetting(initS, ssidS, passwdS, removeS, ipS, gatewayS, subnetS, dnsS);
 }
 
-void handle_apikey(AsyncWebServerRequest *request)
+void handle_apikeySetting(AsyncWebServerRequest *request)
 {
   tone(2);
   webpage = "NG";
@@ -233,7 +215,7 @@ void handle_apikey(AsyncWebServerRequest *request)
   wsHandleApikeySetting(openAiS,voicevoxS,txS);
 }
 
-void handle_startup(AsyncWebServerRequest *request)
+void handle_startupSetting(AsyncWebServerRequest *request)
 {
   tone(2);
   webpage = "NG";
@@ -250,8 +232,6 @@ void handle_startup(AsyncWebServerRequest *request)
   wsHandleStartup(serverNameS,volumeS, ledS, toneModeS,muteS,
    keyLockS, vSpeakerNoS, randomSpeakS, timerS, txS );
 }
-
-
 
 void handle_servoSetting(AsyncWebServerRequest *request)
 {

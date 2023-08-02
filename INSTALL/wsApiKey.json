@@ -2,7 +2,6 @@
   "apikey": [
     {
       "openAiApiKey": "*****",
-      "voiceTextApiKey": "*****",
       "voicevoxApiKey": "*****"
     }
   ]

@@ -18,7 +18,7 @@ String SSID = "";
 String SSID_PASSWD = "";
 String OPENAI_API_KEY = "";
 String VOICEVOX_API_KEY = "";
-String VOICETEXT_API_KEY = "";
+// String VOICETEXT_API_KEY = "";
 String STT_API_KEY = "";
 
 void startupSetting()
@@ -357,6 +357,8 @@ void wsHandleApikeySetting(String openAiS, String voicevoxS, String txS)
   {
     if (setApiKey("openAiApiKey", openAiS, apikeyJson))
     {
+      OPENAI_API_KEY = openAiS;
+      STT_API_KEY = openAiS;
       webpage = "wsApikey.json : openAiApiKey = " + openAiS;
       Serial.println(webpage);
     }
@@ -368,6 +370,7 @@ void wsHandleApikeySetting(String openAiS, String voicevoxS, String txS)
   {
     if (setApiKey("voicevoxApiKey", voicevoxS, apikeyJson))
     {
+      VOICEVOX_API_KEY = voicevoxS;
       webpage = "wsApikey.json : voicevoxApiKey = " + voicevoxS;
       Serial.println(webpage);
     }
@@ -561,7 +564,7 @@ bool startupFileRead()
 {
   // ****** 初期値設定　**********
   SERVER_NAME = "stackchan";
-  TTS_TYPE = 2; // VOICEVOX
+  // TTS_TYPE = 2; // VOICEVOX
   TTS2_SPEAKER_NO = "3";
   // LANG_CODE = String(LANG_CODE_JP);
   VOLUME_VALUE = 200;

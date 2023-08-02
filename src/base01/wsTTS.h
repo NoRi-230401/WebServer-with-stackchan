@@ -28,7 +28,6 @@ extern Avatar avatar;
 extern HTTPClient http;
 extern WiFiClient client;
 extern const Expression expressions_table[];
-// extern void errSTOP(const String msg);
 extern void errSTOP();
 
 extern String webpage;
@@ -43,7 +42,6 @@ void SpeechManage();
 void SpeechText1st();
 void SpeechTextNext();
 void ttsDo( const String& speechText );
-// bool isJP();
 void ttsSetup();
 
 // --------------------------------------------------------------------------

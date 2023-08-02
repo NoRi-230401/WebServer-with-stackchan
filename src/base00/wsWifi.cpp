@@ -356,60 +356,6 @@ bool wifiSmartConfigConnect()
   return true;
 }
 
-// #define EX_SMART_CONFIG_TEST
-// // bool wifiConnect()
-// {
-
-//   Serial.println("### Connect WiFi Start ###");
-//   WiFi.disconnect();
-//   WiFi.softAPdisconnect(true);
-//   WiFi.mode(WIFI_STA);
-//   M5.Lcd.print("Connecting");
-
-// #ifndef EX_SMART_CONFIG_TEST
-//   Serial.println("#1. CONNECTING : wsWifi.json in SPIFFS");
-//   if (wifiSelect(FLTYPE_SPIFFS))
-//   {
-//     Serial.println("\nCONNECTED : wsWifi.json in SPIFFS");
-//     return true;
-//   }
-
-//   Serial.println("#2. CONNECTING : wsWifi.json in SD ");
-//   if (wifiSelect(FLTYPE_SD))
-//   {
-//     Serial.println("\nCONNECTED : wsWifi.json in SD");
-//     return true;
-//   }
-
-//   Serial.println("#3. CONNECTING : wifi.txt in SD");
-//   // "wifi.txt" の接続
-//   if (wifiTxtConnect())
-//   {
-//     Serial.println("\nCONNECTED : wifi.txt in SD");
-//     return true;
-//   }
-
-//   Serial.println("#4. CONNECTING : privious wifi settings");
-//   // 前回接続情報での接続
-//   if (wifiNoSetupFileConnect())
-//   {
-//     Serial.println("\nCONNECTED : privious Setup wifi settings");
-//     return true;
-//   }
-// #endif
-
-//   // SmartConfigでの接続
-//   Serial.println("#5. CONNECTING : SmartConfig");
-//   if (wifiSmartConfigConnect())
-//   {
-//     Serial.println("\nCONNECTED : SmartConfigConnect wifi");
-//     return true;
-//   }
-
-//   // 全てに失敗した場合
-//   Serial.println("\n*** Fail : All Wife Connect Settings Done ***");
-//   return false;
-// }
 
 int wifiConnect2()
 {

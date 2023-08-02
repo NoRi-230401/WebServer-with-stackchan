@@ -1,15 +1,14 @@
 {
   "startup": [
     {
-      "ttsSelect": "VOICEVOX",
-      "voicevoxSpeakerNo": "-1",
-      "lang": "ja-JP",
-      "volume": "-1",
+      "serverName": "stackchan",
+      "volume": "200",
       "led": "on",
-      "randomSpeak": "off",
       "toneMode": "1",
       "mute": "off",
       "keyLock": "off",
+      "vSpeakerNo": "3",
+      "randomSpeak": "off",
       "timer": "180"
     }
   ]

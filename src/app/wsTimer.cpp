@@ -109,20 +109,11 @@ void TimerManage()
 
 void timerStop2()
 {
-  // if (!TIMER_STARTED)
-  // {
-  //   return;
-  // }
-
   // --- Timer を途中で停止 ------
   TIMER_STARTED = false;
   TIMER_GO_GET = false;
   TIMER_STOP_GET = false;
   TIMER_ELEAPSE_SEC = 0;
-
-  // 全てのLEDを消灯
-  // led_allOff();
-  // delay(50); // 0.5秒待機
 }
 
 
@@ -259,8 +250,6 @@ void timerEnd()
   led_show();
 
   avatar.setExpression(Expression::Happy);
-  // char EX_TmrEND_TXT[] = "設定時間になりました。";
-  // ttsDo(String(EX_TmrEND_TXT));
   ttsDo(String("設定時間になりました。"));
   avatar.setExpression(Expression::Neutral);
 
@@ -272,7 +261,6 @@ void timerEnd()
   TIMER_STARTED = false;
   TIMER_GO_GET = false;
   TIMER_STOP_GET = false;
-  // elapsedMinutes = 0;
   TIMER_ELEAPSE_SEC = 0;
 }
 

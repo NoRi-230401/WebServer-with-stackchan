@@ -19,14 +19,6 @@
 #define FLTYPE_SPIFFS 1
 #define FLTYPE_SD 2
 
-// ---- servo define ----------
-// #define SV_CENTER_X 90
-// #define SV_CENTER_Y 90
-// #define SV_PIN_X_CORE2_PA 33 // Core2 PORT A
-// #define SV_PIN_Y_CORE2_PA 32
-// #define SV_PIN_X_CORE2_PC 13 // Core2 PORT C
-// #define SV_PIN_Y_CORE2_PC 14
-
 extern String SERVER_NAME;
 extern void BoxTouchSetup();
 extern bool KEYLOCK_STATE;
@@ -35,20 +27,14 @@ extern bool RANDOM_SPEAK_STATE;
 extern String TTS2_SPEAKER_NO;
 extern String TTS2_SPEAKER;
 extern String TTS2_PARMS;
-extern String VoiceText_TTS_USER;
-extern uint8_t TTS_TYPE;
-// extern String LANG_CODE;
 extern bool LED_OnOff_STATE;
 extern bool RANDOM_SPEAK_ON_GET;
 extern uint16_t TIMER_SEC_VALUE;
-extern const char *TTS_NAME[];
 extern uint8_t m5spk_virtual_channel;
-// extern const char *LANG_CODE_JP;
 extern int RANDOM_TIME;
 extern bool TIMER_STARTED;
 extern void led_allOff();
 extern void timerStop2(); 
-// extern void randomSpeak(bool mode);
 extern void randomSpeakStop2();
 extern void timerStart();
 extern void timerStop();
@@ -69,7 +55,6 @@ extern String webpage;
 
 void startupSetting();
 void apikeySetting();
-
 void wsHandleSetting(String volumeS, String volumeDS, String speakerS,
     String ledS, String muteS, String keyLockS, String toneModeS);
 void wsHandleStartup(String serverNameS, String volumeS, String ledS,
@@ -91,7 +76,4 @@ void toneOn();
 void tone(int mode);
 void muteOn();
 void muteOff();
-
-// bool setServo(String item, String setData, DynamicJsonDocument &servoJson);
-// bool getServo(String item, String &getData, DynamicJsonDocument &servoJson);
 #endif

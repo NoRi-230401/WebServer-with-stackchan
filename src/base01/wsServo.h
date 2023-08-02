@@ -47,6 +47,7 @@
 #define SERVOJSON_SIZE 5 * 128
 #define FLTYPE_SPIFFS 1
 #define FLTYPE_SD 2
+
 extern bool setJsonItem(String flName, String item, String setData, DynamicJsonDocument &jsonDoc, String arrayName);
 extern bool getJsonItem(String flName, String item, String& getData, DynamicJsonDocument &jsonDoc, String arrayName);
 
@@ -54,8 +55,6 @@ extern ServoEasing servo_x;
 extern ServoEasing servo_y;
 extern int REQUEST_GET;
 extern String REQ_MSG;
-// extern bool jsonFlRd_Sd(const char *flName_SD, DynamicJsonDocument &jsonName);
-// extern bool jsonFlSv_Sd(const char *flName_SD, DynamicJsonDocument &jsonName);
 extern bool jsonSave(DynamicJsonDocument &jsonDoc, String saveFile);
 extern bool jsonRead(int flType, DynamicJsonDocument &jsonDoc, String readFile);
 extern void Req_SpkMsgDo(); 
@@ -70,11 +69,9 @@ extern void tone(int mode);
 extern bool jsonInitSave(DynamicJsonDocument &jsonDoc,const String inJson, const String saveFile);
 bool jsonSERVOinit(DynamicJsonDocument &jsonDoc);
 String BoxServoDo();
-
 void wsHandleServo(String swingXYS,String swingXS, String swingYS,
   String pointXS, String pointYS, String deltaXS, String deltaYS,
   String txS, String modeS);
-
 void servo2(int mode);
 void servoSetup();
 void servoSetup2();
@@ -90,6 +87,5 @@ void servoSwing(int sw_mode, int repeatNum, int len);
 void SV_random();
 void wsServoSetting(String txS,String servoS, String servoPortS,
       String servoModeS, String servoHomeXS, String servoHomeYS);
-
 
 #endif

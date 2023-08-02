@@ -33,7 +33,7 @@ void setup()
   avatarSTART();
 }
 
-
+ 
 void loop()
 {
   chatGptManage();

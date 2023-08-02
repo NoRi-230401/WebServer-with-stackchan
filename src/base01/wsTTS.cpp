@@ -18,7 +18,7 @@ AudioGeneratorMP3 *mp3;
 AudioFileSourceHTTPSStream *file_TTS2 = nullptr;
 AudioFileSourceBuffer *BUFF = nullptr;
 
-uint8_t TTS_TYPE = 2; // default "VOICEVOX"
+// uint8_t TTS_TYPE = 2; // default "VOICEVOX"
 // String LANG_CODE = "";
 // const char *TTS_NAME[] = {"VoiceText", "GoogleTTS", "VOICEVOX"};
 // const char *LANG_CODE_JP = "ja-JP";

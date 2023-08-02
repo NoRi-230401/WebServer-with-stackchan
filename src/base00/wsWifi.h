@@ -17,7 +17,6 @@
 #define WIFIJSON_SIZE 5 * 256
 #define FLTYPE_SPIFFS 1
 #define FLTYPE_SD 2
-
 #define CONNECT_FAIL 99
 
 extern String IP_ADDR;
@@ -32,19 +31,16 @@ extern bool jsonRead(int flType, DynamicJsonDocument &jsonDoc, String readFile);
 extern File fileOpen(int flType, const String path, const char *mode);
 extern bool jsonInitSave(DynamicJsonDocument &jsonDoc,const String inJson, const String saveFile);
 
-
 void wsHandleWifiSetting(String initS, String ssidS, String passwdS,String removeS, String ipS, String gatewayS, String subnetS, String dnsS  );
 bool initWifiJson(DynamicJsonDocument &wifiJson);
 bool jsonInitSave_wifi(DynamicJsonDocument &jsonDoc);
 bool wifiNoSetupFileConnect();
 bool wifiSmartConfigConnect();
-// bool wifiConnect();
 void addSuccessAP();
 int wifiConnect2();
 bool wifiSelect(int flType);
 bool wifiTxtRead();
 bool wifiTxtConnect();
 bool IPstrToIntArray(String strIPaddr, int *iAddr);
-
 
 #endif

@@ -13,7 +13,6 @@
 #include "../lib/AudioWhisper.h"
 #include "../lib/Whisper.h"
 #include "../lib/Audio.h"
-// #include "../lib/WakeWord.h"
 
 #define SV_MD_MOVING 0
 #define SV_MD_HOME 1
@@ -29,12 +28,10 @@
 extern String STT_API_KEY;
 extern String OPENAI_API_KEY;
 extern bool RANDOM_SPEAK_STATE;
-extern void wakeword_init();
 extern AudioGeneratorMP3 *mp3;
 extern String SPEECH_TEXT;
 extern String SPEECH_TEXT_BUFFER;
 extern const char* root_ca_openai;
-// extern int WAKEWORD_MODE;
 extern int SV_MD;
 extern bool SV_USE;
 extern int RANDOM_TIME;
@@ -44,11 +41,7 @@ extern void randomSpeakStop2();
 extern void tone(int toneMode);
 
 String SpeechToText();
-void wakeWordSetup();
-// void sw_tone();
 void SST_ChatGPT();
-void WakeWordManage();
-bool wakeword_regist();
 void exec_chatGPT(String text);
 
 #endif

@@ -2,9 +2,15 @@
 #include "wsChatGPT.h"
 
 const String json_ChatString =
-    "{\"model\": \"gpt-3.5-turbo-0613\",\"messages\": [{\"role\": \"user\", \"content\": \""
+    "{\"model\": \"gpt-3.5-turbo-0613\",\"max_tokens\":512,\"messages\": [{\"role\": \"user\", \"content\": \""
     "\"}]}";
-// String Role_JSON = "";
+
+// const String json_ChatString =
+//     "{\"model\": \"gpt-3.5-turbo-0613\",\"messages\": [{\"role\": \"user\", \"content\": \""
+//     "\"}]}";
+
+
+
 const String CHATDOC_SPI = "/data.json"; // chatDoc in SPIFFS
 const int MAX_HISTORY = 5;               // 保存する質問と回答の最大数
 String INIT_BUFFER = "";
@@ -123,10 +129,12 @@ void wsHandleRoleSet(String roleS)
     JsonObject systemMessage1 = messages.createNestedObject();
     systemMessage1["role"] = "system";
     systemMessage1["content"] = role;
+    webpage = "chatGPT : set role data ";
   }
   else
   {
     init_chat_doc(json_ChatString.c_str());
+    webpage = "chatGPT : clear role data ";
   }
   // 会話履歴をクリア
   chatHistory.clear();
@@ -134,9 +142,8 @@ void wsHandleRoleSet(String roleS)
   INIT_BUFFER = "";
   serializeJson(CHAT_DOC, INIT_BUFFER);
   Serial.println("INIT_BUFFER = " + INIT_BUFFER);
-  // Role_JSON = INIT_BUFFER;
-
-  // JSONデータをspiffsへ出力する
+  
+  // JSONデータをspiffsへ保存
   save_json();
 }
 
@@ -444,13 +451,12 @@ String chatGpt(String json_string)
 
 void exec_chatGPT(String text)
 {
-  Serial.print("Send Message to chatGPT = ");
+  Serial.println("\n~~ Send Msg to chatGPT ~~");
   Serial.println(text);
+  Serial.println("~~~~~~~~~~~~~~~~~~~~~~~~~\n");
 
   CHAT_RESPONSE = "";
-  // Serial.println(INIT_BUFFER);
   init_chat_doc(INIT_BUFFER.c_str());
-  // 質問をチャット履歴に追加
   chatHistory.push_back(text);
   // チャット履歴が最大数を超えた場合、古い質問と回答を削除
   if (chatHistory.size() > MAX_HISTORY * 2)
@@ -499,7 +505,7 @@ bool save_json()
     Serial.println("Failed to open file for writing");
     return false;
   }
-  // JSONデータをシリアル化して書き込む
+
   serializeJson(CHAT_DOC, fl_SPIFFS);
   fl_SPIFFS.close();
   return true;

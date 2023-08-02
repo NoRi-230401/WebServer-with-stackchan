@@ -259,8 +259,9 @@ void timerEnd()
   led_show();
 
   avatar.setExpression(Expression::Happy);
-  char EX_TmrEND_TXT[] = "設定時間になりました。";
-  ttsDo(String(EX_TmrEND_TXT));
+  // char EX_TmrEND_TXT[] = "設定時間になりました。";
+  // ttsDo(String(EX_TmrEND_TXT));
+  ttsDo(String("設定時間になりました。"));
   avatar.setExpression(Expression::Neutral);
 
   // 全てのLEDを消す処理を追加

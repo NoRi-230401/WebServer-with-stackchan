@@ -123,7 +123,7 @@ extern String TTS2_SPEAKER;
 extern String TTS2_PARMS;
 extern String KEYWORDS[];
 
-extern bool isJP();
+// extern bool isJP();
 
 // --exLed.cpp -------
 extern bool LED_OnOff_STATE;

@@ -22,7 +22,7 @@
 #define REQ_MSG_ONLY 2
 #define REQ_SPEAK_MSG 3
 #define REQ_SPEAK_MSG2 4
-#define DOC_SIZE 1024 * 2
+#define DOC_SIZE 1024 * 4
 
 using namespace m5avatar;
 extern Avatar avatar;
@@ -53,7 +53,7 @@ extern void timerStop2();
 extern void REBOOT();
 extern const String random_words[];
 extern const String json_ChatString;
-extern bool isJP();
+// extern bool isJP();
 extern void ttsDo( const String& text );
 extern String webpage;
 extern int TTS_PARMS_NO;

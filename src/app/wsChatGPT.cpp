@@ -2,10 +2,11 @@
 #include "wsChatGPT.h"
 
 const String json_ChatString =
-  "{\"model\": \"gpt-3.5-turbo-0613\",\"messages\": [{\"role\": \"user\", \"content\": \"""\"}]}";
-
-const String CHATDOC_SPI = "/data.json";   //chatDoc in SPIFFS
-const int MAX_HISTORY = 5; // 保存する質問と回答の最大数
+    "{\"model\": \"gpt-3.5-turbo-0613\",\"messages\": [{\"role\": \"user\", \"content\": \""
+    "\"}]}";
+String Role_JSON = "";
+const String CHATDOC_SPI = "/data.json"; // chatDoc in SPIFFS
+const int MAX_HISTORY = 5;               // 保存する質問と回答の最大数
 String INIT_BUFFER = "";
 String CHAT_RESPONSE = "";
 DynamicJsonDocument CHAT_DOC(1024 * 10);
@@ -70,7 +71,6 @@ void chatGptManage()
   }
 }
 
-
 void wsHandleRandomSpeak(String modeS)
 {
   if (modeS == "")
@@ -100,22 +100,7 @@ void wsHandelChat(String textS, String voiceS)
     return;
 
   if (voiceS != "")
-  { // voiceText
-    // if (TTS_TYPE == 1)
-    // {
-    //   TTS_PARMS_NO = 1;
-    //   TTS_PARMS_NO = voiceS.toInt();
-    //   if (TTS_PARMS_NO < 0)
-    //     TTS_PARMS_NO = 0;
-    //   if (TTS_PARMS_NO > 4)
-    //     TTS_PARMS_NO = 4;
-    // }
-
-    if (TTS_TYPE == 2)
-    { // voicevox
-      TTS2_PARMS = TTS2_SPEAKER + voiceS;
-    }
-  }
+    TTS2_PARMS = TTS2_SPEAKER + voiceS;
 
   REQ_chatGPT_GET = true;
   REQ_MSG = textS;
@@ -123,7 +108,6 @@ void wsHandelChat(String textS, String voiceS)
   webpage = "chat : voice = " + voiceS;
   webpage += "chat : text = " + textS;
 }
-
 
 void wsHandleRoleSet(String roleS)
 {
@@ -147,7 +131,7 @@ void wsHandleRoleSet(String roleS)
   INIT_BUFFER = "";
   serializeJson(CHAT_DOC, INIT_BUFFER);
   Serial.println("INIT_BUFFER = " + INIT_BUFFER);
-  // Role_JSON = INIT_BUFFER;
+  Role_JSON = INIT_BUFFER;
 
   // JSONデータをspiffsへ出力する
   save_json();
@@ -222,7 +206,7 @@ bool chatDocInit()
   }
 
   serializeJson(CHAT_DOC, INIT_BUFFER);
-  // Role_JSON = INIT_BUFFER;
+  Role_JSON = INIT_BUFFER;
   String json_str;
   serializeJsonPretty(CHAT_DOC, json_str); // 文字列をシリアルポートに出力する
   Serial.println(json_str);
@@ -273,7 +257,7 @@ bool init_chat_doc(const char *data)
   }
   String json_str;                         //= JSON.stringify(chat_doc);
   serializeJsonPretty(CHAT_DOC, json_str); // 文字列をシリアルポートに出力する
-  // Serial.println(json_str);
+  Serial.println(json_str);
   return true;
 }
 
@@ -315,9 +299,9 @@ String https_post_json(const char *url, const char *json_string, const char *roo
           if (httpCode == HTTP_CODE_OK || httpCode == HTTP_CODE_MOVED_PERMANENTLY)
           {
             payload = https.getString();
-            // Serial.println("/////payload-start/////");
-            // Serial.println(payload);
-            // Serial.println("/////payload-end/////");
+            Serial.println("/////payload-start/////");
+            Serial.println(payload);
+            Serial.println("/////payload-end/////");
 
             if (payload == "")
             {
@@ -326,9 +310,8 @@ String https_post_json(const char *url, const char *json_string, const char *roo
             }
           }
           else
-          {
+          { // エラーコードを取得できた場合
             Serial.println("httpCode other error code number get ");
-            // 「わかりません」問題で、SPIFFS内の"/data.json"ファイルが正常でない場合は、ここのパスを通る。
             WK_ERR_NO = 2;
           }
         }
@@ -361,10 +344,7 @@ String chatGpt(String json_string)
   String response = "";
   avatar.setExpression(Expression::Doubt);
 
-  if (isJP())
-    avatar.setSpeechText("考え中…");
-  else
-    avatar.setSpeechText("I'm thinking...");
+  avatar.setSpeechText("考え中…");
 
   // LED 3番と7番を黄色に光らせる
   led_setColor4(2, 255, 255, 255); // 白色
@@ -393,16 +373,8 @@ String chatGpt(String json_string)
       Serial.println(error.f_str());
       avatar.setExpression(Expression::Sad);
 
-      if (isJP())
-      {
-        avatar.setSpeechText("エラーです");
-        response = "エラーです";
-      }
-      else
-      {
-        avatar.setSpeechText("Error.");
-        response = "Error.";
-      }
+      avatar.setSpeechText("エラーです");
+      response = "エラーです";
 
       delay(1000);
       avatar.setSpeechText("");
@@ -426,33 +398,16 @@ String chatGpt(String json_string)
     // ---「わかりません」エラー番号とコード情報の発声 ---
     char msg1[200];
 
-    if (isJP())
+    if (WK_ERR_NO != 0)
     {
-      if (WK_ERR_NO != 0)
-      {
-        if (WK_ERR_CODE < 0)
-          sprintf(msg1, "わかりません、番号 %d、コード・マイナス %d です。", WK_ERR_NO, abs(WK_ERR_CODE));
-        else
-          sprintf(msg1, "わかりません、番号 %d、コード %d です。", WK_ERR_NO, abs(WK_ERR_CODE));
-      }
+      if (WK_ERR_CODE < 0)
+        sprintf(msg1, "わかりません、番号 %d、コード・マイナス %d です。", WK_ERR_NO, abs(WK_ERR_CODE));
       else
-      {
-        sprintf(msg1, "わかりません、番号 %d です。", WK_ERR_NO);
-      }
+        sprintf(msg1, "わかりません、番号 %d、コード %d です。", WK_ERR_NO, abs(WK_ERR_CODE));
     }
     else
     {
-      if (WK_ERR_NO != 0)
-      {
-        if (WK_ERR_CODE < 0)
-          sprintf(msg1, "I don't understand. number %d , code minus %d .", WK_ERR_NO, abs(WK_ERR_CODE));
-        else
-          sprintf(msg1, "I don't understand. number %d , code %d .", WK_ERR_NO, WK_ERR_CODE);
-      }
-      else
-      {
-        sprintf(msg1, "I don't understand. number %d .", WK_ERR_NO);
-      }
+      sprintf(msg1, "わかりません、番号 %d です。", WK_ERR_NO);
     }
 
     WK_LAST_ERR_NO = WK_ERR_NO;
@@ -468,8 +423,6 @@ String chatGpt(String json_string)
     char msg[200];
     sprintf(msg, "%s %s", msg1, msg2);
     avatar.setExpression(Expression::Sad);
-    // avatar.setSpeechText("わかりません");
-    // response = "わかりません";
     avatar.setSpeechText(msg);
     response = msg;
     Serial.println(msg);

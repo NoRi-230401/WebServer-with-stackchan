@@ -89,22 +89,22 @@ void SpeechManage()
     {
       SpeechTextNext();
     }
-    // delay(1);
+    delay(1);
   }
 }
 
 void SpeechText1st()
 {
+  avatar.setExpression(Expression::Happy);
   SPEECH_TEXT_BUFFER = SPEECH_TEXT;
   SPEECH_TEXT = "";
-  avatar.setExpression(Expression::Happy);
   ttsDo(SPEECH_TEXT_BUFFER);
 }
 
 void SpeechTextNext()
 {
   mp3->stop();
-  Serial.println("mp3 stop");
+  // Serial.println("mp3 stop");
 
   if (file_TTS2 != nullptr)
   {
@@ -125,8 +125,8 @@ void ttsDo( const String& speechText )
 
 
 
-bool isJP()
-{
-  return true;
-}
+// bool isJP()
+// {
+//   return true;
+// }
 

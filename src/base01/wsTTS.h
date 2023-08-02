@@ -43,7 +43,7 @@ void SpeechManage();
 void SpeechText1st();
 void SpeechTextNext();
 void ttsDo( const String& speechText );
-bool isJP();
+// bool isJP();
 void ttsSetup();
 
 // --------------------------------------------------------------------------

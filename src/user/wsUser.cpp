@@ -1,36 +1,35 @@
 // ---------------------------< wsUser.cpp >------------------------------------
 #include "wsUser.h"
 
-
-const String U01_HTML_SPIFFS = "/u01.html";
-const String U02_HTML_SPIFFS = "/u02.html";
-const String U03_HTML_SPIFFS = "/u03.html";
-const String U04_HTML_SPIFFS = "/u04.html";
-const String U05_HTML_SPIFFS = "/u05.html";
-const String NAME_U01 = "Main";
-const String NAME_U02 = "Servo";
-const String NAME_U03 = "Remote";
-const String NAME_U04 = "u04.html";
-const String NAME_U05 = "u05.html";
+const String WSS1_HTML = "/wss1.html";
+const String WSS2_HTML = "/wss2.html";
+const String WSS3_HTML = "/wss3.html";
+const String WSS4_HTML = "/wss4.html";
+const String WSS5_HTML = "/wss5.html";
+const String NAME_WSS1 = "Main";
+const String NAME_WSS2 = "Servo";
+const String NAME_WSS3 = "Remote";
+const String NAME_WSS4 = "wss4.html";
+const String NAME_WSS5 = "wss5.html";
 
 void setupUserHandler()
 {
   // #########################################################################
   //  --- Html -----
-  server.on("/u01", HTTP_GET, [](AsyncWebServerRequest *request)
-            { handle_s01();  request->send(200, "text/html", webpage); });
+  server.on("/wss1", HTTP_GET, [](AsyncWebServerRequest *request)
+            { handle_wss1();  request->send(200, "text/html", webpage); });
 
-  server.on("/u02", HTTP_GET, [](AsyncWebServerRequest *request)
-            { handle_s02();  request->send(200, "text/html", webpage); });
+  server.on("/wss2", HTTP_GET, [](AsyncWebServerRequest *request)
+            { handle_wss2();  request->send(200, "text/html", webpage); });
 
-  server.on("/u03", HTTP_GET, [](AsyncWebServerRequest *request)
-            { handle_s03();  request->send(200, "text/html", webpage); });
+  server.on("/wss3", HTTP_GET, [](AsyncWebServerRequest *request)
+            { handle_wss3();  request->send(200, "text/html", webpage); });
 
-  server.on("/u04", HTTP_GET, [](AsyncWebServerRequest *request)
-            { handle_s04();  request->send(200, "text/html", webpage); });
+  server.on("/wss4", HTTP_GET, [](AsyncWebServerRequest *request)
+            { handle_wss4();  request->send(200, "text/html", webpage); });
 
-  server.on("/u05", HTTP_GET, [](AsyncWebServerRequest *request)
-            { request->send(SPIFFS, "/u05.html", String(), false, processor05); });
+  server.on("/wss5", HTTP_GET, [](AsyncWebServerRequest *request)
+            { request->send(SPIFFS, "/wss5.html", String(), false, processor05); });
   
   // #########################################################################
   server.on("/icon", HTTP_GET, [](AsyncWebServerRequest *request)
@@ -42,20 +41,6 @@ void setupUserHandler()
   server.on("/style.css", HTTP_GET, [](AsyncWebServerRequest *request)
             { request->send(SPIFFS, "/style.css", "text/css"); });
 
-  // server.on("/style-u01.css", HTTP_GET, [](AsyncWebServerRequest *request)
-  //           { request->send(SPIFFS, "/style-u01.css", "text/css"); });
-
-  // server.on("/style-u02.css", HTTP_GET, [](AsyncWebServerRequest *request)
-  //           { request->send(SPIFFS, "/style-u02.css", "text/css"); });
-
-  // server.on("/style-u03.css", HTTP_GET, [](AsyncWebServerRequest *request)
-  //           { request->send(SPIFFS, "/style-u03.css", "text/css"); });
-    
-  // server.on("/style-u04.css", HTTP_GET, [](AsyncWebServerRequest *request)
-  //           { request->send(SPIFFS, "/style-u04.css", "text/css"); });
-  
-  // server.on("/style-u05.css", HTTP_GET, [](AsyncWebServerRequest *request)
-  //           { request->send(SPIFFS, "/style-u05.css", "text/css"); });
   // ###########################################################################
 }
 
@@ -76,24 +61,24 @@ void serverSend(AsyncWebServerRequest *request)
   }
 }
 
-void handle_s01()
+void handle_wss1()
 {
-  htmlConv(U01_HTML_SPIFFS);
+  htmlConv(WSS1_HTML);
 }
 
-void handle_s02()
+void handle_wss2()
 {
-  htmlConv(U02_HTML_SPIFFS);
+  htmlConv(WSS2_HTML);
 }
 
-void handle_s03()
+void handle_wss3()
 {
-  htmlConv(U03_HTML_SPIFFS);
+  htmlConv(WSS3_HTML);
 }
 
-void handle_s04()
+void handle_wss4()
 {
-  htmlConv(U04_HTML_SPIFFS);
+  htmlConv(WSS4_HTML);
 }
 
 // #define DEBUG_INDEX_HTML
@@ -173,31 +158,6 @@ String processor05(const String &var)
 
   return String();
 }
-
-// String processorS00(const String &var)
-// {
-//   return String();
-// }
-
-// String processor01(const String &var)
-// {
-//   return String();
-// }
-
-// String processor02(const String &var)
-// {
-//   return String();
-// }
-
-// String processor03(const String &var)
-// {
-//   return String();
-// }
-
-// String processor04(const String &var)
-// {
-//   return String();
-// }
 
 
 
@@ -325,11 +285,11 @@ String HTML_Header()
 
   page += "<div class = 'topnav2'>";
   page += "<a href='/'>Home</a>";
-  page += "<a href='/u01'>" + NAME_U01 + "</a>";
-  page += "<a href='/u02'>" + NAME_U02 + "</a>";
-  page += "<a href='/u03'>" + NAME_U03 + "</a>";
-  page += "<a href='/u04'>" + NAME_U04 + "</a>";
-  page += "<a href='/u05'>" + NAME_U05 + "</a>";
+  page += "<a href='/wss1'>" + NAME_WSS1 + "</a>";
+  page += "<a href='/wss2'>" + NAME_WSS2 + "</a>";
+  page += "<a href='/wss3'>" + NAME_WSS3 + "</a>";
+  page += "<a href='/wss4'>" + NAME_WSS4 + "</a>";
+  page += "<a href='/wss5'>" + NAME_WSS5 + "</a>";
   page += "<a href='/system'>Status</a><br>";
   page += "</div>";
 
@@ -347,7 +307,6 @@ String HTML_Footer()
   page += "</html>";
   return page;
 }
-
 
 void checkWebReq(AsyncWebServerRequest *request)
 {

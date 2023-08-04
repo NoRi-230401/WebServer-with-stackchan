@@ -32,7 +32,7 @@ void setupUserHandler()
             { request->send(SPIFFS, "/wss5.html", String(), false, processor05); });
 
   // #########################################################################
-  server.on("/icon", HTTP_GET, [](AsyncWebServerRequest *request)
+  server.on("/icon.gif", HTTP_GET, [](AsyncWebServerRequest *request)
             { request->send(SPIFFS, "/icon.gif", "image/gif"); });
 
   server.on("/script.js", HTTP_GET, [](AsyncWebServerRequest *request)
@@ -42,14 +42,17 @@ void setupUserHandler()
             { request->send(SPIFFS, "/style.css", "text/css"); });
 
   // ###########################################################################
-  server.on("/fsMode", HTTP_GET, [](AsyncWebServerRequest *request)
-            { handle_fsMode(request);  serverSend(request); });
+  // server.on("/fsMode", HTTP_GET, [](AsyncWebServerRequest *request)
+  //           { handle_fsMode(request);  serverSend(request); });
+  server.on("/fileSystem", HTTP_GET, [](AsyncWebServerRequest *request)
+            {
+    Serial.println("change file system mode  SPIFFS <-> SD ...");
+    handle_fileSystem(request); // file System change  SPIFFS - SD
+    request->send(200, "text/html", webpage); });
 
   // ###########################################################################
 }
 
-// extern void wait_SD();
-extern bool isSPIFFS;
 typedef struct
 {
   String filename;
@@ -62,32 +65,31 @@ void Directory2();
 void Directory3();
 void printDirectory(File dir, int numTabs);
 
+String FLS_NAME[] = {"SD","SPIFFS"};
+int isSPIFFS = 1;
 
-void handle_fsMode(AsyncWebServerRequest *request)
+void handle_fileSystem(AsyncWebServerRequest *request)
 {
-  webpage = "NG";
-  isSPIFFS = true;
+  String modeS;
+  modeS = request->arg("mode");
 
-  String argS = request->arg("mode");
-  Serial.println("test?mode = " + argS);
-
-  if (argS == "SD")
+  if (modeS != "")
   {
-    webpage = "fsMode = SD";
-    isSPIFFS = false;
-  }
-  else if (argS == "SPIFFS")
-  {
-    webpage = "fsMOde = SPIFFS";
-    isSPIFFS = true;
-  }
-  else
-    return;
+    if (modeS == "toggle")
+      isSPIFFS ^= 1; // 反転
+    
+    else if (modeS == "SPIFFS")
+      isSPIFFS = 1;
+    
+    else if (modeS == "SD")
+      isSPIFFS = 0;
 
-  // Directory2();
-  // Directory3();
+  }
+
+  Serial.println("file System is " + FLS_NAME[isSPIFFS]);
+
+  Home();
 }
-
 
 void handle_test(AsyncWebServerRequest *request)
 {
@@ -127,18 +129,13 @@ void handle_test(AsyncWebServerRequest *request)
 
   // tone(2);
   webpage = "NG";
-
 }
-
-
-
 
 void wait_SD()
 {
   if (!isSPIFFS)
-      delay(1);
+    delay(1);
 }
-
 
 void Directory2()
 {
@@ -348,9 +345,10 @@ String processor05(const String &var)
 void Home()
 {
   webpage = HTML_Header();
-  webpage += "<h3><pre>[ Home ] <b>" + SERVER_NAME + "  ip=" + IP_ADDR + "</b></pre></h3>";
-  webpage += "<img src = 'icon' alt='icon'>";
-  webpage += "<h4>- Files, Upload, Download, Stream , Delete , Rename File in SPIFFS -</h4>";
+  webpage += "<h4><b>[ Home ]　" + SERVER_NAME + "　　ip=" + IP_ADDR + "</b></h4>";
+  webpage += "<img src = 'icon.gif' alt='icon'>";
+  // webpage += "<h4>- Files, Upload, Download, Stream , Delete , Rename File in SPIFFS -</h4>";
+  webpage += "<br><br>";
   webpage += HTML_Footer();
 }
 
@@ -462,6 +460,9 @@ String HTML_Header()
   page += "<a href='/stream'>Stream</a>";
   page += "<a href='/delete'>Delete</a>";
   page += "<a href='/rename'>Rename</a>";
+  page += "<a href='/fileSystem?mode=toggle'>Spiffs/Sd</a>:";
+  page += FLS_NAME[isSPIFFS];
+
   // page += "<a href='/format'>Format FS</a>";
   page += "</div>";
 

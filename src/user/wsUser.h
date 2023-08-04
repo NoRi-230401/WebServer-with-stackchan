@@ -31,7 +31,7 @@ void handle_wss3();
 void handle_wss4();
 // void handle_wss5();
 bool htmlConv(const String flname);
-void handle_fsMode(AsyncWebServerRequest *request);
+void handle_fileSystem(AsyncWebServerRequest *request);
 void checkWebReq(AsyncWebServerRequest *request);
 
 

@@ -52,6 +52,7 @@ extern bool getJsonItem(String flName, String item, String& getData, DynamicJson
 using namespace m5avatar;
 extern Avatar avatar;
 extern String webpage;
+extern int isSPIFFS;
 
 void startupSetting();
 void apikeySetting();

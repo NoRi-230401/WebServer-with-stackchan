@@ -2,7 +2,7 @@
 // Extended from
 //     ESPAsynch_Server_v1.1 by David Bird 2022
 //--------------------------------------------------------------------------------
-// ****　注意 **** 
+// ****　注意 ****
 //  フォルダの操作はできません。
 //  SDでも、FileServer機能を対応できるように変更しています。
 //  SDは、動作が安定しないので現状では、SPIFFSだけの使用した方がよいです。
@@ -32,7 +32,6 @@
 
 String SERVER_NAME = "stackchan";
 AsyncWebServer server(80);
-bool isSPIFFS = true;
 
 typedef struct
 {
@@ -65,7 +64,6 @@ void serverSetup()
   //   StartupErrors = true;
   // }
   // ***************************************************************
-  isSPIFFS = true;
 
   // ##################### ApiHandler/ UserHandler ##################
   setupApiHandler();
@@ -161,7 +159,7 @@ void serverSetup()
             {
     Display_System_Info(); // Build webpage ready for display
     request->send(200, "text/html", webpage); });
- 
+
   // ##################### NOT FOUND HANDLER #########################
   server.onNotFound(notFound);
 
@@ -179,7 +177,8 @@ void Dir(AsyncWebServerRequest *request)
 {
   String Fname1, Fname2;
   int index = 0;
-  Directory(); // Get a list of the current files on the FS
+  // Directory(); // Get a list of the current files on the FS
+  Directory_org(); // Get a list of the current files on the FS
   webpage = HTML_Header();
   webpage += "<h3>Filing System Content</h3><br>";
   if (numfiles > 0)
@@ -211,8 +210,9 @@ void Dir(AsyncWebServerRequest *request)
   webpage += HTML_Footer();
   request->send(200, "text/html", webpage);
 }
+
 // #############################################################################################
-void Directory()
+void Directory_org()
 {
   numfiles = 0; // Reset number of SPIFFS/SD files counter
   File root;
@@ -238,6 +238,48 @@ void Directory()
       wait_SD();
       file = root.openNextFile();
       numfiles++;
+    }
+    root.close();
+  }
+}
+
+// #############################################################################################
+void Directory()
+{
+  numfiles = 0; // Reset number of SPIFFS/SD files counter
+  File root;
+
+  if (isSPIFFS)
+    root = SPIFFS.open("/", "r");
+  else
+    root = SD.open("/", "r");
+
+  if (root)
+  {
+    wait_SD();
+    root.rewindDirectory();
+
+    wait_SD();
+    File file = root.openNextFile();
+
+    while (file)
+    { // Now get all the filenames, file types and sizes
+      size_t flsize = file.size();
+      if (flsize > 0)
+      {
+        Filenames[numfiles].filename = (String(file.name()).startsWith("/") ? String(file.name()).substring(1) : file.name());
+        Filenames[numfiles].ftype = (file.isDirectory() ? "Dir" : "File");
+        Filenames[numfiles].fsize = ConvBinUnits(file.size(), 1);
+
+        wait_SD();
+        file = root.openNextFile();
+        numfiles++;
+      }
+      else
+      {
+        wait_SD();
+        file = root.openNextFile();
+      }
     }
     root.close();
   }

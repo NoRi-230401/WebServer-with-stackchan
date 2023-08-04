@@ -33,10 +33,12 @@ extern void setupApiHandler();
 extern void setupUserHandler();
 extern String IP_ADDR;
 extern void wait_SD();
+extern int isSPIFFS;
 
 void serverSetup();
 void LogOut();
 void Directory();
+void Directory_org();
 void Dir(AsyncWebServerRequest *request);
 void UploadFileSelect();
 void Format();

@@ -422,6 +422,8 @@ void M5StackConfig()
     // StartupErrors = true;
   }
 
+  isSPIFFS = 1; // 
+
   // SDカードマウント待ち
   int i = 0;
   bool success = false;

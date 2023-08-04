@@ -3,8 +3,11 @@
 #define WS_USER_H
 // ---------------------------
 #include <Arduino.h>
-#include <SPIFFS.h>
 #include <ESPAsyncWebServer.h>
+#include <FS.h>
+#include <SD.h>
+#include <SPIFFS.h>
+#include <M5Unified.h>
 
 extern AsyncWebServer server;
 extern String IP_ADDR;
@@ -12,6 +15,7 @@ extern String SERVER_NAME;
 extern size_t VOLUME_VALUE;
 extern const String WS_VERSION;
 extern String webpage;
+extern void serverSend(AsyncWebServerRequest *request);
 
 void setupUserHandler();
 String processor05(const String &var);
@@ -27,7 +31,7 @@ void handle_wss3();
 void handle_wss4();
 // void handle_wss5();
 bool htmlConv(const String flname);
-void handle_test(AsyncWebServerRequest *request);
+void handle_fsMode(AsyncWebServerRequest *request);
 void checkWebReq(AsyncWebServerRequest *request);
 
 

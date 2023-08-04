@@ -29,8 +29,8 @@ void startupSetting()
 
 void apikeySetting()
 {
-  if(!apiKeyFileRead())
-      apiKeyTxtRead();
+  if (!apiKeyFileRead())
+    apiKeyTxtRead();
 }
 
 void wsHandleSetting(String volumeS, String volumeDS, String vSpeakerNoS,
@@ -107,7 +107,8 @@ void wsHandleSetting(String volumeS, String volumeDS, String vSpeakerNoS,
     }
 
     uint8_t led_onoff = 0;
-    if (LED_OnOff_STATE)    led_onoff = 1;
+    if (LED_OnOff_STATE)
+      led_onoff = 1;
     if (ESP_OK == nvs_open(SETTING_NVS, NVS_READWRITE, &nvs_handle))
       nvs_set_u8(nvs_handle, "led", led_onoff);
     nvs_close(nvs_handle);
@@ -163,8 +164,9 @@ void wsHandleSetting(String volumeS, String volumeDS, String vSpeakerNoS,
       }
     }
 
-    uint8_t mute_onoff=0;
-    if (MUTE_ON_STATE)  mute_onoff = 1;
+    uint8_t mute_onoff = 0;
+    if (MUTE_ON_STATE)
+      mute_onoff = 1;
     if (ESP_OK == nvs_open(SETTING_NVS, NVS_READWRITE, &nvs_handle))
       nvs_set_u8(nvs_handle, "mute", mute_onoff);
     nvs_close(nvs_handle);
@@ -192,8 +194,9 @@ void wsHandleSetting(String volumeS, String volumeDS, String vSpeakerNoS,
       KEYLOCK_STATE = false;
     }
 
-    uint8_t keyLock_onoff=0;
-    if (KEYLOCK_STATE)  keyLock_onoff = 1;
+    uint8_t keyLock_onoff = 0;
+    if (KEYLOCK_STATE)
+      keyLock_onoff = 1;
     if (ESP_OK == nvs_open(SETTING_NVS, NVS_READWRITE, &nvs_handle))
       nvs_set_u8(nvs_handle, "keyLock", keyLock_onoff);
     nvs_close(nvs_handle);
@@ -390,6 +393,7 @@ void M5StackConfig()
   // cfg.external_spk_detail.omit_spk_hat    = true; // exclude SPK HAT
   // cfg.output_power = true;
   M5.begin(cfg);
+  delay(500);
 
   // { // Mic Setting
   //   auto micConfig = M5.Mic.config();
@@ -418,10 +422,20 @@ void M5StackConfig()
     // StartupErrors = true;
   }
 
-  if (!SD_begin())
+  // SDカードマウント待ち
+  int i = 0;
+  bool success = false;
+  Serial.println("SD.begin Start ...");
+  while ((i < 5) && !success)
   {
-    Serial.println("Error preparing SD Filing System...");
+    success = SD.begin(GPIO_NUM_4, SPI, 15000000, "/sdcard", 10, false);
+    Serial.println("SD Wait...");
+    delay(500);
+    i++;
   }
+  if (i >= 5)
+    Serial.println("SD.begin faile ...");
+
 }
 
 bool jsonAPIKEYinit(DynamicJsonDocument &jsonDoc)
@@ -669,7 +683,7 @@ bool startupFileRead()
 
   // toneMode
   String getStr6 = object["toneMode"];
-  if (getStr6 != "" && (getStr6 != "***")&& (getStr6 != "-1") && (getStr6 != "null"))
+  if (getStr6 != "" && (getStr6 != "***") && (getStr6 != "-1") && (getStr6 != "null"))
   {
     int getVal = getStr6.toInt();
     if (getVal < 0 || getVal > 3)
@@ -752,7 +766,7 @@ bool startupFileRead()
 
   // --- SPEAKER ---
   String getStr1 = object["vSpeakerNo"];
-  if ((getStr1 != "") && (getStr1 != "***")&& (getStr1 != "-1") && (getStr1 != "null"))
+  if ((getStr1 != "") && (getStr1 != "***") && (getStr1 != "-1") && (getStr1 != "null"))
   {
     TTS2_SPEAKER_NO = getStr1;
     Serial.println("Startup : vSpeakerNo = " + TTS2_SPEAKER_NO);
@@ -804,7 +818,7 @@ bool startupFileRead()
 
   // timer
   String getStr9 = object["timer"];
-  if ((getStr9 != "") && (getStr9 != "***")&& (getStr9 != "-1") && (getStr9 != "null"))
+  if ((getStr9 != "") && (getStr9 != "***") && (getStr9 != "-1") && (getStr9 != "null"))
   {
     int getVal = getStr9.toInt();
     if (getVal <= 30)

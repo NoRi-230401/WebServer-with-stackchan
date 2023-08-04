@@ -56,8 +56,10 @@ void setupApiHandler()
             { handle_role_set(request);  serverSend(request); });
 
   // ##################### role_get ############################
-  server.on("/role_get", HTTP_GET, [](AsyncWebServerRequest *request)
-            { handle_role_get(request);  request->send(200, "text/html", webpage); });
+  // server.on("/role_get", HTTP_GET, [](AsyncWebServerRequest *request)
+  //           { handle_role_get(request);  request->send(200, "text/html", webpage); });
+    server.on("/role_get", HTTP_GET, [](AsyncWebServerRequest *request)
+            { handle_role_get(request);  serverSend(request); });
 
   // ##################### randomSpeak ############################
   server.on("/randomSpeak", HTTP_GET, [](AsyncWebServerRequest *request)
@@ -66,9 +68,7 @@ void setupApiHandler()
   // ##################### timer ############################
   server.on("/timer", HTTP_GET, [](AsyncWebServerRequest *request)
             { handle_timer(request);    serverSend(request); });
-
 }
-
 
 void handle_button(AsyncWebServerRequest *request)
 {

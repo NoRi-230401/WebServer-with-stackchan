@@ -147,20 +147,30 @@ void wsHandleRoleSet(String roleS)
   save_json();
 }
 
+// void wsHandleRoleGet()
+// {
+//   String chatDocGet = "";
+//   serializeJsonPretty(CHAT_DOC, chatDocGet);
+  
+//   Serial.println("\n****** role_get ******");
+//   Serial.println(chatDocGet);
+//   Serial.println("**********************\n");
+
+//   webpage = "<!DOCTYPE html><html lang='ja'><head><meta charset='UTF-8'>";
+//   webpage += "<title>StackChanSub</title></head><body><pre>";
+//   webpage += chatDocGet;
+//   webpage += "</pre></body></html>";
+// }
+
 void wsHandleRoleGet()
 {
-  String chatDocGet = "";
-  serializeJsonPretty(CHAT_DOC, chatDocGet);
-
+  webpage="";
+  serializeJsonPretty(CHAT_DOC, webpage);
   Serial.println("\n****** role_get ******");
-  Serial.println(chatDocGet);
+  Serial.println(webpage);
   Serial.println("**********************\n");
-
-  webpage = "<!DOCTYPE html><html lang='ja'><head><meta charset='UTF-8'>";
-  webpage += "<title>StackChanSub</title></head><body><pre>";
-  webpage += chatDocGet;
-  webpage += "</pre></body></html>";
 }
+
 
 bool chatDocInit()
 {

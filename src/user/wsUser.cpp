@@ -9,8 +9,8 @@ const String WSS5_HTML = "/wss5.html";
 const String NAME_WSS1 = "Main";
 const String NAME_WSS2 = "Servo";
 const String NAME_WSS3 = "Remote";
-const String NAME_WSS4 = "wss4.html";
-const String NAME_WSS5 = "wss5.html";
+const String NAME_WSS4 = "wss4";
+const String NAME_WSS5 = "wss5";
 
 void setupUserHandler()
 {
@@ -30,7 +30,7 @@ void setupUserHandler()
 
   server.on("/wss5", HTTP_GET, [](AsyncWebServerRequest *request)
             { request->send(SPIFFS, "/wss5.html", String(), false, processor05); });
-  
+
   // #########################################################################
   server.on("/icon", HTTP_GET, [](AsyncWebServerRequest *request)
             { request->send(SPIFFS, "/icon.gif", "image/gif"); });
@@ -42,8 +42,195 @@ void setupUserHandler()
             { request->send(SPIFFS, "/style.css", "text/css"); });
 
   // ###########################################################################
+  server.on("/fsMode", HTTP_GET, [](AsyncWebServerRequest *request)
+            { handle_fsMode(request);  serverSend(request); });
+
+  // ###########################################################################
 }
 
+// extern void wait_SD();
+extern bool isSPIFFS;
+typedef struct
+{
+  String filename;
+  String ftype;
+  String fsize;
+} fileinfo;
+extern fileinfo Filenames[]; // Enough for most purposes!
+extern String ConvBinUnits(int bytes, int resolution);
+void Directory2();
+void Directory3();
+void printDirectory(File dir, int numTabs);
+
+
+void handle_fsMode(AsyncWebServerRequest *request)
+{
+  webpage = "NG";
+  isSPIFFS = true;
+
+  String argS = request->arg("mode");
+  Serial.println("test?mode = " + argS);
+
+  if (argS == "SD")
+  {
+    webpage = "fsMode = SD";
+    isSPIFFS = false;
+  }
+  else if (argS == "SPIFFS")
+  {
+    webpage = "fsMOde = SPIFFS";
+    isSPIFFS = true;
+  }
+  else
+    return;
+
+  // Directory2();
+  // Directory3();
+}
+
+
+void handle_test(AsyncWebServerRequest *request)
+{
+  // List all collected headers (Compatibility)
+  int headers = request->headers();
+  int i;
+  for (i = 0; i < headers; i++)
+  {
+    Serial.printf("HEADER[%s]: %s\n", request->headerName(i).c_str(), request->header(i).c_str());
+  }
+
+  // List all parameters
+  int params = request->params();
+  for (int i = 0; i < params; i++)
+  {
+    AsyncWebParameter *p = request->getParam(i);
+    if (p->isFile())
+    { // p->isPost() is also true
+      Serial.printf("FILE[%s]: %s, size: %u\n", p->name().c_str(), p->value().c_str(), p->size());
+    }
+    else if (p->isPost())
+    {
+      Serial.printf("POST[%s]: %s\n", p->name().c_str(), p->value().c_str());
+    }
+    else
+    {
+      Serial.printf("GET[%s]: %s\n", p->name().c_str(), p->value().c_str());
+    }
+  }
+
+  // List all parameters (Compatibility)
+  int args = request->args();
+  for (int i = 0; i < args; i++)
+  {
+    Serial.printf("ARG[%s]: %s\n", request->argName(i).c_str(), request->arg(i).c_str());
+  }
+
+  // tone(2);
+  webpage = "NG";
+
+}
+
+
+
+
+void wait_SD()
+{
+  if (!isSPIFFS)
+      delay(1);
+}
+
+
+void Directory2()
+{
+  int numfiles = 0; // Reset number of SPIFFS/SD files counter
+  File root;
+
+  if (isSPIFFS)
+    root = SPIFFS.open("/");
+  else
+    root = SD.open("/");
+
+  if (root)
+  {
+    wait_SD();
+    root.rewindDirectory();
+
+    // wait_SD();
+    File file = root.openNextFile();
+    webpage += "\n\n";
+    while (file)
+    { // Now get all the filenames, file types and sizes
+      Filenames[numfiles].filename = (String(file.name()).startsWith("/") ? String(file.name()).substring(1) : file.name());
+      Filenames[numfiles].ftype = (file.isDirectory() ? "Dir" : "File");
+      Filenames[numfiles].fsize = ConvBinUnits(file.size(), 1);
+
+      String flname = Filenames[numfiles].filename;
+      String fltype = Filenames[numfiles].ftype;
+      String flsize = Filenames[numfiles].fsize;
+
+      webpage += flname + "\n";
+      webpage += fltype + "\n";
+      webpage += flsize + "\n\n";
+
+      wait_SD();
+      file = root.openNextFile();
+      numfiles++;
+    }
+  }
+
+  root.close();
+}
+
+void Directory3()
+{
+  int numfiles = 0; // Reset number of SPIFFS/SD files counter
+  File root;
+
+  if (isSPIFFS)
+    root = SPIFFS.open("/", "r");
+  else
+    root = SD.open("/", "r");
+
+  webpage = "";
+  printDirectory(root, 0);
+  root.close();
+}
+
+void printDirectory(File dir, int numTabs)
+{
+  while (true)
+  {
+    File entry = dir.openNextFile();
+    if (!entry)
+    {
+      dir.rewindDirectory();
+      break;
+    }
+
+    for (uint8_t i = 0; i < numTabs; i++)
+    {
+      webpage += "        ";
+      Serial.print("        ");
+    }
+
+    webpage += entry.name();
+    Serial.print(entry.name());
+
+    if (entry.isDirectory())
+    {
+      // M5.Lcd.println("/");
+      webpage += "/\n";
+      Serial.println("/");
+      printDirectory(entry, numTabs + 1);
+    }
+    else
+    {
+      // M5.Lcd.println("\t\t");
+      webpage += "                \n";
+      Serial.println("                ");
+    }
+  }
+}
 
 void serverSend(AsyncWebServerRequest *request)
 {
@@ -103,8 +290,6 @@ bool htmlConv(const String flname)
 
   // *** Buffer確保 ******
   size_t sz = fl.size();
-  // Serial.print(flname + " file size = ");
-  // Serial.println(sz, DEC);
   Serial.println(flname + " :  file size = " + String(sz, DEC));
 
   char *buff;
@@ -159,8 +344,6 @@ String processor05(const String &var)
   return String();
 }
 
-
-
 // #############################################################################################
 void Home()
 {
@@ -182,11 +365,11 @@ String HTML_Header2()
   page += "<meta charset='UTF-8'>";
   page += "<title>StackChan</title>";
   page += "<base target='StackChanSub'>";
-  
+
   page += "<style>";
   page += "div {text-align:center;}";
   page += "</style>";
-  
+
   page += "</head>";
 
   page += "<body bgcolor='#ccff99' text='#2f4f4f' leftmargin='10' topmargin='0'>";
@@ -206,11 +389,11 @@ String HTML_Header2Ng()
   page += "<meta charset='UTF-8'>";
   page += "<title>StackChan</title>";
   page += "<base target='StackChanSub'>";
-  
+
   page += "<style>";
   page += "div {text-align:center;}";
   page += "</style>";
-  
+
   page += "</head>";
 
   page += "<body bgcolor='#ffccff' text='white' leftmargin='10' topmargin='0'>";
@@ -218,7 +401,6 @@ String HTML_Header2Ng()
   page += "<pre><b>";
   return page;
 }
-
 
 // #############################################################################################
 String HTML_Footer2()
@@ -335,59 +517,4 @@ void checkWebReq(AsyncWebServerRequest *request)
   {
     Serial.printf("ARG[%s]: %s\n", request->argName(i).c_str(), request->arg(i).c_str());
   }
-}
-
-void handle_test(AsyncWebServerRequest *request)
-{
-  // List all collected headers (Compatibility)
-  int headers = request->headers();
-  int i;
-  for (i = 0; i < headers; i++)
-  {
-    Serial.printf("HEADER[%s]: %s\n", request->headerName(i).c_str(), request->header(i).c_str());
-  }
-
-  // List all parameters
-  int params = request->params();
-  for (int i = 0; i < params; i++)
-  {
-    AsyncWebParameter *p = request->getParam(i);
-    if (p->isFile())
-    { // p->isPost() is also true
-      Serial.printf("FILE[%s]: %s, size: %u\n", p->name().c_str(), p->value().c_str(), p->size());
-    }
-    else if (p->isPost())
-    {
-      Serial.printf("POST[%s]: %s\n", p->name().c_str(), p->value().c_str());
-    }
-    else
-    {
-      Serial.printf("GET[%s]: %s\n", p->name().c_str(), p->value().c_str());
-    }
-  }
-
-  // List all parameters (Compatibility)
-  int args = request->args();
-  for (int i = 0; i < args; i++)
-  {
-    Serial.printf("ARG[%s]: %s\n", request->argName(i).c_str(), request->arg(i).c_str());
-  }
-
-  // tone(2);
-  webpage = "NG";
-
-  char msg[100];
-
-  String arg_str = request->arg("mode");
-  sprintf(msg, "test?mode=%s", arg_str.c_str());
-  Serial.println(msg);
-
-  if (arg_str == "SD")
-    Serial.println("SD mode");
-  else if (arg_str == "SPIFFS")
-    Serial.println("SPIFFS mode");
-  else
-    return;
-
-  webpage = "OK";
 }

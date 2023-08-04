@@ -32,6 +32,7 @@ extern String USER_U05;
 extern void setupApiHandler();
 extern void setupUserHandler();
 extern String IP_ADDR;
+extern void wait_SD();
 
 void serverSetup();
 void LogOut();

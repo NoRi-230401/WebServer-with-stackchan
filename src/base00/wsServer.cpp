@@ -1,11 +1,15 @@
 // ----------------------------<wsServer.cpp>------------------------------------
 // Extended from
 //     ESPAsynch_Server_v1.1 by David Bird 2022
-// ------------------------------------------------------------
-//  SDにもFileServer機能を対応できるように変更していますが、
-//  SDでは、動作が安定しないので SPIFFSだけで使用した方がよい。
+//--------------------------------------------------------------------------------
+// ****　注意 **** 
+//  フォルダの操作はできません。
+//  SDでも、FileServer機能を対応できるように変更しています。
+//  SDは、動作が安定しないので現状では、SPIFFSだけの使用した方がよいです。
+//  隠しコマンドでSDで使用するには、"http://ip_addr/test?mode=SD"　です。
+//  これを、SPIFFSに戻すのは、　    "http://ip_addr/test?mode=SPIFFS"　です。　
 //  2023-06-27 by NoRi
-// ------------------------------------------------------------
+// --------------------------------------------------------------------------------
 /*
   This software, the ideas and concepts is Copyright (c) David Bird 2022
   All rights to this software are reserved.
@@ -157,8 +161,7 @@ void serverSetup()
             {
     Display_System_Info(); // Build webpage ready for display
     request->send(200, "text/html", webpage); });
-
-  
+ 
   // ##################### NOT FOUND HANDLER #########################
   server.onNotFound(notFound);
 
@@ -169,13 +172,6 @@ void serverSetup()
   else
     Serial.println("** AsyncWebServer : There were problems starting all services... **");
   Directory(); // Update the file list
-}
-
-
-void wait_SD()
-{
-  if (!isSPIFFS)
-    delay(20);
 }
 
 // #############################################################################################
@@ -222,9 +218,9 @@ void Directory()
   File root;
 
   if (isSPIFFS)
-    root = SPIFFS.open("/");
+    root = SPIFFS.open("/","r");
   else
-    root = SD.open("/");
+    root = SD.open("/","r");
 
   if (root)
   {

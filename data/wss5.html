@@ -6,43 +6,44 @@
 	<title>StackChan</title>
 	<link rel="stylesheet" type="text/css" href="style.css">
 	<base target="StackChanSub">
-	<base href="http://192.168.0.100/">	
+	<base href="http://192.168.0.100/">
 </head>
 
 <body>
 	<h1>wss5.html</h1>
 	<p>IP_ADDR: <strong>%IP_ADDR%</strong></p>
-	<p>SeverName: <strong>%ServerName%</strong></p>
+	<p>SeverName: <strong>%SERVER_NAME%</strong></p>
 	<p>Volume = <strong>%VOLUME_VALUE%</strong></p>
-	<br><br><br>
-	<img src='icon' alt='icon'>
-
+	<br>
+	<img src='icon.gif' alt='icon'>
+	<br><br>
 	<p><a href="servo?mode=random" target="StackChan"><button class="button">ランダム</button></a>
 		　<a href="servo?mode=stop" target="StackChan"><button class="button button2">停止</button></a>
 	</p>
 
-	<br><br><br><br>	
-	
+	<br><br>
+
 	<p id="RealtimeClockArea2"></p>
 
-<script> 
-	 	function set2fig(num) {
-	 		// 桁数が1桁だったら先頭に0を加えて2桁に調整する
-	 		var ret;
-	 		if (num < 10) { ret = "0" + num; }
-	 		else { ret = num; }
-	 		return ret;
-	 	}
-	 	function showClock2() {
-	 		var nowTime = new Date();
-	 		var nowHour = set2fig(nowTime.getHours());
-	 		var nowMin = set2fig(nowTime.getMinutes());
-	 		var nowSec = set2fig(nowTime.getSeconds());
-	 		var msg = "時刻は、" + nowHour + ":" + nowMin + ":" + nowSec + " です。";
-	 		document.getElementById("RealtimeClockArea2").innerHTML = msg;
-	 	}
-	 	setInterval('showClock2()', 1000);
-	 </script>
+	<script>
+		function set2fig(num) {
+			// 桁数が1桁だったら先頭に0を加えて2桁に調整する
+			var ret;
+			if (num < 10) { ret = "0" + num; }
+			else { ret = num; }
+			return ret;
+		}
+		function showClock2() {
+			var nowTime = new Date();
+			var nowHour = set2fig(nowTime.getHours());
+			var nowMin = set2fig(nowTime.getMinutes());
+			var nowSec = set2fig(nowTime.getSeconds());
+			var msg = "時刻は、" + nowHour + ":" + nowMin + ":" + nowSec + " です。";
+			document.getElementById("RealtimeClockArea2").innerHTML = msg;
+		}
+		setInterval('showClock2()', 1000);
+	</script>
 
 </body>
+
 </html>

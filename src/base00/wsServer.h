@@ -15,7 +15,7 @@
 #include <SPIFFS.h>
 #include <M5Unified.h>
 #include <WiFi.h>  
-#include <Wire.h>
+// #include <Wire.h>
 
 extern String SERVER_NAME;
 extern const String WS_VERSION;

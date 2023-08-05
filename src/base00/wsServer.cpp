@@ -2,13 +2,10 @@
 // Extended from
 //     ESPAsynch_Server_v1.1 by David Bird 2022
 //--------------------------------------------------------------------------------
-// ****　注意 ****
-//  フォルダの操作はできません。
-//  SDでも、FileServer機能を対応できるように変更しています。
+// ****　注意 ****　2023-06-27 by NoRi
+//  SDでも、FileServer機能を対応できるように変更しました。
+//  フォルダの操作はできません。　
 //  SDは、動作が安定しないので現状では、SPIFFSだけの使用した方がよいです。
-//  隠しコマンドでSDで使用するには、"http://ip_addr/test?mode=SD"　です。
-//  これを、SPIFFSに戻すのは、　    "http://ip_addr/test?mode=SPIFFS"　です。　
-//  2023-06-27 by NoRi
 // --------------------------------------------------------------------------------
 /*
   This software, the ideas and concepts is Copyright (c) David Bird 2022
@@ -654,7 +651,7 @@ void Select_File_For_Function(String title, String function)
     if (Fname1.startsWith("/"))
       Fname1 = Fname1.substring(1);
     if (Fname2.startsWith("/"))
-      Fname1 = Fname2.substring(1);
+      Fname2 = Fname2.substring(1);
     webpage += "<tr>";
     webpage += "<td style='width:25%'><button><a href='" + function + "~/" + Fname1 + "'>" + Fname1 + "</a></button></td><td style = 'width:10%'>" + Filenames[index].fsize + "</td>";
     webpage += "<td class='sp'></td>";

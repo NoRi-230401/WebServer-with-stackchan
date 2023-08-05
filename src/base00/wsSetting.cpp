@@ -393,7 +393,7 @@ void M5StackConfig()
   // cfg.external_spk_detail.omit_spk_hat    = true; // exclude SPK HAT
   // cfg.output_power = true;
   M5.begin(cfg);
-  delay(500);
+  // delay(500);
 
   // { // Mic Setting
   //   auto micConfig = M5.Mic.config();
@@ -416,21 +416,24 @@ void M5StackConfig()
   led_allOff();
   BoxTouchSetup();
 
+  // --- SPIFFS begin ----
   if (!SPIFFS.begin(true))
   {
     Serial.println("Error preparing SPIFFS Filing System...");
     // StartupErrors = true;
   }
-
-  isSPIFFS = 1; // 
-
-  // SDカードマウント待ち
+  isSPIFFS = 1;  
+  
+  // --- SD begin -------
   int i = 0;
   bool success = false;
-  Serial.println("SD.begin Start ...");
-  while ((i < 5) && !success)
-  {
+  // Serial.println("SD.begin Start ...");
+  while (i < 5)
+  { // SDカードマウント待ち
     success = SD.begin(GPIO_NUM_4, SPI, 15000000, "/sdcard", 10, false);
+    if (success)
+      break;
+
     Serial.println("SD Wait...");
     delay(500);
     i++;

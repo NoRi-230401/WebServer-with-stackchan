@@ -43,7 +43,7 @@ extern void POWER_OFF();
 
 // ---------------------------------------------------------------------
 void RequestManage();
-void ReqSpkMsgDo2();
+void Req_SpkMsgDo2();
 void servoReqSpkMsg();
 void Req_SpkMsgDo(); 
 void Req_SpkDo();

@@ -31,7 +31,7 @@ void RequestManage()
       break;
 
     case REQ_SPEAK_MSG2:
-      ReqSpkMsgDo2();
+      Req_SpkMsgDo2();
       break;
 
     case REQ_SV_MD_ADJUST:
@@ -62,9 +62,10 @@ void RequestManage()
 }
 
 
-void ReqSpkMsgDo2()
+void Req_SpkMsgDo2()
 {
   avatar.setExpression(expressions_table[REQ_SPK_EXPR]);
+  Serial.println("Req_SpkMsgDo2: REQ_SPK_EXPR = " + String(REQ_SPK_EXPR,DEC));
   ttsDo(REQ_MSG);
 }
 

@@ -54,7 +54,7 @@
 
 extern const String EXPRESSION_STRING[];
 extern void RequestManage();
-extern void ReqSpkMsgDo2();
+extern void Req_SpkMsgDo2();
 extern void servoReqSpkMsg();
 extern void Req_SpkMsgDo(); 
 extern void Req_SpkDo();

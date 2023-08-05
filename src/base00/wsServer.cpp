@@ -739,13 +739,18 @@ void Display_System_Info()
   webpage += "<tr><td>" + ConvBinUnits((float)uploadsize / uploadtime * 1024.0, 1) + "/Sec</td>";
   webpage += "<td>" + ConvBinUnits((float)downloadsize / downloadtime * 1024.0, 1) + "/Sec</td><td>Transfer Rate</td></tr>";
   webpage += "</table>";
-  webpage += "<h4>Filing System</h4>";
+  webpage += "<h4>SPIFFS Filing System</h4>";
   webpage += "<table class='center'>";
   webpage += "<tr><th>Total Space</th><th>Used Space</th><th>Free Space</th><th>Number of Files</th></tr>";
   webpage += "<tr><td>" + ConvBinUnits(SPIFFS.totalBytes(), 1) + "</td>";
   webpage += "<td>" + ConvBinUnits(SPIFFS.usedBytes(), 1) + "</td>";
   webpage += "<td>" + ConvBinUnits(SPIFFS.totalBytes() - SPIFFS.usedBytes(), 1) + "</td>";
-  webpage += "<td>" + (numfiles == 0 ? "Pending Dir or Empty" : String(numfiles)) + "</td></tr>";
+  
+  if(!isSPIFFS)
+    webpage += "<td>" + String("---") + "</td></tr>";
+  else
+    webpage += "<td>" + (numfiles == 0 ? "Pending Dir or Empty" : String(numfiles)) + "</td></tr>";
+  
   webpage += "</table>";
   webpage += "<h4>CPU Information</h4>";
   webpage += "<table class='center'>";
@@ -851,6 +856,9 @@ void handle_fileSystem(AsyncWebServerRequest *request)
 void wait_SD()
 {
   if (!isSPIFFS)
-    delay(1);
+  {
+    ;
+    // delay(1);
+  }
 }
 

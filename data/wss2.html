@@ -26,6 +26,15 @@
     　<a href="#svAdjust2">（３ー２）固定後</a><br>
     　<a href="#svAdjust3">（３ー３）調整終了後</a><br><br>
   </p>
+
+  <br>
+  <p>
+    <a href="#top">トップ</a>
+    　<a href="http://192.168.0.100/sysInfo">システム情報</a>
+    　<a href="http://192.168.0.100/servoSetting">wsServo.json</a>
+    　<a href="http://192.168.0.100/shutdown?reboot=on">再起動</a>
+  </p>
+  <br>
   <hr color="#87ceeb" width="100%" size="3">
   <br>
   <h3><a name="svCont"></a> ★１.サーボ制御（コントロール）</h3>
@@ -72,7 +81,6 @@
   </form>
   <br>
   </p>
-
 
   <p>
     <b>PointXY</b>　は、絶対位置(X:0 to 180,　 Y:50 to 100) を指定: degree<br>
@@ -192,12 +200,12 @@
   Groveケーブルにつながった接続基盤経由で、サーボを接続してください。<br><br>
   その後、電源ONして、本体が「サーボ調整」画面になったら、ここに戻ってきてください。<br><br>
   <p>
-    <h4>  （３－１－１）動作チェック</h4>
-    サーボが、正常に動くかどうかの動作チェックをおこないます。<br><br>
-    <b>Swing</b> は、XY軸、X軸、Y軸の３種類の移動方向を選べ、それぞれ回数指定ができます。<br>
-    <b>Random</b> は、(X: 45-135) , (Y: 60-90) の範囲でランダムな動きをします。<br>
-    <b>Moving</b> は、通常使用している動作を試すことができます。<br>
-    <b>Stop</b> は、Randomまたは、Movingを停止させる場合に使用してください。<br><br>
+  <h4> （３－１－１）動作チェック</h4>
+  サーボが、正常に動くかどうかの動作チェックをおこないます。<br><br>
+  <b>Swing</b> は、XY軸、X軸、Y軸の３種類の移動方向を選べ、それぞれ回数指定ができます。<br>
+  <b>Random</b> は、(X: 45-135) , (Y: 60-90) の範囲でランダムな動きをします。<br>
+  <b>Moving</b> は、通常使用している動作を試すことができます。<br>
+  <b>Stop</b> は、Randomまたは、Movingを停止させる場合に使用してください。<br><br>
 
   <form action="http://192.168.0.100/servo" method="get">
     　SwingXY　:　 <input type="text" name="swingXY" value="1" size="2" maxlength="2" />　 repeat　(1 to 10)
@@ -222,7 +230,7 @@
   　　　　　<a href="http://192.168.0.100/servo?mode=moving">Moving</a>
   　　　　　　<a href="http://192.168.0.100/servo?mode=stop">Stop</a><br>
   <br><br>
-  
+
   <h4>（３－１－２）センター出し</h4><br>
   サーボの回転角を90度の位置に初期化します。（これが「センター出し」）<br>
   サーボを固定する時は、サーボをセンター（X=90,Y=90）位置で取り付けます。<br>
@@ -285,8 +293,8 @@
     ：<a href="http://192.168.0.100/servo?deltaX=10&deltaY=0">deltaX= +10</a>
     　　<a href="http://192.168.0.100/servo?deltaX=0&deltaY=-10">deltaY = -10</a>
     ：<a href="http://192.168.0.100/servo?deltaX=0&deltaY=10">deltaY= +10</a>
-  </p> 
-   <br> <br>
+  </p>
+  <br> <br>
 
 
   <form action="http://192.168.0.100/servoSetting" method="get">

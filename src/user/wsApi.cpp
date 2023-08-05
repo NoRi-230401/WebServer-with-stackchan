@@ -1,5 +1,5 @@
 // ----------------------------<wsApiHandler.cpp>------------------------------------
-#include "wsApiHandler.h"
+#include "wsApi.h"
 
 void setupApiHandler()
 {

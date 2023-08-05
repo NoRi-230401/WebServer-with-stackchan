@@ -1,6 +1,6 @@
 // ----------------------------<wsApiHandler.h>------------------------------------
-#ifndef WS_APIHANDLER_H
-#define WS_APIHANDLER_H
+#ifndef WS_API_H
+#define WS_API_H
 // ---------------------------
 #include <Avatar.h>
 #include <ArduinoJson.h>

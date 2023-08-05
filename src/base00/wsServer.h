@@ -32,11 +32,11 @@ extern String USER_U05;
 extern void setupApiHandler();
 extern void setupUserHandler();
 extern String IP_ADDR;
-extern void wait_SD();
-extern int isSPIFFS;
+// extern void wait_SD();
+// extern int isSPIFFS;
 
 void serverSetup();
-void LogOut();
+// void LogOut();
 void Directory();
 void Directory_org();
 void Dir(AsyncWebServerRequest *request);
@@ -55,7 +55,7 @@ void Select_File_For_Function(String title, String function);
 void SelectInput(String Heading, String Command, String Arg_name);
 int GetFileSize(String filename);
 void Home();
-void LogOut();
+// void LogOut();
 void Page_Not_Found();
 void Display_System_Info();
 String ConvBinUnits(int bytes, int resolution);
@@ -63,5 +63,7 @@ String EncryptionType(wifi_auth_mode_t encryptionType);
 bool StartMDNSservice(const char *Name);
 String HTML_Header();
 String HTML_Footer();
+void handle_fileSystem(AsyncWebServerRequest *request);
+void wait_SD();
 
 #endif

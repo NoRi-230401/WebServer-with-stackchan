@@ -33,6 +33,10 @@
 String SERVER_NAME = "stackchan";
 AsyncWebServer server(80);
 
+extern const String FLS_NAME[];
+const String FLS_NAME[] = {"SD","SPIFFS"};
+int isSPIFFS = 1;
+
 typedef struct
 {
   String filename;
@@ -47,6 +51,7 @@ int start, downloadtime = 1, uploadtime = 1, downloadsize, uploadsize, downloadr
 // float Temperature = 21.34; // for example new page, amend in a sensor function if required
 // String Name = "Dave";
 
+
 void serverSetup()
 {
   if (!StartMDNSservice(SERVER_NAME.c_str()))
@@ -57,17 +62,16 @@ void serverSetup()
   }
   Serial.println("ServerName = " + SERVER_NAME);
 
-  // ***** M5StackConfig() で、SPIFFSの初期化を行うので削除 **********
-  // if (!SPIFFS.begin(true))
-  // {
-  //   Serial.println("Error preparing Filing System...");
-  //   StartupErrors = true;
-  // }
-  // ***************************************************************
-
   // ##################### ApiHandler/ UserHandler ##################
   setupApiHandler();
   setupUserHandler();
+
+  // ###########################################################################
+  server.on("/fileSystem", HTTP_GET, [](AsyncWebServerRequest *request)
+            {
+    Serial.println("change file system mode  SPIFFS <-> SD ...");
+    handle_fileSystem(request); // file System change  SPIFFS - SD
+    request->send(200, "text/html", webpage); });
 
   // ##################### HOMEPAGE HANDLER ########################
   server.on("/", HTTP_GET, [](AsyncWebServerRequest *request)
@@ -75,6 +79,7 @@ void serverSetup()
     Serial.println("Home Page...");
     Home(); // Build webpage ready for display
     request->send(200, "text/html", webpage); });
+
   // ##################### DOWNLOAD HANDLER ##########################
   server.on("/download", HTTP_GET, [](AsyncWebServerRequest *request)
             {
@@ -92,11 +97,9 @@ void serverSetup()
   // Set handler for '/handleupload'
   server.on(
       "/handleupload", HTTP_POST, [](AsyncWebServerRequest *request) {},
-      [](AsyncWebServerRequest *request, const String &filename, size_t index, uint8_t *data,
-         size_t len, bool final)
+      [](AsyncWebServerRequest *request, const String &filename, size_t index, uint8_t *data, size_t len, bool final)
       {
-        handleFileUpload(request, filename, index, data, len, final);
-      });
+        handleFileUpload(request, filename, index, data, len, final); });
 
   // ##################### STREAM HANDLER ############################
   server.on("/stream", HTTP_GET, [](AsyncWebServerRequest *request)
@@ -218,9 +221,9 @@ void Directory_org()
   File root;
 
   if (isSPIFFS)
-    root = SPIFFS.open("/","r");
+    root = SPIFFS.open("/", "r");
   else
-    root = SD.open("/","r");
+    root = SD.open("/", "r");
 
   if (root)
   {
@@ -469,13 +472,6 @@ void Handle_File_Rename(AsyncWebServerRequest *request, String filename, int Arg
   webpage += HTML_Footer();
 }
 
-// String processor(const String &var)
-// {
-//   if (var == "HELLO_FROM_TEMPLATE")
-//     return F("Hello world!");
-//   return String();
-// }
-
 // #############################################################################################
 //  Not found handler is also the handler for 'delete', 'download' and 'stream' functions
 void notFound(AsyncWebServerRequest *request)
@@ -698,14 +694,14 @@ int GetFileSize(String filename)
   return filesize;
 }
 // #############################################################################################
-void LogOut()
-{
-  webpage = HTML_Header();
-  webpage += "<h1>Log Out</h1>";
-  webpage += "<h4>You have now been logged out...</h4>";
-  webpage += "<h4>NOTE: On most browsers you must close all windows for this to take effect...</h4>";
-  webpage += HTML_Footer();
-}
+// void LogOut()
+// {
+//   webpage = HTML_Header();
+//   webpage += "<h1>Log Out</h1>";
+//   webpage += "<h4>You have now been logged out...</h4>";
+//   webpage += "<h4>NOTE: On most browsers you must close all windows for this to take effect...</h4>";
+//   webpage += HTML_Footer();
+// }
 // #############################################################################################
 // void Display_New_Page()
 // {
@@ -829,3 +825,35 @@ bool StartMDNSservice(const char *Name)
   return true;
 }
 // #############################################################################################
+
+
+
+void handle_fileSystem(AsyncWebServerRequest *request)
+{
+  String modeS;
+  modeS = request->arg("mode");
+
+  if (modeS != "")
+  {
+    if (modeS == "toggle")
+      isSPIFFS ^= 1; // 反転
+    
+    else if (modeS == "SPIFFS")
+      isSPIFFS = 1;
+    
+    else if (modeS == "SD")
+      isSPIFFS = 0;
+
+  }
+
+  Serial.println("file System is " + FLS_NAME[isSPIFFS]);
+
+  Home();
+}
+
+void wait_SD()
+{
+  if (!isSPIFFS)
+    delay(1);
+}
+

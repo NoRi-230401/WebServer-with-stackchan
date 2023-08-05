@@ -1,6 +1,6 @@
 // ---------------------------< wsReq.h >------------------------------------
-#ifndef WS_REQUEST_H
-#define WS_REQUEST_H
+#ifndef WS_REQ_H
+#define WS_REQ_H
 // ---------------------------------------------------------------------
 #include <Arduino.h>
 #include <Avatar.h>

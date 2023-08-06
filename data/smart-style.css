@@ -1,114 +1,69 @@
-main {
-	width: 90%;
-	display: inline-block;
-	vertical-align: top;
+/* 
+  smart-style.css 
+  smartPhone 用 styleSheet
+*/
+
+a {
+  margin: 0 5px;
+}
+
+html {
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  font-size: 62.5%; /*rem算出をしやすくするために*/
+  /* font-size: 16px; */
+  font-family: Helvetica;
+  display: inline-block;
+  margin: 0px auto;
+  text-align: center;
+}
+
+body {
+  /* font-size: 1.5rem; */
+  background: #fffde7;
+  /* background: yellowgreen; */
+  -webkit-text-size-adjust: 100%;
+}
+
+
+div {
+  margin: 2%;
+  text-align: center;
+  font-size: 1.0rem;
+  color: #999;
+  font-weight: normal;
 }
 
 h1 {
   color: #6ecf12;
-  font-size: 3.0rem;
-  font-weight:bolder;
+  font-size: 2.0rem;
+  font-weight: bolder;
   padding: 2vh;
 }
 
+h2 {
+  font-size: 2.0rem;
+  font-weight: bold;
+}
+
 p {
-	line-height: 2;
-	width: 60%;
-	display: inline-block;
-	padding-right: 10px;
-	box-sizing: border-box;
-	vertical-align: top;
-	margin: 0;
-}
-
-.btn,
-a.btn,
-button.btn {
-  font-size: 2.6rem;
-  font-weight: 700;
-  line-height: 1.5;
-  position: relative;
-  display: inline-block;
-  padding: 1rem 4rem;
-  cursor: pointer;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  -webkit-transition: all 0.3s;
-  transition: all 0.3s;
-  text-align: center;
-  vertical-align: middle;
-  text-decoration: none;
-  letter-spacing: 0.1em;
-  color: #212529;
-  border-radius: 0.5rem;
+  width: 100%;
+  margin: 0px 0 10px 0;
 }
 
 
-@media screen and (max-width:480px) {
-	
-  h1 {
-    color: #6ecf12;
-    font-size: 5.0rem;
-    font-weight:bolder;
-    padding: 2vh;
-  }
-  
-  p {
-		width: 100%;
-		margin: 0px 0 10px 0;
-	}
 
-	main {
-		width: 100%;
-	}
-
-	.imgarea {
-		width: 100%;
-	}
-
-	aside {
-		width: 100%;
-		margin: 30px 0 0 0;
-	}
-
-  .btn,
-  a.btn,
-  button.btn {
-    font-size: 3.6rem;
-    font-weight: 700;
-    line-height: 1.5;
-    position: relative;
-    display: inline-block;
-    padding: 1rem 4rem;
-    cursor: pointer;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-    -webkit-transition: all 0.3s;
-    transition: all 0.3s;
-    text-align: center;
-    vertical-align: middle;
-    text-decoration: none;
-    letter-spacing: 0.1em;
-    color: #212529;
-    border-radius: 0.5rem;
-  }
-
-  
+main {
+  width: 100%;
 }
 
-/* ----------------------------------------------------------------------- */
-
-.just2{
+.just2 {
   display: flex;
   justify-content: space-around;
 }
 
 
-
+/* ----------------------------------------------------------------------- */
 /*まずはお決まりのボックスサイズ算出をborer-boxに */
 *,
 *:before,
@@ -117,22 +72,10 @@ button.btn {
   box-sizing: inherit;
 }
 
-html {
-  -webkit-box-sizing: border-box;
-  box-sizing: border-box;
-  font-size: 62.5%;/*rem算出をしやすくするために*/
-  font-family: Helvetica;
-  display: inline-block;
-  margin: 0px auto;
-  text-align: center;
-}
-
-
-
-/* .btn,
+.btn,
 a.btn,
 button.btn {
-  font-size: 3.6rem;
+  font-size: 1.8rem;
   font-weight: 700;
   line-height: 1.5;
   position: relative;
@@ -151,13 +94,13 @@ button.btn {
   letter-spacing: 0.1em;
   color: #212529;
   border-radius: 0.5rem;
-} */
+}
 
- a.btn--red {
+a.btn--red {
   border-radius: 50%;
-  line-height: 120px;
-  width: 120px;
-  height: 120px;
+  line-height: 80px;
+  width: 80px;
+  height: 80px;
   padding: 0;
   color: white;
   background: #f44336;
@@ -176,15 +119,16 @@ a.btn--red:hover {
 
 a.btn--blue {
   border-radius: 50%;
-  line-height: 120px;
-  width: 120px;
-  height: 120px;
+  line-height: 80px;
+  width: 80px;
+  height: 80px;
   padding: 0;
   color: white;
   background: #334eff;
   -webkit-box-shadow: 0 5px 0 #e4e3de;
   box-shadow: 0 5px 0 #d4d4ce;
 }
+
 a.btn--blue:hover {
   -webkit-transform: translate(0, 3px);
   transform: translate(0, 3px);
@@ -195,15 +139,16 @@ a.btn--blue:hover {
 
 a.btn--green {
   border-radius: 50%;
-  line-height: 120px;
-  width: 120px;
-  height: 120px;
+  line-height: 80px;
+  width: 80px;
+  height: 80px;
   padding: 0;
   color: white;
   background: #0f8e06;
   -webkit-box-shadow: 0 5px 0 #e4e3de;
   box-shadow: 0 5px 0 #d4d4ce;
 }
+
 a.btn--green:hover {
   -webkit-transform: translate(0, 3px);
   transform: translate(0, 3px);
@@ -214,9 +159,9 @@ a.btn--green:hover {
 
 a.btn--yellow {
   border-radius: 50%;
-  line-height: 120px;
-  width: 120px;
-  height: 120px;
+  line-height: 80px;
+  width: 80px;
+  height: 80px;
   padding: 0;
   color: yellowgreen;
   background: #fffb07;
@@ -233,15 +178,16 @@ a.btn--yellow:hover {
 
 a.btn--pink {
   border-radius: 50%;
-  line-height: 120px;
-  width: 120px;
-  height: 120px;
+  line-height: 80px;
+  width: 80px;
+  height: 80px;
   padding: 0;
   color: white;
   background: #ffb1c1;
   -webkit-box-shadow: 0 5px 0 #e4e3de;
   box-shadow: 0 5px 0 #d4d4ce;
 }
+
 a.btn--pink:hover {
   -webkit-transform: translate(0, 3px);
   transform: translate(0, 3px);
@@ -252,15 +198,16 @@ a.btn--pink:hover {
 
 a.btn--orange {
   border-radius: 50%;
-  line-height: 120px;
-  width: 120px;
-  height: 120px;
+  line-height: 80px;
+  width: 80px;
+  height: 80px;
   padding: 0;
   color: white;
   background: #ffA500;
   -webkit-box-shadow: 0 5px 0 #e4e3de;
   box-shadow: 0 5px 0 #d4d4ce;
 }
+
 a.btn--orange:hover {
   -webkit-transform: translate(0, 3px);
   transform: translate(0, 3px);
@@ -270,15 +217,16 @@ a.btn--orange:hover {
 
 a.btn--lightblue {
   border-radius: 50%;
-  line-height: 120px;
-  width: 120px;
-  height: 120px;
+  line-height: 80px;
+  width: 80px;
+  height: 80px;
   padding: 0;
   color: white;
   background: #ADDBE6;
   -webkit-box-shadow: 0 5px 0 #e4e3de;
   box-shadow: 0 5px 0 #d4d4ce;
 }
+
 a.btn--lightblue:hover {
   -webkit-transform: translate(0, 3px);
   transform: translate(0, 3px);
@@ -289,15 +237,16 @@ a.btn--lightblue:hover {
 
 a.btn--Lavender {
   border-radius: 50%;
-  line-height: 120px;
-  width: 120px;
-  height: 120px;
+  line-height: 80px;
+  width: 80px;
+  height: 80px;
   padding: 0;
   color: tomato;
   background: #e6e6fa;
   -webkit-box-shadow: 0 5px 0 #e4e3de;
   box-shadow: 0 5px 0 #d4d4ce;
 }
+
 a.btn--Lavender:hover {
   -webkit-transform: translate(0, 3px);
   transform: translate(0, 3px);
@@ -307,15 +256,16 @@ a.btn--Lavender:hover {
 
 a.btn--LightSkyBlue {
   border-radius: 50%;
-  line-height: 120px;
-  width: 120px;
-  height: 120px;
+  line-height: 80px;
+  width: 80px;
+  height: 80px;
   padding: 0;
   color: tomato;
   background: #67cefa;
   -webkit-box-shadow: 0 5px 0 #e4e3de;
   box-shadow: 0 5px 0 #d4d4ce;
 }
+
 a.btn--LightSkyBlue:hover {
   -webkit-transform: translate(0, 3px);
   transform: translate(0, 3px);
@@ -324,87 +274,56 @@ a.btn--LightSkyBlue:hover {
 }
 
 
-
-/* html {
-  font-family: Helvetica;
-  display: inline-block;
-  margin: 0px auto;
-  text-align: center;
-} */
-
-/* h1 {
-  color: #6ecf12;
-  font-size: 3.0rem;
-  font-weight:bolder;
-  padding: 2vh;
-} */
-
-
-p {
-  font-size: 1.2rem;
-}
-
-/* .button {
-  display: inline-block;
-  background-color: #008CBA;
-  border: none;
-  border-radius: 4px;
-  color: white;
-  padding: 8px 20px;
-  text-decoration: none;
-  font-size: 15px;
-  margin: 2px;
-  cursor: pointer;
-}
-
-.button2 {
-  background-color: #f44336;
-} */
-
 .button-reboot {
-  display       : inline-block;
-  border-radius : 50%;          /* 角丸       */
-  font-size     : 15pt;        /* 文字サイズ */
-  font-weight   : bolder;
-  text-align    : center;      /* 文字位置   */
-  cursor        : pointer;     /* カーソル   */
-  padding       : 60px 30px;   /* 余白       */
-  background    : yellowgreen;     /* 背景色     */
-  color         : #ffffff;     /* 文字色     */
-  line-height   : 1em;         /* 1行の高さ  */
-  transition    : .3s;         /* なめらか変化 */
-  box-shadow    : 6px 6px #666666;  /* 影の設定 */
-  border        : 2px solid yellowgreen;    /* 枠の指定 */
+  border-radius: 50%;
+  font-size: 1.8rem;
+  font-weight: bold;
+  line-height: 80px;
+  width: 80px;
+  height: 80px;
+  padding: 0;
+  color: white;
+  background: #0f8e06;
+  -webkit-box-shadow: 0 5px 0 #e4e3de;
+  box-shadow: 0 5px 0 #d4d4ce;
 }
+
 .button-reboot:hover {
-  box-shadow    : none;        /* カーソル時の影消去 */
-  color         : yellowgreen;     /* 背景色     */
-  background    : #ffffff;     /* 文字色     */
-}
+  box-shadow: none;
+  /* カーソル時の影消去 */
+  color: yellowgreen;
+  /* 背景色     */
+  background: #ffffff;
+  /* 文字色     */
+} 
+
+
 
 .button-shutdown {
-  display       : inline-block;
-  border-radius : 60%;          /* 角丸       */
-  font-size     : 15pt;        /* 文字サイズ */
-  font-weight   : bolder;
-  text-align    : center;      /* 文字位置   */
-  cursor        : pointer;     /* カーソル   */
-  padding       : 60px 30px;   /* 余白       */
-  background    : Red;     /* 背景色     */
-  color         : #ffffff;     /* 文字色     */
-  line-height   : 1em;         /* 1行の高さ  */
-  transition    : .3s;         /* なめらか変化 */
-  box-shadow    : 6px 6px #666666;  /* 影の設定 */
-  border        : 2px solid Red;    /* 枠の指定 */
+  border-radius: 50%;
+  font-size: 1.8rem;
+  font-weight: bold;
+  line-height: 80px;
+  width: 80px;
+  height: 80px;
+  padding: 0;
+  color: white;
+  background: Red;
+  -webkit-box-shadow: 0 5px 0 #e4e3de;
+  box-shadow: 0 5px 0 #d4d4ce;
 }
+
 .button-shutdown:hover {
-  box-shadow    : none;        /* カーソル時の影消去 */
-  color         : Red;     /* 背景色     */
-  background    : #ffffff;     /* 文字色     */
+  box-shadow: none;
+  /* カーソル時の影消去 */
+  color: Red;
+  /* 背景色     */
+  background: #ffffff;
+  /* 文字色     */
 }
 
 
-.triangle-top{
+.triangle-top {
   border-style: solid;
   border-width: 0 50px 50px 50px;
   border-color: transparent transparent #051181 transparent;
@@ -413,7 +332,7 @@ p {
   height: 0;
 }
 
-.triangle-right{
+.triangle-right {
   border-style: solid;
   border-width: 50px 0 50px 50px;
   border-color: transparent transparent transparent #fb3c3c;
@@ -422,7 +341,7 @@ p {
   height: 0;
 }
 
-.triangle-right-mini{
+.triangle-right-mini {
   border-style: solid;
   border-width: 20px 0 20px 20px;
   border-color: transparent transparent transparent #fb3c3c;
@@ -432,7 +351,7 @@ p {
 }
 
 
-.triangle-bottom{
+.triangle-bottom {
   border-style: solid;
   border-width: 50px 50px 0 50px;
   border-color: #feb64a transparent transparent transparent;
@@ -441,7 +360,7 @@ p {
   height: 0;
 }
 
-.triangle-left{
+.triangle-left {
   border-style: solid;
   border-width: 50px 50px 50px 0;
   border-color: transparent #128c8e transparent transparent;
@@ -450,7 +369,7 @@ p {
   height: 0;
 }
 
-.triangle-left-mini{
+.triangle-left-mini {
   border-style: solid;
   border-width: 20px 20px 20px 0;
   border-color: transparent #128c8e transparent transparent;
@@ -463,21 +382,7 @@ p {
 /*  ---------------------
  以下は調整用
 --------------------- */
-a{
-margin: 0 5px;
-}
 
-body {
-  background: #fffde7;
-}
-div {
-  margin: 30px;
-  text-align: center;
-  /* text-align: right; */
-  font-size: 14px;
-  color: #999;
-  font-weight: bold;
-}
 
 .reset {
   color: black;
@@ -507,11 +412,14 @@ div {
   font-weight: bold;
   padding: 13px 10px 10px;
   border-radius: 5px;
-  border-bottom: 5px solid rgba(0,0,0,0.3);
+  border-bottom: 5px solid rgba(0, 0, 0, 0.3);
+
   &:hover {
     animation: 1s flash;
   }
-  &:active, &:focus {
+
+  &:active,
+  &:focus {
     border-bottom-width: 0;
     margin-top: 5px;
     background: #ff9300;
@@ -519,16 +427,21 @@ div {
 }
 
 @keyframes flash {
-  from { opacity: 0.5; }
-  to { opacity: 1; }
+  from {
+    opacity: 0.5;
+  }
+
+  to {
+    opacity: 1;
+  }
 }
 
-.send01 input[type="submit"]{
+.send01 input[type="submit"] {
   width: 100px;
 }
 
 
-.example2{
+.example2 {
   text-align: right;
 }
 
@@ -552,6 +465,7 @@ input[type="button"]:hover {
   background-image: linear-gradient(0deg, #68d3db, #e5f4fc);
   border: 1px solid #2c628b;
 }
+
 input[type="button"]:active {
   /* クリックされたとき */
   background-image: linear-gradient(180deg, #68d3db, #e5f4fc);
@@ -591,28 +505,29 @@ input[type="button"]:active {
 
 
 form .formbottom {
-	text-align: center;
-} 
-form .btns{
-	display: inline-block;
-	vertical-align: middle;
-	margin: 0 10px;
-	padding: 6px 25px;
-	color: #F15A24;
-	font-weight: bold;
-	letter-spacing: 0.5pt;
-	text-decoration: none;
-	background-color: #ffffff;
-	border: 1px solid #F15A24;
-	cursor: pointer;
-	transition-duration:0.3s;
-    -webkit-transition-duration:0.3s;
-    -moz-transition-duration:0.3s;
-    -o-transition-duration:0.3s;
-    -ms-transition-duration:0.3s;
-} 
-form .btns:hover{
-    color: #ffffff;
-    background-color: #F15A24;
+  text-align: center;
 }
 
+form .btns {
+  display: inline-block;
+  vertical-align: middle;
+  margin: 0 0%;
+  padding:2px 2%;
+  color: #F15A24;
+  font-weight: bold;
+  letter-spacing: 0.5pt;
+  text-decoration: none;
+  background-color: #ffffff;
+  border: 1px solid #F15A24;
+  cursor: pointer;
+  transition-duration: 0.3s;
+  -webkit-transition-duration: 0.3s;
+  -moz-transition-duration: 0.3s;
+  -o-transition-duration: 0.3s;
+  -ms-transition-duration: 0.3s;
+}
+
+form .btns:hover {
+  color: #ffffff;
+  background-color: #F15A24;
+}

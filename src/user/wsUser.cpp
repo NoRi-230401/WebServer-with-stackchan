@@ -41,6 +41,12 @@ void setupUserHandler()
   server.on("/style.css", HTTP_GET, [](AsyncWebServerRequest *request)
             { request->send(SPIFFS, "/style.css", "text/css"); });
 
+  server.on("/smart-style.css", HTTP_GET, [](AsyncWebServerRequest *request)
+            { request->send(SPIFFS, "/smart-style.css", "text/css"); });
+
+  server.on("/pc-style.css", HTTP_GET, [](AsyncWebServerRequest *request)
+            { request->send(SPIFFS, "/pc-style.css", "text/css"); });
+
   // ###########################################################################
 }
 

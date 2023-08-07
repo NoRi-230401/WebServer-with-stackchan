@@ -3,20 +3,20 @@
   smartPhone 用 styleSheet
 */
 
+* {
+	float: none;
+	position: static;
+}
+
+img {
+	max-width: 100%;
+	height: auto;
+}
+
 a {
   margin: 0 5px;
 }
 
-html {
-  -webkit-box-sizing: border-box;
-  box-sizing: border-box;
-  font-size: 62.5%; /*rem算出をしやすくするために*/
-  /* font-size: 16px; */
-  font-family: Helvetica;
-  display: inline-block;
-  margin: 0px auto;
-  text-align: center;
-}
 
 body {
   /* font-size: 1.5rem; */
@@ -72,15 +72,25 @@ main {
   box-sizing: inherit;
 }
 
+html {
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  font-size: 62.5%; /*rem算出をしやすくするために*/
+  font-family: Helvetica;
+  display: inline-block;
+  margin: 0px auto;
+  text-align: center;
+}
+
 .btn,
 a.btn,
 button.btn {
-  font-size: 1.8rem;
-  font-weight: 700;
+  font-size: 2.0rem;
+  font-weight: 600;
   line-height: 1.5;
   position: relative;
   display: inline-block;
-  padding: 1rem 4rem;
+  padding: 1rem 1rem;
   cursor: pointer;
   -webkit-user-select: none;
   -moz-user-select: none;
@@ -95,6 +105,21 @@ button.btn {
   color: #212529;
   border-radius: 0.5rem;
 }
+
+.btn--2orange,
+a.btn--2orange {
+  font-size: 1.7rem;
+  font-weight: 400;
+  padding: 1rem 1rem;
+  color: #fff;
+  background-color: #a09f9e;
+}
+.btn--2orange:hover,
+a.btn--2orange:hover {
+  color: #fff;
+  background: #d19d0d;
+}
+
 
 a.btn--red {
   border-radius: 50%;

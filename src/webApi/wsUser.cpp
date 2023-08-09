@@ -166,10 +166,10 @@ String processor05(const String &var)
 void Home()
 {
   webpage = HTML_Header();
-  webpage += "<h4><b>[ Home ]　" + SERVER_NAME + "　　ip=" + IP_ADDR + "</b></h4>";
-  webpage += "<img src = 'icon.gif' alt='icon'>";
-  // webpage += "<h4>- Files, Upload, Download, Stream , Delete , Rename File in SPIFFS -</h4>";
-  webpage += "<br><br>";
+  webpage += "<br>";
+  webpage += "<img src='icon.gif' alt='icon'>";
+  webpage += "<h3>[&nbsp;Home&nbsp;]　" + SERVER_NAME + "　IP=" + IP_ADDR + "</h3>";
+  // webpage += "<br>";
   webpage += HTML_Footer();
 }
 
@@ -182,18 +182,16 @@ String HTML_Header2()
 
   page += "<head>";
   page += "<meta charset='UTF-8'>";
+  page += "<meta name='viewport' content='width=device-width,initial-scale=1.0'>";
   page += "<title>StackChan</title>";
   page += "<base target='StackChanSub'>";
-
-  page += "<style>";
+  page += "<style type='text/css'>";
+  page += "body {font-size:1.0rem;background-color:#fffde7;text-align:left;}";
   page += "div {text-align:center;}";
   page += "</style>";
-
   page += "</head>";
 
-  page += "<body bgcolor='#ccff99' text='#2f4f4f' leftmargin='10' topmargin='0'>";
-  page += "<basefont size='6'>";
-  page += "<pre><b>";
+  page += "<body><pre>";
   return page;
 }
 
@@ -217,7 +215,7 @@ String HTML_Header2Ng()
 
   page += "<body bgcolor='#ffccff' text='white' leftmargin='10' topmargin='0'>";
   page += "<basefont size='6'>";
-  page += "<pre><b>";
+  page += "<pre>";
   return page;
 }
 
@@ -227,7 +225,7 @@ String HTML_Footer2()
   String page;
   // page += "<footer>";
   // page += "</footer>";
-  page += "</b></pre><br><br>";
+  page += "</pre><br><br>";
   page += "<div><form><input type='button' name='button' value='このウィンドウを閉じる' onclick='window.close();'></form><div>";
   page += "</body></html>";
   return page;
@@ -242,71 +240,75 @@ String HTML_Header()
   page += "<head>";
   page += "<title>Home</title>";
   page += "<meta charset='UTF-8'>";
+  page += "<meta name='viewport' content='width=device-width,initial-scale=1.0'>";
   page += "<style>";
-  page += "body {width:50em;margin-left:auto;margin-right:auto;font-family:Arial,Helvetica,sans-serif;font-size:14px;color:#2f4f4f;background-color:#fffacd;text-align:center;}";
-  page += "footer {padding:0.08em;background-color:cyan;font-size:0.9em;}";
+  page += "@media screen and (max-width: 480px) {img{width:100%;height:auto;}}";
+  page += "body {width:100%;margin-left:auto;margin-right:auto;font-family:Arial,Helvetica,sans-serif;font-size:16px;color:#2f4f4f;background-color:#fffacd;text-align:center;}";
+  page += "footer {padding:0.08rem;background-color:cyan;font-size:0.9rem;}";
   page += "table {font-family:arial,sans-serif;border-collapse:collapse;width:70%;}"; // 70% of 75em!
   page += "table.center {margin-left:auto;margin-right:auto;}";
   page += "td, th {border:1px solid #dddddd;text-align:left;padding:8px;}";
   page += "tr:nth-child(even) {background-color:#dddddd;}";
-  page += "h3 {color:green;font:1.4em;font-style:normal;text-align:center;}";
-  page += "h4 {color:slateblue;font:0.8em;text-align:left;font-style:oblique;text-align:center;}";
+  page += "h3 {color:#6ecf12;font-size:1.1rem;font-style:normal;text-align:center;}";
+  page += "h4 {color:slateblue;font:0.8rem;text-align:left;font-style:oblique;text-align:center;}";
   page += ".center {margin-left:auto;margin-right:auto;}";
 
   // TOPNAV
-  page += ".topnav {overflow: hidden;background-color:lightPink;}";
-  page += ".topnav a {float:center;color:blue;text-align:center;padding:0.6em 0.6em;text-decoration:none;font-size:1.1em;}";
+  // page += ".topnav {overflow: hidden;background-color:lightPink;}";
+  page += ".topnav {overflow: visible;background-color:lightPink;}";
+  page += ".topnav a {float:center;color:blue;text-align:center;padding:0.7rem 0.7rem;text-decoration:none;font-size:1.2rem;}";
   page += ".topnav a:hover {background-color:deepskyblue;color:white;}";
   page += ".topnav a.active {background-color:lightblue;color:blue;}";
 
   // TOPNAV2
-  page += ".topnav2 {overflow: hidden;background-color:lightcyan;}";
-  page += ".topnav2 a {float:center;color:blue;text-align:center;padding:0.6em 0.6em;text-decoration:none;font-size:1.2em;}";
+  // page += ".topnav2 {overflow: hidden;background-color:lightcyan;}";
+  page += ".topnav2 {overflow: visible;background-color:lightcyan;}";
+  page += ".topnav2 a {float:center;color:blue;text-align:center;padding:0.7rem 0.7rem;text-decoration:none;font-size:1.2rem;}";
   page += ".topnav2 a:hover {background-color:deepskyblue;color:white;}";
   page += ".topnav2 a.active {background-color:lightblue;color:blue;}";
 
-  page += ".notfound {padding:0.8em;text-align:center;font-size:1.3em;}";
+  page += ".notfound {padding:0.8rem;text-align:center;font-size:1.3rem;}";
   page += ".left {text-align:left;}";
-  page += ".medium {font-size:1.4em;padding:0;margin:0}";
-  page += ".ps {font-size:0.9em;padding:0;margin:0}";
+  page += ".medium {font-size:1.4rem;padding:0;margin:0}";
+  page += ".ps {font-size:0.9rem;padding:0;margin:0}";
   page += ".sp {background-color:silver;white-space:nowrap;width:2%;}";
   page += "</style>";
   page += "</head>";
   page += "<body>";
 
   page += "<div class = 'topnav'>";
-  page += "<a href='/dir'>Files</a>";
+  page += "<a href='/dir'>Files</a> ";
   page += "<a href='/upload'>Upload</a> ";
-  page += "<a href='/download'>Download</a>";
-  page += "<a href='/stream'>Stream</a>";
-  page += "<a href='/delete'>Delete</a>";
-  page += "<a href='/rename'>Rename</a>";
-  page += "<a href='/fileSystem?mode=toggle'>Spiffs/Sd</a>:";
-  page += FLS_NAME[isSPIFFS];
-
+  page += "<a href='/download'>Download</a> ";
+  page += "<a href='/stream'>Stream</a> ";
+  page += "<a href='/delete'>Delete</a> ";
+  page += "<a href='/rename'>Rename</a> ";
+  page += "<a href='/fileSystem?mode=toggle'>Spiffs/Sd</a>:" + FLS_NAME[isSPIFFS];
   // page += "<a href='/format'>Format FS</a>";
   page += "</div>";
-
+  page += "<br>";
   page += "<div class = 'topnav2'>";
-  page += "<a href='/'>Home</a>";
-  page += "<a href='/wss1'>" + NAME_WSS1 + "</a>";
-  page += "<a href='/wss2'>" + NAME_WSS2 + "</a>";
-  page += "<a href='/wss3'>" + NAME_WSS3 + "</a>";
-  page += "<a href='/wss4'>" + NAME_WSS4 + "</a>";
-  page += "<a href='/wss5'>" + NAME_WSS5 + "</a>";
-  page += "<a href='/system'>Status</a><br>";
+  page += "<a href='/' target='Home'>Home</a>";
+  page += "<a href='/wss1' target='" + NAME_WSS1 + "'>" + NAME_WSS1 + "</a> ";
+  page += "<a href='/wss2' target='" + NAME_WSS2 + "'>" + NAME_WSS2 + "</a> ";
+  page += "<a href='/wss3' target='" + NAME_WSS3 + "'>" + NAME_WSS3 + "</a> ";
+  page += "<a href='/wss4'>" + NAME_WSS4 + "</a> ";
+  page += "<a href='/wss5'>" + NAME_WSS5 + "</a> ";
+  page += "<a href='/system'>Status</a>";
   page += "</div>";
-
+    
   return page;
 }
 // #############################################################################################
 String HTML_Footer()
 {
   String page;
-  page += "<br><footer>";
+  page += "<br>";
+  page += "<footer>";
   page += "<p class='medium'>" + SERVER_NAME + " is a super-kawaii robot.</p>";
   page += "<p class='ps'><i> " + WS_VERSION + "</i></p>";
   page += "</footer>";
+  page += "<br>";
   page += "</body>";
   page += "</html>";
   return page;

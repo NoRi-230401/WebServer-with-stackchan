@@ -75,7 +75,7 @@ main {
 html {
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
-  font-size: 62.5%; /*rem算出をしやすくするために*/
+  font-size: 62.5%; /*rem算出をしやすくするために 1rem=10px */
   font-family: Helvetica;
   display: inline-block;
   margin: 0px auto;
@@ -85,8 +85,8 @@ html {
 .btn,
 a.btn,
 button.btn {
-  font-size: 2.0rem;
-  font-weight: 600;
+  font-size: 1.8rem;
+  font-weight: 500;
   line-height: 1.5;
   position: relative;
   display: inline-block;
@@ -106,26 +106,73 @@ button.btn {
   border-radius: 0.5rem;
 }
 
-.btn--2orange,
-a.btn--2orange {
+.btn--BtnABC,
+a.btn--BtnABC {
   font-size: 1.7rem;
   font-weight: 400;
-  padding: 1rem 1rem;
+  padding: 0.1rem 0.5rem;
   color: #fff;
-  background-color: #a09f9e;
+  background-color: #16ceca;
 }
-.btn--2orange:hover,
-a.btn--2orange:hover {
+.btn--BtnABC:hover,
+a.btn--BtnABC:hover {
+  color: #fff;
+  background: #d19d0d;
+}
+
+.btn--BtnBOX,
+a.btn--BtnBOX {
+  font-size: 1.7rem;
+  font-weight: 400;
+  padding: 0.1rem 0.5rem;
+  color: #fff;
+  background-color: #16ce7e;
+}
+.btn--BtnBOX:hover,
+a.btn--BtnBOX:hover {
   color: #fff;
   background: #d19d0d;
 }
 
 
+a.btn-solid-silver {
+  color: #000;
+  border-top: 4px solid #d8dcdc;
+  border-right: 4px solid #666;
+  border-bottom: 4px solid #333;
+  border-left: 4px solid #868888;
+  border-radius: 0;
+  background-image: -webkit-linear-gradient(135deg, #333 0%, #868888 20%, #d8dcdc 34%, white 53%, #666 100%);
+  background-image: linear-gradient(-45deg, #333 0%, #868888 20%, #d8dcdc 34%, white 53%, #666 100%);
+  text-shadow: 0 0 5px #fff, 0 0 5px #fff, 0 0 5px #fff, 0 0 5px #fff, 0 0 5px #fff;
+}
+
+a.btn-solid-silver:hover {
+  text-shadow: 0 0 7px #fff, 0 0 7px #fff, 0 0 7px #fff, 0 0 7px #fff, 0 0 7px #fff, 0 0 7px #fff, 0 0 7px #fff, 0 0 7px #fff;
+}
+
+
+.btn--BtnServo,
+a.btn--BtnServo {
+  font-size: 1.5rem;
+  font-weight: 300;
+  padding: 3rem 2rem;
+  color: #fff;
+  background-color: #a09f9e;
+}
+.btn--BtnServo:hover,
+a.btn--BtnServo:hover {
+  color: #fff;
+  background: #d19d0d;
+}
+
+
+
 a.btn--red {
   border-radius: 50%;
-  line-height: 80px;
-  width: 80px;
-  height: 80px;
+  line-height: 70px;
+  width: 70px;
+  height: 70px;
   padding: 0;
   color: white;
   background: #f44336;
@@ -144,9 +191,9 @@ a.btn--red:hover {
 
 a.btn--blue {
   border-radius: 50%;
-  line-height: 80px;
-  width: 80px;
-  height: 80px;
+  line-height: 70px;
+  width: 70px;
+  height: 70px;
   padding: 0;
   color: white;
   background: #334eff;
@@ -164,9 +211,9 @@ a.btn--blue:hover {
 
 a.btn--green {
   border-radius: 50%;
-  line-height: 80px;
-  width: 80px;
-  height: 80px;
+  line-height: 70px;
+  width: 70px;
+  height: 70px;
   padding: 0;
   color: white;
   background: #0f8e06;
@@ -184,9 +231,9 @@ a.btn--green:hover {
 
 a.btn--yellow {
   border-radius: 50%;
-  line-height: 80px;
-  width: 80px;
-  height: 80px;
+  line-height: 70px;
+  width: 70px;
+  height: 70px;
   padding: 0;
   color: yellowgreen;
   background: #fffb07;
@@ -203,9 +250,9 @@ a.btn--yellow:hover {
 
 a.btn--pink {
   border-radius: 50%;
-  line-height: 80px;
-  width: 80px;
-  height: 80px;
+  line-height: 70px;
+  width: 70px;
+  height: 70px;
   padding: 0;
   color: white;
   background: #ffb1c1;
@@ -223,9 +270,9 @@ a.btn--pink:hover {
 
 a.btn--orange {
   border-radius: 50%;
-  line-height: 80px;
-  width: 80px;
-  height: 80px;
+  line-height: 70px;
+  width: 70px;
+  height: 70px;
   padding: 0;
   color: white;
   background: #ffA500;
@@ -242,9 +289,9 @@ a.btn--orange:hover {
 
 a.btn--lightblue {
   border-radius: 50%;
-  line-height: 80px;
-  width: 80px;
-  height: 80px;
+  line-height: 70px;
+  width: 70px;
+  height: 70px;
   padding: 0;
   color: white;
   background: #ADDBE6;
@@ -262,9 +309,9 @@ a.btn--lightblue:hover {
 
 a.btn--Lavender {
   border-radius: 50%;
-  line-height: 80px;
-  width: 80px;
-  height: 80px;
+  line-height: 70px;
+  width: 70px;
+  height: 70px;
   padding: 0;
   color: tomato;
   background: #e6e6fa;
@@ -281,9 +328,9 @@ a.btn--Lavender:hover {
 
 a.btn--LightSkyBlue {
   border-radius: 50%;
-  line-height: 80px;
-  width: 80px;
-  height: 80px;
+  line-height: 70px;
+  width: 70px;
+  height: 70px;
   padding: 0;
   color: tomato;
   background: #67cefa;
@@ -301,11 +348,11 @@ a.btn--LightSkyBlue:hover {
 
 .button-reboot {
   border-radius: 50%;
-  font-size: 1.8rem;
+  font-size: 1.6rem;
   font-weight: bold;
-  line-height: 80px;
-  width: 80px;
-  height: 80px;
+  line-height: 70px;
+  width: 70px;
+  height: 70px;
   padding: 0;
   color: white;
   background: #0f8e06;
@@ -325,60 +372,37 @@ a.btn--LightSkyBlue:hover {
 
 
 .button-shutdown {
-  border-radius: 50%;
-  font-size: 1.8rem;
+  font-size: 1.4rem;
   font-weight: bold;
-  line-height: 80px;
-  width: 80px;
-  height: 80px;
+  border-radius: 50%;
+  line-height: 70px;
+  width: 70px;
+  height: 70px;
   padding: 0;
   color: white;
-  background: Red;
+  background: #f44336;
   -webkit-box-shadow: 0 5px 0 #e4e3de;
   box-shadow: 0 5px 0 #d4d4ce;
 }
 
 .button-shutdown:hover {
   box-shadow: none;
-  /* カーソル時の影消去 */
   color: Red;
-  /* 背景色     */
   background: #ffffff;
-  /* 文字色     */
 }
-
 
 .triangle-top {
   border-style: solid;
-  border-width: 0 50px 50px 50px;
+  border-width: 0px 40px 30px 40px;
   border-color: transparent transparent #051181 transparent;
   display: inline-block;
   width: 0;
   height: 0;
 }
 
-.triangle-right {
-  border-style: solid;
-  border-width: 50px 0 50px 50px;
-  border-color: transparent transparent transparent #fb3c3c;
-  display: inline-block;
-  width: 0;
-  height: 0;
-}
-
-.triangle-right-mini {
-  border-style: solid;
-  border-width: 20px 0 20px 20px;
-  border-color: transparent transparent transparent #fb3c3c;
-  display: inline-block;
-  width: 0;
-  height: 0;
-}
-
-
 .triangle-bottom {
   border-style: solid;
-  border-width: 50px 50px 0 50px;
+  border-width: 30px 40px 0px 40px;
   border-color: #feb64a transparent transparent transparent;
   display: inline-block;
   width: 0;
@@ -387,21 +411,41 @@ a.btn--LightSkyBlue:hover {
 
 .triangle-left {
   border-style: solid;
-  border-width: 50px 50px 50px 0;
+  border-width: 40px 40px 40px 0px;
   border-color: transparent #128c8e transparent transparent;
   display: inline-block;
   width: 0;
   height: 0;
 }
 
-.triangle-left-mini {
+.triangle-right {
+  border-style: solid;
+  border-width: 40px 0px 40px 40px;
+  border-color: transparent transparent transparent #fb3c3c;
+  display: inline-block;
+  width: 0;
+  height: 0;
+}
+
+/* .triangle-right2 {
+  border-style: solid;
+  border-width: 40px 0px 40px 30px;
+  border-color: transparent transparent transparent #fb3c3c;
+  display: inline-block;
+  width: 0;
+  height: 0;
+} */
+
+
+
+/* .triangle-left-mini {
   border-style: solid;
   border-width: 20px 20px 20px 0;
   border-color: transparent #128c8e transparent transparent;
   display: inline-block;
   width: 0;
   height: 0;
-}
+} */
 
 
 /*  ---------------------

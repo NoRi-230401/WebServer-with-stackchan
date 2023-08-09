@@ -5,16 +5,67 @@
   <meta charset="UTF-8">
   <title>StackChan</title>
   <base target="StackChanSub">
-  <!-- comment -->
-  <meta name="author" content="NoRi-230811">
-  <meta name="content-language" content="ja">
-  <meta name="build" content="2023-08-01">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <style>
+    body {
+      text-align: left;
+      margin: 1%;
+      width: 100%;
+      background: #fffacd;
+      font-size: 1.0rem;
+      /* -webkit-text-size-adjust: 100%; */
+    }
+
+    div {
+      line-height: 120%;
+      text-align: left;
+      font-size: 1.0rem;
+      font-weight: normal;
+    }
+
+    p {
+      line-height: 120%;
+      font-size: 1.0rem;
+      width: 100%;
+      margin: 0%
+    }
+
+    h1 {
+      text-align: center;
+      margin: 0%;
+      line-height: 110%;
+      color: #87ceeb;
+      font-size: 1.8rem;
+      font-weight: bolder;
+    }
+
+    h3 {
+      line-height: 110%;
+      font-size: 1.3rem;
+      font-weight: bold;
+    }
+
+    h4 {
+      line-height: 110%;
+      font-size: 1.2rem;
+      font-weight: normal;
+    }
+
+    h5 {
+      line-height: 110%;
+      font-size: 1.1rem;
+      font-weight: normal;
+    }
+  </style>
+
 </head>
 
-<body bgcolor="#fffacd" text="#2f4f4f" leftmargin="10" topmargin="20">
+<!-- <body bgcolor="#fffacd" text="#2f4f4f" leftmargin="10" topmargin="20"> -->
+
+<body>
   <a name="top"></a>
-  <font size="3">Welcome to</font><br>
-  <font color="87ceeb" size="5"><b>　WebServer-with-stackchan　(WSS)</b></font><br>
+  <h3>Welcome to</h3>
+  <h1>WebServer-with-stackchan　(WSS)</h1>
 
   <hr color="#87ceeb" width="100%" size="3">
   <br>
@@ -121,24 +172,24 @@
   <hr>
   <h4><a name="chatgpt"></a>★２.chatGPT　(ロール設定とTTS)</h4>
 
-  <p>
-  <h3>　chatGPT</h3>
-  　テキストを入力してAIと会話してください。<br>
+  テキストを入力してAIと会話してください。<br>
+  <div>
   <form action="http://192.168.0.100/chat" method="get">
     <textarea rows="6" cols="60" name="text" wrap="soft"> </textarea><br>
     vSpeakerNo:話者番号(0-66)　　<input type="text" name="voice" value="1" size="2" maxlength="2" />
     <br>
     <input type="submit" value="送信" />
   </form>
-  </p>
+  </div>
   <br>
   <p>
-  <h3>※　ロール設定</h3>
-  <p>chatGPTのロール設定の確認と変更ができます。<br><br>
-    <a href="http://192.168.0.100/role_get">ロール設定の確認</a>
-    <br><br>
+  <h4>ロール設定</h4>
+  chatGPTのロール設定の確認と変更ができます。
+
+  <a href="http://192.168.0.100/role_get">ロールの確認</a>
+  <br><br>
   <form action="http://192.168.0.100/role_set" method="post">
-    <label for="textarea">ロール設定の変更　（何も入力しないとロール情報は消去されます。）</label><br>
+    <label for="textarea">ロールの変更　（何も入力しないとロール情報は消去されます。）</label><br>
     <textarea id="role_textarea" name="textarea" rows="6" cols="60"></textarea><br>
     <input type="submit" value="送信">
   </form>
@@ -163,29 +214,43 @@
     <br><br>
 
     （１）～（３）は、まだ、wifiの接続が出来ていない場合です。<br><br>
+  </p>
 
-    （１）．<a
-      href="https://github.com/NoRi-230401/WebServer-with-stackchan">GitHubで提供しているソフト</a>(WebServer-with-stackchan)の「INSTALL」ファルダ内のファイル<br>
+    <p>
+    （１）．
+      <a href="https://github.com/NoRi-230401/WebServer-with-stackchan">GitHubで提供しているソフト</a><br>
+      (WebServer-with-stackchan)の「INSTALL」ファルダ内のファイル<br>
     を全てPCにコピーしてください。<br>
     　設定には、wsWifi.json　とファイルを使用します。<br>
     <br>
+  </p>
+
+  <p>
     （２）．テキストエディタで、次の箇所を自分用に書き換える<br>
     　・　wsWifi.json の [ssid]、[passwd]<br>
     <br>
+  </p>
+
+  <p>
     （３）．SD直下に wsWifi.json フォイルをコピーしてください。<br>
     その後、電源を入れ 本体に顔が表示されたらWifiの接続は成功です。<br><br>
     <br><br>
+  </p>
+
+  <p>
     （４）．PCのWEBアドレス入力欄に、ServerName　(初期値は、"stackchan") <br>
     　（例１）<a href="http://stackchan/">http://stackchan/</a> <br><br>
     　または、ブート時に表示されるIPアドレスを入力<br>
     　（例２）http://192.168.0.100/　 <br>
     <br>
-    （５）．PCの画面に「 [Home] stackchan ip=xxx.xxx.xxx.xxx 」が表示されていればPCとの接続成功<br>
-    次の　<b>「★４．簡単設定」</b>　に移動し、残りの設定をします。<br>
-
-
   </p>
-  <br>
+
+  <p>
+    （５）．PCの画面に「 [Home] stackchan ip=xxx.xxx.xxx.xxx 」が表示されていればPCとの接続成功です。<br><br>
+    次の<b>「★４．簡単設定」</b>に移動し、残りの設定をします。<br>
+  </p>
+  <br><br>
+
   <a href="#top">トップ</a>
   　<a href="http://192.168.0.100/sysInfo">システム情報</a>
   　<a href="http://192.168.0.100/apikey">wsApikey.json</a>
@@ -255,8 +320,8 @@
   　　<a href="http://192.168.0.100/startup?keyLock=off">off</a>
   <br><br>
   <form action="http://192.168.0.100/startup" method="get">
-    vSpeakerNo : 話者番号( -1 to 66) -1は状態維持：<input type="text" name="vSpeakerNo" value="-1" size="2" maxlength="2" />　<input
-      type="submit" value="送信" />
+    vSpeakerNo : 話者番号( -1 to 66) -1は状態維持：<input type="text" name="vSpeakerNo" value="-1" size="2"
+      maxlength="2" />　<input type="submit" value="送信" />
   </form>
   <br>
   randomSpeak：　<a href="http://192.168.0.100/startup?randomSpeak=on">on</a>
@@ -276,12 +341,14 @@
   <br>
   <hr>
   <h4><a name="wifiSelect"></a>★６. Wifi設定（複数AP, DHCP/固定IP対応）</h4>
+  
   <p>
     複数のアクセスポイント（AP）情報を登録できます。<br>
     DHCP接続の場合には、ssid-passwd の２つの情報が必要。<br>
     固定IP接続の場合は、ssid-passwd-ip-gateway-subnet の５つ、<br>
     または、dns情報を含めた６つの情報の登録が必要となります。<br>
   </p>
+  <br>
 
   <p>
     登録後の設定を反映するには、再起動が必要です。<br>
@@ -317,8 +384,8 @@
 
   <br><br>
   <hr>
-  <h3><a name="info"></a>★７. ApiKey取得と情報（リンク）</h4>
-  <h4>[ ApiKey ]</h4>
+  <h4><a name="info"></a>★７. ApiKey取得と情報（リンク）</h4>
+  <h5>[ ApiKey ]</h5>
   OpenAI と VOICEVOXのApiKeyの取得が必要となります。<br>
   下記のリンクを参考にしてApiKeyを取得してください。<br><br>
   　<a href="https://openai.com/">OpenAI</a><br>
@@ -327,29 +394,29 @@
   　<a href="https://su-shiki.com/api/">VOICEVOX用API取得</a><br>
   <br>
 
-  <h4>[ WebServer-with-stackchan ]</h4>
-  
+  <h5>[ WebServer-with-stackchan ]</h5>
+
   　<a href="https://github.com/NoRi-230401/WebServer-with-stackchan">WebServer-with-stackchan(GitHub)</a>
   <br>
   　<a href="https://drive.google.com/drive/u/1/folders/1xljoYIRUaAEwy3630j6imzLtksO6ecvg">サンプル等のファイル置場(GoogleDrive)</a>
   <br>
   　<a href="https://nori230401.blogspot.com/">「プログラマー日記」: 私のブログです</a>
   <br><br>
-  
 
- <h4> [ 参考ソフト ]</h4>
- 　<a href="https://github.com/me-no-dev/ESPAsyncWebServer">ESPAsysncWebServer</a><br>
- 　<a href="https://github.com/G6EJD/G6EJD-ESP-File-Server">ESP-File-Server</a><br>
- 　<a href="https://github.com/NoRi-230401/AiStackChanEx">AiStackChanEx(旧ソフト)</a><br>
- 　<a href="https://github.com/robo8080/AI_StackChan2/">AI_StackChan2</a><br>
+
+  <h5> [ 参考ソフト ]</h5>
+  　<a href="https://github.com/me-no-dev/ESPAsyncWebServer">ESPAsysncWebServer</a><br>
+  　<a href="https://github.com/G6EJD/G6EJD-ESP-File-Server">ESP-File-Server</a><br>
+  　<a href="https://github.com/NoRi-230401/AiStackChanEx">AiStackChanEx(旧ソフト)</a><br>
+  　<a href="https://github.com/robo8080/AI_StackChan2/">AI_StackChan2</a><br>
   <br>
-  <h3> [ サーボ関連 ]</h3>
+  <h5> [ サーボ関連 ]</h5>
   　<a href="https://github.com/mongonta0716/stack-chan-tester/">stack-chan-tester</a><br>
   　<a href="https://raspberrypi.mongonta.com/how-to-move-with-sg90-arduinoframework/">「M５スタック沼人ノニッキ」</a><br>
   　<a href="https://note.com/ku_nel_5/n/n8c57b19884bd/">「電子工作素人によるスタックチャン製作記４」</a>
   <br><br>
 
-  <h4> [ Twitter ]</h4>
+  <h5> [ Twitter ]</h5>
   　<a
     href="https://twitter.com/hashtag/%EF%BD%BD%EF%BE%80%EF%BD%AF%EF%BD%B8%EF%BE%81%EF%BD%AC%EF%BE%9D?src=hashtag_click/">＃ｽﾀｯｸﾁｬﾝ</a>　　<a
     href="https://twitter.com/hashtag/AI%EF%BD%BD%EF%BE%80%EF%BD%AF%EF%BD%B8%EF%BE%81%EF%BD%AC%EF%BE%9D?src=hashtag_click/">＃AIｽﾀｯｸﾁｬﾝ</a><br>
@@ -364,13 +431,14 @@
 
   <br><br>
   <hr>
-  <h3><a name="hajime"></a>★８.はじめに読んでください。</h4>
-  <h4>[ ソフトウエアの特徴 ]</h4>
-  
+  <a name="hajime"></a>
+  <h4>★８.はじめに読んでください。</h4>
+  <h5>[ ソフトウエアの特徴 ]</h5>
+
   <br>
   <br>
   <br>
- 
+
   <a href="#top">トップ</a>
   　<a href="http://192.168.0.100/sysInfo">システム情報</a>　<a href="http://192.168.0.100/startup">wsStartup.json</a>　<a
     href="http://192.168.0.100/apikey">wsApikey.json</a>　<a href="http://192.168.0.100/wifiSelect">wsWifi.json</a>　<a

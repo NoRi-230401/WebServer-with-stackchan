@@ -11,55 +11,77 @@
 </head>
 
 <body bgcolor="#fffacd" text="#2f4f4f" leftmargin="10" topmargin="5"></body>
-<!-- <h1><b>StackChan Remote Control</b></h1> -->
-<!-- <h2><b>StackChan Remote Control</b></h2> -->
 
 <div class="just2">
   <input type="submit" value="PowOff" class="button-shutdown" onclick="MovePowerOffCheck();">
-  <input type="submit" value="Reboot" class="button-reboot" onclick="MoveRebootCheck();">
   <a href="http://192.168.0.100/" class="btn btn--orange btn--orange">Home</a>
+  <a href="http://192.168.0.100/sysInfo" class="btn btn--LightSkyBlue btn--LightSkyBlue"
+    onclick="window.open('http://192.168.0.100/sysInfo','subwin','width=400,height=650','scrollbars=yes');return false;">SysInfo</a>
 </div>
 
 <div class="just2">
-  <a href="http://192.168.0.100/button?push=BOX_STT" class="btn btn--LightSkyBlue btn--LightSkyBlue"
-    onclick="window.open('http://192.168.0.100/button?push=BOX_STT','subwin','width=300,height=200');return false;">STT</a>
-
-  <a href="http://192.168.0.100/button?push=BOX_SERVO" class="btn btn--LightSkyBlue btn--LightSkyBlue"
-    onclick="window.open('http://192.168.0.100/button?push=BOX_SERVO','subwin','width=300,height=200');return false;">Servo</a>
-
-  <a href="http://192.168.0.100/sysInfo" class="btn btn--pink btn--pink"
-    onclick="window.open('http://192.168.0.100/sysInfo','subwin','width=400,height=650','scrollbars=yes');return false;">SysInfo</a>
+  <!-- <a href="http://192.168.0.100/button?push=BOX_STT" class="btn btn--LightSkyBlue btn--LightSkyBlue"
+    onclick="window.open('http://192.168.0.100/button?push=BOX_STT','subwin','width=300,height=200');return false;">STT</a> -->
+    <a href="http://192.168.0.100/button?push=BOX_STT" class="btn btn--BtnBOX"
+    onclick="window.open('http://192.168.0.100/button?push=BOX_STT','subwin','width=300,height=200');return false;">Talk with<br>chatGPT</a>
+  <a href="http://192.168.0.100/button?push=BOX_SERVO" class="btn btn--BtnBOX"
+    onclick="window.open('http://192.168.0.100/button?push=BOX_SERVO','subwin','width=300,height=200');return false;">
+    &nbsp;&nbsp;Servo&nbsp;&nbsp;<br>Mode</a>
+  <!-- <a href="http://192.168.0.100/sysInfo" class="btn btn--pink btn--pink"
+    onclick="window.open('http://192.168.0.100/sysInfo','subwin','width=400,height=650','scrollbars=yes');return false;">SysInfo</a> -->
 </div>
 
 <p>
   <a href="http://192.168.0.100/servo?deltaY=-15" class="triangle-top"
     onclick="window.open('http://192.168.0.100/servo?deltaY=-15','subwin','width=300,height=200');return false;"></a><br>
-  <a href="http://192.168.0.100/servo?deltaX=-20" class="triangle-left"
+    
+    <a href="http://192.168.0.100/servo?deltaX=-20" class="triangle-left"
     onclick="window.open('http://192.168.0.100/servo?deltaX=-20','subwin','width=300,height=200');return false;"></a>
-  　　　　　　　　　　<a href="http://192.168.0.100/servo?deltaX=20" class="triangle-right"
+
+    　　　　　　　<a href="http://192.168.0.100/servo?deltaX=20" class="triangle-right"
     onclick="window.open('http://192.168.0.100/servo?deltaX=20','subwin','width=300,height=200');return false;"></a>
-  <br>
+    <br>  
+    
   <a href="http://192.168.0.100/servo?deltaY=15" class="triangle-bottom"
     onclick="window.open('http://192.168.0.100/servo?deltaY=15','subwin','width=300,height=200');return false;"></a>
 </p>
 
 <div class="just2">
-  <a href="http://192.168.0.100/button?push=BtnA" class=" btn btn--2orange"
+  <a href="http://192.168.0.100/button?push=BtnA" class=" btn btn--BtnABC"
     onclick="window.open('http://192.168.0.100/button?push=BtnA','subwin','width=300,height=200');return false;">BtnA<br>self-talk</a>
-  <a href="http://192.168.0.100/button?push=BtnB" class="btn btn--2orange"
+  <a href="http://192.168.0.100/button?push=BtnB" class="btn btn--BtnABC"
     onclick="window.open('http://192.168.0.100/button?push=BtnB','subwin','width=300,height=200');return false;">BtnB<br>&nbsp;&nbsp;Timer&nbsp;&nbsp;</a>
-  <a href="http://192.168.0.100/button?push=BtnC" class="btn btn--2orange"
+  <a href="http://192.168.0.100/button?push=BtnC" class="btn btn--BtnABC"
     onclick="window.open('http://192.168.0.100/button?push=BtnC','subwin','width=300,height=200');return false;">BtnC<br>&nbsp;Battery&nbsp;</a>
 </div>
 
+<div class="just2">
+  <a href="http://192.168.0.100/timer?setTimeMin=1&mode=Start" class="btn btn--Lavender btn--Lavender"
+    onclick="window.open('http://192.168.0.100/timer?setTimeMin=1&mode=Start','subwin','width=300,height=200');return false;">1min</a>
+  <a href="http://192.168.0.100/timer?setTimeMin=3&mode=Start" class="btn btn--Lavender btn--Lavender"
+    onclick="window.open('http://192.168.0.100/timer?setTimeMin=3&mode=Start','subwin','width=300,height=200');return false;">3min</a>
+  <a href="http://192.168.0.100/timer?setTimeMin=5&mode=Start" class="btn btn--Lavender btn--Lavender"
+    onclick="window.open('http://192.168.0.100/timer?setTimeMin=5&mode=Start','subwin','width=300,height=200');return false;">5min</a>
+</div>
 
+<form action="http://192.168.0.100/timer" method="get">
+  <p class="formbottom">
+  <div class="just2">
+    <font size="5"><b>Min</b></font>
+    <input type="text" style="text-align:right;font-size:180%;" name="setTimeMin" value="2" size="2" maxlength="2">
+    <font size="5"><b>Sec</b></font>
+    <input type="text" style="text-align:right;font-size:180%;" name="setTimeSec" value="30" size="2" maxlength="2">
+    <input type="submit" style="font-size:180%;" value="SUBMIT" class="btns submit" onclick="disp('http://192.168.0.100/timer')">
+  </div>
+  </p>
+</form>
 
 <div class="just2">
   <a href="http://192.168.0.100/setting?led=toggle" class="btn btn--yellow btn--yellow"
     onclick="window.open('http://192.168.0.100/setting?led=toggle','subwin','width=300,height=200');return false;">LED</a>
   <a href="http://192.168.0.100/setting?toneMode=next" class="btn btn--green btn--green"
     onclick="window.open('http://192.168.0.100/setting?toneMode=next','subwin','width=300,height=200');return false;">ToneM</a>
-  <a href="http://192.168.0.100/setting?mute=toggle" class="btn btn--lightblue btn--lightblue"
+  <a href="http://192.168.0.100/setting?mute=toggle" class="btn btn--pink btn--pink"
     onclick="window.open('http://192.168.0.100/setting?mute=toggle','subwin','width=300,height=200');return false;">Mute</a>
 </div>
 
@@ -73,36 +95,6 @@
   </p>
 </form>
 
-<br>
-<div class="just2">
-  <a href="http://192.168.0.100/timer?setTimeMin=1&mode=Start" class="btn btn--green btn--green"
-    onclick="window.open('http://192.168.0.100/timer?setTimeMin=1&mode=Start','subwin','width=300,height=200');return false;">1min</a>
-  <a href="http://192.168.0.100/timer?setTimeMin=3&mode=Start" class="btn btn--lightblue btn--lightblue"
-    onclick="window.open('http://192.168.0.100/timer?setTimeMin=3&mode=Start','subwin','width=300,height=200');return false;">3min</a>
-  <a href="http://192.168.0.100/timer?setTimeMin=5&mode=Start" class="btn btn--orange btn--orenge"
-    onclick="window.open('http://192.168.0.100/timer?setTimeMin=5&mode=Start','subwin','width=300,height=200');return false;">5min</a>
-</div>
-
-<div class="just2">
-  <a href="http://192.168.0.100/timer?setTimeMin=7&mode=Start" class="btn btn--pink btn--pink"
-    onclick="window.open('http://192.168.0.100/timer?setTimeMin=7&mode=Start','subwin','width=300,height=200');return false;">7min</a>
-  <a href="http://192.168.0.100/timer?mode=Start" class="btn btn--blue btn--blue"
-    onclick="window.open('http://192.168.0.100/timer?mode=Start','subwin','width=300,height=200');return false;">TmStart</a>
-  <a href="http://192.168.0.100/timer?mode=Stop" class="btn btn--red btn--red"
-    onclick="window.open('http://192.168.0.100/timer?mode=Stop','subwin','width=300,height=200');return false;">TmStop</a>
-</div>
-
-<form action="http://192.168.0.100/timer" method="get">
-  <p class="formbottom">
-  <div class="just2">
-    <font size="4"><b>Min</b></font>
-    <input type="text" style="text-align:right;font-size:180%;" name="setTimeMin" size="2" maxlength="2">
-    <font size="4"><b>Sec</b></font>
-    <input type="text" style="text-align:right;font-size:180%;" name="setTimeSec" value="0" size="2" maxlength="2">
-    <input type="submit" style="font-size:180%;" value="SUBMIT" class="btns submit" onclick="disp('http://192.168.0.100/timer')">
-  </div>
-  </p>
-</form>
 <h1>StackChan Remote Control</h1>
 
 <footer>

@@ -6,6 +6,7 @@
 #include <Avatar.h>
 #include <M5Unified.h>
 #include <Adafruit_NeoPixel.h>
+#include <nvs.h>
 
 #define NUM_LEDS 10                // LEDの数を指定する
 #define TIMER_INIT 180          // タイマー初期値：３分

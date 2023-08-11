@@ -29,6 +29,15 @@ void wsHandleTimer(String TmSecS, String TmMinS, String timerModeS)
     if (TIMER_SEC_VALUE < TIMER_MIN)
       TIMER_SEC_VALUE = TIMER_MIN;
 
+    // NVS に保存
+    uint32_t nvs_handle;
+    size_t timer_value = (size_t)TIMER_SEC_VALUE;
+    if (ESP_OK == nvs_open("setting", NVS_READWRITE, &nvs_handle))
+    {
+      nvs_set_u32(nvs_handle, "timer", timer_value);
+    }
+    nvs_close(nvs_handle);
+
     TIMER_STOP_GET = false;
     TIMER_GO_GET = false;
     webpage = "timer = " + String(TIMER_SEC_VALUE, DEC) + "sec";

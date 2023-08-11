@@ -132,7 +132,7 @@ void wsHandleSetting(String volumeS, String volumeDS, String vSpeakerNoS,
 
     uint8_t tMode = TONE_MODE;
     if (ESP_OK == nvs_open(SETTING_NVS, NVS_READWRITE, &nvs_handle))
-      nvs_set_u8(nvs_handle, "toneMode", tMode);
+      nvs_set_u32(nvs_handle, "toneMode", tMode);
     nvs_close(nvs_handle);
 
     webpage = "toneMode = " + String(TONE_MODE, DEC);
@@ -219,8 +219,8 @@ void wsHandleSetting(String volumeS, String volumeDS, String vSpeakerNoS,
 
     if (ESP_OK == nvs_open(SETTING_NVS, NVS_READWRITE, &nvs_handle))
     {
-      nvs_set_u8(nvs_handle, "vSpeakerNo", speaker_no);
-      Serial.print("NVS Write : vSpeakerNo = " + String(speaker_no, DEC));
+      nvs_set_u32(nvs_handle, "vSpeakerNo", speaker_no);
+      Serial.println("NVS Write : vSpeakerNo = " + String(speaker_no, DEC));
     }
     nvs_close(nvs_handle);
     webpage = "vSpeakerNo = " + String(speaker_no, DEC);

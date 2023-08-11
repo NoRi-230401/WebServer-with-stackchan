@@ -29,6 +29,8 @@ extern void timerStop();
 extern void sysInfoDispEnd();
 extern void tone(int mode);
 extern void SST_ChatGPT();
+extern bool TIMER_STOP_GET;
+extern bool TIMER_GO_GET;
 
 // --------------------------------------------------------
 void wsHandleBtn(String arg);

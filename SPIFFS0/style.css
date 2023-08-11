@@ -3,6 +3,22 @@
   smartPhone 用 styleSheet
 */
 
+html {
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  font-size: 62.5%; /*rem算出をしやすくするために 1rem=10px */
+  font-family: Helvetica;
+  display: inline-block;
+  margin: 0px auto;
+  text-align: center;
+}
+
+body {
+  background: #fffde7;
+  /* -webkit-text-size-adjust: 100%; */
+}
+
+
 * {
 	float: none;
 	position: static;
@@ -18,13 +34,6 @@ a {
 }
 
 
-body {
-  /* font-size: 1.5rem; */
-  background: #fffde7;
-  /* background: yellowgreen; */
-  -webkit-text-size-adjust: 100%;
-}
-
 
 div {
   margin: 2%;
@@ -35,8 +44,18 @@ div {
 }
 
 h1 {
-  color: #6ecf12;
-  font-size: 2.0rem;
+  text-align: center;
+  margin: 0%;
+  line-height: 110%;
+  color: #87ceeb;
+  font-size: 2.8rem;
+  font-weight: bolder;
+}
+
+
+h1 {
+  color: #87ceeb;
+  font-size: 2.8rem;
   font-weight: bolder;
   padding: 2vh;
 }
@@ -72,15 +91,6 @@ main {
   box-sizing: inherit;
 }
 
-html {
-  -webkit-box-sizing: border-box;
-  box-sizing: border-box;
-  font-size: 62.5%; /*rem算出をしやすくするために 1rem=10px */
-  font-family: Helvetica;
-  display: inline-block;
-  margin: 0px auto;
-  text-align: center;
-}
 
 .btn,
 a.btn,

@@ -92,7 +92,7 @@ void TimerManage()
     { // 指定時間が経過したら終了
       timerEnd();
     }
-    else if (TIMER_STOP_GET)
+    else if (TIMER_STOP_GET && (SPEECH_TEXT_BUFFER == "") && (SPEECH_TEXT == ""))
     { // ---Timer停止---
       timerStop();
     }
@@ -104,7 +104,7 @@ void TimerManage()
   }
   else
   {
-    if (TIMER_GO_GET)
+    if ( TIMER_GO_GET && (SPEECH_TEXT_BUFFER == "") && (SPEECH_TEXT == ""))
       timerStart();
   }
 }

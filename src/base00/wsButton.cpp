@@ -180,11 +180,13 @@ void BtnB_Do()
   if (!TIMER_STARTED)
   { // ---- Timer 開始 ------
     randomSpeakStop2();
-    timerStart();
+    TIMER_GO_GET = true;
+    TIMER_STOP_GET = false;
   }
   else
   { // --- Timer 停止 ------
-    timerStop();
+    TIMER_STOP_GET = true;
+    TIMER_GO_GET = false;
   }
 }
 

@@ -29,6 +29,8 @@ extern void led_clear();
 void ttsDo( const String& text );
 extern String webpage;
 extern void randomSpeakStop2();
+extern String SPEECH_TEXT;
+extern String SPEECH_TEXT_BUFFER;
 
 // ---------------------------------------------------------------------------
 void wsHandleTimer(String TmSecS, String TmMinS, String timerModeS);

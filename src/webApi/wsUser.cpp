@@ -250,7 +250,7 @@ String HTML_Header()
   page += "table.center {margin-left:auto;margin-right:auto;}";
   page += "td, th {border:1px solid #dddddd;text-align:left;padding:0.8rem;}";
   page += "tr:nth-child(even) {background-color:#dddddd;}";
-  page += "h3 {color:#6ecf12;font-size:1.9rem;font-style:normal;text-align:center;}";
+  page += "h3 {color:#6ecf12;font-size:1.8rem;font-style:normal;text-align:center;}";
   page += "h4 {color:slateblue;font-size:1.5rem;text-align:left;font-style:oblique;text-align:center;}";
   page += ".center {margin-left:auto;margin-right:auto;}";
 

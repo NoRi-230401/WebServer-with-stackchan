@@ -179,18 +179,18 @@ String HTML_Header2()
   String page;
   page = "<!DOCTYPE html>";
   page += "<html lang = 'ja'>";
-
   page += "<head>";
   page += "<meta charset='UTF-8'>";
   page += "<meta name='viewport' content='width=device-width,initial-scale=1.0'>";
-  page += "<title>StackChan</title>";
+    page += "<title>StackChan</title>";
   page += "<base target='StackChanSub'>";
-  page += "<style type='text/css'>";
-  page += "body {font-size:1.0rem;background-color:#fffde7;text-align:left;}";
-  page += "div {text-align:center;}";
+  page += "<style>";
+  page += "html {font-size: 62.5%;}";
+  page += "body {font-size:1.6rem;background-color:#fffde7;text-align:left;}";
+  page += "div {font-size:1.6rem;text-align:center;}";
+  page += "@media screen and (max-width: 480px) {body{font-size:1.4rem;} img{width:100%;height:auto;}}";
   page += "</style>";
   page += "</head>";
-
   page += "<body><pre>";
   return page;
 }
@@ -201,23 +201,22 @@ String HTML_Header2Ng()
   String page;
   page = "<!DOCTYPE html>";
   page += "<html lang = 'ja'>";
-
   page += "<head>";
   page += "<meta charset='UTF-8'>";
   page += "<title>StackChan</title>";
   page += "<base target='StackChanSub'>";
-
+  page += "<meta name='viewport' content='width=device-width,initial-scale=1.0'>";
   page += "<style>";
-  page += "div {text-align:center;}";
+  page += "html {font-size: 62.5%;}";
+  page += "body {font-size:1.6rem;background-color:#ffccff;text-align:left;}";
+  page += "div {font-size:1.6rem;text-align:center;}";
+  page += "@media screen and (max-width: 480px) {body{font-size:1.4rem;} img{width:100%;height:auto;}}";
   page += "</style>";
-
   page += "</head>";
-
-  page += "<body bgcolor='#ffccff' text='white' leftmargin='10' topmargin='0'>";
-  page += "<basefont size='6'>";
-  page += "<pre>";
+  page += "<body><pre>";
   return page;
 }
+
 
 // #############################################################################################
 String HTML_Footer2()
@@ -239,38 +238,38 @@ String HTML_Header()
   page += "<html lang = 'ja'>";
   page += "<head>";
   page += "<title>Home</title>";
+  page += "<base target='_self'>";
   page += "<meta charset='UTF-8'>";
   page += "<meta name='viewport' content='width=device-width,initial-scale=1.0'>";
   page += "<style>";
   page += "@media screen and (max-width: 480px) {img{width:100%;height:auto;}}";
-  page += "body {width:100%;margin-left:auto;margin-right:auto;font-family:Arial,Helvetica,sans-serif;font-size:16px;color:#2f4f4f;background-color:#fffacd;text-align:center;}";
-  page += "footer {padding:0.08rem;background-color:cyan;font-size:0.9rem;}";
-  page += "table {font-family:arial,sans-serif;border-collapse:collapse;width:70%;}"; // 70% of 75em!
+  page += "html {font-size: 62.5%;}";
+  page += "body {width:100%;margin-left:auto;margin-right:auto;font-family:Arial,Helvetica,sans-serif;font-size:1.4rem;color:#2f4f4f;background-color:#fffacd;text-align:center;}";
+  page += "footer {padding:1.0rem;background-color:cyan;font-size:1.4rem;}";
+  page += "table {font-family:arial,sans-serif;border-collapse:collapse;width:80%;}";
   page += "table.center {margin-left:auto;margin-right:auto;}";
-  page += "td, th {border:1px solid #dddddd;text-align:left;padding:8px;}";
+  page += "td, th {border:1px solid #dddddd;text-align:left;padding:0.8rem;}";
   page += "tr:nth-child(even) {background-color:#dddddd;}";
-  page += "h3 {color:#6ecf12;font-size:1.1rem;font-style:normal;text-align:center;}";
-  page += "h4 {color:slateblue;font:0.8rem;text-align:left;font-style:oblique;text-align:center;}";
+  page += "h3 {color:#6ecf12;font-size:1.9rem;font-style:normal;text-align:center;}";
+  page += "h4 {color:slateblue;font-size:1.5rem;text-align:left;font-style:oblique;text-align:center;}";
   page += ".center {margin-left:auto;margin-right:auto;}";
 
   // TOPNAV
-  // page += ".topnav {overflow: hidden;background-color:lightPink;}";
   page += ".topnav {overflow: visible;background-color:lightPink;}";
-  page += ".topnav a {float:center;color:blue;text-align:center;padding:0.7rem 0.7rem;text-decoration:none;font-size:1.2rem;}";
+  page += ".topnav a {float:center;color:blue;text-align:center;padding:1.0rem 1.0rem;text-decoration:none;font-size:1.5rem;}";
   page += ".topnav a:hover {background-color:deepskyblue;color:white;}";
   page += ".topnav a.active {background-color:lightblue;color:blue;}";
 
   // TOPNAV2
-  // page += ".topnav2 {overflow: hidden;background-color:lightcyan;}";
   page += ".topnav2 {overflow: visible;background-color:lightcyan;}";
-  page += ".topnav2 a {float:center;color:blue;text-align:center;padding:0.7rem 0.7rem;text-decoration:none;font-size:1.2rem;}";
+  page += ".topnav2 a {float:center;color:blue;text-align:center;padding:1.0rem 1.0rem;text-decoration:none;font-size:1.5rem;}";
   page += ".topnav2 a:hover {background-color:deepskyblue;color:white;}";
   page += ".topnav2 a.active {background-color:lightblue;color:blue;}";
 
   page += ".notfound {padding:0.8rem;text-align:center;font-size:1.3rem;}";
   page += ".left {text-align:left;}";
-  page += ".medium {font-size:1.4rem;padding:0;margin:0}";
-  page += ".ps {font-size:0.9rem;padding:0;margin:0}";
+  page += ".medium {font-size:1.9rem;padding:0;margin:0}";
+  page += ".ps {font-size:1.4rem;padding:0;margin:0}";
   page += ".sp {background-color:silver;white-space:nowrap;width:2%;}";
   page += "</style>";
   page += "</head>";
@@ -292,8 +291,8 @@ String HTML_Header()
   page += "<a href='/wss1' target='" + NAME_WSS1 + "'>" + NAME_WSS1 + "</a> ";
   page += "<a href='/wss2' target='" + NAME_WSS2 + "'>" + NAME_WSS2 + "</a> ";
   page += "<a href='/wss3' target='" + NAME_WSS3 + "'>" + NAME_WSS3 + "</a> ";
-  page += "<a href='/wss4'>" + NAME_WSS4 + "</a> ";
-  page += "<a href='/wss5'>" + NAME_WSS5 + "</a> ";
+  // page += "<a href='/wss4'>" + NAME_WSS4 + "</a> ";
+  // page += "<a href='/wss5'>" + NAME_WSS5 + "</a> ";
   page += "<a href='/system'>Status</a>";
   page += "</div>";
     

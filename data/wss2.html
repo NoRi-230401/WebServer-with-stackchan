@@ -5,14 +5,78 @@
   <meta charset="UTF-8">
   <title>Servo</title>
   <base target="StackChanSub">
-  <!-- comment -->
-  <meta name="author" content="NoRi230401">
-  <meta name="content-language" content="ja">
-  <meta name="build" content="2023-08-21">
-</head>
-<!-- comment -->
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <style>
+    html {
+      font-size: 62.5%;
+    }
 
-<body bgcolor="#fffacd" text="#2f4f4f" leftmargin="10" topmargin="20">
+    body {
+      text-align: left;
+      margin: 1%;
+      width: 100%;
+      background: #fffacd;
+      font-size: 1.6rem;
+    }
+
+    div {
+      line-height: 120%;
+      text-align: left;
+      font-size: 1.5rem;
+      font-weight: normal;
+    }
+
+    p {
+      line-height: 120%;
+      font-size: 1.5rem;
+      width: 100%;
+      margin: 0%
+    }
+
+    h1 {
+      text-align: center;
+      margin: 0%;
+      line-height: 110%;
+      color: #87ceeb;
+      font-size: 2.8rem;
+      font-weight: bolder;
+    }
+
+    h3 {
+      line-height: 110%;
+      font-size: 2.0rem;
+      font-weight: bold;
+    }
+
+    h4 {
+      line-height: 110%;
+      font-size: 1.8rem;
+      font-weight: normal;
+    }
+
+    h5 {
+      line-height: 110%;
+      font-size: 1.6rem;
+      font-weight: normal;
+    }
+
+    @media screen and (max-width: 480px) {
+      img {
+        width: 100%;
+        height: auto;
+      }
+
+      body { font-size: 1.4rem; }
+      div { font-size: 1.4rem; }
+      p { font-size: 1.4rem; }
+      h5 { font-size: 1.4rem; }
+
+    }
+  </style>
+
+</head>
+
+<body>
   <a name="top"></a>
   <font color="87ceeb" size="5">　<b>Servo</b></font>
   <hr color="#87ceeb" width="100%" size="3">
@@ -41,28 +105,19 @@
   <h3><a name="svCont"></a> ★１.サーボ制御（コントロール）</h3>
   <br>
   動作中の制御（コントロール）をおこないます。
-  <br> <br>
+  <br><br>
 
   <p>
-    　<a href="http://192.168.0.100/servo?mode=moving">moving</a>
-    ：（通常動作）　　　　<a href="http://192.168.0.100/servo?mode=stop">stop</a>：（動作停止）<br>
-    <br>
-    　<a href="http://192.168.0.100/servo?mode=home">home </a>
-    ：（ホーム位置）　　　　<a href="http://192.168.0.100/servo?mode=center">center</a>
-    ：（X=90,Y=90）
+    <a href="http://192.168.0.100/servo?mode=moving">moving</a>：　（通常動作）<br><br>
+    <a href="http://192.168.0.100/servo?mode=stop">stop</a>：　（動作停止）<br><br>
+    <a href="http://192.168.0.100/servo?mode=home">home </a>：　（ホーム位置）<br><br>
+    <a href="http://192.168.0.100/servo?mode=center">center</a>：　（X=90,Y=90）<br><br>
+    <a href="http://192.168.0.100/servo?mode=random">Random</a>：　(X: 45-135) , (Y: 60-90) の範囲でランダムな動きをします。
   </p>
-  <br>
-
-  <p>
-    <b>Random</b>　　　<a href="http://192.168.0.100/servo?mode=random">Random</a>
-    <br>　　　　　(X: 45-135) , (Y: 60-90) の範囲でランダムな動きをします。<br><br>
-  </p>
-
-
-
+  <br><br>
   <p>
     <b>Swing</b><br>
-    　XY軸、X軸、Y軸の３種類の移動方向を選べ、それぞれ回数指定ができます。<br>
+    XY軸、X軸、Y軸の３種類の移動方向を選べ、それぞれ回数指定ができます。<br>
 
   <form action="http://192.168.0.100/servo" method="get">
     　SwingXY　:　 <input type="text" name="swingXY" value="1" size="2" maxlength="2" />　 repeat　(1 to 10)
@@ -82,7 +137,7 @@
   </form>
   <br>
   </p>
-
+  <br>
   <p>
     <b>PointXY</b>　は、絶対位置(X:0 to 180,　 Y:50 to 100) を指定: degree<br>
   <form action="http://192.168.0.100/servo" method="get">
@@ -90,7 +145,7 @@
       type="text" name="pointY" value="90" size="3" maxlength="3" />　<input type="submit" value="送信" />
   </form>
   </p>
-  <br>
+  <br><br>
   <p>
     <b>DeltaXY</b>　は、現在の位置からの相対位置(X:-180 to 180,　 Y:-50 to 50)を指定 : degree<br>
     指定された値が、サーボ設定範囲を超えた場合には、最小、最大値に張り付きます。<br>
@@ -100,7 +155,8 @@
     <input type="text" name="deltaY" value="0" size="3" maxlength="3" />　<input type="submit" value="送信" />
   </form>
   </p>
-  <br>
+  <br><br>
+  
   <p>
     <b>サーボ位置取得</b>　　現在のX、Yの位置を取得できます。<br>
     　　　<a href="http://192.168.0.100/servo?tx=xy">サーボ位置(X,Y)の取得 </a>

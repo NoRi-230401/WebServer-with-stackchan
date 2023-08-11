@@ -7,25 +7,28 @@
   <base target="StackChanSub">
   <meta name="viewport" content="width=device-width,initial-scale=1.0">
   <style>
+    html {
+      font-size: 62.5%;
+    }
+
     body {
       text-align: left;
       margin: 1%;
       width: 100%;
       background: #fffacd;
-      font-size: 1.0rem;
-      /* -webkit-text-size-adjust: 100%; */
+      font-size: 1.6rem;
     }
 
     div {
       line-height: 120%;
       text-align: left;
-      font-size: 1.0rem;
+      font-size: 1.5rem;
       font-weight: normal;
     }
 
     p {
       line-height: 120%;
-      font-size: 1.0rem;
+      font-size: 1.5rem;
       width: 100%;
       margin: 0%
     }
@@ -35,26 +38,38 @@
       margin: 0%;
       line-height: 110%;
       color: #87ceeb;
-      font-size: 1.8rem;
+      font-size: 2.8rem;
       font-weight: bolder;
     }
 
     h3 {
       line-height: 110%;
-      font-size: 1.3rem;
+      font-size: 2.0rem;
       font-weight: bold;
     }
 
     h4 {
       line-height: 110%;
-      font-size: 1.2rem;
+      font-size: 1.8rem;
       font-weight: normal;
     }
 
     h5 {
       line-height: 110%;
-      font-size: 1.1rem;
+      font-size: 1.5rem;
       font-weight: normal;
+    }
+
+    @media screen and (max-width: 480px) {
+      img {
+        width: 100%;
+        height: auto;
+      }
+
+      body { font-size: 1.4rem; }
+      div { font-size: 1.4rem; }
+      p { font-size: 1.4rem; }
+      h5 { font-size: 1.4rem; }
     }
   </style>
 
@@ -108,7 +123,7 @@
   「独り言」 ：　<a href="http://192.168.0.100/randomSpeak?mode=on">開始</a>
   　　<a href="http://192.168.0.100/randomSpeak?mode=off">停止</a>
   <br><br>
-  <form action="http://192.168.0.100/setting?" method="get">vSpeakerNo:話者番号(0-66)　<input type="text" name="speaker"
+  <form action="http://192.168.0.100/setting?" method="get">vSpeakerNo:話者番号(0-66)　<input type="text" name="vSpeakerNo"
       value="3" size="2" maxlength="2" />　 <input type="submit" value="送信" />
   </form>
   <br>
@@ -174,12 +189,12 @@
 
   テキストを入力してAIと会話してください。<br>
   <div>
-  <form action="http://192.168.0.100/chat" method="get">
-    <textarea rows="6" cols="60" name="text" wrap="soft"> </textarea><br>
-    vSpeakerNo:話者番号(0-66)　　<input type="text" name="voice" value="1" size="2" maxlength="2" />
-    <br>
-    <input type="submit" value="送信" />
-  </form>
+    <form action="http://192.168.0.100/chat" method="get">
+      <textarea rows="6" cols="60" name="text" wrap="soft"> </textarea><br>
+      vSpeakerNo:話者番号(0-66)　　<input type="text" name="voice" value="1" size="2" maxlength="2" />
+      <br>
+      <input type="submit" value="送信" />
+    </form>
   </div>
   <br>
   <p>
@@ -216,10 +231,10 @@
     （１）～（３）は、まだ、wifiの接続が出来ていない場合です。<br><br>
   </p>
 
-    <p>
+  <p>
     （１）．
-      <a href="https://github.com/NoRi-230401/WebServer-with-stackchan">GitHubで提供しているソフト</a><br>
-      (WebServer-with-stackchan)の「INSTALL」ファルダ内のファイル<br>
+    <a href="https://github.com/NoRi-230401/WebServer-with-stackchan">GitHubで提供しているソフト</a><br>
+    (WebServer-with-stackchan)の「INSTALL」ファルダ内のファイル<br>
     を全てPCにコピーしてください。<br>
     　設定には、wsWifi.json　とファイルを使用します。<br>
     <br>
@@ -341,7 +356,7 @@
   <br>
   <hr>
   <h4><a name="wifiSelect"></a>★６. Wifi設定（複数AP, DHCP/固定IP対応）</h4>
-  
+
   <p>
     複数のアクセスポイント（AP）情報を登録できます。<br>
     DHCP接続の場合には、ssid-passwd の２つの情報が必要。<br>

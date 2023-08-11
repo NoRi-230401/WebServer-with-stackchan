@@ -8,36 +8,33 @@ uint16_t TIMER_ELEAPSE_SEC = 0;
 bool TIMER_STOP_GET = false;
 bool TIMER_GO_GET = false;
 
-
-
 void wsHandleTimer(String TmSecS, String TmMinS, String timerModeS)
 {
- 
-  if ( (TmSecS != "") || (TmMinS !="") )
+  if ((TmSecS != "") || (TmMinS != ""))
   {
-    int timerSec=0;
-    int timerMin=0;
-  
-    if(TmSecS !="")
+    int timerSec = 0;
+    int timerMin = 0;
+
+    if (TmSecS != "")
       timerSec = TmSecS.toInt();
 
-    if(TmMinS !="")
+    if (TmMinS != "")
       timerMin = TmMinS.toInt();
 
     TIMER_SEC_VALUE = (timerMin * 60) + timerSec;
 
-    if(TIMER_SEC_VALUE > TIMER_MAX)
+    if (TIMER_SEC_VALUE > TIMER_MAX)
       TIMER_SEC_VALUE = TIMER_MAX;
 
-    if(TIMER_SEC_VALUE < TIMER_MIN)
+    if (TIMER_SEC_VALUE < TIMER_MIN)
       TIMER_SEC_VALUE = TIMER_MIN;
 
     TIMER_STOP_GET = false;
     TIMER_GO_GET = false;
-    webpage = "timer = " + String(TIMER_SEC_VALUE,DEC) + "sec";
+    webpage = "timer = " + String(TIMER_SEC_VALUE, DEC) + "sec";
   }
-  
-   // String timer_mode = request->arg("mode");
+
+  // String timer_mode = request->arg("mode");
   if (timerModeS != "")
   {
     timerModeS.toUpperCase();
@@ -53,7 +50,7 @@ void wsHandleTimer(String TmSecS, String TmMinS, String timerModeS)
         TIMER_GO_GET = true;
         TIMER_STOP_GET = false;
 
-        webpage = "timer Start : " + String(TIMER_SEC_VALUE,DEC) + "sec";
+        webpage = "timer Start : " + String(TIMER_SEC_VALUE, DEC) + "sec";
         Serial.println(webpage);
         return;
       }
@@ -64,16 +61,13 @@ void wsHandleTimer(String TmSecS, String TmMinS, String timerModeS)
       {
         TIMER_STOP_GET = true;
         TIMER_GO_GET = false;
-        webpage = "timer Stop" ;
+        webpage = "timer Stop";
         Serial.println(webpage);
         return;
       }
     }
   }
-
 }
-
-
 
 void TimerManage()
 {
@@ -106,7 +100,6 @@ void TimerManage()
   }
 }
 
-
 void timerStop2()
 {
   // --- Timer を途中で停止 ------
@@ -115,7 +108,6 @@ void timerStop2()
   TIMER_STOP_GET = false;
   TIMER_ELEAPSE_SEC = 0;
 }
-
 
 void timerStart()
 {
@@ -263,4 +255,3 @@ void timerEnd()
   TIMER_STOP_GET = false;
   TIMER_ELEAPSE_SEC = 0;
 }
-

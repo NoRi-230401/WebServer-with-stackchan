@@ -43,7 +43,6 @@ void wsHandleTimer(String TmSecS, String TmMinS, String timerModeS)
     webpage = "timer = " + String(TIMER_SEC_VALUE, DEC) + "sec";
   }
 
-  // String timer_mode = request->arg("mode");
   if (timerModeS != "")
   {
     timerModeS.toUpperCase();
@@ -58,11 +57,14 @@ void wsHandleTimer(String TmSecS, String TmMinS, String timerModeS)
         randomSpeakStop2();
         TIMER_GO_GET = true;
         TIMER_STOP_GET = false;
-
         webpage = "timer Start : " + String(TIMER_SEC_VALUE, DEC) + "sec";
-        Serial.println(webpage);
-        return;
       }
+      else
+      {
+        webpage = "timer has already started";
+      }
+      Serial.println(webpage);
+      return;
     }
     else if (timerModeS == "STOP")
     {
@@ -71,9 +73,13 @@ void wsHandleTimer(String TmSecS, String TmMinS, String timerModeS)
         TIMER_STOP_GET = true;
         TIMER_GO_GET = false;
         webpage = "timer Stop";
-        Serial.println(webpage);
-        return;
       }
+      else
+      {
+        webpage = "timer has already stopped";
+      }
+      Serial.println(webpage);
+      return;
     }
   }
 }
@@ -104,7 +110,7 @@ void TimerManage()
   }
   else
   {
-    if ( TIMER_GO_GET && (SPEECH_TEXT_BUFFER == "") && (SPEECH_TEXT == ""))
+    if (TIMER_GO_GET && (SPEECH_TEXT_BUFFER == "") && (SPEECH_TEXT == ""))
       timerStart();
   }
 }

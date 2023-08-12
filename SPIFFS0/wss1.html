@@ -8,13 +8,13 @@
   <meta name="viewport" content="width=device-width,initial-scale=1.0">
   <style>
     html {
-      margin:2% 1% 2%; 
       font-size: 62.5%;
     }
 
     body {
+      margin: 1%;
       text-align: left;
-      width: 100%;
+      width: 98%;
       background: #fffacd;
       font-size: 1.6rem;
     }
@@ -58,8 +58,8 @@
 
     h4 {
       line-height: 110%;
-      font-size: 1.8rem;
-      font-weight: normal;
+      font-size: 1.5rem;
+      font-weight: bold;
     }
 
     h5 {
@@ -74,10 +74,21 @@
         height: auto;
       }
 
-      body { font-size: 1.4rem; }
-      div { font-size: 1.4rem; }
-      p { font-size: 1.4rem; }
-      h5 { font-size: 1.4rem; }
+      body {
+        font-size: 1.4rem;
+      }
+
+      div {
+        font-size: 1.4rem;
+      }
+
+      p {
+        font-size: 1.4rem;
+      }
+
+      h5 {
+        font-size: 1.4rem;
+      }
     }
   </style>
 
@@ -118,7 +129,9 @@
   <br><br>
   <hr color="#87ceeb" width="100%" size="3">
 
-  <a name="kihon"></a><h2>★１. 基本操作</h2>
+  <a name="kihon"></a>
+  <br>
+  <h2>★１. 基本操作</h2>
 
   <form action="http://192.168.0.100/setting" method="get">
     音量( 0 - 255 )：<input type="text" name="volume" value="200" size="3" maxlength="3" />　<input type="submit"
@@ -135,8 +148,9 @@
   <br>
 
   <form action="http://192.168.0.100/timer" method="get">
-    タイマー時間設定(30-3599秒)：<input type="text" name="setTimeSec" value="180" size="5" maxlength="5" />　　<input type="submit"
-      value="送信" />　30秒～60分未満
+    タイマー時間設定(30秒-60分未満)<br>
+    　<input type="text" name="setTimeMin" value="" size="2" maxlength="2" />分
+    　<input type="text" name="setTimeSec" value="0" size="2" maxlength="2" />秒　　<input type="submit" value="送信" />
   </form>
 
   <br>
@@ -149,25 +163,28 @@
   　　<a href="http://192.168.0.100/setting?led=off">LED_OFF</a>
   <br><br>
 
-  toneMode(0-3):　<a href="http://192.168.0.100/setting?toneMode=0">0:無音</a>
+  toneMode(0-3):<br>
+  <a href="http://192.168.0.100/setting?toneMode=0">0:無音</a>
   　<a href="http://192.168.0.100/setting?toneMode=1">1:ボタン押下</a>
   　<a href="http://192.168.0.100/setting?toneMode=2">2:コマンド受信</a>
   　<a href="http://192.168.0.100/setting?toneMode=3">3:両方</a>
   <br><br>
 
-  音声ミュート：　<a href="http://192.168.0.100/setting?mute=on">ミュートON(無音) </a>
-  　　<a href="http://192.168.0.100/setting?mute=off">ミュートOFF（有音）</a>
+  音声ミュート：　<a href="http://192.168.0.100/setting?mute=on">MuteOn(無音) </a>
+  　　<a href="http://192.168.0.100/setting?mute=off">MuteOff（有音）</a>
   <br><br>
 
-  KEYロック：　<a href="http://192.168.0.100/setting?keyLock=on">ロックON (ボタン操作無効) </a>
-  　　<a href="http://192.168.0.100/setting?keyLock=off">ロックOFF（ボタン操作有効）</a>
+  KEYロック：　<a href="http://192.168.0.100/setting?keyLock=on">On (操作無効) </a>
+  　　<a href="http://192.168.0.100/setting?keyLock=off">Off（操作有効）</a>
   <br><br>
-  終了/再起動：　<a href="http://192.168.0.100/shutdown">「終了」を実行</a>
-  　　<a href="http://192.168.0.100/shutdown?reboot=on">「再起動」を実行</a>
+  終了/再起動：　<a href="http://192.168.0.100/shutdown">「終了」実行</a>
+  　　<a href="http://192.168.0.100/shutdown?reboot=on">「再起動」実行</a>
   <br><br>
-  表情：<a href="http://192.168.0.100/face?expression=0">0:普通</a>
+  表情：<br>
+  　<a href="http://192.168.0.100/face?expression=0">0:普通</a>
   　<a href="http://192.168.0.100/face?expression=1">1:楽しい</a>
   　<a href="http://192.168.0.100/face?expression=2">2:眠い</a>
+  <br>
   　<a href="http://192.168.0.100/face?expression=3">3:怪しい</a>
   　<a href="http://192.168.0.100/face?expression=4">4:悲しい</a>
   　<a href="http://192.168.0.100/face?expression=5">5:怒り</a>
@@ -177,7 +194,7 @@
   <form action="http://192.168.0.100/speech" method="get">
     <p>
       <b>セリフ（発声）</b>： テキスト入力<br>
-      <textarea rows="6" cols="60" name="say" wrap="soft"></textarea><br>
+      <textarea rows="6" cols="40" name="say" wrap="soft"></textarea><br>
       vSpeakerNo:話者番号:( 0-66 ) 　<input type="text" name="voice" value="" size="2" maxlength="2" /><br>
       表情(0-5)：<input type="text" name="expression" value="0" size="1" maxlength="1" />　上の「表情」番号を入力<br>
       <input type="submit" value="送信" />
@@ -191,28 +208,33 @@
 
   <br><br>
   <hr>
-  <a name="chatgpt"></a><h2>★２.chatGPT</h2>
-  
+  <a name="chatgpt"></a>
+  <br>
+  <h2>★２.chatGPT</h2>
+
 
   テキストを入力してAIと会話してください。<br>
   <div>
     <form action="http://192.168.0.100/chat" method="get">
-      <textarea rows="6" cols="60" name="text" wrap="soft"> </textarea><br>
+      <textarea rows="6" cols="40" name="text" wrap="soft"> </textarea><br>
       vSpeakerNo:話者番号(0-66)　　<input type="text" name="voice" value="1" size="2" maxlength="2" />
       <br>
       <input type="submit" value="送信" />
     </form>
   </div>
   <br>
-  
+
   <h4>ロール設定</h4>
-  chatGPTのロール設定の確認と変更ができます。<br>
+  chatGPTのロール設定の確認と変更ができます。<br><br>
   <p>
-  <a href="http://192.168.0.100/role_get">ロールの確認</a>
-  <br><br>
+    <a href="http://192.168.0.100/role_get">ロールの確認</a>
+  </p>
+  <br>
+  <p>
   <form action="http://192.168.0.100/role_set" method="post">
-    <label for="textarea">ロールの変更　（何も入力しないとロール情報は消去されます。）</label><br>
-    <textarea id="role_textarea" name="textarea" rows="6" cols="60"></textarea><br>
+    <label for="textarea">ロールの変更:<br>
+      　何も入力しないとロール情報は消去されます。　</label><br>
+    <textarea id="role_textarea" name="textarea" rows="10" cols="40"></textarea><br>
     <input type="submit" value="送信">
   </form>
   </p>
@@ -227,52 +249,74 @@
   <br>
   <br>
   <hr>
-   <a name="inst"></a>
-   <h2>★３.インストール手順</h2>
-  
-   <p>
-    （０）以前に「AiStackChan2」を利用している場合には、SD上の wifi.txt　と apikey.txt を利用することができます。<br>
-    電源を入れるとファイル情報を使い接続できたら、wsWifi.json, wsApiKey.json ファイルに反映します。
-    <br>
-    　→　電源を入れて、顔が表示されたら（４）に移動してください。<br>
-    <br><br>
+  <a name="inst"></a>
+  <br>
+  <h2>★３.インストール手順</h2>
 
-    （１）～（３）は、まだ、wifiの接続が出来ていない場合です。<br><br>
+  <p>
+  <h4>（１）．ファイルをPCにコピー</h4>
+  <a
+    href="https://github.com/NoRi-230401/WebServer-with-stackchan">GitHubで提供しているソフト</a>(WebServer-with-stackchan)の「SPIFFS0」ファルダ内のファイル<br>
+  を全てPCにコピーしてください。<br>
+  <br>
+  </p>
+
+
+  <p>
+  <h4>「AiStackChan2」使用ありの場合：（２）実施</h4>
+
+  <h4>（２）SD上の wifi.txt　と apikey.txt を利用します。</h4>
+  電源を入れると自動的に SPIFFS領域にwsWifi.json, wsApiKey.jsonを作成し反映します。
+  <br>
+  　電源を入れて、顔が表示されたらWifiの接続は成功です。<br>
+  <b>　→　（５）に進む</b><br>
+  </p>
+  <br><br>
+
+  <h4>その他の場合：（３）（４）実施</h4>
+  <p>
+  <h4>（３）．wsWifi.jsonファイルの準備</h4>
+  （１）でダウンロードしたファイルのうち、wsWifi.json　を使用します。<br>
+  　PCのテキストエディタで、次の箇所を自分用に書き換える<br>
+  　・　wsWifi.json の [ssid]、[passwd]<br><br>
   </p>
 
   <p>
-    （１）．
-    <a href="https://github.com/NoRi-230401/WebServer-with-stackchan">GitHubで提供しているソフト</a><br>
-    (WebServer-with-stackchan)の「INSTALL」ファルダ内のファイル<br>
-    を全てPCにコピーしてください。<br>
-    　設定には、wsWifi.json　とファイルを使用します。<br>
-    <br>
+  <h4>（４）．SD直下に wsWifi.json ファイルをコピー</h4>
+  その後、電源を入れ 本体に顔が表示されたらWifiの接続は成功です。<br><br>
   </p>
 
   <p>
-    （２）．テキストエディタで、次の箇所を自分用に書き換える<br>
-    　・　wsWifi.json の [ssid]、[passwd]<br>
-    <br>
+  <h4>（５）．ホーム画面にアクセス</h4>
+  PCのWEBアドレス入力欄に、ServerNameを入力　(初期値は、"stackchan") <br>
+  　（例１）<a href="http://stackchan/">http://stackchan/</a> <br><br>
+  　または、電源投入時に表示されるIPアドレスを入力<br>
+  　（例２）http://192.168.0.100/　 <br>
+  <br>
   </p>
 
   <p>
-    （３）．SD直下に wsWifi.json フォイルをコピーしてください。<br>
-    その後、電源を入れ 本体に顔が表示されたらWifiの接続は成功です。<br><br>
-    <br><br>
+  <h4>（６）．PCの画面下にホーム画面が表される</h4>
+  画面下に「 [Home] stackchan IP=xxx.xxx.xxx.xxx 」が表示されていればPCとの接続成功です。<br><br>
   </p>
 
   <p>
-    （４）．PCのWEBアドレス入力欄に、ServerName　(初期値は、"stackchan") <br>
-    　（例１）<a href="http://stackchan/">http://stackchan/</a> <br><br>
-    　または、ブート時に表示されるIPアドレスを入力<br>
-    　（例２）http://192.168.0.100/　 <br>
-    <br>
+  <h4>（７）．SPIFFS領域にファイルをアップロード</h4>
+  ホーム画面のファイル管理機能をつかって、PCからファイルをアップロードします。<br>
+  （１）でダウンロードした「SPIFF0」フォルダ内の次の５つのファイル<br>
+  (wss1.html, 　wss2.html, 　wss3.html,　style.css,　script.js,　icon.gif)<br>
+  を次の手順で本体のSPIFFS領域にアップロードします。<br><br>
+  　Upload ->　「参照」　 ->　 「upload」
   </p>
+  <br>
 
   <p>
-    （５）．PCの画面に「 [Home] stackchan ip=xxx.xxx.xxx.xxx 」が表示されていればPCとの接続成功です。<br><br>
-    次の<b>「★４．簡単設定」</b>に移動し、残りの設定をします。<br>
+  <h4>（８）．ApiKeyとサーボ等の設定</h4>
+  画面上部の「Setting」項目を選択すると、設定画面が開きます（この画面）<br>
+  「★４．簡単設定」の項目に移動して残りの設定を行ってくだささい。
   </p>
+
+
   <br><br>
 
   <a href="#top">トップ</a>
@@ -281,18 +325,18 @@
   　<a href="http://192.168.0.100/wifiSelect">wsWifi.json</a>
   　<a href="http://192.168.0.100/shutdown?reboot=on">再起動</a>
 
-  <br>
-  <hr>
-   <a name="kantan"></a>
-   <h2>★４.簡単設定</h2>
+  <br><br>
+  <hr><br>
+  <a name="kantan"></a>
+  <h2>★４.簡単設定</h2>
   　Apikeyの設定または変更、および基本の設定ができます。<br>
   <br>
-  <form action="http://192.168.0.100/apikey" method="get">openAiApiKey　：<input type="text" name="openAiApiKey" value=""
-      size="55" maxlength="60" />　<input type="submit" value="送信" />
+  <form action="http://192.168.0.100/apikey" method="get">openAiApiKey：<br>
+    <input type="text" name="openAiApiKey" value="" size="40" maxlength="60" />　<input type="submit" value="送信" />
   </form>
   <br>
   <form action="http://192.168.0.100/apikey" method="get">voicevoxApiKey：<input type="text" name="voicevoxApiKey"
-      value="" size="20" maxlength="30" />　<input type="submit" value="送信" />
+      value="" size="20" maxlength="30" />　　<input type="submit" value="送信" />
   </form>
   <br>
   servo　 ：　<a href="http://192.168.0.100/servoSetting?servo=on">on</a>
@@ -302,8 +346,8 @@
   　　<a href="http://192.168.0.100/servoSetting?servoPort=portC">portC</a>
   <br><br>
 
-  <p><b>wsApiKey.jsonとwsServo.jsonの確認と変更を反映させるに再起動してください。</b> </p>
-  <br>
+  <p>wsApiKey.jsonとwsServo.jsonの内容を確認し、再起動してください。</p>
+  <br><br>
   <a href="#top">トップ</a>　<a href="http://192.168.0.100/sysInfo">システム情報</a>　
   　<a href="http://192.168.0.100/apikey">wsApikey.json</a>
   　<a href="http://192.168.0.100/servoSetting">wsServo.json</a>
@@ -311,8 +355,9 @@
   <br>
   <br>
   <hr>
-  
+
   <a name="startup"></a>
+  <br>
   <h2>★５.スタートアップ設定</h2>
   起動時に設定ファイル("wsStartup.Json")を読み込み設定が反映されます。<br>
   ここでは、ファイルの内容を書き換えます。変更を反映するには、再起動が必要です。<br>
@@ -334,11 +379,12 @@
   　　<a href="http://192.168.0.100/startup?led=off">off</a>
   　　<a href="http://192.168.0.100/startup?led=***">状態維持</a>
   <br><br>
-  toneMode(0-3):　<a href="http://192.168.0.100/startup?toneMode=0">0:無音</a>
-  　<a href="http://192.168.0.100/startup?toneMode=1">1:ボタン押下</a>
-  　<a href="http://192.168.0.100/startup?toneMode=2">2:コマンド受信</a>
+  toneMode(0-3):<br>
+  　<a href="http://192.168.0.100/startup?toneMode=0">0:無音</a>
+  　　<a href="http://192.168.0.100/startup?toneMode=1">1:ボタン押下</a>
+  　　<a href="http://192.168.0.100/startup?toneMode=2">2:コマンド受信</a><br>
   　<a href="http://192.168.0.100/startup?toneMode=3">3:両方</a>
-  　<a href="http://192.168.0.100/startup?toneMode=-1">-1:状態維持</a>
+  　　<a href="http://192.168.0.100/startup?toneMode=-1">-1:状態維持</a>
   <br><br>
   mute：　<a href="http://192.168.0.100/startup?mute=on">on</a>
   　　<a href="http://192.168.0.100/startup?mute=off">off</a>
@@ -347,18 +393,19 @@
   　　<a href="http://192.168.0.100/startup?keyLock=off">off</a>
   <br><br>
   <form action="http://192.168.0.100/startup" method="get">
-    vSpeakerNo : 話者番号( -1 to 66) -1は状態維持：<input type="text" name="vSpeakerNo" value="-1" size="2"
-      maxlength="2" />　<input type="submit" value="送信" />
+    vSpeakerNo : 話者番号( -1 to 66) -1は状態維持<br>
+    　<input type="text" name="vSpeakerNo" value="-1" size="2" maxlength="2" />　　<input type="submit" value="送信" />
   </form>
   <br>
   randomSpeak：　<a href="http://192.168.0.100/startup?randomSpeak=on">on</a>
   　　<a href="http://192.168.0.100/startup?randomSpeak=off">off</a>
   <br><br>
   <form action="http://192.168.0.100/startup" method="get">
-    timer(30-3599)：<input type="text" name="timer" value="180" size="3" maxlength="3" />　　　　　<input type="submit"
-      value="送信" />　30秒～60分未満　-1:状態維持
+    timer(30-3599Sec, -1)：<input type="text" name="timer" value="180" size="3" maxlength="3" />　　　　　<input type="submit"
+      value="送信" /><br>
+    　30秒～60分未満　-1:状態維持
   </form>
-  <br><br><br>
+  <br><br>
   <a href="#top">トップ</a>
   　<a href="http://192.168.0.100/sysInfo">システム情報</a>
   　<a href="http://192.168.0.100/startup">wsStartup.json</a>
@@ -368,6 +415,7 @@
   <br>
   <hr>
   <a name="wifiSelect"></a>
+  <br>
   <h2>★６. Wifi設定（複数AP, DHCP/固定IP対応）</h2>
 
   <p>
@@ -397,14 +445,14 @@
   </form>
   <br><br>
   <form action="http://192.168.0.100/wifiSelect" method="get">
-    AP削除：<input type="text" name="remove" value="" size="1" maxlength="1" />　番号を入力、（ 0 が最優先のAP番号）<br>
-    　<input type="submit" value="送信" />
+    AP削除：<input type="text" name="remove" value="" size="1" maxlength="1" />　削除する番号を入力<br>
+    （ 0 が最優先のAP番号）　<input type="submit" value="送信" />
   </form>
   <br>
-  <a href="http://192.168.0.100/wifiSelect?init=on">設定を初期化（全削除）</a>　-最初から作成する場合-
+  <a href="http://192.168.0.100/wifiSelect?init=on">設定を初期化（全削除）</a>　※最初から作成する場合
   <br>
   <br>
-  <b>最後に必ず、下の「wsWifi.json」で確認してください。</b>
+  <b>設定後、下の「wsWifi.json」で確認してください。</b>
   <br><br>
   <a href="#top">トップ</a>
   　<a href="http://192.168.0.100/sysInfo">システム情報</a>
@@ -412,8 +460,10 @@
 
   <br><br>
   <hr>
-  
-  <a name="info"></a><h2>★７. ApiKey取得と情報（リンク）</h2>
+
+  <a name="info"></a>
+  <br>
+  <h2>★７. ApiKey取得と情報（リンク）</h2>
   <h5>[ ApiKey ]</h5>
   OpenAI と VOICEVOXのApiKeyの取得が必要となります。<br>
   下記のリンクを参考にしてApiKeyを取得してください。<br><br>
@@ -461,6 +511,7 @@
   <br><br>
   <hr>
   <a name="hajime"></a>
+  <br>
   <h2>★８.はじめに読んでください。</h2>
   <h5>[ ソフトウエアの特徴 ]</h5>
 

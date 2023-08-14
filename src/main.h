@@ -5,7 +5,6 @@
 #include <Arduino.h>
 
 extern const String WS_VERSION;
-
 extern void M5StackConfig();
 extern void startupSetting();
 extern void apikeySetting();
@@ -16,7 +15,6 @@ extern void servoSetup();
 extern void ttsSetup();
 extern void chatGptSetup();
 extern void avatarSTART();
-
 extern void chatGptManage();
 extern void TimerManage();
 extern void ButtonManage();

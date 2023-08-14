@@ -54,6 +54,7 @@ extern Avatar avatar;
 extern String webpage;
 extern int isSPIFFS;
 
+//-------------------------------------------------------------------------
 void startupSetting();
 void apikeySetting();
 void wsHandleSetting(String volumeS, String volumeDS, String speakerS,
@@ -77,4 +78,6 @@ void toneOn();
 void tone(int mode);
 void muteOn();
 void muteOff();
+//-------------------------------------------------------------------------
+
 #endif

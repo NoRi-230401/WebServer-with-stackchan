@@ -15,28 +15,15 @@
 #include <SPIFFS.h>
 #include <M5Unified.h>
 #include <WiFi.h>  
-// #include <Wire.h>
 
-extern String SERVER_NAME;
-extern const String WS_VERSION;
-extern String NAME_U01;
-extern String NAME_U02;
-extern String NAME_U03;
-extern String NAME_U04;
-extern String NAME_U05;
-extern String USER_U01;
-extern String USER_U02;
-extern String USER_U03;
-extern String USER_U04;
-extern String USER_U05;
 extern void setupApiHandler();
 extern void setupUserHandler();
-extern String IP_ADDR;
-// extern void wait_SD();
-// extern int isSPIFFS;
+extern void Home();
+extern String HTML_Header();
+extern String HTML_Footer();
 
+// -------------------------------------------------------
 void serverSetup();
-// void LogOut();
 void Directory();
 void Directory_org();
 void Dir(AsyncWebServerRequest *request);
@@ -54,16 +41,13 @@ String getContentType(String filenametype);
 void Select_File_For_Function(String title, String function);
 void SelectInput(String Heading, String Command, String Arg_name);
 int GetFileSize(String filename);
-void Home();
-// void LogOut();
 void Page_Not_Found();
 void Display_System_Info();
 String ConvBinUnits(int bytes, int resolution);
 String EncryptionType(wifi_auth_mode_t encryptionType);
 bool StartMDNSservice(const char *Name);
-String HTML_Header();
-String HTML_Footer();
 void handle_fileSystem(AsyncWebServerRequest *request);
 void wait_SD();
+// -------------------------------------------------------
 
 #endif

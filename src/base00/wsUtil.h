@@ -31,6 +31,7 @@ extern String REQ_MSG;
 extern String webpage;
 extern int REQ_SHUTDOWN_REBOOT;
 
+//------------------------------------------------------------
 void wsHandleShutdown(String reboot_get_str, String time_get_str);
 void errSTOP();
 void REBOOT();
@@ -47,5 +48,6 @@ bool SD_begin();
 void SD_end();
 File SD_open(const String path, const char *mode);
 File fileOpen(int flType, const String path, const char *mode);
+//------------------------------------------------------------
 
 #endif

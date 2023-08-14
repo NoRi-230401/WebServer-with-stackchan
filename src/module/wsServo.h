@@ -28,6 +28,7 @@
 #define SV_MD_POINT 7
 #define SV_MD_DELTA 8
 #define SV_MD_NONE 99
+
 // -- Request ------------
 #define REQ_MSG_CLS 0
 #define REQ_SPEAK 1
@@ -43,14 +44,12 @@
 #define SV_X_MAX 180
 #define SV_Y_MIN 50
 #define SV_Y_MAX 100
-
 #define SERVOJSON_SIZE 5 * 128
 #define FLTYPE_SPIFFS 1
 #define FLTYPE_SD 2
 
 extern bool setJsonItem(String flName, String item, String setData, DynamicJsonDocument &jsonDoc, String arrayName);
 extern bool getJsonItem(String flName, String item, String& getData, DynamicJsonDocument &jsonDoc, String arrayName);
-
 extern ServoEasing servo_x;
 extern ServoEasing servo_y;
 extern int REQUEST_GET;
@@ -67,11 +66,15 @@ extern String webpage;
 extern void Req_MsgCls();
 extern void tone(int mode);
 extern bool jsonInitSave(DynamicJsonDocument &jsonDoc,const String inJson, const String saveFile);
+
+// -----------------------------------------------------------------
 bool jsonSERVOinit(DynamicJsonDocument &jsonDoc);
 String BoxServoDo();
 void wsHandleServo(String swingXYS,String swingXS, String swingYS,
   String pointXS, String pointYS, String deltaXS, String deltaYS,
   String txS, String modeS);
+void wsServoSetting(String txS,String servoS, String servoPortS,
+      String servoModeS, String servoHomeXS, String servoHomeYS);
 void servo2(int mode);
 void servoSetup();
 void servoSetup2();
@@ -85,7 +88,6 @@ void sv_easeToY(int y);
 void sv_easeToXY(int x, int y);
 void servoSwing(int sw_mode, int repeatNum, int len);
 void SV_random();
-void wsServoSetting(String txS,String servoS, String servoPortS,
-      String servoModeS, String servoHomeXS, String servoHomeYS);
+// -----------------------------------------------------------------
 
 #endif

@@ -27,16 +27,19 @@
 #define SV_PIN_Y_CORE2_PA 32
 #define SV_PIN_X_CORE2_PC 13 // Core2 PORT C
 #define SV_PIN_Y_CORE2_PC 14
+
+// -- Servo Mode define ----
 #define SV_MD_MOVING 0
 #define SV_MD_HOME 1
-#define SV_MD_ADJUST 2
-#define SV_MD_STOP 3
-#define SV_MD_CENTER 4
-#define SV_MD_POINT 5
-#define SV_MD_DELTA 6
-#define SV_MD_SWING 7
-#define SV_MD_RANDOM 8
-#define SV_MD_NONE 9
+#define SV_MD_RANDOM 2
+#define SV_MD_CENTER 3
+#define SV_MD_SWING 4
+#define SV_MD_STOP 5
+#define SV_MD_ADJUST 6
+#define SV_MD_POINT 7
+#define SV_MD_DELTA 8
+#define SV_MD_NONE 99
+
 #define SV_REQ_MSG_CLS 0
 #define SV_REQ_SPEAK 1
 #define SV_REQ_MSG 2
@@ -157,6 +160,7 @@ extern void wsHandleWifiSetting(String initS, String ssidS, String passwdS,Strin
     String ipS, String gatewayS, String subnetS, String dnsS  );
 extern void wsHandleRoleSet(String roleS);
 
+// ---------------------------------------------------------
 void serverSend(AsyncWebServerRequest *request);
 void setupApiHandler();
 void handle_button(AsyncWebServerRequest *request);
@@ -175,5 +179,6 @@ void handle_face(AsyncWebServerRequest *request);
 void handle_chat(AsyncWebServerRequest *request);
 void handle_role_set(AsyncWebServerRequest *request);
 void handle_role_get(AsyncWebServerRequest *request);
+// ---------------------------------------------------------
 
 #endif

@@ -29,7 +29,6 @@ extern HTTPClient http;
 extern WiFiClient client;
 extern const Expression expressions_table[];
 extern void errSTOP();
-
 extern String webpage;
 extern int REQ_SPK_EXPR;
 extern int REQ_SPK_PARMS_NO;
@@ -37,12 +36,13 @@ extern int REQ_SHUTDOWN_REBOOT;
 extern int REQUEST_GET;
 extern String REQ_MSG;
 
+//------------------------------------------------------------
 void wsHandleSpeech(String sayS, String expressionS, String voiceS);
 void SpeechManage();
 void SpeechText1st();
 void SpeechTextNext();
 void ttsDo( const String& speechText );
 void ttsSetup();
-
 // --------------------------------------------------------------------------
+
 #endif

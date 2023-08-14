@@ -19,6 +19,7 @@ extern void serverSend(AsyncWebServerRequest *request);
 extern const String FLS_NAME[];
 extern int isSPIFFS;
 
+// ------------------------------------------------------------
 void setupUserHandler();
 String processor05(const String &var);
 String HTML_Footer();
@@ -33,9 +34,7 @@ void handle_wss3();
 void handle_wss4();
 // void handle_wss5();
 bool htmlConv(const String flname);
-// void handle_fileSystem(AsyncWebServerRequest *request);
 void checkWebReq(AsyncWebServerRequest *request);
 
-
-// ---- end of < WS_USER_H > ------------------------------------------------
+// ---- end of < WS_USER_H > --------------------------------------
 #endif

@@ -1,0 +1,49 @@
+/* 
+  smart-style.css 
+  smartPhone 用 styleSheet
+*/
+
+img {
+	max-width: 100%;
+	height: auto;
+}
+
+a {
+  margin: 0 5px;
+}
+
+p {
+  width: 100%;
+  margin: 10px 0 10px 0;
+}
+
+main {
+  width: 100%;
+}
+body {
+  font-size: 1.1rem;
+  background: #fffde7;
+  -webkit-text-size-adjust: 100%;
+}
+
+
+div {
+  width: 100%;
+  margin: 0%;
+  text-align: left;
+  font-size: 1.0rem;
+  font-weight: normal;
+}
+
+
+h1 {
+  color: #6ecf12;
+  font-size: 2.0rem;
+  font-weight: bolder;
+  padding: 2vh;
+}
+
+h2 {
+  font-size: 1.5rem;
+  font-weight: bold;
+}

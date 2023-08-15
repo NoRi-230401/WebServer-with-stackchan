@@ -91,8 +91,8 @@ void handle_wss4()
 bool htmlConv(const String flname)
 {
   // *************************************************************
-  // htmlファイル中の  "192.168.0.100"  を実際のIPアドレスに変換
-  const char *findStr = "192.168.0.100";
+  // htmlファイル中の  "http://stackchan/"  を実際のIPアドレスに変換
+  const char *findStr = "http://stackchan/";
   // *************************************************************
   webpage = "";
 
@@ -130,7 +130,8 @@ bool htmlConv(const String flname)
 
 #ifndef DEBUG_INDEX_HTML
   // ** 本体のIP_ADDRに変換 **
-  webpage.replace(findStr, (const char *)IP_ADDR.c_str());
+  String replacedStr = "http://" + IP_ADDR + "/"; 
+  webpage.replace(findStr, (const char *)replacedStr.c_str());
 #endif
   return true;
 }

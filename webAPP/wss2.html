@@ -92,7 +92,7 @@
   <hr color="#87ceeb" width="100%" size="3">
   <p>
     <br>
-    <a href="http://192.168.0.100/" target="Home">０.Home</a><br>
+    <a href="http://stackchan/" target="Home">０.Home</a><br>
     <a href="#svCont">１.サーボ制御（コントロール）</a><br>
     <a href="#svSetting">２.サーボ設定（起動時）</a><br><br>
     ３.サーボ調整<br>
@@ -105,9 +105,9 @@
   <br>
   <p>
     <a href="#top">トップ</a>
-    　<a href="http://192.168.0.100/sysInfo">システム情報</a>
-    　<a href="http://192.168.0.100/servoSetting">wsServo.json</a>
-    　<a href="http://192.168.0.100/shutdown?reboot=on">再起動</a>
+    　<a href="http://stackchan/sysInfo">システム情報</a>
+    　<a href="http://stackchan/servoSetting">wsServo.json</a>
+    　<a href="http://stackchan/shutdown?reboot=on">再起動</a>
   </p>
   <br>
   <hr color="#87ceeb" width="100%" size="3">
@@ -118,30 +118,30 @@
   <br><br>
 
   <p>
-    <a href="http://192.168.0.100/servo?mode=moving">moving</a>：　（通常動作）<br><br>
-    <a href="http://192.168.0.100/servo?mode=stop">stop</a>：　（動作停止）<br><br>
-    <a href="http://192.168.0.100/servo?mode=home">home </a>：　（ホーム位置）<br><br>
-    <a href="http://192.168.0.100/servo?mode=center">center</a>：　（X=90,Y=90）<br><br>
-    <a href="http://192.168.0.100/servo?mode=random">Random</a>：　(X: 45-135) , (Y: 60-90) の範囲でランダムな動きをします。
+    <a href="http://stackchan/servo?mode=moving">moving</a>：　（通常動作）<br><br>
+    <a href="http://stackchan/servo?mode=stop">stop</a>：　（動作停止）<br><br>
+    <a href="http://stackchan/servo?mode=home">home </a>：　（ホーム位置）<br><br>
+    <a href="http://stackchan/servo?mode=center">center</a>：　（X=90,Y=90）<br><br>
+    <a href="http://stackchan/servo?mode=random">Random</a>：　(X: 45-135) , (Y: 60-90) の範囲でランダムな動きをします。
   </p>
   <br><br>
   <p>
     <b>Swing</b><br>
     XY軸、X軸、Y軸の３種類の移動方向を選べ、それぞれ回数指定ができます。<br>
 
-  <form action="http://192.168.0.100/servo" method="get">
+  <form action="http://stackchan/servo" method="get">
     SwingXY　:　 <input type="text" name="swingXY" value="1" size="2" maxlength="2" />　 repeat　(1 to 10)
     　<input type="submit" value="送信" />
   </form>
 
 
-  <form action="http://192.168.0.100/servo" method="get">
+  <form action="http://stackchan/servo" method="get">
     <br>
     SwingX:（ 90 → 0 → 180 → 90 ）<input type="text" name="swingX" value="1" size="2" maxlength="2" />　repeat　(1 to 10)
     <input type="submit" value="送信" />
   </form>
   <br>
-  <form action="http://192.168.0.100/servo" method="get">
+  <form action="http://stackchan/servo" method="get">
     SwingY:（ 90 → 50 → 90 ）　　　<input type="text" name="swingY" value="1" size="2" maxlength="2" />　repeat　(1 to 10)
     <input type="submit" value="送信" />
   </form>
@@ -150,7 +150,7 @@
   <br>
   <p>
     <b>PointXY</b>　は、絶対位置(X:0 to 180,　 Y:50 to 100) を指定: degree<br>
-  <form action="http://192.168.0.100/servo" method="get">
+  <form action="http://stackchan/servo" method="get">
     PointXY:　X(0 to 180)　　 <input type="text" name="pointX" value="90" size="3" maxlength="3" />　　Y(50 to 100) <input
       type="text" name="pointY" value="90" size="3" maxlength="3" />　<input type="submit" value="送信" />
   </form>
@@ -160,7 +160,7 @@
     <b>DeltaXY</b>　は、現在の位置からの相対位置(X:-180 to 180,　 Y:-50 to 50)を指定 : degree<br>
     指定された値が、サーボ設定範囲を超えた場合には、最小、最大値に張り付きます。<br>
     サーボ設定範囲（ 0＜＝X＜＝180,　50＜＝Y＜＝100 ）
-  <form action="http://192.168.0.100/servo" method="get">
+  <form action="http://stackchan/servo" method="get">
     <br>DeltaXY:　X(-180 to 180) <input type="text" name="deltaX" value="0" size="4" maxlength="4" />　Y(-50 to 50)
     <input type="text" name="deltaY" value="0" size="3" maxlength="3" />　<input type="submit" value="送信" />
   </form>
@@ -169,7 +169,7 @@
   
   <p>
     <b>サーボ位置取得</b>　　現在のX、Yの位置を取得できます。<br>
-    　　　<a href="http://192.168.0.100/servo?tx=xy">サーボ位置(X,Y)の取得 </a>
+    　　　<a href="http://stackchan/servo?tx=xy">サーボ位置(X,Y)の取得 </a>
   </p>
   <br>
   <p>
@@ -178,9 +178,9 @@
   </p>
   <br>
   <a href="#top">トップ</a>
-  　<a href="http://192.168.0.100/sysInfo">システム情報</a>
-  　<a href="http://192.168.0.100/servoSetting">wsServo.json</a>
-  　<a href="http://192.168.0.100/shutdown?reboot=on">再起動</a>
+  　<a href="http://stackchan/sysInfo">システム情報</a>
+  　<a href="http://stackchan/servoSetting">wsServo.json</a>
+  　<a href="http://stackchan/shutdown?reboot=on">再起動</a>
   <br><br>
   <hr>
   <br>
@@ -189,29 +189,29 @@
   ここでは、設定ファイルを書き換えます。変更を反映するには、再起動が必要です。<br>
 
   <p>
-    servo：　<a href="http://192.168.0.100/servoSetting?servo=on">on</a>
-    　　<a href="http://192.168.0.100/servoSetting?servo=off">off</a>
+    servo：　<a href="http://stackchan/servoSetting?servo=on">on</a>
+    　　<a href="http://stackchan/servoSetting?servo=off">off</a>
     <br><br>
-    servoPort：　<a href="http://192.168.0.100/servoSetting?servoPort=portA">portA</a>
-    　　<a href="http://192.168.0.100/servoSetting?servoPort=portC">portC</a>
-    <br><br>
-
-    servoMode：　<a href="http://192.168.0.100/servoSetting?servoMode=moving">moving</a>
-    　　<a href="http://192.168.0.100/servoSetting?servoMode=home">home</a>
-    　　<a href="http://192.168.0.100/servoSetting?servoMode=random">random</a><br>
-    
-    　　　　　　　　<a href="http://192.168.0.100/servoSetting?servoMode=center">center</a>
-    　　<a href="http://192.168.0.100/servoSetting?servoMode=adjust">adjust(調整モード)</a>
-    
+    servoPort：　<a href="http://stackchan/servoSetting?servoPort=portA">portA</a>
+    　　<a href="http://stackchan/servoSetting?servoPort=portC">portC</a>
     <br><br>
 
-  <form action="http://192.168.0.100/servoSetting" method="get">
+    servoMode：　<a href="http://stackchan/servoSetting?servoMode=moving">moving</a>
+    　　<a href="http://stackchan/servoSetting?servoMode=home">home</a>
+    　　<a href="http://stackchan/servoSetting?servoMode=random">random</a><br>
+    
+    　　　　　　　　<a href="http://stackchan/servoSetting?servoMode=center">center</a>
+    　　<a href="http://stackchan/servoSetting?servoMode=adjust">adjust(調整モード)</a>
+    
+    <br><br>
+
+  <form action="http://stackchan/servoSetting" method="get">
     サーボのホーム位置(XY)を変更します。<br>
     servoHomeX：( 70 to 110 ) :　<input type="text" name="servoHomeX" value="90" size="3" maxlength="3" />　<input
       type="submit" value="送信" />
   </form>
   <br>
-  <form action="http://192.168.0.100/servoSetting" method="get">
+  <form action="http://stackchan/servoSetting" method="get">
     servoHomeY：( 60 to 100 ) :　<input type="text" name="servoHomeY" value="80" size="3" maxlength="3" />　<input
       type="submit" value="送信" />
   </form>
@@ -219,9 +219,9 @@
   </p>
   <br>
   <a href="#top">トップ</a>
-  　<a href="http://192.168.0.100/sysInfo">システム情報</a>
-  　<a href="http://192.168.0.100/servoSetting">wsServo.json</a>
-  　<a href="http://192.168.0.100/shutdown?reboot=on">再起動</a>
+  　<a href="http://stackchan/sysInfo">システム情報</a>
+  　<a href="http://stackchan/servoSetting">wsServo.json</a>
+  　<a href="http://stackchan/shutdown?reboot=on">再起動</a>
   <br><br>
   <hr>
   <br>
@@ -234,12 +234,12 @@
   最初に、ソフトウエアのサーボ関連の設定を行います。<br>
   <br>
   <p>
-    servo：　　　<a href="http://192.168.0.100/servoSetting?servo=on">on</a>
+    servo：　　　<a href="http://stackchan/servoSetting?servo=on">on</a>
     <br><br>
-    servoPort：　<a href="http://192.168.0.100/servoSetting?servoPort=portA">portA</a>
-    　　<a href="http://192.168.0.100/servoSetting?servoPort=portC">portC</a>　（どちらかを選択）
+    servoPort：　<a href="http://stackchan/servoSetting?servoPort=portA">portA</a>
+    　　<a href="http://stackchan/servoSetting?servoPort=portC">portC</a>　（どちらかを選択）
     <br><br>
-    servoMode：　<a href="http://192.168.0.100/servoSetting?servoMode=adjust">adjust</a>　(「サーボ調整」モードで起動)<br>
+    servoMode：　<a href="http://stackchan/servoSetting?servoMode=adjust">adjust</a>　(「サーボ調整」モードで起動)<br>
   </p>
   <br>
   ※ M5Stack_Core2_for_AWSの servoPortは、画面に向かって上面の右側は"portC" / 左面は"portA"です。<br>
@@ -252,10 +252,10 @@
     下記の「終了（電源OFF）」を押下して、電源OFFの状態にしてください。
     <br><br><br><br>
     <a href="#top">トップ</a>
-    　　<a href="http://192.168.0.100/sysInfo">システム情報</a>
-    　　<a href="http://192.168.0.100/servoSetting">wsServo.json</a>
-    　　<a href="http://192.168.0.100/shutdown?reboot=on">再起動</a>
-    　　<a href="http://192.168.0.100/shutdown">終了（電源OFF）</a>
+    　　<a href="http://stackchan/sysInfo">システム情報</a>
+    　　<a href="http://stackchan/servoSetting">wsServo.json</a>
+    　　<a href="http://stackchan/shutdown?reboot=on">再起動</a>
+    　　<a href="http://stackchan/shutdown">終了（電源OFF）</a>
   </p>
   <br> -----------------------------------------------------------------------<br>
   <br>
@@ -278,28 +278,28 @@
   <b>Moving</b> は、通常使用している動作を試すことができます。<br>
   <b>Stop</b> は、Randomまたは、Movingを停止させる場合に使用してください。<br><br>
 
-  <form action="http://192.168.0.100/servo" method="get">
+  <form action="http://stackchan/servo" method="get">
     SwingXY　:　 <input type="text" name="swingXY" value="1" size="1" maxlength="2" /> repeat　(1-10)
     　<input type="submit" value="送信" />
   </form>
 
 
-  <form action="http://192.168.0.100/servo" method="get">
+  <form action="http://stackchan/servo" method="get">
     <br>
     SwingX:（ 90 → 0 → 180 → 90 ）<input type="text" name="swingX" value="1" size="1" maxlength="2" />repeat　(1-10)
     <input type="submit" value="送信" />
   </form>
   <br>
-  <form action="http://192.168.0.100/servo" method="get">
+  <form action="http://stackchan/servo" method="get">
     SwingY:（ 90 → 50 → 90 ）　　<input type="text" name="swingY" value="1" size="1" maxlength="2" />repeat　(1-10)
     <input type="submit" value="送信" />
   </form>
   <br>
   </p>
 <br>
-  <a href="http://192.168.0.100/servo?mode=random">Random</a>
-  　　　　　<a href="http://192.168.0.100/servo?mode=moving">Moving</a>
-  　　　　　　<a href="http://192.168.0.100/servo?mode=stop">Stop</a><br>
+  <a href="http://stackchan/servo?mode=random">Random</a>
+  　　　　　<a href="http://stackchan/servo?mode=moving">Moving</a>
+  　　　　　　<a href="http://stackchan/servo?mode=stop">Stop</a><br>
   <br><br>
 
   <h4>（３－１－２）センター出し</h4><br>
@@ -307,8 +307,8 @@
   サーボを固定する時は、サーボをセンター（X=90,Y=90）位置で取り付けます。<br>
   <br>
 
-  <a href="http://192.168.0.100/servo?mode=center">Center</a> ：（X=90,Y=90）
-  　　　　<a href="http://192.168.0.100/shutdown">終了（電源OFF）</a>
+  <a href="http://stackchan/servo?mode=center">Center</a> ：（X=90,Y=90）
+  　　　　<a href="http://stackchan/shutdown">終了（電源OFF）</a>
   <br><br>
   センターに移動後、終了（電源OFF）して電源を切ってください。<br>
   Groveケーブル、サーボ・ホーン等を取り外し、<br>
@@ -316,10 +316,10 @@
   <br><br>
   <p>
     <a href="#top">トップ</a>
-    　　<a href="http://192.168.0.100/sysInfo">システム情報</a>
-    　　<a href="http://192.168.0.100/servoSetting">wsServo.json</a>
-    　　<a href="http://192.168.0.100/shutdown?reboot=on">再起動</a>
-    　　<a href="http://192.168.0.100/shutdown">終了（電源OFF）</a>
+    　　<a href="http://stackchan/sysInfo">システム情報</a>
+    　　<a href="http://stackchan/servoSetting">wsServo.json</a>
+    　　<a href="http://stackchan/shutdown?reboot=on">再起動</a>
+    　　<a href="http://stackchan/shutdown">終了（電源OFF）</a>
   </p>
   <br> -----------------------------------------------------------------------<br><br>
 
@@ -331,12 +331,12 @@
   サーボは、指定場所から少しずれる場合があります。たとえば、本来のセンター位置<br>
   （X=90,Y=90）は、画面の正面（両足の真ん中）で、水平面に垂直であるのが理想的な位置です。<br>
   これに、ずれが発生している場合にその調整をおこない、ずれを修正することができます。<br><br>
-  　<a href="http://192.168.0.100/servo?mode=center">Center</a>
+  　<a href="http://stackchan/servo?mode=center">Center</a>
   ：（X=90,Y=90）　センター位置の確認<br><br><br>
 
   実際の調整は、ホーム位置の設定でずれ分を吸収せる形で調整を行います。<br>
   ホームの位置を中心にして、本体のサーボ動作をおこなってようになっています。<br> <br>
-  　<a href="http://192.168.0.100/servo?mode=home">Home </a>
+  　<a href="http://stackchan/servo?mode=home">Home </a>
   ：（現在のホーム位置）　初期設定では、X=90,Y=80 です。
 
   <p>
@@ -345,36 +345,36 @@
     Xは画面の正面の中心、Yは若干の上向き方向にするのがお勧めです。<br>
     画面を正面に見て、Xはプラスは右向き、Yはプラスが下向きに移動します。<br>
     <br>
-    <a href="http://192.168.0.100/servo?deltaX=-1&deltaY=0">deltaX = -1</a>
-    　<a href="http://192.168.0.100/servo?deltaX=1&deltaY=0">deltaX= +1</a>
-    　<a href="http://192.168.0.100/servo?deltaX=0&deltaY=-1">deltaY = -1</a>
-    　<a href="http://192.168.0.100/servo?deltaX=0&deltaY=1">deltaY= +1</a>
+    <a href="http://stackchan/servo?deltaX=-1&deltaY=0">deltaX = -1</a>
+    　<a href="http://stackchan/servo?deltaX=1&deltaY=0">deltaX= +1</a>
+    　<a href="http://stackchan/servo?deltaX=0&deltaY=-1">deltaY = -1</a>
+    　<a href="http://stackchan/servo?deltaX=0&deltaY=1">deltaY= +1</a>
     <br><br>
-    <a href="http://192.168.0.100/servo?deltaX=-3&deltaY=0">deltaX = -3</a>
-    　<a href="http://192.168.0.100/servo?deltaX=3&deltaY=0">deltaX= +3</a>
-    　<a href="http://192.168.0.100/servo?deltaX=0&deltaY=-3">deltaY = -3</a>
-    　<a href="http://192.168.0.100/servo?deltaX=0&deltaY=3">deltaY= +3</a>
+    <a href="http://stackchan/servo?deltaX=-3&deltaY=0">deltaX = -3</a>
+    　<a href="http://stackchan/servo?deltaX=3&deltaY=0">deltaX= +3</a>
+    　<a href="http://stackchan/servo?deltaX=0&deltaY=-3">deltaY = -3</a>
+    　<a href="http://stackchan/servo?deltaX=0&deltaY=3">deltaY= +3</a>
     <br><br>
-    <a href="http://192.168.0.100/servo?deltaX=-5&deltaY=0">deltaX = -5</a>
-    　<a href="http://192.168.0.100/servo?deltaX=5&deltaY=0">deltaX= +5</a>
-    　<a href="http://192.168.0.100/servo?deltaX=0&deltaY=-5">deltaY = -5</a>
-    　<a href="http://192.168.0.100/servo?deltaX=0&deltaY=5">deltaY= +5</a>
+    <a href="http://stackchan/servo?deltaX=-5&deltaY=0">deltaX = -5</a>
+    　<a href="http://stackchan/servo?deltaX=5&deltaY=0">deltaX= +5</a>
+    　<a href="http://stackchan/servo?deltaX=0&deltaY=-5">deltaY = -5</a>
+    　<a href="http://stackchan/servo?deltaX=0&deltaY=5">deltaY= +5</a>
     <br><br>
-    <a href="http://192.168.0.100/servo?deltaX=-10&deltaY=0">deltaX = -10</a>
-    　<a href="http://192.168.0.100/servo?deltaX=10&deltaY=0">deltaX= +10</a>
-    　<a href="http://192.168.0.100/servo?deltaX=0&deltaY=-10">deltaY = -10</a>
-    　<a href="http://192.168.0.100/servo?deltaX=0&deltaY=10">deltaY= +10</a>
+    <a href="http://stackchan/servo?deltaX=-10&deltaY=0">deltaX = -10</a>
+    　<a href="http://stackchan/servo?deltaX=10&deltaY=0">deltaX= +10</a>
+    　<a href="http://stackchan/servo?deltaX=0&deltaY=-10">deltaY = -10</a>
+    　<a href="http://stackchan/servo?deltaX=0&deltaY=10">deltaY= +10</a>
   </p>
   <br> <br>
 
 
-  <form action="http://192.168.0.100/servoSetting" method="get">
+  <form action="http://stackchan/servoSetting" method="get">
     調整するホーム位置(XY)が決定しましたら、ここで変更をおこないます。<br> <br>
     servoHomeX：( 70 to 110 ) :　<input type="text" name="servoHomeX" value="90" size="3" maxlength="3" />　<input
       type="submit" value="送信" />
   </form>
   <br>
-  <form action="http://192.168.0.100/servoSetting" method="get">
+  <form action="http://stackchan/servoSetting" method="get">
     servoHomeY：( 60 to 100 ) :　<input type="text" name="servoHomeY" value="80" size="3" maxlength="3" />　<input
       type="submit" value="送信" />
   </form>
@@ -384,8 +384,8 @@
   <h4>（３－３）調整終了後</h4>
   <br>
   起動時の設定をadJust(調整モード)を変更します。<br><br>
-  <a href="http://192.168.0.100/servoSetting?servoMode=moving">moving(通常動作)</a>
-  　または、　<a href="http://192.168.0.100/servoSetting?servoMode=home">home(ホーム)</a>
+  <a href="http://stackchan/servoSetting?servoMode=moving">moving(通常動作)</a>
+  　または、　<a href="http://stackchan/servoSetting?servoMode=home">home(ホーム)</a>
   <br><br>を選んでください。
   <br><br>
   最後に、設定ファイル "wsServo.json"の servoHomeX,　servoHomeY,　servoMode が<br>
@@ -394,9 +394,9 @@
   <br>
   <br>
   <a href="#top">トップ</a>
-  　　<a href="http://192.168.0.100/sysInfo">システム情報</a>
-  　　<a href="http://192.168.0.100/servoSetting">wsServo.json</a>
-  　　<a href="http://192.168.0.100/shutdown?reboot=on">再起動</a>
+  　　<a href="http://stackchan/sysInfo">システム情報</a>
+  　　<a href="http://stackchan/servoSetting">wsServo.json</a>
+  　　<a href="http://stackchan/shutdown?reboot=on">再起動</a>
   <br>
   </p>
   <br>

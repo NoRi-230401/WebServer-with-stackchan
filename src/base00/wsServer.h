@@ -21,6 +21,7 @@ extern void setupUserHandler();
 extern void Home();
 extern String HTML_Header();
 extern String HTML_Footer();
+extern bool SD_ENABLE;
 
 // -------------------------------------------------------
 void serverSetup();

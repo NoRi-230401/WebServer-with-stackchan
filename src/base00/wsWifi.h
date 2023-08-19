@@ -18,6 +18,7 @@
 #define FLTYPE_SD 2
 #define CONNECT_FAIL 99
 
+extern bool SD_ENABLE;
 extern String IP_ADDR;
 extern String SSID;
 extern String SSID_PASSWD;

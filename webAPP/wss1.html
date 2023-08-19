@@ -104,14 +104,12 @@
   <hr color="#87ceeb" width="100%" size="3">
   <br>
   <a href="http://stackchan/" target="Home">０.Home</a><br>
+  <br>
   <a href="#kihon">１.基本操作</a><br>
   <a href="#chatgpt">２.chatGPT</a><br>
-  <a href="#inst">３.インストール手順</a><br>
-  <a href="#kantan">４.簡単設定</a><br>
-  <a href="#startup">５.スタートアップ設定</a><br>
-  <a href="#wifiSelect">６.Wifi設定</a><br>
-  <a href="#info">７.ApiKey取得と情報（リンク）</a><br>
-  <a href="#hajime">８.はじめに読んでください。</a><br>
+  <a href="#kantan">３.簡単設定</a><br>
+  <a href="#startup">４.スタートアップ設定</a><br>
+  <a href="#wifiSelect">５.Wifi設定</a><br>
   <br>
   <b>★応答に時間がかかるので動作中であれば停止してください。</b><br>
   　　<a href="http://stackchan/randomSpeak?mode=off">「独り言」停止</a>
@@ -200,12 +198,12 @@
       <input type="submit" value="送信" />
     </p>
   </form>
-  <br>
+  <br><br>
+
   <a href="#top">トップ</a>
   　<a href="http://stackchan/sysInfo">システム情報</a>
   　<a href="http://stackchan/startup">wsStartup.json</a>
   　<a href="http://stackchan/shutdown?reboot=on">再起動</a>
-
   <br><br>
   <hr>
   <a name="chatgpt"></a>
@@ -239,95 +237,15 @@
   </form>
   </p>
   <br>
-
-
   <br>
   <a href="#top">トップ</a>
   　<a href="http://stackchan/sysInfo">システム情報</a>
   　<a href="http://stackchan/apikey">wsApikey.json</a>
   　<a href="http://stackchan/shutdown?reboot=on">再起動</a>
-  <br>
-  <br>
-  <hr>
-  <a name="inst"></a>
-  <br>
-  <h2>★３.インストール手順</h2>
-
-  <p>
-  <h4>（１）．ファイルをPCにコピー</h4>
-  <a
-    href="https://github.com/NoRi-230401/WebServer-with-stackchan" target="_blank">GitHubで提供しているソフト</a>(WebServer-with-stackchan)の<b>「webAPPS」</b>ファルダ内のファイルを全てPCにコピーしてください。<br>
-  <br>
-  </p>
-
-
-  <p>
-  <h4>「AiStackChan2」使用ありの場合：（２）を実施</h4>
-
-  <h4>（２）SD上の wifi.txt　と apikey.txt を利用します。</h4>
-  電源を入れると自動的に SPIFFS領域にwsWifi.json, wsApiKey.jsonを作成し情報を反映します。
-  <br>
-  電源を入れて、顔が表示されたらWifiの接続は成功です。<br>
-  <b>　→　（５）に進む</b><br>
-  </p>
-  <br><br>
-
-  <h4>その他の場合：（３）（４）を実施</h4>
-  <p>
-  <h4>（３）．wsWifi.jsonファイルの準備</h4>
-  （１）でダウンロードしたファイルのうち、wsWifi.json　を使用します。<br>
-  　PCのテキストエディタで、次の箇所を自分用に書き換える<br>
-  　・　wsWifi.json の  <b>[ssid]、[passwd]</b><br><br>
-  </p>
-
-  <p>
-  <h4>（４）．SD直下に wsWifi.json ファイルをコピー</h4>
-  その後、電源を入れ 本体に顔が表示されたらWifiの接続は成功です。<br><br>
-  </p>
-
-  <p>
-  <h4>（５）．ホーム画面にアクセス</h4>
-  PCのWEBアドレス入力欄に、ServerNameを入力　(初期値は、"stackchan") <br>
-  　（例１）<a href="http://stackchan/">http://stackchan/</a> <br><br>
-  　または、電源投入時に表示されるIPアドレスを入力<br>
-  　（例２）http://stackchan/　 <br>
-  <br>
-  </p>
-
-  <p>
-  <h4>（６）．PCの画面下にホーム画面が表される</h4>
-  画面下に「 [Home] stackchan IP=xxx.xxx.xxx.xxx 」が表示されていればPCとの接続成功です。<br><br>
-  </p>
-
-  <p>
-  <h4>（７）．ファイルのアップロード</h4>
-  ホーム画面のファイル管理機能をつかって、PCからファイルをSPIFFS領域にアップロードします。<br>
-  （１）でダウンロードした「webAPPS」フォルダ内の次の６つのファイル<br>
-  (<b> wss1.html, 　wss2.html, 　wss3.html,　style.css,　script.js,　icon.gif </b>)<br>
-  を次の手順で本体のSPIFFS領域にアップロードします。<br><br>
-  　Upload ->　「参照」　 ->　 「upload」
-  </p>
-  <br>
-
-  <p>
-  <h4>（８）．ApiKeyとサーボ等の設定</h4>
-  画面上部の「Setting」項目を選択すると、設定画面が開きます（この画面）<br>
-  「★４．簡単設定」の項目に移動して残りの設定を行ってくだささい。
-  </p>
-
-
-  <br><br>
-
-  <a href="#top">トップ</a>
-  　<a href="http://stackchan/sysInfo">システム情報</a>
-  　<a href="http://stackchan/apikey">wsApikey.json</a>
-  　<a href="http://stackchan/wifiSelect">wsWifi.json</a>
-  　<a href="http://stackchan/shutdown?reboot=on">再起動</a>
-
   <br><br>
   <hr><br>
   <a name="kantan"></a>
-  <h2>★４.簡単設定</h2>
+  <h2>★３.簡単設定</h2>
   　Apikeyの設定または変更、および基本の設定ができます。<br>
   <br>
   <form action="http://stackchan/apikey" method="get">openAiApiKey：<br>
@@ -357,7 +275,7 @@
 
   <a name="startup"></a>
   <br>
-  <h2>★５.スタートアップ設定</h2>
+  <h2>★４.スタートアップ設定</h2>
   起動時に設定ファイル("wsStartup.Json")を読み込み設定が反映されます。<br>
   ここでは、ファイルの内容を書き換えます。変更を反映するには、再起動が必要です。<br>
   "-1" または、 "***" は、 最後に設定された状態を維持となります。
@@ -415,7 +333,7 @@
   <hr>
   <a name="wifiSelect"></a>
   <br>
-  <h2>★６. Wifi設定（複数AP, DHCP/固定IP対応）</h2>
+  <h2>★５. Wifi設定（複数AP, DHCP/固定IP対応）</h2>
 
   <p>
     複数のアクセスポイント（AP）情報を登録できます。<br>
@@ -449,83 +367,14 @@
   <a href="http://stackchan/wifiSelect?init=on">設定を初期化（全削除）</a>　※最初から作成する場合
   <br>
   <br>
-  <b>設定後、下の「wsWifi.json」で確認してください。</b>
-  <br><br>
-  <a href="#top">トップ</a>
-  　<a href="http://stackchan/sysInfo">システム情報</a>
-  　<a href="http://stackchan/wifiSelect">wsWifi.json</a>　<a href="http://stackchan/shutdown?reboot=on">再起動</a>
-
-  <br><br>
-  <hr>
-
-  <a name="info"></a>
-  <br>
-  <h2>★７. ApiKey取得と情報（リンク）</h2>
-  <h5>[ ApiKey ]</h5>
-  OpenAI と VOICEVOXのApiKeyの取得が必要となります。<br>
-  下記のリンクを参考にしてApiKeyを取得してください。<br><br>
-  　<a href="https://openai.com/">OpenAI</a><br>
-  　<a href="https://qiita.com/mikito/items/b69f38c54b362c20e9e6">ChatGPT API利用方法の簡単解説</a><br>
-  　<a href="https://voicevox.hiroshiba.jp/">VOICEVOX</a><br>
-  　<a href="https://su-shiki.com/api/">VOICEVOX用API取得</a><br>
-  <br>
-
-  <h5>[ WebServer-with-stackchan ]</h5>
-
-  　<a href="https://github.com/NoRi-230401/WebServer-with-stackchan">WebServer-with-stackchan(GitHub)</a>
-  <br>
-  　<a href="https://drive.google.com/drive/u/1/folders/1xljoYIRUaAEwy3630j6imzLtksO6ecvg">サンプル等のファイル置場(GoogleDrive)</a>
-  <br>
-  　<a href="https://nori230401.blogspot.com/">「プログラマー日記」: 私のブログです</a>
-  <br><br>
-
-
-  <h5> [ 参考ソフト ]</h5>
-  　<a href="https://github.com/me-no-dev/ESPAsyncWebServer">ESPAsysncWebServer</a><br>
-  　<a href="https://github.com/G6EJD/G6EJD-ESP-File-Server">ESP-File-Server</a><br>
-  　<a href="https://github.com/NoRi-230401/AiStackChanEx">AiStackChanEx(旧ソフト)</a><br>
-  　<a href="https://github.com/robo8080/AI_StackChan2/">AI_StackChan2</a><br>
-  <br>
-  <h5> [ サーボ関連 ]</h5>
-  　<a href="https://github.com/mongonta0716/stack-chan-tester/">stack-chan-tester</a><br>
-  　<a href="https://raspberrypi.mongonta.com/how-to-move-with-sg90-arduinoframework/">「M５スタック沼人ノニッキ」</a><br>
-  　<a href="https://note.com/ku_nel_5/n/n8c57b19884bd/">「電子工作素人によるスタックチャン製作記４」</a>
-  <br><br>
-
-  <h5> [ Twitter ]</h5>
-  　<a
-    href="https://twitter.com/hashtag/%EF%BD%BD%EF%BE%80%EF%BD%AF%EF%BD%B8%EF%BE%81%EF%BD%AC%EF%BE%9D?src=hashtag_click/">＃ｽﾀｯｸﾁｬﾝ</a>　　<a
-    href="https://twitter.com/hashtag/AI%EF%BD%BD%EF%BE%80%EF%BD%AF%EF%BD%B8%EF%BE%81%EF%BD%AC%EF%BE%9D?src=hashtag_click/">＃AIｽﾀｯｸﾁｬﾝ</a><br>
-  <br>
-  <br>
-  <br>
+  <b>設定後、「wsWifi.json」で確認してください。</b>
+  <br><br><br>
   <a href="#top">トップ</a>
   　<a href="http://stackchan/sysInfo">システム情報</a>　<a href="http://stackchan/startup">wsStartup.json</a>　<a
     href="http://stackchan/apikey">wsApikey.json</a>　<a href="http://stackchan/wifiSelect">wsWifi.json</a>　<a
     href="http://stackchan/shutdown?reboot=on">再起動</a>
-
-
   <br><br>
   <hr>
-  <a name="hajime"></a>
-  <br>
-  <h2>★８.はじめに読んでください。</h2>
-  <h5>[ ソフトウエアの特徴 ]</h5>
-
-  <br>
-  <br>
-  <br>
-
-  <a href="#top">トップ</a>
-  　<a href="http://stackchan/sysInfo">システム情報</a>　<a href="http://stackchan/startup">wsStartup.json</a>　<a
-    href="http://stackchan/apikey">wsApikey.json</a>　<a href="http://stackchan/wifiSelect">wsWifi.json</a>　<a
-    href="http://stackchan/shutdown?reboot=on">再起動</a>
-
-
-  <br><br>
-  <hr>
-
-
   <br><br><br><br><br><br><br><br><br>
 </body>
 

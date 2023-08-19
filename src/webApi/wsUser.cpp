@@ -295,6 +295,7 @@ String HTML_Header()
   // page += "<a href='/wss4'>" + NAME_WSS4 + "</a> ";
   // page += "<a href='/wss5'>" + NAME_WSS5 + "</a> ";
   page += "<a href='/system'>Status</a>";
+  page += "<a href='https://nori.rdy.jp/wss/' target='WSS-Support'>Support</a>";
   page += "</div>";
     
   return page;

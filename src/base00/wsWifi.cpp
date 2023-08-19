@@ -356,7 +356,6 @@ bool wifiSmartConfigConnect()
   return true;
 }
 
-
 int wifiConnect2()
 {
   int cnNo = 0;
@@ -373,19 +372,22 @@ int wifiConnect2()
     return cnNo;
   }
 
-  Serial.println("## " + String(++cnNo, DEC) + ".  CONNECTING : wsWifi.json in SD ");
-  if (wifiSelect(FLTYPE_SD))
+  if (SD_ENABLE)
   {
-    Serial.println("\nCONNECTED : wsWifi.json in SD");
-    return cnNo;
-  }
+    Serial.println("## " + String(++cnNo, DEC) + ".  CONNECTING : wsWifi.json in SD ");
+    if (wifiSelect(FLTYPE_SD))
+    {
+      Serial.println("\nCONNECTED : wsWifi.json in SD");
+      return cnNo;
+    }
 
-  Serial.println("##  " + String(++cnNo, DEC) + ".  CONNECTING : wifi.txt in SD");
-  // "wifi.txt" の接続
-  if (wifiTxtConnect())
-  {
-    Serial.println("\nCONNECTED : wifi.txt in SD");
-    return cnNo;
+    Serial.println("##  " + String(++cnNo, DEC) + ".  CONNECTING : wifi.txt in SD");
+    // "wifi.txt" の接続
+    if (wifiTxtConnect())
+    {
+      Serial.println("\nCONNECTED : wifi.txt in SD");
+      return cnNo;
+    }
   }
 
   Serial.println("##  " + String(++cnNo, DEC) + ".  CONNECTING : privious wifi settings");
@@ -448,8 +450,6 @@ int wifiConnect2()
 //   return true;
 // }
 
-
-
 bool wifiTxtRead()
 {
   File file = fileOpen(FLTYPE_SD, WIFITXT_SD, "r");
@@ -477,7 +477,7 @@ bool wifiTxtRead()
   }
 
   SSID = String(buf);
-  SSID_PASSWD = String( &buf[y] );
+  SSID_PASSWD = String(&buf[y]);
 
   if ((SSID == "") || (SSID_PASSWD == ""))
   {

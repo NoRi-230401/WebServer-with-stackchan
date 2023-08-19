@@ -20,6 +20,7 @@ String OPENAI_API_KEY = "";
 String VOICEVOX_API_KEY = "";
 // String VOICETEXT_API_KEY = "";
 String STT_API_KEY = "";
+bool SD_ENABLE = false;
 
 void startupSetting()
 {
@@ -428,7 +429,7 @@ void M5StackConfig()
   int i = 0;
   bool success = false;
   // Serial.println("SD.begin Start ...");
-  while (i < 5)
+  while (i < 3)
   { // SDカードマウント待ち
     success = SD.begin(GPIO_NUM_4, SPI, 15000000, "/sdcard", 10, false);
     if (success)
@@ -438,10 +439,18 @@ void M5StackConfig()
     delay(500);
     i++;
   }
-  if (i >= 5)
+  
+  if (i >= 3)
+  {
     Serial.println("SD.begin faile ...");
+    SD_ENABLE = false;
+  }
+  else
+    SD_ENABLE = true;
 
 }
+
+
 
 bool jsonAPIKEYinit(DynamicJsonDocument &jsonDoc)
 {
@@ -450,6 +459,9 @@ bool jsonAPIKEYinit(DynamicJsonDocument &jsonDoc)
 
 bool apiKeyTxtRead()
 {
+  if(!SD_ENABLE)
+    return false;
+    
   File fs = fileOpen(FLTYPE_SD, APIKEY_TXT_SD, "r");
   if (!fs)
   {

@@ -31,6 +31,7 @@ void setupUserHandler()
   server.on("/wss5", HTTP_GET, [](AsyncWebServerRequest *request)
             { request->send(SPIFFS, "/wss5.html", String(), false, processor05); });
 
+
   // #########################################################################
   server.on("/icon.gif", HTTP_GET, [](AsyncWebServerRequest *request)
             { request->send(SPIFFS, "/icon.gif", "image/gif"); });
@@ -41,11 +42,11 @@ void setupUserHandler()
   server.on("/style.css", HTTP_GET, [](AsyncWebServerRequest *request)
             { request->send(SPIFFS, "/style.css", "text/css"); });
 
-  server.on("/smart-style.css", HTTP_GET, [](AsyncWebServerRequest *request)
-            { request->send(SPIFFS, "/smart-style.css", "text/css"); });
+  // server.on("/smart-style.css", HTTP_GET, [](AsyncWebServerRequest *request)
+  //           { request->send(SPIFFS, "/smart-style.css", "text/css"); });
 
-  server.on("/pc-style.css", HTTP_GET, [](AsyncWebServerRequest *request)
-            { request->send(SPIFFS, "/pc-style.css", "text/css"); });
+  // server.on("/pc-style.css", HTTP_GET, [](AsyncWebServerRequest *request)
+  //           { request->send(SPIFFS, "/pc-style.css", "text/css"); });
 
   // ###########################################################################
 }
@@ -86,6 +87,14 @@ void handle_wss4()
 {
   htmlConv(WSS4_HTML);
 }
+
+void handle_wss5()
+{
+  htmlConv(WSS5_HTML);
+}
+
+
+
 
 // #define DEBUG_INDEX_HTML
 bool htmlConv(const String flname)

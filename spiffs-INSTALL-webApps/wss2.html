@@ -1,0 +1,409 @@
+<!doctype html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Servo</title>
+  <base target="StackChanSub">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <style>
+        html {
+        font-size: 62.5%;
+    }
+
+    body {
+      margin: 1%;
+      text-align: left;
+      width: 98%;
+      background: #fffacd;
+      font-size: 1.6rem;
+    }
+
+    div {
+      line-height: 120%;
+      text-align: left;
+      font-size: 1.5rem;
+      font-weight: normal;
+    }
+
+    p {
+      line-height: 120%;
+      font-size: 1.5rem;
+      width: 100%;
+      margin: 0%
+    }
+
+    h1 {
+      text-align: center;
+      margin: 0%;
+      line-height: 110%;
+      color: #87ceeb;
+      font-size: 2.8rem;
+      font-weight: bolder;
+    }
+
+    h2 {
+      text-align: left;
+      margin: 2%;
+      line-height: 150%;
+      font-size: 2.0rem;
+      font-weight: bold;
+    }
+
+    h3 {
+      line-height: 110%;
+      font-size: 2.0rem;
+      font-weight: bold;
+    }
+
+    h4 {
+      line-height: 110%;
+      font-size: 1.5rem;
+      font-weight: bold;
+    }
+
+    h5 {
+      line-height: 110%;
+      font-size: 1.5rem;
+      font-weight: normal;
+    }
+
+    @media screen and (max-width: 480px) {
+      img {
+        width: 100%;
+        height: auto;
+      }
+
+      body { font-size: 1.4rem; }
+      div { font-size: 1.4rem; }
+      p { font-size: 1.4rem; }
+      h5 { font-size: 1.4rem; }
+
+    }
+  </style>
+
+</head>
+
+<body>
+  <a name="top"></a>
+  <br>
+  <h1>Servo</b></h1>
+  <br>
+  <hr color="#87ceeb" width="100%" size="3">
+  <p>
+    <br>
+    <a href="http://stackchan/" target="Home">０.Home</a><br>
+    <br>
+    <a href="#svCont">１.サーボ制御（コントロール）</a><br><br>
+    <a href="#svSetting">２.サーボ設定（起動時）</a><br><br>
+    ３.サーボ調整<br>
+    　<a href="#svAdjust">（３ー０）準備</a><br>
+    　<a href="#svAdjust1">（３－１）固定前</a><br>
+    　<a href="#svAdjust2">（３ー２）固定後</a><br>
+    　<a href="#svAdjust3">（３ー３）調整終了後</a><br><br>
+  </p>
+
+  <br><br>
+  <p>
+    <a href="#top">トップ</a>
+    　<a href="http://stackchan/sysInfo">システム情報</a>
+    　<a href="http://stackchan/servoSetting">wsServo.json</a>
+    　<a href="http://stackchan/shutdown?reboot=on">再起動</a>
+  </p>
+  <br>
+  <hr color="#87ceeb" width="100%" size="3">
+  <br>
+  <h3><a name="svCont"></a> ★１.サーボ制御（コントロール）</h3>
+  <br>
+  動作中の制御（コントロール）をおこないます。
+  <br><br>
+
+  <p>
+    <a href="http://stackchan/servo?mode=moving">moving</a>：　（通常動作）<br><br>
+    <a href="http://stackchan/servo?mode=stop">stop</a>：　（動作停止）<br><br>
+    <a href="http://stackchan/servo?mode=home">home </a>：　（ホーム位置）<br><br>
+    <a href="http://stackchan/servo?mode=center">center</a>：　（X=90,Y=90）<br><br>
+    <a href="http://stackchan/servo?mode=random">Random</a>：　(X: 45-135) , (Y: 60-90) の範囲でランダムな動きをします。
+  </p>
+  <br><br>
+  <p>
+    <b>Swing</b><br>
+    XY軸、X軸、Y軸の３種類の移動方向を選べ、それぞれ回数指定ができます。<br>
+
+  <form action="http://stackchan/servo" method="get">
+    SwingXY　:　 <input type="text" name="swingXY" value="1" size="2" maxlength="2" />　 repeat　(1 to 10)
+    　<input type="submit" value="送信" />
+  </form>
+
+
+  <form action="http://stackchan/servo" method="get">
+    <br>
+    SwingX:（ 90 → 0 → 180 → 90 ）<input type="text" name="swingX" value="1" size="2" maxlength="2" />　repeat　(1 to 10)
+    <input type="submit" value="送信" />
+  </form>
+  <br>
+  <form action="http://stackchan/servo" method="get">
+    SwingY:（ 90 → 50 → 90 ）　　　<input type="text" name="swingY" value="1" size="2" maxlength="2" />　repeat　(1 to 10)
+    <input type="submit" value="送信" />
+  </form>
+  <br>
+  </p>
+  <br>
+  <p>
+    <b>PointXY</b>　は、絶対位置(X:0 to 180,　 Y:50 to 100) を指定: degree<br>
+  <form action="http://stackchan/servo" method="get">
+    PointXY:　X(0 to 180)　　 <input type="text" name="pointX" value="90" size="3" maxlength="3" />　　Y(50 to 100) <input
+      type="text" name="pointY" value="90" size="3" maxlength="3" />　<input type="submit" value="送信" />
+  </form>
+  </p>
+  <br><br>
+  <p>
+    <b>DeltaXY</b>　は、現在の位置からの相対位置(X:-180 to 180,　 Y:-50 to 50)を指定 : degree<br>
+    指定された値が、サーボ設定範囲を超えた場合には、最小、最大値に張り付きます。<br>
+    サーボ設定範囲（ 0＜＝X＜＝180,　50＜＝Y＜＝100 ）
+  <form action="http://stackchan/servo" method="get">
+    <br>DeltaXY:　X(-180 to 180) <input type="text" name="deltaX" value="0" size="4" maxlength="4" />　Y(-50 to 50)
+    <input type="text" name="deltaY" value="0" size="3" maxlength="3" />　<input type="submit" value="送信" />
+  </form>
+  </p>
+  <br><br>
+  
+  <p>
+    <b>サーボ位置取得</b>　　現在のX、Yの位置を取得できます。<br>
+    　　　<a href="http://stackchan/servo?tx=xy">サーボ位置(X,Y)の取得 </a>
+  </p>
+  <br>
+  <p>
+
+    ※注意：wsServo.jsonファイルの「servo」項目が「off」の場合は、サーボ制御はできません。<br>
+  </p>
+  <br>
+  <a href="#top">トップ</a>
+  　<a href="http://stackchan/sysInfo">システム情報</a>
+  　<a href="http://stackchan/servoSetting">wsServo.json</a>
+  　<a href="http://stackchan/shutdown?reboot=on">再起動</a>
+  <br><br>
+  <hr>
+  <br>
+  <h3><a name="svSetting"></a> ★２.サーボ設定（起動時）</h3>
+  起動時にサーボ設定ファイル("wsServo.Json")を読み込み設定を行います。<br>
+  ここでは、設定ファイルを書き換えます。変更を反映するには、再起動が必要です。<br>
+
+  <p>
+    servo：　<a href="http://stackchan/servoSetting?servo=on">on</a>
+    　　<a href="http://stackchan/servoSetting?servo=off">off</a>
+    <br><br>
+    servoPort：　<a href="http://stackchan/servoSetting?servoPort=portA">portA</a>
+    　　<a href="http://stackchan/servoSetting?servoPort=portC">portC</a>
+    <br><br>
+
+    servoMode：　<a href="http://stackchan/servoSetting?servoMode=moving">moving</a>
+    　　<a href="http://stackchan/servoSetting?servoMode=home">home</a>
+    　　<a href="http://stackchan/servoSetting?servoMode=random">random</a><br>
+    
+    　　　　　　　　<a href="http://stackchan/servoSetting?servoMode=center">center</a>
+    　　<a href="http://stackchan/servoSetting?servoMode=adjust">adjust(調整モード)</a>
+    
+    <br><br>
+
+  <form action="http://stackchan/servoSetting" method="get">
+    サーボのホーム位置(XY)を変更します。<br>
+    servoHomeX：( 70 to 110 ) :　<input type="text" name="servoHomeX" value="90" size="3" maxlength="3" />　<input
+      type="submit" value="送信" />
+  </form>
+  <br>
+  <form action="http://stackchan/servoSetting" method="get">
+    servoHomeY：( 60 to 100 ) :　<input type="text" name="servoHomeY" value="80" size="3" maxlength="3" />　<input
+      type="submit" value="送信" />
+  </form>
+  <br><br>
+  </p>
+  <br>
+  <a href="#top">トップ</a>
+  　<a href="http://stackchan/sysInfo">システム情報</a>
+  　<a href="http://stackchan/servoSetting">wsServo.json</a>
+  　<a href="http://stackchan/shutdown?reboot=on">再起動</a>
+  <br><br>
+  <hr>
+  <br>
+  <a name="svAdjust"></a>
+  <h3>★３. サーボ調整</h3>
+
+  <a name="svAdjust0"></a>
+  <h4>（３－０）準備:　ソフトウエアの設定</h4>
+
+  最初に、ソフトウエアのサーボ関連の設定を行います。<br>
+  <br>
+  <p>
+    servo：　　　<a href="http://stackchan/servoSetting?servo=on">on</a>
+    <br><br>
+    servoPort：　<a href="http://stackchan/servoSetting?servoPort=portA">portA</a>
+    　　<a href="http://stackchan/servoSetting?servoPort=portC">portC</a>　（どちらかを選択）
+    <br><br>
+    servoMode：　<a href="http://stackchan/servoSetting?servoMode=adjust">adjust</a>　(「サーボ調整」モードで起動)<br>
+  </p>
+  <br>
+  ※ M5Stack_Core2_for_AWSの servoPortは、画面に向かって上面の右側は"portC" / 左面は"portA"です。<br>
+  そこのGroveコネクタに、Groveケーブルで結線したサーボ接続基盤ユニットがつながります。
+  <p>
+    その後、"wsServo.json"ファイルの内容を確認後に、再起動してください。<br>
+    再起動後は、画面に（「サーボ調整」）と表示されます。<br>
+    「サーボ調整」起動後は、Center（X=90,Y=90）位置で停止、およびKeyLock状態になります。<br>
+    「サーボ調整」モード起動が確認できたら、いったん電源OFFにするため、<br>
+    下記の「終了（電源OFF）」を押下して、電源OFFの状態にしてください。
+    <br><br><br><br>
+    <a href="#top">トップ</a>
+    　　<a href="http://stackchan/sysInfo">システム情報</a>
+    　　<a href="http://stackchan/servoSetting">wsServo.json</a>
+    　　<a href="http://stackchan/shutdown?reboot=on">再起動</a>
+    　　<a href="http://stackchan/shutdown">終了（電源OFF）</a>
+  </p>
+  <br> -----------------------------------------------------------------------<br>
+  <br>
+  <a name="svAdjust1"></a>
+  <h4>（３－１）固定前:</h4>
+
+  ここでは、スタックチャンのボディ組み立て前（固定前）に、サーボが、<br>
+  正常に動くかどうかのチェックと、「センター出し」を行います。<br>
+  <br>
+  サーボ・モータに付属するサーボ・ホーン（白や黒いプラスチックの羽みたいなもの）を<br>
+  サーボに付けます。これは、サーボの動きがよくわかるようにするためです。<br>
+  電源OFF状態のまま、本体のポート（portAまたは、portC）のGroveコネクタに、<br>
+  Groveケーブルにつながった接続基盤経由で、サーボを接続してください。<br><br>
+  その後、電源ONして、本体が「サーボ調整」画面になったら、ここに戻ってきてください。<br><br>
+  <p>
+  <h4> （３－１－１）動作チェック</h4>
+  サーボが、正常に動くかどうかの動作チェックをおこないます。<br><br>
+  <b>Swing</b> は、XY軸、X軸、Y軸の３種類の移動方向を選べ、それぞれ回数指定ができます。<br>
+  <b>Random</b> は、(X: 45-135) , (Y: 60-90) の範囲でランダムな動きをします。<br>
+  <b>Moving</b> は、通常使用している動作を試すことができます。<br>
+  <b>Stop</b> は、Randomまたは、Movingを停止させる場合に使用してください。<br><br>
+
+  <form action="http://stackchan/servo" method="get">
+    SwingXY　:　 <input type="text" name="swingXY" value="1" size="1" maxlength="2" /> repeat　(1-10)
+    　<input type="submit" value="送信" />
+  </form>
+
+
+  <form action="http://stackchan/servo" method="get">
+    <br>
+    SwingX:（ 90 → 0 → 180 → 90 ）<input type="text" name="swingX" value="1" size="1" maxlength="2" />repeat　(1-10)
+    <input type="submit" value="送信" />
+  </form>
+  <br>
+  <form action="http://stackchan/servo" method="get">
+    SwingY:（ 90 → 50 → 90 ）　　<input type="text" name="swingY" value="1" size="1" maxlength="2" />repeat　(1-10)
+    <input type="submit" value="送信" />
+  </form>
+  <br>
+  </p>
+<br>
+  <a href="http://stackchan/servo?mode=random">Random</a>
+  　　　　　<a href="http://stackchan/servo?mode=moving">Moving</a>
+  　　　　　　<a href="http://stackchan/servo?mode=stop">Stop</a><br>
+  <br><br>
+
+  <h4>（３－１－２）センター出し</h4><br>
+  サーボの回転角を90度の位置に初期化します。（これが「センター出し」）<br>
+  サーボを固定する時は、サーボをセンター（X=90,Y=90）位置で取り付けます。<br>
+  <br>
+
+  <a href="http://stackchan/servo?mode=center">Center</a> ：（X=90,Y=90）
+  　　　　<a href="http://stackchan/shutdown">終了（電源OFF）</a>
+  <br><br>
+  センターに移動後、終了（電源OFF）して電源を切ってください。<br>
+  Groveケーブル、サーボ・ホーン等を取り外し、<br>
+  その後、サーボの固定作業（スタックチャンのボディ組み立て）を行ってください。<br>
+  <br><br>
+  <p>
+    <a href="#top">トップ</a>
+    　　<a href="http://stackchan/sysInfo">システム情報</a>
+    　　<a href="http://stackchan/servoSetting">wsServo.json</a>
+    　　<a href="http://stackchan/shutdown?reboot=on">再起動</a>
+    　　<a href="http://stackchan/shutdown">終了（電源OFF）</a>
+  </p>
+  <br> -----------------------------------------------------------------------<br><br>
+
+  <a name="svAdjust2"></a>
+  <h4>（３－２）固定後:　ホーム位置調整</h4><br>
+  サーボの固定作業（スタックチャンのボディ組み立て）が完了しましたら、<br>
+  電源ONにして、本体が「サーボ調整」画面になったら、再びこの場所に戻ってきてください。<br>
+  <br>
+  サーボは、指定場所から少しずれる場合があります。たとえば、本来のセンター位置<br>
+  （X=90,Y=90）は、画面の正面（両足の真ん中）で、水平面に垂直であるのが理想的な位置です。<br>
+  これに、ずれが発生している場合にその調整をおこない、ずれを修正することができます。<br><br>
+  　<a href="http://stackchan/servo?mode=center">Center</a>
+  ：（X=90,Y=90）　センター位置の確認<br><br><br>
+
+  実際の調整は、ホーム位置の設定でずれ分を吸収せる形で調整を行います。<br>
+  ホームの位置を中心にして、本体のサーボ動作をおこなってようになっています。<br> <br>
+  　<a href="http://stackchan/servo?mode=home">Home </a>
+  ：（現在のホーム位置）　初期設定では、X=90,Y=80 です。
+
+  <p>
+    Home　の位置に移動したあとで、下記でどれくらい移動すればいいのか試し、<br>
+    調整をするHome位置を決めてください。XYの値は画面に表示されます。<br>
+    Xは画面の正面の中心、Yは若干の上向き方向にするのがお勧めです。<br>
+    画面を正面に見て、Xはプラスは右向き、Yはプラスが下向きに移動します。<br>
+    <br>
+    <a href="http://stackchan/servo?deltaX=-1&deltaY=0">deltaX = -1</a>
+    　<a href="http://stackchan/servo?deltaX=1&deltaY=0">deltaX= +1</a>
+    　<a href="http://stackchan/servo?deltaX=0&deltaY=-1">deltaY = -1</a>
+    　<a href="http://stackchan/servo?deltaX=0&deltaY=1">deltaY= +1</a>
+    <br><br>
+    <a href="http://stackchan/servo?deltaX=-3&deltaY=0">deltaX = -3</a>
+    　<a href="http://stackchan/servo?deltaX=3&deltaY=0">deltaX= +3</a>
+    　<a href="http://stackchan/servo?deltaX=0&deltaY=-3">deltaY = -3</a>
+    　<a href="http://stackchan/servo?deltaX=0&deltaY=3">deltaY= +3</a>
+    <br><br>
+    <a href="http://stackchan/servo?deltaX=-5&deltaY=0">deltaX = -5</a>
+    　<a href="http://stackchan/servo?deltaX=5&deltaY=0">deltaX= +5</a>
+    　<a href="http://stackchan/servo?deltaX=0&deltaY=-5">deltaY = -5</a>
+    　<a href="http://stackchan/servo?deltaX=0&deltaY=5">deltaY= +5</a>
+    <br><br>
+    <a href="http://stackchan/servo?deltaX=-10&deltaY=0">deltaX = -10</a>
+    　<a href="http://stackchan/servo?deltaX=10&deltaY=0">deltaX= +10</a>
+    　<a href="http://stackchan/servo?deltaX=0&deltaY=-10">deltaY = -10</a>
+    　<a href="http://stackchan/servo?deltaX=0&deltaY=10">deltaY= +10</a>
+  </p>
+  <br> <br>
+
+
+  <form action="http://stackchan/servoSetting" method="get">
+    調整するホーム位置(XY)が決定しましたら、ここで変更をおこないます。<br> <br>
+    servoHomeX：( 70 to 110 ) :　<input type="text" name="servoHomeX" value="90" size="3" maxlength="3" />　<input
+      type="submit" value="送信" />
+  </form>
+  <br>
+  <form action="http://stackchan/servoSetting" method="get">
+    servoHomeY：( 60 to 100 ) :　<input type="text" name="servoHomeY" value="80" size="3" maxlength="3" />　<input
+      type="submit" value="送信" />
+  </form>
+  <br><br> -----------------------------------------------------------------------<br>
+  <br>
+  <a name="svAdjust3"></a>
+  <h4>（３－３）調整終了後</h4>
+  <br>
+  起動時の設定をadJust(調整モード)を変更します。<br><br>
+  <a href="http://stackchan/servoSetting?servoMode=moving">moving(通常動作)</a>
+  　または、　<a href="http://stackchan/servoSetting?servoMode=home">home(ホーム)</a>
+  <br><br>を選んでください。
+  <br><br>
+  最後に、設定ファイル "wsServo.json"の servoHomeX,　servoHomeY,　servoMode が<br>
+  指定した値になっていること確認してください。<br><br>
+  確認後に、再起動すると、新しいホーム位置の値が反映された通常動作に戻ります。<br>
+  <br>
+  <br>
+  <a href="#top">トップ</a>
+  　　<a href="http://stackchan/sysInfo">システム情報</a>
+  　　<a href="http://stackchan/servoSetting">wsServo.json</a>
+  　　<a href="http://stackchan/shutdown?reboot=on">再起動</a>
+  <br>
+  </p>
+  <br>
+  <hr>
+  <br><br><br><br><br><br><br><br><br>
+  <br><br><br><br><br><br><br><br><br>
+</body>
+
+</html>

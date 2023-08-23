@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="utf-8">
+  <title>Remote</title>
+  <base target="StackChanSub">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+
+<body bgcolor="#fffacd" text="#2f4f4f" leftmargin="10" topmargin="5"></body>
+
+<div class="just2">
+  <input type="submit" value="PowOff" class="button-shutdown" onclick="MovePowerOffCheck();">
+  <a href="http://stackchan/" target="Home" class="btn btn--orange btn--orange">Home</a>
+  <a href="http://stackchan/sysInfo" class="btn btn--LightSkyBlue btn--LightSkyBlue"
+    onclick="window.open('http://stackchan/sysInfo','subwin','width=400,height=650','scrollbars=yes');return false;">SysInfo</a>
+</div>
+
+<div class="just2">
+  <!-- <a href="http://stackchan/button?push=BOX_STT" class="btn btn--LightSkyBlue btn--LightSkyBlue"
+    onclick="window.open('http://stackchan/button?push=BOX_STT','subwin','width=300,height=200');return false;">STT</a> -->
+    <a href="http://stackchan/button?push=BOX_STT" class="btn btn--BtnBOX"
+    onclick="window.open('http://stackchan/button?push=BOX_STT','subwin','width=300,height=200');return false;">Talk with<br>chatGPT</a>
+  <a href="http://stackchan/button?push=BOX_SERVO" class="btn btn--BtnBOX"
+    onclick="window.open('http://stackchan/button?push=BOX_SERVO','subwin','width=300,height=200');return false;">
+    &nbsp;&nbsp;Servo&nbsp;&nbsp;<br>Mode</a>
+  <!-- <a href="http://stackchan/sysInfo" class="btn btn--pink btn--pink"
+    onclick="window.open('http://stackchan/sysInfo','subwin','width=400,height=650','scrollbars=yes');return false;">SysInfo</a> -->
+</div>
+
+<p>
+  <a href="http://stackchan/servo?deltaY=-15" class="triangle-top"
+    onclick="window.open('http://stackchan/servo?deltaY=-15','subwin','width=300,height=200');return false;"></a><br>
+    
+    <a href="http://stackchan/servo?deltaX=-20" class="triangle-left"
+    onclick="window.open('http://stackchan/servo?deltaX=-20','subwin','width=300,height=200');return false;"></a>
+
+    　　　　　　　<a href="http://stackchan/servo?deltaX=20" class="triangle-right"
+    onclick="window.open('http://stackchan/servo?deltaX=20','subwin','width=300,height=200');return false;"></a>
+    <br>  
+    
+  <a href="http://stackchan/servo?deltaY=15" class="triangle-bottom"
+    onclick="window.open('http://stackchan/servo?deltaY=15','subwin','width=300,height=200');return false;"></a>
+</p>
+
+<div class="just2">
+  <a href="http://stackchan/button?push=BtnA" class=" btn btn--BtnABC"
+    onclick="window.open('http://stackchan/button?push=BtnA','subwin','width=300,height=200');return false;">BtnA<br>self-talk</a>
+  <a href="http://stackchan/button?push=BtnB" class="btn btn--BtnABC"
+    onclick="window.open('http://stackchan/button?push=BtnB','subwin','width=300,height=200');return false;">BtnB<br>&nbsp;&nbsp;Timer&nbsp;&nbsp;</a>
+  <a href="http://stackchan/button?push=BtnC" class="btn btn--BtnABC"
+    onclick="window.open('http://stackchan/button?push=BtnC','subwin','width=300,height=200');return false;">BtnC<br>&nbsp;Battery&nbsp;</a>
+</div>
+
+<div class="just2">
+  <a href="http://stackchan/timer?setTimeMin=1&mode=Start" class="btn btn--Lavender btn--Lavender"
+    onclick="window.open('http://stackchan/timer?setTimeMin=1&mode=Start','subwin','width=300,height=200');return false;">1min</a>
+  <a href="http://stackchan/timer?setTimeMin=3&mode=Start" class="btn btn--Lavender btn--Lavender"
+    onclick="window.open('http://stackchan/timer?setTimeMin=3&mode=Start','subwin','width=300,height=200');return false;">3min</a>
+  <a href="http://stackchan/timer?setTimeMin=5&mode=Start" class="btn btn--Lavender btn--Lavender"
+    onclick="window.open('http://stackchan/timer?setTimeMin=5&mode=Start','subwin','width=300,height=200');return false;">5min</a>
+</div>
+
+<form action="http://stackchan/timer" method="get">
+  <p class="formbottom">
+  <div class="just2">
+    <font size="5"><b>Min</b></font>
+    <input type="text" style="text-align:right;font-size:180%;" name="setTimeMin" value="2" size="2" maxlength="2">
+    <font size="5"><b>Sec</b></font>
+    <input type="text" style="text-align:right;font-size:180%;" name="setTimeSec" value="30" size="2" maxlength="2">
+    <input type="submit" style="font-size:180%;" value="SUBMIT" class="btns submit" onclick="disp('http://stackchan/timer')">
+  </div>
+  </p>
+</form>
+
+<div class="just2">
+  <a href="http://stackchan/setting?led=toggle" class="btn btn--yellow btn--yellow"
+    onclick="window.open('http://stackchan/setting?led=toggle','subwin','width=300,height=200');return false;">LED</a>
+  <a href="http://stackchan/setting?toneMode=next" class="btn btn--green btn--green"
+    onclick="window.open('http://stackchan/setting?toneMode=next','subwin','width=300,height=200');return false;">ToneM</a>
+  <a href="http://stackchan/setting?mute=toggle" class="btn btn--pink btn--pink"
+    onclick="window.open('http://stackchan/setting?mute=toggle','subwin','width=300,height=200');return false;">Mute</a>
+</div>
+
+<form action="http://stackchan/setting" method="get">
+  <p class="formbottom">
+  <div class="just2">
+    <font size="4"><b>Volume (0-255)</b></font>
+    <input type="text" style="text-align:right;font-size:180%;" name="volume" value="200" size="3" maxlength="3">
+    <input type="submit" style="font-size:180%;" value="SUBMIT" class="btns submit" onclick="disp('http://stackchan/setting')">
+  </div>
+  </p>
+</form>
+
+<h1>Remote controller</h1>
+
+<footer>
+</footer>
+<script src="script.js"></script>
+</body>
+
+</html>

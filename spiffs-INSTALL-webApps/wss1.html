@@ -1,0 +1,381 @@
+<!doctype html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Setting</title>
+  <base target="StackChanSub">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <style>
+    html {
+      font-size: 62.5%;
+    }
+
+    body {
+      margin: 1%;
+      text-align: left;
+      width: 98%;
+      background: #fffacd;
+      font-size: 1.6rem;
+    }
+
+    div {
+      line-height: 120%;
+      text-align: left;
+      font-size: 1.5rem;
+      font-weight: normal;
+    }
+
+    p {
+      line-height: 120%;
+      font-size: 1.5rem;
+      width: 100%;
+      margin: 0%
+    }
+
+    h1 {
+      text-align: center;
+      margin: 0%;
+      line-height: 110%;
+      color: #87ceeb;
+      font-size: 2.8rem;
+      font-weight: bolder;
+    }
+
+    h2 {
+      text-align: left;
+      margin: 2%;
+      line-height: 150%;
+      font-size: 2.0rem;
+      font-weight: bold;
+    }
+
+    h3 {
+      line-height: 110%;
+      font-size: 2.0rem;
+      font-weight: bold;
+    }
+
+    h4 {
+      line-height: 110%;
+      font-size: 1.5rem;
+      font-weight: bold;
+    }
+
+    h5 {
+      line-height: 110%;
+      font-size: 1.5rem;
+      font-weight: normal;
+    }
+
+    @media screen and (max-width: 480px) {
+      img {
+        width: 100%;
+        height: auto;
+      }
+
+      body {
+        font-size: 1.4rem;
+      }
+
+      div {
+        font-size: 1.4rem;
+      }
+
+      p {
+        font-size: 1.4rem;
+      }
+
+      h5 {
+        font-size: 1.4rem;
+      }
+    }
+  </style>
+
+</head>
+
+<!-- <body bgcolor="#fffacd" text="#2f4f4f" leftmargin="10" topmargin="20"> -->
+
+<body>
+  <a name="top"></a>
+  <br>
+  <h1>Setting</h1>
+  <br>
+  <hr color="#87ceeb" width="100%" size="3">
+  <br>
+  <a href="http://stackchan/" target="Home">０.Home</a><br>
+  <br>
+  <a href="#kihon">１.基本操作</a><br>
+  <a href="#chatgpt">２.chatGPT</a><br>
+  <a href="#kantan">３.簡単設定</a><br>
+  <a href="#startup">４.スタートアップ設定</a><br>
+  <a href="#wifiSelect">５.Wifi設定</a><br>
+  <br>
+  <b>★応答に時間がかかるので動作中であれば停止してください。</b><br>
+  　　<a href="http://stackchan/randomSpeak?mode=off">「独り言」停止</a>
+  　　<a href="http://stackchan/timer?mode=Stop">「タイマー」停止</a>
+  <br><br>
+  <p>
+    "wsWifi.json","wsApikey.json" のファイルは、破損に備えて<b>必ずバックアップを取ってください。</b><br>
+    [ Home ] 画面の　DownloadでファイルをPCに保存することができます。<br>
+  </p>
+  <br>
+  <a href="#top">トップ</a>　<a href="http://stackchan/sysInfo"">システム情報</a>　<a
+    href=" http://stackchan/startup"">wsStartup.json</a>
+  　<a href="http://stackchan/servoSetting">wsServo.json</a>
+  　<a href="http://stackchan/wifiSelect">wsWifi.json</a>　<a href="http://stackchan/shutdown?reboot=on">再起動</a>
+  <br><br>
+  <hr color="#87ceeb" width="100%" size="3">
+
+  <a name="kihon"></a>
+  <br>
+  <h2>★１. 基本操作</h2>
+
+  <form action="http://stackchan/setting" method="get">
+    音量( 0 - 255 )：<input type="text" name="volume" value="200" size="3" maxlength="3" />　<input type="submit"
+      value="送信" />
+  </form>
+  <br>
+
+  「独り言」 ：　<a href="http://stackchan/randomSpeak?mode=on">開始</a>
+  　　<a href="http://stackchan/randomSpeak?mode=off">停止</a>
+  <br><br>
+  <form action="http://stackchan/setting?" method="get">vSpeakerNo:話者番号(0-66)　<input type="text" name="vSpeakerNo"
+      value="3" size="2" maxlength="2" />　 <input type="submit" value="送信" />
+  </form>
+  <br>
+
+  <form action="http://stackchan/timer" method="get">
+    タイマー時間設定(30秒-60分未満)<br>
+    　<input type="text" name="setTimeMin" value="" size="2" maxlength="2" />分
+    　<input type="text" name="setTimeSec" value="0" size="2" maxlength="2" />秒　　<input type="submit" value="送信" />
+  </form>
+
+  <br>
+  タイマー開始/停止：　<a href="http://stackchan/timer?mode=Go">開始</a>
+  　　<a href="http://stackchan/timer?mode=Stop">停止</a>
+  <br>
+
+  <br>
+  LEDのON/OFF：　<a href="http://stackchan/setting?led=on">LED_ON</a>
+  　　<a href="http://stackchan/setting?led=off">LED_OFF</a>
+  <br><br>
+
+  toneMode(0-3):<br>
+  <a href="http://stackchan/setting?toneMode=0">0:無音</a>
+  　<a href="http://stackchan/setting?toneMode=1">1:ボタン押下</a>
+  　<a href="http://stackchan/setting?toneMode=2">2:コマンド受信</a>
+  　<a href="http://stackchan/setting?toneMode=3">3:両方</a>
+  <br><br>
+
+  音声ミュート：　<a href="http://stackchan/setting?mute=on">MuteOn(無音) </a>
+  　　<a href="http://stackchan/setting?mute=off">MuteOff（有音）</a>
+  <br><br>
+
+  KEYロック：　<a href="http://stackchan/setting?keyLock=on">On (操作無効) </a>
+  　　<a href="http://stackchan/setting?keyLock=off">Off（操作有効）</a>
+  <br><br>
+  終了/再起動：　<a href="http://stackchan/shutdown">「終了」実行</a>
+  　　<a href="http://stackchan/shutdown?reboot=on">「再起動」実行</a>
+  <br><br>
+  表情：<br>
+  　<a href="http://stackchan/face?expression=0">0:普通</a>
+  　　<a href="http://stackchan/face?expression=1">1:楽しい</a>
+  　　<a href="http://stackchan/face?expression=2">2:眠い</a>
+  <br>
+  　<a href="http://stackchan/face?expression=3">3:怪しい</a>
+  　　<a href="http://stackchan/face?expression=4">4:悲しい</a>
+  　　<a href="http://stackchan/face?expression=5">5:怒り</a>
+  <br>
+
+  <br>
+  <form action="http://stackchan/speech" method="get">
+    <p>
+      <b>セリフ（発声）</b>： テキスト入力<br>
+      <textarea rows="6" cols="40" name="say" wrap="soft"></textarea><br>
+      vSpeakerNo:話者番号:( 0-66 ) 　<input type="text" name="voice" value="" size="2" maxlength="2" /><br>
+      表情(0-5)：<input type="text" name="expression" value="0" size="1" maxlength="1" />　上の「表情」番号を入力<br>
+      <input type="submit" value="送信" />
+    </p>
+  </form>
+  <br><br>
+
+  <a href="#top">トップ</a>
+  　<a href="http://stackchan/sysInfo">システム情報</a>
+  　<a href="http://stackchan/startup">wsStartup.json</a>
+  　<a href="http://stackchan/shutdown?reboot=on">再起動</a>
+  <br><br>
+  <hr>
+  <a name="chatgpt"></a>
+  <br>
+  <h2>★２.chatGPT</h2>
+
+
+  テキストを入力してAIと会話してください。<br>
+  <div>
+    <form action="http://stackchan/chat" method="get">
+      <textarea rows="6" cols="40" name="text" wrap="soft"> </textarea><br>
+      vSpeakerNo:話者番号(0-66)　　<input type="text" name="voice" value="1" size="2" maxlength="2" />
+      <br>
+      <input type="submit" value="送信" />
+    </form>
+  </div>
+  <br>
+
+  <h4>ロール設定</h4>
+  chatGPTのロール設定の確認と変更ができます。<br><br>
+  <p>
+    <a href="http://stackchan/role_get">ロールの確認</a>
+  </p>
+  <br>
+  <p>
+  <form action="http://stackchan/role_set" method="post">
+    <label for="textarea">ロールの変更:<br>
+      　何も入力しないとロール情報は消去されます。　</label><br>
+    <textarea id="role_textarea" name="textarea" rows="10" cols="40"></textarea><br>
+    <input type="submit" value="送信">
+  </form>
+  </p>
+  <br>
+  <br>
+  <a href="#top">トップ</a>
+  　<a href="http://stackchan/sysInfo">システム情報</a>
+  　<a href="http://stackchan/apikey">wsApikey.json</a>
+  　<a href="http://stackchan/shutdown?reboot=on">再起動</a>
+  <br><br>
+  <hr><br>
+  <a name="kantan"></a>
+  <h2>★３.簡単設定</h2>
+  　Apikeyの設定または変更、および基本の設定ができます。<br>
+  <br>
+  <form action="http://stackchan/apikey" method="get">openAiApiKey：<br>
+    <input type="text" name="openAiApiKey" value="" size="40" maxlength="60" />　<input type="submit" value="送信" />
+  </form>
+  <br>
+  <form action="http://stackchan/apikey" method="get">voicevoxApiKey：<input type="text" name="voicevoxApiKey"
+      value="" size="20" maxlength="30" />　　<input type="submit" value="送信" />
+  </form>
+  <br>
+  servo　 ：　<a href="http://stackchan/servoSetting?servo=on">on</a>
+  　　<a href="http://stackchan/servoSetting?servo=off">off</a>
+  <br><br>
+  servoPort：　<a href="http://stackchan/servoSetting?servoPort=portA">portA</a>
+  　　<a href="http://stackchan/servoSetting?servoPort=portC">portC</a>
+  <br><br>
+
+  <p>wsApiKey.jsonとwsServo.jsonの内容を確認し、再起動してください。</p>
+  <br><br>
+  <a href="#top">トップ</a>　<a href="http://stackchan/sysInfo">システム情報</a>　
+  　<a href="http://stackchan/apikey">wsApikey.json</a>
+  　<a href="http://stackchan/servoSetting">wsServo.json</a>
+  　<a href="http://stackchan/shutdown?reboot=on">再起動</a>
+  <br>
+  <br>
+  <hr>
+
+  <a name="startup"></a>
+  <br>
+  <h2>★４.スタートアップ設定</h2>
+  起動時に設定ファイル("wsStartup.Json")を読み込み設定が反映されます。<br>
+  ここでは、ファイルの内容を書き換えます。変更を反映するには、再起動が必要です。<br>
+  "-1" または、 "***" は、 最後に設定された状態を維持となります。
+
+  <br>
+  <br>
+  <form action="http://stackchan/startup" method="get">
+    serverName：<input type="text" name="serverName" value="" size="20" maxlength="20" />　<input type="submit"
+      value="送信" />
+  </form>
+  <br>
+  <form action="http://stackchan/startup" method="get">
+    volume：( -1 to 255 )、-1は状態維持：<input type="text" name="volume" value="-1" size="3" maxlength="3" />　<input
+      type="submit" value="送信" />
+  </form>
+  <br>
+  led：　<a href="http://stackchan/startup?led=on">on</a>
+  　　<a href="http://stackchan/startup?led=off">off</a>
+  　　<a href="http://stackchan/startup?led=***">状態維持</a>
+  <br><br>
+  toneMode(0-3):<br>
+  　<a href="http://stackchan/startup?toneMode=0">0:無音</a>
+  　　<a href="http://stackchan/startup?toneMode=1">1:ボタン押下</a>
+  　　<a href="http://stackchan/startup?toneMode=2">2:コマンド受信</a><br>
+  　<a href="http://stackchan/startup?toneMode=3">3:両方</a>
+  　　<a href="http://stackchan/startup?toneMode=-1">-1:状態維持</a>
+  <br><br>
+  mute：　<a href="http://stackchan/startup?mute=on">on</a>
+  　　<a href="http://stackchan/startup?mute=off">off</a>
+  <br><br>
+  keyLock：　<a href="http://stackchan/startup?keyLock=on">on</a>
+  　　<a href="http://stackchan/startup?keyLock=off">off</a>
+  <br><br>
+  <form action="http://stackchan/startup" method="get">
+    vSpeakerNo : 話者番号( -1 to 66) -1は状態維持<br>
+    　<input type="text" name="vSpeakerNo" value="-1" size="2" maxlength="2" />　　<input type="submit" value="送信" />
+  </form>
+  <br>
+  randomSpeak：　<a href="http://stackchan/startup?randomSpeak=on">on</a>
+  　　<a href="http://stackchan/startup?randomSpeak=off">off</a>
+  <br><br>
+  <form action="http://stackchan/startup" method="get">
+    timer(30-3599Sec, -1)：<input type="text" name="timer" value="180" size="3" maxlength="3" />　　　　　<input type="submit"
+      value="送信" /><br>
+    　30秒～60分未満　-1:状態維持
+  </form>
+  <br><br>
+  <a href="#top">トップ</a>
+  　<a href="http://stackchan/sysInfo">システム情報</a>
+  　<a href="http://stackchan/startup">wsStartup.json</a>
+  　<a href="http://stackchan/shutdown?reboot=on">再起動</a>
+
+  <br>
+  <br>
+  <hr>
+  <a name="wifiSelect"></a>
+  <br>
+  <h2>★５. Wifi設定（複数AP, DHCP/固定IP対応）</h2>
+
+  <p>
+    複数のアクセスポイント（AP）情報を登録できます。<br>
+    DHCP接続の場合には、ssid-passwd の２つの情報が必要です。
+    固定IP接続の場合は、ssid-passwd-ip-gateway-subnet ５個、または、dns情報を含めた６個の情報の登録が必要です。<br>
+  </p>
+  <br>
+
+  <p>
+    登録後の設定を反映するには、再起動が必要です。
+    先に登録したAPの順（0から開始）に接続を試み登録した全てのAPを試します。全てが失敗した場合には、以前接続したWiFi情報を使用し接続を試します。<br>
+    それも失敗したら、最後にSmartConfig接続を試みます。<br>
+  </p>
+  <br>
+  <b>アクセスポイント(AP)の追加</b><br>
+  <form action="http://stackchan/wifiSelect" method="get">ssid　　：<input type="text" name="ssid" value="" size="40"
+      maxlength="60" action="http://stackchan/wifiSelect" method="get"><br>passwd ：<input type="text" name="passwd"
+      value="" size="40" maxlength="60" action="http://stackchan/wifiSelect" method="get"><br>ip　　　：<input
+      type="text" name="ip" value="" size="20" maxlength="20" action="http://stackchan/wifiSelect"
+      method="get">(xxx.xxx.xxx.xxx)の書式<br>gateway：<input type="text" name="gateway" value="" size="20" maxlength="20"
+      action="http://stackchan/wifiSelect" method="get"><br>subnet ：<input type="text" name="subnet" value=""
+      size="20" maxlength="20" action="http://stackchan/wifiSelect" method="get"><br>dns　　：<input type="text"
+      name="dns" value="" size="20" maxlength="20" />　　　<input type="submit" value="送信" />
+  </form>
+  <br><br>
+  <form action="http://stackchan/wifiSelect" method="get">
+    AP削除：<input type="text" name="remove" value="" size="1" maxlength="1" />　削除する番号を入力<br>
+    （ 0 が最優先のAP番号）　<input type="submit" value="送信" />
+  </form>
+  <br>
+  <a href="http://stackchan/wifiSelect?init=on">設定を初期化（全削除）</a>　※最初から作成する場合
+  <br>
+  <br>
+  <b>設定後、「wsWifi.json」で確認してください。</b>
+  <br><br><br>
+  <a href="#top">トップ</a>
+  　<a href="http://stackchan/sysInfo">システム情報</a>　<a href="http://stackchan/startup">wsStartup.json</a>　<a
+    href="http://stackchan/apikey">wsApikey.json</a>　<a href="http://stackchan/wifiSelect">wsWifi.json</a>　<a
+    href="http://stackchan/shutdown?reboot=on">再起動</a>
+  <br><br>
+  <hr>
+  <br><br><br><br><br><br><br><br><br>
+</body>
+
+</html>

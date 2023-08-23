@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Setting</title>
+  <base target="StackChanSub">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <style>
+    html {
+      font-size: 62.5%;
+    }
+
+    body {
+      margin: 1%;
+      text-align: left;
+      width: 98%;
+      background: #fffacd;
+      font-size: 1.6rem;
+    }
+
+    div {
+      line-height: 120%;
+      text-align: left;
+      font-size: 1.5rem;
+      font-weight: normal;
+    }
+
+    p {
+      line-height: 120%;
+      font-size: 1.5rem;
+      width: 100%;
+      margin: 0%
+    }
+
+    h1 {
+      text-align: center;
+      margin: 0%;
+      line-height: 110%;
+      color: #87ceeb;
+      font-size: 2.8rem;
+      font-weight: bolder;
+    }
+
+    h2 {
+      text-align: left;
+      margin: 2%;
+      line-height: 150%;
+      font-size: 2.0rem;
+      font-weight: bold;
+    }
+
+    h3 {
+      line-height: 110%;
+      font-size: 2.0rem;
+      font-weight: bold;
+			color: cornflowerblue;
+    }
+
+    h4 {
+      line-height: 110%;
+      font-size: 1.5rem;
+      font-weight: bold;
+    }
+
+    h5 {
+      line-height: 110%;
+      font-size: 1.5rem;
+      font-weight: normal;
+    }
+
+    @media screen and (max-width: 480px) {
+      img {
+        width: 100%;
+        height: auto;
+      }
+
+      body {
+        font-size: 1.4rem;
+      }
+
+      div {
+        font-size: 1.4rem;
+      }
+
+      p {
+        font-size: 1.4rem;
+      }
+
+      h5 {
+        font-size: 1.4rem;
+      }
+    }
+  </style>
+</head>
+
+
+<body>
+	<h1>wss5.html</h1>
+	<br>
+	<p>	
+		SPIFFSにUpload 後は、http://stackchan/wss5 で実行	
+	</p>
+	<br>
+
+	<hr>
+
+	<h3>本体のデータをWEB画面に表示するサンプル</h3>
+	SPIFFS領域にないと正しい表示はしません。
+	<h4>IP_ADDR: <strong>%IP_ADDR%</strong></h4>
+	<h4>SeverName: <strong>%SERVER_NAME%</strong></h4>
+	<h4>Volume = <strong>%VOLUME_VALUE%</strong></h4>
+	<hr>
+	<h3>webApiを使用して本体を制御するサンプル</h3>
+	サーボの動きをコントロールします。
+	<br><br>
+	
+	<p><a href="servo?mode=random"><button class="button">ランダム</button></a>
+		　<a href="servo?mode=stop"><button class="button button2">停止</button></a>
+	</p>
+	<hr>
+	
+	<br><br>
+
+	
+</body>
+
+</html>

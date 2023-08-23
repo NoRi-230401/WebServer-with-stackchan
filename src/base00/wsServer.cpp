@@ -1,12 +1,11 @@
 // ----------------------------<wsServer.cpp>------------------------------------
 // Extended from
-//     ESPAsynch_Server_v1.1 by David Bird 2022
+//  ESPAsynch_Server_v1.1 by David Bird 2022
 //--------------------------------------------------------------------------------
-// ****　注意 ****　2023-06-27 by NoRi
-//  SDでも、FileServer機能を対応できるように変更しました。
-//  フォルダの操作はできません。　
-//  SDは、動作が安定しないので現状では、SPIFFSだけの使用した方がよいです。
-// --------------------------------------------------------------------------------
+// **************** by Nori ********************
+// 2023-08-20 Handle_File_Rename() func Bugfix
+// 2023-06-27 suport SD file system
+// *********************************************
 /*
   This software, the ideas and concepts is Copyright (c) David Bird 2022
   All rights to this software are reserved.
@@ -25,6 +24,7 @@
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
   See more at http://dsbird.org.uk
 */
+
 #include "wsServer.h"
 
 String SERVER_NAME = "stackchan";
@@ -414,54 +414,55 @@ void File_Rename()
 void Handle_File_Rename(AsyncWebServerRequest *request, String filename, int Args)
 { // Rename the file
   String newfilename;
-  int j=0;
-  Serial.println( "\n#No1 = " + String(++j,DEC) + " filename = " + filename + " Args = " + String(Args,DEC));
-
+  int j = 0;
+  // Serial.println("\n#No1 = " + String(++j, DEC) + " filename = " + filename + " Args = " + String(Args, DEC));
   webpage = HTML_Header();
-  for (int i = 0; i < Args; i++)
+
+  // -------------------------------------------------------------
+  // for (int i = 0; i < Args; i++)
+  // {
+  //   if (request->arg(i) != "" && request->arg(i + 1) == "on")
+  //   {
+  //     filename = request->arg(i - 1);
+  //     newfilename = request->arg(i);
+  //   }
+  // }
+  // Bugfix ------ by NoRi 2023-08-20 -----------------------------
+  if (Args >= 3)
   {
-    if (request->arg(i) != "" && request->arg(i + 1) == "on")
+    for (int i = 2; i < Args; i++)
     {
-      filename = request->arg(i - 1);
-      newfilename = request->arg(i);
-      Serial.println( "#No2a = " + String(++j,DEC) + " filename = " + filename + " newfilename = " + newfilename + " i = " + String(i,DEC));
-      break;
+      if (request->arg(i - 1) != "" && request->arg(i) == "on")
+      {
+        filename = request->arg(i - 2);
+        newfilename = request->arg(i - 1);
+        // Serial.println("#No2a = " + String(++j, DEC) + " filename = " + filename + " newfilename = " + newfilename + " i = " + String(i, DEC));
+        break;
+      }
     }
   }
-  Serial.println( "#No2b = " + String(++j,DEC) + " filename = " + filename + " newfilename = " + newfilename);
 
   if (!filename.startsWith("/"))
     filename = "/" + filename;
 
-  Serial.println( "#No2c = " + String(++j,DEC) + " filename = " + filename + " newfilename = " + newfilename);
-
   if (!newfilename.startsWith("/"))
     newfilename = "/" + newfilename;
 
-  Serial.println( "#No2d = " + String(++j,DEC) + " filename = " + filename + " newfilename = " + newfilename);
-
   File CurrentFile;
 
-  Serial.println( "#No3 = " + String(++j,DEC) + " filename = " + filename + " newfilename = " + newfilename);
+  // Serial.println("#No3 = " + String(++j, DEC) + " filename = " + filename + " newfilename = " + newfilename);
 
   if (isSPIFFS)
     CurrentFile = SPIFFS.open(filename, "r"); // Now read SPIFFS to see if file exists
   else
-    CurrentFile = SD.open(filename, "r");   // Now read SD to see if file exists
+    CurrentFile = SD.open(filename, "r"); // Now read SD to see if file exists
 
   if (CurrentFile && filename != "/" && newfilename != "/" && (filename != newfilename))
   { // It does so rename it, ignore if no entry made, or Newfile name exists already
-    wait_SD();
-
-
     if (isSPIFFS && SPIFFS.rename(filename, newfilename))
     {
-      Serial.println( "#No4 = " + String(++j,DEC) + " filename = " + filename + " newfilename = " + newfilename);
-
       filename = filename.substring(1);
       newfilename = newfilename.substring(1);
-      Serial.println( "#No5 = " + String(++j,DEC) + " filename = " + filename + " newfilename = " + newfilename);
-
       webpage += "<h3>File '" + filename + "' has been renamed to '" + newfilename + "'</h3>";
       webpage += "<a href='/dir'>[Enter]</a><br><br>";
     }
@@ -483,10 +484,8 @@ void Handle_File_Rename(AsyncWebServerRequest *request, String filename, int Arg
     webpage += "<a href='/rename'>[Enter]</a><br><br>";
   }
 
-  Serial.println( "#No6 = " + String(++j,DEC) + " filename = " + filename + " newfilename = " + newfilename);
   CurrentFile.close();
   webpage += HTML_Footer();
-  Serial.println( "#No7 = " + String(++j,DEC) + " filename = " + filename + " newfilename = " + newfilename);
 }
 
 // #############################################################################################
@@ -513,7 +512,7 @@ void ORG_Handle_File_Rename(AsyncWebServerRequest *request, String filename, int
   if (isSPIFFS)
     CurrentFile = SPIFFS.open(filename, "r"); // Now read SPIFFS to see if file exists
   else
-    CurrentFile = SD.open(filename, "r");   // Now read SD to see if file exists
+    CurrentFile = SD.open(filename, "r"); // Now read SD to see if file exists
 
   if (CurrentFile && filename != "/" && newfilename != "/" && (filename != newfilename))
   { // It does so rename it, ignore if no entry made, or Newfile name exists already
@@ -546,8 +545,6 @@ void ORG_Handle_File_Rename(AsyncWebServerRequest *request, String filename, int
   CurrentFile.close();
   webpage += HTML_Footer();
 }
-
-
 
 // #############################################################################################
 //  Not found handler is also the handler for 'delete', 'download' and 'stream' functions
@@ -604,13 +601,12 @@ void notFound(AsyncWebServerRequest *request)
       Handle_File_Delete(filename); // Build webpage ready for display
       request->send(200, "text/html", webpage);
     }
-    
+
     if (request->url().startsWith("/renamehandler"))
     {
       Handle_File_Rename(request, filename, request->args()); // Build webpage ready for display
       request->send(200, "text/html", webpage);
     }
-
   }
   else
   {
@@ -925,13 +921,17 @@ void handle_fileSystem(AsyncWebServerRequest *request)
 
     else if (modeS == "SD")
     {
+      isSPIFFS = 0;
+    }
+
+    if (!isSPIFFS)
+    {
       bool success;
       success = SD.begin(GPIO_NUM_4, SPI, 15000000, "/sdcard", 10, false);
       if (!success)
         Serial.println("SD.begin faile ...");
 
       SD_ENABLE = success;
-      isSPIFFS = 0;
     }
   }
 

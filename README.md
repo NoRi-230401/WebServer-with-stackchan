@@ -3,7 +3,7 @@
 
 ## Features（特徴）
 <b>(1).ファイル管理つき、WebServer</b><br>
-SPIFFS/SD領域にPCから直接ファイルをアップロードまたは、ＰＣにダウンロードが可能になりました
+SPIFFS/SDにPCから直接ファイルをアップロードまたは、PCにファイルをダウンロードすることが可能になりました。
 
 ![画像](images/gazo01.png )<br>
 <br>
@@ -24,7 +24,7 @@ SPIFFS/SD領域にPCから直接ファイルをアップロードまたは、Ｐ
 設定・サーボ調整・リモコンのオールインワンのソフトを提供。<br>
 スマートフォンとPC両方に対応しています。<br>
 Webアプリは、html、styleSheet、javaScript、画像ファイルなどを使用して作成できます。<br>
-(　↓　スタックチャン専用リモコン：WebApps　)
+(　↓　スタックチャン用のリモコン　)
 
 ![画像](images/s-remote-smaho.png)<br>
 <br>
@@ -32,11 +32,11 @@ Webアプリは、html、styleSheet、javaScript、画像ファイルなどを�
 <b>(3).５階層構造</b><br>
 ソフトウエアを開発するにあたり、開発効率、拡張性とメンテナンスを考慮した設計をしました。<br>
 各階の役割は次のようになっています。<br>
-４階： ｗebApps: リモコン、Servo調整、設定などのWebアプリ（SPIFFSに設置）<br>
+４階： ｗebApps: リモコン、Servo調整、設定などのWebアプリ（SPIFFS）<br>
 ３階： webApi: 外部とのインターフェース<br>
-２階： module: ChatGPT、 Timer、Servoなど、ファームウエアで提供する内蔵アプリ<br>
-１階： base1:  Avatar、TTS、STTなど スタックチャンの基となる表情・話す・聞くなど部分<br>
-０階： base0:  M5Stackのハード依存の部分(Button,LED,Server,WiFiなど)<br>
+２階： module: ChatGPT,Timer,Servoなど、ファームウエアで提供のモジュール<br>
+１階： base1: Avatar,TTS,STTなど、スタックチャンの基となる表情・話す・聞くなどの部分<br>
+０階： base0: M5Stackのハード依存の部分(Button,LED,Server,WiFiなど)<br>
 <br>
 
 <b>(4).module(モジュール)形式で、機能の追加・削除が可能。</b><br>
@@ -44,13 +44,13 @@ Webアプリは、html、styleSheet、javaScript、画像ファイルなどを�
 ・　chatGPT　（AiStackchan２相当）<br>
 ・　Timer<br>
 ・　Servo<br>
-<br><br><br>
+<br><br>
 
 
 ## 必要なもの
 ・　本体： M5Stack Core2  ( Core2 for Awsで動作確認しています。）<br>
 ・　SDカード （初回のWiFi接続時のみ使用）<br>
-・　 PC ..VsCode開発環境：ファームエアをM5StackCore2に書き込めること<br>
+・　PC ＋ VsCode開発環境：ファームウエアをM5StackCore2に書き込めること<br>
 ・　Servo（足、胴体部分： 「顔だけ」の場合は必要なし）<br>
 ・　OpenAiのApiKey<br>
 ・　VOICEVOXのApiKey<br>
@@ -65,7 +65,12 @@ https://nori.rdy.jp/wss/   　　　(WSS-Support)<br>
 ![画像](images/s-support-page.png)<br>
 <br><br>
 
-
+## M5Burner
+M5Burnerで、ファームウエアを入手することもできます。<br>
+（デバイス種類は「CORE2 & TOUGH」）<br>
+![画像](images/s-M5Burner03.png)<br>
+<br><br>
 
 ## Ver3.01 2023-08-23　
 first Release
+<br><br>

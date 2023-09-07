@@ -1,0 +1,42 @@
+This software, the ideas and concepts is Copyright (c) David Bird 2021 and beyond.
+All rights to this software are reserved.
+
+***DO NOT USE THIS SOFTWARE IF YOU CAN NOT AGREE TO THESE LICENCE TERMS ***
+
+It is prohibited to redistribute or reproduce of any part or all of the software contents in any form other than the following:
+ 1. You may print or download to a local hard disk extracts for your personal and non-commercial use only.
+ 2. You may copy the content to individual third parties for their personal use, but only if you acknowledge the author David Bird as the source of the material.
+ 3. You may not, except with my express written permission, distribute or commercially exploit the content.
+ 4. You may not transmit it or store it in any other website or other form of electronic retrieval system for commercial purposes.
+ 5. You MUST include all of this copyright and permission notice ('as annotated') and this shall be included in all copies or substantial portions of the software and where the software use is visible to an end-user.
+ 
+THE SOFTWARE IS PROVIDED "AS IS" FOR PRIVATE USE ONLY, IT IS NOT FOR COMMERCIAL USE IN WHOLE OR PART OR CONCEPT.
+
+FOR PERSONAL USE IT IS SUPPLIED WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+
+IN NO EVENT SHALL THE AUTHOR OR COPYRIGHT HOLDER BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+
+
+------------ 日本語翻訳 -----------------
+
+このソフトウェア、アイデア、コンセプトの著作権は David Bird 2021 にあります。
+このソフトウェアに対するすべての権利は留保されています。
+
+***これらのライセンス条項に同意できない場合は、このソフトウェアを使用しないでください***
+
+ソフトウェアの内容の一部または全部を、以下の方法以外で再配布・複製することは禁止されています。
+  1. 個人的かつ非営利的な使用に限り、抽出物を印刷したり、ローカル ハードディスクにダウンロードしたりすることができます。
+  2. 著者の David Bird を素材の出所として認めた場合に限り、個人使用の目的でコンテンツを個々の第三者にコピーすることができます。
+  3. 私の書面による明示的な許可がない限り、コンテンツを配布したり、商業的に利用したりすることはできません。
+  4. 商業目的で、他の Web サイトまたは他の形式の電子検索システムに送信したり、保存したりすることはできません。
+  5. この著作権および許可通知 (「注釈付き」) をすべて含める必要があり、これはソフトウェアのすべてのコピーまたは実質部分、およびソフトウェアの使用がエンドユーザーに見える場合に含めるものとします。
+ 
+ソフトウェアは私的使用のみを目的として「現状のまま」提供されており、全体、一部、またはコンセプトを商業的に使用することはできません。
+
+個人使用の場合は、商品性、特定目的への適合性、非侵害の保証を含むがこれらに限定されない、明示的か黙示的かを問わず、いかなる種類の保証も行うことなく提供されます。
+
+いかなる場合においても、作者または著作権所有者は、契約行為、不法行為、その他の行為を問わず、
+ソフトウェアまたはソフトウェアの使用またはその他の取引に起因または関連して生じる、いかなる請求、損害、またはその他の責任に対しても責任を負わないものとします。
+
+

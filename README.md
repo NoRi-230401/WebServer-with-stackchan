@@ -44,7 +44,7 @@ Webアプリは、html、styleSheet、javaScript、画像ファイルなどを�
 ・　chatGPT　（AiStackchan２相当）<br>
 ・　Timer<br>
 ・　Servo<br>
-<br><br>
+<br>
 
 
 ## 必要なもの
@@ -54,7 +54,7 @@ Webアプリは、html、styleSheet、javaScript、画像ファイルなどを�
 ・　Servo（足、胴体部分： 「顔だけ」の場合は必要なし）<br>
 ・　OpenAiのApiKey<br>
 ・　VOICEVOXのApiKey<br>
-<br><br>
+<br>
 
 
 ## Support Page
@@ -63,13 +63,28 @@ https://nori.rdy.jp/wss/   　　　(WSS-Support)<br>
 
 
 ![画像](images/s-support-page.png)<br>
-<br><br>
+<br>
 
 ## M5Burner
 M5Burnerで、ファームウエアを入手することもできます。<br>
 （デバイス種類は「CORE2 & TOUGH」）<br>
 ![画像](images/s-M5Burner03.png)<br>
-<br><br>
+<br>
+
+## LICENCE
+作成したソースファイルは、ファイル名の先頭に "ws" を付けています。<br>
+本ソフトウエアは、主に下記のソフトを参考にして作成しました。<br>
+・ AI_StackChan2 (robo8080さん)<br>
+・ stack-chan-tester(タカオさん)<br>
+・ ESP-File-Server（David Bird:  UK）<br>
+<br>
+本ソフトのライセンスは、MITライセンスです。<br>
+AI_StackChan2、stack-chan-tester と同じライセンスです。<br>
+<br>
+ただし、ESP-File-Server（David Bird:  UK）は、個別のライセンスを指定しています。<br>
+再配布する場合には、 GitHubのDOCフォルダ内のライセンスを読んで、ご自分の責任でご利用ください。<br>
+（ ソースファイルの中で、これが適用されるのは、"src/base00/wsServer.cpp" です。）<br>
+<br>
 
 ## Ver3.01 2023-08-23　
 first Release

@@ -71,7 +71,7 @@ M5Burnerで、ファームウエアを入手することもできます。<br>
 ![画像](images/s-M5Burner03.png)<br>
 <br>
 
-## LICENCE
+## LICENSE
 作成したソースファイルは、ファイル名の先頭に "ws" を付けています。<br>
 本ソフトウエアは、主に下記のソフトを参考にして作成しました。<br>
 ・ AI_StackChan2 (robo8080さん)<br>
@@ -81,8 +81,8 @@ M5Burnerで、ファームウエアを入手することもできます。<br>
 本ソフトのライセンスは、MITライセンスです。<br>
 AI_StackChan2、stack-chan-tester と同じライセンスです。<br>
 <br>
-ただし、ESP-File-Server（David Bird: UK）は、個別ライセンスを指定しています。<br>
-GitHubの "doc/ESP-File-Server-Licence.txt" を読んで、ご自分の責任でご利用ください。<br>
+ただし、ESP-File-Server（David Bird:UK）は、個別ライセンスを指定しています。<br>
+GitHubの "doc/ESP-File-Server-License.txt" を読んで、ご自分の責任でご利用ください。<br>
 （ 該当ソース・ファイルは、"src/base00/wsServer.cpp" です。）<br>
 <br>
 

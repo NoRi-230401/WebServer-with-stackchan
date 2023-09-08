@@ -81,8 +81,8 @@ M5Burnerで、ファームウエアを入手することもできます。<br>
 本ソフトのライセンスは、MITライセンスです。<br>
 AI_StackChan2、stack-chan-tester と同じライセンスです。<br>
 <br>
-ただし、ESP-File-Server（David Bird:  UK）は、個別ライセンスを指定しています。<br>
-GitHubのDOCフォルダ内のライセンスを読んで、ご自分の責任でご利用ください。<br>
+ただし、ESP-File-Server（David Bird: UK）は、個別ライセンスを指定しています。<br>
+GitHubの "doc/ESP-File-Server-Licence.txt" を読んで、ご自分の責任でご利用ください。<br>
 （ 該当ソース・ファイルは、"src/base00/wsServer.cpp" です。）<br>
 <br>
 

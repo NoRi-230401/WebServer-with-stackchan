@@ -2,7 +2,7 @@
 
 
 ## Features（特徴）
-<b>(1).ファイル管理つき、WebServer</b><br>
+<b>(1).ファイル管理機能つき、WebServer</b><br>
 SPIFFS/SDにPCから直接ファイルをアップロードまたは、PCにファイルをダウンロードすることが可能になりました。
 
 ![画像](images/gazo01.png )<br>
@@ -81,28 +81,33 @@ M5Burnerで、ファームウエアを入手することもできます。<br>
 - [AI_StackChan2 (robo8080さん)](https://github.com/robo8080/AI_StackChan2)
 - [stack-chan-tester (タカオさん)](https://github.com/mongonta0716/stack-chan-tester)
 - [ESP-File-Server(David Bird:UK)](https://github.com/G6EJD/G6EJD-ESP-File-Server)
-<br>
+<br><br>
+
 
 ## ｽﾀｯｸﾁｬﾝについて
 ｽﾀｯｸﾁｬﾝは[ししかわさん](https://github.com/meganetaaan)が公開しているオープンソースのプロジェクトです。<br>
 https://github.com/meganetaaan/stack-chan
 <br>
+<br>
+
+
 
 ## 謝辞
 このソフトを作成するにあたり、<br>
+
 AiStackChan2の開発者で、先進的な取り組みでスタックチャン界をリードしてくださる[robo8080](https://github.com/robo8080)氏に感謝いたします。<br>
 
 stack-chan-testerの開発者で、博識でいつも適切なアドバイスをして頂ける[タカオ](https://github.com/mongonta0716)氏に感謝いたします。<br>
 
-スタックチャンの生みの親であり、コミュニティーを作っていただきM5Stack-Avatarを作成・公開してくださった[meganetaaan](https://github.com/meganetaaan)氏に感謝いたします。<br>
-
-他にも、たくさんの方々からアドバイスとアイデアを頂き、感謝いたしております。<br>
-
+他にも、たくさんの方々からアドバイスとアイデアを頂き、感謝いたしております。
+<br><br>
 
 ## Author
 [NoRi](https://github.com/NoRi-230401)
-
 <br>
+
+
 ## Ver3.01 2023-08-23　
 first Release
-<br><br>
+<br>
+

@@ -2,7 +2,7 @@
 
 
 ## Features（特徴）
-<b>(1).ファイル管理つき、WebServer</b><br>
+<b>(1).ファイル管理機能つき、WebServer</b><br>
 SPIFFS/SDにPCから直接ファイルをアップロードまたは、PCにファイルをダウンロードすることが可能になりました。
 
 ![画像](images/gazo01.png )<br>
@@ -29,7 +29,7 @@ Webアプリは、html、styleSheet、javaScript、画像ファイルなどを�
 ![画像](images/s-remote-smaho.png)<br>
 <br>
 
-<b>(3).５階層構造</b><br>
+<b>(3).階層構造</b><br>
 ソフトウエアを開発するにあたり、開発効率、拡張性とメンテナンスを考慮した設計をしました。<br>
 各階の役割は次のようになっています。<br>
 ４階： ｗebApps: リモコン、Servo調整、設定などのWebアプリ（SPIFFS）<br>
@@ -72,20 +72,42 @@ M5Burnerで、ファームウエアを入手することもできます。<br>
 <br>
 
 ## LICENSE
-作成したソースファイルは、ファイル名の先頭に "ws" を付けています。<br>
-本ソフトウエアは、主に下記のソフトを参考にして作成しました。<br>
-・ AI_StackChan2 (robo8080さん)<br>
-・ stack-chan-tester(タカオさん)<br>
-・ ESP-File-Server（David Bird:  UK）<br>
+本ソフトは、[MITライセンス](LICENSE)です。<br><br>
+ただし、"src/base00/wsServer.cpp"のソース・ファイルは除きます。<br>
+["doc/ESP-File-Server-License.txt"](doc/ESP-File-Server-License.txt) を読んで、ご自分の責任でご利用ください。<br>
 <br>
-本ソフトのライセンスは、MITライセンスです。<br>
-AI_StackChan2、stack-chan-tester と同じライセンスです。<br>
+
+## 参考にしたリポジトリ
+- [AI_StackChan2 (robo8080さん)](https://github.com/robo8080/AI_StackChan2)
+- [stack-chan-tester (タカオさん)](https://github.com/mongonta0716/stack-chan-tester)
+- [ESP-File-Server(David Bird:UK)](https://github.com/G6EJD/G6EJD-ESP-File-Server)
+<br><br>
+
+
+## ｽﾀｯｸﾁｬﾝについて
+ｽﾀｯｸﾁｬﾝは[ししかわさん](https://github.com/meganetaaan)が公開しているオープンソースのプロジェクトです。<br>
+https://github.com/meganetaaan/stack-chan
 <br>
-ただし、ESP-File-Server（David Bird:UK）は、個別ライセンスを指定しています。<br>
-GitHubの "doc/ESP-File-Server-License.txt" を読んで、ご自分の責任でご利用ください。<br>
-（ 該当ソース・ファイルは、"src/base00/wsServer.cpp" です。）<br>
 <br>
+
+
+
+## 謝辞
+このソフトを作成するにあたり、<br>
+
+AiStackChan2の開発者で、先進的な取り組みでスタックチャン界をリードしてくださる[robo8080](https://github.com/robo8080)氏に感謝いたします。<br>
+
+stack-chan-testerの開発者で、博識でいつも適切なアドバイスをして頂ける[タカオ](https://github.com/mongonta0716)氏に感謝いたします。<br>
+
+他にも、たくさんの方々からアドバイスとアイデアを頂き、感謝いたしております。
+<br><br>
+
+## Author
+[NoRi](https://github.com/NoRi-230401)
+<br>
+
 
 ## Ver3.01 2023-08-23　
 first Release
-<br><br>
+<br>
+

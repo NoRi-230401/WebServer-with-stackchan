@@ -84,8 +84,8 @@ M5Burnerで、ファームウエアを入手することもできます。<br>
 <br><br>
 
 
-## ｽﾀｯｸﾁｬﾝについて
-ｽﾀｯｸﾁｬﾝは[ししかわさん](https://github.com/meganetaaan)が公開しているオープンソースのプロジェクトです。<br>
+## 「スタックチャン」について
+「スタックチャン」は、[ししかわさん](https://github.com/meganetaaan)が公開しているオープンソースのプロジェクトです。<br>
 https://github.com/meganetaaan/stack-chan
 <br>
 <br>

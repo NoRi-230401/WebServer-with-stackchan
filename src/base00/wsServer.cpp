@@ -45,8 +45,6 @@ String webpage, MessageLine;
 fileinfo Filenames[200]; // Enough for most purposes!
 bool StartupErrors = false;
 int start, downloadtime = 1, uploadtime = 1, downloadsize, uploadsize, downloadrate, uploadrate, numfiles;
-// float Temperature = 21.34; // for example new page, amend in a sensor function if required
-// String Name = "Dave";
 
 void serverSetup()
 {
@@ -61,103 +59,65 @@ void serverSetup()
   // ##################### ApiHandler/ UserHandler ##################
   setupApiHandler();
   setupUserHandler();
-
-  // ###########################################################################
+  
+  // ############### Spiffs/Sd change file system ###################
   server.on("/fileSystem", HTTP_GET, [](AsyncWebServerRequest *request)
             {
-    Serial.println("change file system mode  SPIFFS <-> SD ...");
+    Serial.println("change file system SPIFFS <---> SD ...");
     handle_fileSystem(request); // file System change  SPIFFS - SD
     request->send(200, "text/html", webpage); });
-
   // ##################### HOMEPAGE HANDLER ########################
   server.on("/", HTTP_GET, [](AsyncWebServerRequest *request)
             {
     Serial.println("Home Page...");
     Home(); // Build webpage ready for display
     request->send(200, "text/html", webpage); });
-
   // ##################### DOWNLOAD HANDLER ##########################
   server.on("/download", HTTP_GET, [](AsyncWebServerRequest *request)
             {
     Serial.println("Downloading file...");
     Select_File_For_Function("[DOWNLOAD]", "downloadhandler"); // Build webpage ready for display
     request->send(200, "text/html", webpage); });
-
   // ##################### UPLOAD HANDLERS ###########################
   server.on("/upload", HTTP_GET, [](AsyncWebServerRequest *request)
             {
     Serial.println("Uploading file...");
     UploadFileSelect(); // Build webpage ready for display
     request->send(200, "text/html", webpage); });
-
   // Set handler for '/handleupload'
   server.on(
       "/handleupload", HTTP_POST, [](AsyncWebServerRequest *request) {},
       [](AsyncWebServerRequest *request, const String &filename, size_t index, uint8_t *data, size_t len, bool final)
       { handleFileUpload(request, filename, index, data, len, final); });
-
   // ##################### STREAM HANDLER ############################
   server.on("/stream", HTTP_GET, [](AsyncWebServerRequest *request)
             {
     Serial.println("Streaming file...");
     Select_File_For_Function("[STREAM]", "streamhandler"); // Build webpage ready for display
     request->send(200, "text/html", webpage); });
-
   // ##################### RENAME HANDLER ############################
   server.on("/rename", HTTP_GET, [](AsyncWebServerRequest *request)
             {
     Serial.println("Renaming file...");
     File_Rename(); // Build webpage ready for display
     request->send(200, "text/html", webpage); });
-
-  // ##################### DIR HANDLER ###############################
+  // ##################### FILES(DIR) HANDLER ########################
   server.on("/dir", HTTP_GET, [](AsyncWebServerRequest *request)
             {
     Serial.println("File Directory...");
     Dir(request); // Build webpage ready for display
     request->send(200, "text/html", webpage); });
-
   // ##################### DELETE HANDLER ############################
   server.on("/delete", HTTP_GET, [](AsyncWebServerRequest *request)
             {
     Serial.println("Deleting file...");
     Select_File_For_Function("[DELETE]", "deletehandler"); // Build webpage ready for display
     request->send(200, "text/html", webpage); });
-
-  // ##################### FORMAT HANDLER ############################
-  server.on("/format", HTTP_GET, [](AsyncWebServerRequest *request)
-            {
-    Serial.println("Request to Format File System...");
-    Format(); // Build webpage ready for display
-    request->send(200, "text/html", webpage); });
-
-  // Set handler for '/handleformat'
-  server.on("/handleformat", HTTP_GET, [](AsyncWebServerRequest *request)
-            {
-    if(isSPIFFS)
-    {
-    Serial.println("Processing Format Request of File System...");
-    if (request->getParam("format")->value() == "YES") {
-      Serial.print("Starting to Format Filing System...");
-      SPIFFS.end();
-      // *** SD は、format できない **
-      bool formatted = SPIFFS.format();
-      if (formatted) {
-        Serial.println(" Successful Filing System Format...");
-      }
-      else         {
-        Serial.println(" Formatting Failed...");
-      }
-    }
-    }
-    request->redirect("/dir"); });
-
   // ##################### SYSTEM HANDLER ############################
   server.on("/system", HTTP_GET, [](AsyncWebServerRequest *request)
             {
     Display_System_Info(); // Build webpage ready for display
     request->send(200, "text/html", webpage); });
-
   // ##################### NOT FOUND HANDLER #########################
   server.onNotFound(notFound);
 
@@ -294,18 +254,7 @@ void UploadFileSelect()
   webpage += "</form>";
   webpage += HTML_Footer();
 }
-// #############################################################################################
-void Format()
-{
-  webpage = HTML_Header();
-  webpage += "<h3>***  Format Filing System on this device ***</h3>";
-  webpage += "<form action='/handleformat'>";
-  webpage += "<input type='radio' id='YES' name='format' value = 'YES'><label for='YES'>YES</label><br><br>";
-  webpage += "<input type='radio' id='NO'  name='format' value = 'NO' checked><label for='NO'>NO</label><br><br>";
-  webpage += "<input type='submit' value='Format?'>";
-  webpage += "</form>";
-  webpage += HTML_Footer();
-}
+
 // #############################################################################################
 void handleFileUpload(AsyncWebServerRequest *request, const String &filename, size_t index, uint8_t *data, size_t len, bool final)
 {
@@ -348,16 +297,19 @@ void handleFileUpload(AsyncWebServerRequest *request, const String &filename, si
     }
   }
 }
+
 // #############################################################################################
 void File_Stream()
 {
   SelectInput("Select a File to Stream", "handlestream", "filename");
 }
+
 // #############################################################################################
 void File_Delete()
 {
   SelectInput("Select a File to Delete", "handledelete", "filename");
 }
+
 // #############################################################################################
 void Handle_File_Delete(String filename)
 { // Delete the file
@@ -388,6 +340,7 @@ void Handle_File_Delete(String filename)
   }
   webpage += HTML_Footer();
 }
+
 // #############################################################################################
 void File_Rename()
 { // Rename the file
@@ -489,64 +442,6 @@ void Handle_File_Rename(AsyncWebServerRequest *request, String filename, int Arg
 }
 
 // #############################################################################################
-void ORG_Handle_File_Rename(AsyncWebServerRequest *request, String filename, int Args)
-{ // Rename the file
-  String newfilename;
-  // int Args = request->args();
-  webpage = HTML_Header();
-  for (int i = 0; i < Args; i++)
-  {
-    if (request->arg(i) != "" && request->arg(i + 1) == "on")
-    {
-      filename = request->arg(i - 1);
-      newfilename = request->arg(i);
-    }
-  }
-  if (!filename.startsWith("/"))
-    filename = "/" + filename;
-  if (!newfilename.startsWith("/"))
-    newfilename = "/" + newfilename;
-
-  File CurrentFile;
-
-  if (isSPIFFS)
-    CurrentFile = SPIFFS.open(filename, "r"); // Now read SPIFFS to see if file exists
-  else
-    CurrentFile = SD.open(filename, "r"); // Now read SD to see if file exists
-
-  if (CurrentFile && filename != "/" && newfilename != "/" && (filename != newfilename))
-  { // It does so rename it, ignore if no entry made, or Newfile name exists already
-    wait_SD();
-
-    if (isSPIFFS && SPIFFS.rename(filename, newfilename))
-    {
-      filename = filename.substring(1);
-      newfilename = newfilename.substring(1);
-      webpage += "<h3>File '" + filename + "' has been renamed to '" + newfilename + "'</h3>";
-      webpage += "<a href='/dir'>[Enter]</a><br><br>";
-    }
-
-    if (!isSPIFFS && SD.rename(filename, newfilename))
-    {
-      filename = filename.substring(1);
-      newfilename = newfilename.substring(1);
-      webpage += "<h3>File '" + filename + "' has been renamed to '" + newfilename + "'</h3>";
-      webpage += "<a href='/dir'>[Enter]</a><br><br>";
-    }
-  }
-  else
-  {
-    if (filename == "/" && newfilename == "/")
-      webpage += "<h3>File was not renamed</h3>";
-    else
-      webpage += "<h3>New filename exists, cannot rename</h3>";
-    webpage += "<a href='/rename'>[Enter]</a><br><br>";
-  }
-  CurrentFile.close();
-  webpage += HTML_Footer();
-}
-
-// #############################################################################################
 //  Not found handler is also the handler for 'delete', 'download' and 'stream' functions
 void notFound(AsyncWebServerRequest *request)
 { // Process selected file types
@@ -614,6 +509,7 @@ void notFound(AsyncWebServerRequest *request)
     request->send(200, "text/html", webpage);
   }
 }
+
 // #############################################################################################
 void Handle_File_Download()
 {
@@ -633,6 +529,7 @@ void Handle_File_Download()
   webpage += "<p>" + MessageLine + "</p>";
   webpage += HTML_Footer();
 }
+
 // #############################################################################################
 String getContentType(String filenametype)
 { // Tell the browser what file type is being sent
@@ -712,6 +609,7 @@ String getContentType(String filenametype)
 
   return "text/plain";
 }
+
 // #############################################################################################
 void Select_File_For_Function(String title, String function)
 {
@@ -743,6 +641,7 @@ void Select_File_For_Function(String title, String function)
   webpage += "</table>";
   webpage += HTML_Footer();
 }
+
 // #############################################################################################
 void SelectInput(String Heading, String Command, String Arg_name)
 {
@@ -754,6 +653,7 @@ void SelectInput(String Heading, String Command, String Arg_name)
   webpage += "</form>";
   webpage += HTML_Footer();
 }
+
 // #############################################################################################
 int GetFileSize(String filename)
 {
@@ -768,27 +668,6 @@ int GetFileSize(String filename)
   CheckFile.close();
   return filesize;
 }
-// #############################################################################################
-// void LogOut()
-// {
-//   webpage = HTML_Header();
-//   webpage += "<h1>Log Out</h1>";
-//   webpage += "<h4>You have now been logged out...</h4>";
-//   webpage += "<h4>NOTE: On most browsers you must close all windows for this to take effect...</h4>";
-//   webpage += HTML_Footer();
-// }
-// #############################################################################################
-// void Display_New_Page()
-// {
-//   webpage = HTML_Header();                            // Add HTML headers, note '=' for new page assignment
-//   webpage += "<h1>My New Web Page</h1>";              // Give it a heading
-//   webpage += "<h3>Example entries for the page</h3>"; // Set the scene
-//   webpage += "<p>NOTE:</p>";
-//   // webpage += "<p>You can display global variables like this: " + String(Temperature, 2) + "属C</p>"; // Convert numeric variables to a string, use 2-decimal places
-//   // webpage += "<p>Or, like this, my name is: " + Name + "</p>";                                       // no need to convert string variables
-//   webpage += HTML_Footer(); // Add HTML footers, don't forget to add a menu name in header!
-// }
-// #############################################################################################
 void Page_Not_Found()
 {
   webpage = HTML_Header();
@@ -801,6 +680,7 @@ void Page_Not_Found()
   webpage += "<p>Or click <b><a href='/'>[Here]</a></b> for the home page.</p></div>";
   webpage += HTML_Footer();
 }
+
 // #############################################################################################
 void Display_System_Info()
 {
@@ -851,6 +731,7 @@ void Display_System_Info()
   webpage += "</table> ";
   webpage += HTML_Footer();
 }
+
 // #############################################################################################
 String ConvBinUnits(int bytes, int resolution)
 {
@@ -869,6 +750,7 @@ String ConvBinUnits(int bytes, int resolution)
   else
     return "";
 }
+
 // #############################################################################################
 String EncryptionType(wifi_auth_mode_t encryptionType)
 {
@@ -892,6 +774,7 @@ String EncryptionType(wifi_auth_mode_t encryptionType)
     return "";
   }
 }
+
 // #############################################################################################
 bool StartMDNSservice(const char *Name)
 {
@@ -904,8 +787,8 @@ bool StartMDNSservice(const char *Name)
   mdns_hostname_set(Name); // Set hostname
   return true;
 }
-// #############################################################################################
 
+// #############################################################################################
 void handle_fileSystem(AsyncWebServerRequest *request)
 {
   String modeS;
@@ -940,6 +823,7 @@ void handle_fileSystem(AsyncWebServerRequest *request)
   Home();
 }
 
+// #############################################################################################
 void wait_SD()
 {
   if (!isSPIFFS)
@@ -948,3 +832,128 @@ void wait_SD()
     // delay(1);
   }
 }
+
+
+// #############################################################################################
+// void LogOut()
+// {
+//   webpage = HTML_Header();
+//   webpage += "<h1>Log Out</h1>";
+//   webpage += "<h4>You have now been logged out...</h4>";
+//   webpage += "<h4>NOTE: On most browsers you must close all windows for this to take effect...</h4>";
+//   webpage += HTML_Footer();
+// }
+// #############################################################################################
+// void Display_New_Page()
+// {
+//   webpage = HTML_Header();                            // Add HTML headers, note '=' for new page assignment
+//   webpage += "<h1>My New Web Page</h1>";              // Give it a heading
+//   webpage += "<h3>Example entries for the page</h3>"; // Set the scene
+//   webpage += "<p>NOTE:</p>";
+//   // webpage += "<p>You can display global variables like this: " + String(Temperature, 2) + "属C</p>"; // Convert numeric variables to a string, use 2-decimal places
+//   // webpage += "<p>Or, like this, my name is: " + Name + "</p>";                                       // no need to convert string variables
+//   webpage += HTML_Footer(); // Add HTML footers, don't forget to add a menu name in header!
+// }
+// #############################################################################################
+
+
+  // ##################### FORMAT HANDLER ############################
+  // server.on("/format", HTTP_GET, [](AsyncWebServerRequest *request)
+  //           {
+  //   Serial.println("Request to Format File System...");
+  //   Format(); // Build webpage ready for display
+  //   request->send(200, "text/html", webpage); });
+
+  // // Set handler for '/handleformat'
+  // server.on("/handleformat", HTTP_GET, [](AsyncWebServerRequest *request)
+  //           {
+  //   if(isSPIFFS)
+  //   {
+  //   Serial.println("Processing Format Request of File System...");
+  //   if (request->getParam("format")->value() == "YES") {
+  //     Serial.print("Starting to Format Filing System...");
+  //     SPIFFS.end();
+  //     // *** SD は、format できない **
+  //     bool formatted = SPIFFS.format();
+  //     if (formatted) {
+  //       Serial.println(" Successful Filing System Format...");
+  //     }
+  //     else         {
+  //       Serial.println(" Formatting Failed...");
+  //     }
+  //   }
+  //   }
+  //   request->redirect("/dir"); });
+
+
+// #############################################################################################
+// void Format()
+// {
+//   webpage = HTML_Header();
+//   webpage += "<h3>***  Format Filing System on this device ***</h3>";
+//   webpage += "<form action='/handleformat'>";
+//   webpage += "<input type='radio' id='YES' name='format' value = 'YES'><label for='YES'>YES</label><br><br>";
+//   webpage += "<input type='radio' id='NO'  name='format' value = 'NO' checked><label for='NO'>NO</label><br><br>";
+//   webpage += "<input type='submit' value='Format?'>";
+//   webpage += "</form>";
+//   webpage += HTML_Footer();
+// }
+
+// #############################################################################################
+// void ORG_Handle_File_Rename(AsyncWebServerRequest *request, String filename, int Args)
+// { // Rename the file
+//   String newfilename;
+//   // int Args = request->args();
+//   webpage = HTML_Header();
+//   for (int i = 0; i < Args; i++)
+//   {
+//     if (request->arg(i) != "" && request->arg(i + 1) == "on")
+//     {
+//       filename = request->arg(i - 1);
+//       newfilename = request->arg(i);
+//     }
+//   }
+//   if (!filename.startsWith("/"))
+//     filename = "/" + filename;
+//   if (!newfilename.startsWith("/"))
+//     newfilename = "/" + newfilename;
+
+//   File CurrentFile;
+
+//   if (isSPIFFS)
+//     CurrentFile = SPIFFS.open(filename, "r"); // Now read SPIFFS to see if file exists
+//   else
+//     CurrentFile = SD.open(filename, "r"); // Now read SD to see if file exists
+
+//   if (CurrentFile && filename != "/" && newfilename != "/" && (filename != newfilename))
+//   { // It does so rename it, ignore if no entry made, or Newfile name exists already
+//     wait_SD();
+
+//     if (isSPIFFS && SPIFFS.rename(filename, newfilename))
+//     {
+//       filename = filename.substring(1);
+//       newfilename = newfilename.substring(1);
+//       webpage += "<h3>File '" + filename + "' has been renamed to '" + newfilename + "'</h3>";
+//       webpage += "<a href='/dir'>[Enter]</a><br><br>";
+//     }
+
+//     if (!isSPIFFS && SD.rename(filename, newfilename))
+//     {
+//       filename = filename.substring(1);
+//       newfilename = newfilename.substring(1);
+//       webpage += "<h3>File '" + filename + "' has been renamed to '" + newfilename + "'</h3>";
+//       webpage += "<a href='/dir'>[Enter]</a><br><br>";
+//     }
+//   }
+//   else
+//   {
+//     if (filename == "/" && newfilename == "/")
+//       webpage += "<h3>File was not renamed</h3>";
+//     else
+//       webpage += "<h3>New filename exists, cannot rename</h3>";
+//     webpage += "<a href='/rename'>[Enter]</a><br><br>";
+//   }
+//   CurrentFile.close();
+//   webpage += HTML_Footer();
+// }
+

@@ -35,7 +35,6 @@ void handle_wss3();
 void handle_wss4();
 // void handle_wss5();
 bool htmlConv(const String flname);
-void checkWebReq(AsyncWebServerRequest *request);
 
 // ---- end of < WS_USER_H > --------------------------------------
 #endif

@@ -18,6 +18,7 @@ extern String webpage;
 extern void serverSend(AsyncWebServerRequest *request);
 extern const String FLS_NAME[];
 extern int isSPIFFS;
+extern String SdPath;
 
 // ------------------------------------------------------------
 void setupUserHandler();

@@ -25,14 +25,11 @@ extern bool SD_ENABLE;
 
 // -------------------------------------------------------
 void serverSetup();
-void Directory();
-void Directory_org();
+void FilesList();
+void FilesDirList();
 void Dir(AsyncWebServerRequest *request);
 void UploadFileSelect();
-void Format();
 void handleFileUpload(AsyncWebServerRequest *request, const String &filename, size_t index, uint8_t *data, size_t len, bool final);
-void File_Stream();
-void File_Delete();
 void Handle_File_Delete(String filename);
 void File_Rename();
 void Handle_File_Rename(AsyncWebServerRequest *request, String filename, int Args);
@@ -47,8 +44,22 @@ void Display_System_Info();
 String ConvBinUnits(int bytes, int resolution);
 String EncryptionType(wifi_auth_mode_t encryptionType);
 bool StartMDNSservice(const char *Name);
+
 void handle_fileSystem(AsyncWebServerRequest *request);
+void handle_root_sd();
+void Select_Dir_For_Function(String title, String function);
+void Handle_chdir(String filename);
+void Handle_rmdir(String filename);
+void Handle_mkdir(AsyncWebServerRequest *request);
+void Dir_Make();
+void SelectInputDirName(String Heading, String Command, String Arg_name);
+
+
 void wait_SD();
+// void Format();
+// void File_Stream();
+// void File_Delete();
+
 // -------------------------------------------------------
 
 #endif

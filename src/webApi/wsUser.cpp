@@ -31,7 +31,6 @@ void setupUserHandler()
   server.on("/wss5", HTTP_GET, [](AsyncWebServerRequest *request)
             { request->send(SPIFFS, "/wss5.html", String(), false, processor05); });
 
-
   // #########################################################################
   server.on("/icon.gif", HTTP_GET, [](AsyncWebServerRequest *request)
             { request->send(SPIFFS, "/icon.gif", "image/gif"); });
@@ -50,7 +49,6 @@ void setupUserHandler()
 
   // ###########################################################################
 }
-
 
 void serverSend(AsyncWebServerRequest *request)
 {
@@ -93,9 +91,6 @@ void handle_wss5()
   htmlConv(WSS5_HTML);
 }
 
-
-
-
 // #define DEBUG_INDEX_HTML
 bool htmlConv(const String flname)
 {
@@ -123,7 +118,7 @@ bool htmlConv(const String flname)
   buff = (char *)malloc(sz + 1);
   if (!buff)
   {
-    String msg = "ERROR:  Unable to malloc " + String(sz,DEC) + " bytes for app";
+    String msg = "ERROR:  Unable to malloc " + String(sz, DEC) + " bytes for app";
     webpage = String(msg);
     Serial.println(msg);
     fl.close();
@@ -139,7 +134,7 @@ bool htmlConv(const String flname)
 
 #ifndef DEBUG_INDEX_HTML
   // ** 本体のIP_ADDRに変換 **
-  String replacedStr = "http://" + IP_ADDR + "/"; 
+  String replacedStr = "http://" + IP_ADDR + "/";
   webpage.replace(findStr, (const char *)replacedStr.c_str());
 #endif
   return true;
@@ -192,7 +187,7 @@ String HTML_Header2()
   page += "<head>";
   page += "<meta charset='UTF-8'>";
   page += "<meta name='viewport' content='width=device-width,initial-scale=1.0'>";
-    page += "<title>StackChan</title>";
+  page += "<title>StackChan</title>";
   page += "<base target='StackChanSub'>";
   page += "<style>";
   page += "html {font-size: 62.5%;}";
@@ -226,7 +221,6 @@ String HTML_Header2Ng()
   page += "<body><pre>";
   return page;
 }
-
 
 // #############################################################################################
 String HTML_Footer2()
@@ -286,15 +280,26 @@ String HTML_Header()
   page += "<body>";
 
   page += "<div class = 'topnav'>";
-  page += "<a href='/dir'>Files</a> ";
+  page += "<a href='/dir'>Dir</a> ";
   page += "<a href='/upload'>Upload</a> ";
   page += "<a href='/download'>Download</a> ";
   page += "<a href='/stream'>Stream</a> ";
   page += "<a href='/delete'>Delete</a> ";
   page += "<a href='/rename'>Rename</a> ";
   page += "<a href='/fileSystem?mode=toggle'>Spiffs/Sd</a>:" + FLS_NAME[isSPIFFS];
-  // page += "<a href='/format'>Format FS</a>";
   page += "</div>";
+
+  if (!isSPIFFS)
+  { // directory for SD --- by NoRi -----
+    page += "<div class = 'topnav'>";
+    page += "<a href='/root_sd'>Root</a>　Current Dir = " + SdPath;
+    page += "<a href='/chdir'>Chdir</a> ";
+    page += "<a href='/mkdir'>Mkdir</a> ";
+    page += "<a href='/rmdir'>Rmdir</a>";
+    page += "</div>";
+    // page += "<br>";
+  }
+
   page += "<br>";
   page += "<div class = 'topnav2'>";
   page += "<a href='/' target='Home'>Home</a>";
@@ -306,7 +311,7 @@ String HTML_Header()
   page += "<a href='/system'>Status</a>";
   page += "<a href='https://nori.rdy.jp/wss/' target='WSS-Support'>Support</a>";
   page += "</div>";
-    
+
   return page;
 }
 // #############################################################################################
@@ -353,7 +358,6 @@ void checkWebReq(AsyncWebServerRequest *request)
   }
 }
 
-
 void handle_test(AsyncWebServerRequest *request)
 {
   // List all collected headers (Compatibility)
@@ -393,7 +397,6 @@ void handle_test(AsyncWebServerRequest *request)
   // tone(2);
   webpage = "NG";
 }
-
 
 // void Directory3()
 // {

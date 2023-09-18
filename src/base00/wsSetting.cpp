@@ -431,7 +431,8 @@ void M5StackConfig()
   // Serial.println("SD.begin Start ...");
   while (i < 3)
   { // SDカードマウント待ち
-    success = SD.begin(GPIO_NUM_4, SPI, 15000000, "/sdcard", 10, false);
+    // success = SD.begin(GPIO_NUM_4, SPI, 15000000, "/sdcard", 10, false);
+    success = SD.begin(GPIO_NUM_4, SPI, 16000000,"/sd", 10, false);
     if (success)
       break;
 

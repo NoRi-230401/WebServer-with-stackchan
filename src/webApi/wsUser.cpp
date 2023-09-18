@@ -290,9 +290,9 @@ String HTML_Header()
   page += "</div>";
 
   if (!isSPIFFS)
-  { // directory for SD --- by NoRi -----
+  { // directory func to SD --- by NoRi -----
     page += "<div class = 'topnav'>";
-    page += "<a href='/root_sd'>Root</a>　Current Dir = " + SdPath;
+    page += "<a href='/root_sd'>Root</a>CurrentDir = " + SdPath;
     page += "<a href='/chdir'>Chdir</a> ";
     page += "<a href='/mkdir'>Mkdir</a> ";
     page += "<a href='/rmdir'>Rmdir</a>";

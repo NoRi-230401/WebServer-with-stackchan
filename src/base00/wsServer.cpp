@@ -2,10 +2,11 @@
 // Extended from
 //  ESPAsynch_Server_v1.1 by David Bird 2022
 //--------------------------------------------------------------------------------
-// **************** by Nori ********************
+// **************** by NoRi ***********************************
+// 2023-09-18 Add folder funciton to SD (chdir,mkdir,rmdir, etc) 
 // 2023-08-20 Handle_File_Rename() func Bugfix
-// 2023-06-27 suport SD file system
-// *********************************************
+// 2023-06-27 Support SD file system
+// ************************************************************
 /*
   This software, the ideas and concepts is Copyright (c) David Bird 2022
   All rights to this software are reserved.
@@ -62,7 +63,7 @@ void serverSetup()
   setupApiHandler();
   setupUserHandler();
 
-  // ##################### FILES(DIR) HANDLER ########################
+  // ##################### DIR HANDLER ##############################
   server.on("/dir", HTTP_GET, [](AsyncWebServerRequest *request)
             {
     Serial.println("File directory...");
@@ -105,43 +106,43 @@ void serverSetup()
     File_Rename(); // Build webpage ready for display
     request->send(200, "text/html", webpage); });
 
-  // ----------------SD FOLDER --------------------------------------
-  // ----- 2023-09-01 by NoRi
-  // ----------------------------------------------------------------
-  // ############### ROOT ###################
-  server.on("/root_sd", HTTP_GET, [](AsyncWebServerRequest *request)
-            {
-    Serial.println("change SdPath to Root ...");
-    handle_root_sd(); 
-    request->send(200, "text/html", webpage); });
 
-  // ##################### CHDIR HANDLER ############################
-  server.on("/chdir", HTTP_GET, [](AsyncWebServerRequest *request)
-            {
-    Serial.println("chdir...");
-    Select_Dir_For_Function("[CHDIR]", "chdirhandler");
-    request->send(200, "text/html", webpage); });
-
-  // ##################### MKDIR HANDLER ############################
-  server.on("/mkdir", HTTP_GET, [](AsyncWebServerRequest *request)
-            {
-    Serial.println("mkdir ...");
-    Dir_Make();
-    request->send(200, "text/html", webpage); });
-
-  // ##################### Remove Dir HANDLER #######################
-  server.on("/rmdir", HTTP_GET, [](AsyncWebServerRequest *request)
-            {
-    Serial.println("rmdir...");
-    Select_Dir_For_Function("[RMDIR]", "rmdirhandler");
-    request->send(200, "text/html", webpage); });
-
+  // ---------------------------------------------------------------------------
+  //   2023-09-01 by NoRi : SD directory handler Add
+  // 
   // ############### Spiffs/Sd change file system ###################
   server.on("/fileSystem", HTTP_GET, [](AsyncWebServerRequest *request)
             {
     Serial.println("change file system SPIFFS <---> SD ...");
     handle_fileSystem(request); // file System change  SPIFFS - SD
     request->send(200, "text/html", webpage); });
+  // ######################  ROOT ##################################
+  server.on("/root_sd", HTTP_GET, [](AsyncWebServerRequest *request)
+            {
+    Serial.println("change SdPath to Root ...");
+    handle_root_sd(); 
+    request->send(200, "text/html", webpage); });
+  // ##################### CHDIR HANDLER ############################
+  server.on("/chdir", HTTP_GET, [](AsyncWebServerRequest *request)
+            {
+    Serial.println("chdir...");
+    Select_Dir_For_Function("[CHDIR]", "chdirhandler");
+    request->send(200, "text/html", webpage); });
+  // ##################### MKDIR HANDLER ############################
+  server.on("/mkdir", HTTP_GET, [](AsyncWebServerRequest *request)
+            {
+    Serial.println("mkdir ...");
+    Dir_Make();
+    request->send(200, "text/html", webpage); });
+  // ##################### Remove Dir HANDLER #######################
+  server.on("/rmdir", HTTP_GET, [](AsyncWebServerRequest *request)
+            {
+    Serial.println("rmdir...");
+    Select_Dir_For_Function("[RMDIR]", "rmdirhandler");
+    request->send(200, "text/html", webpage); });
+  // -----------------------------------------------------------------------------
+  
+  
   // ##################### HOMEPAGE HANDLER ########################
   server.on("/", HTTP_GET, [](AsyncWebServerRequest *request)
             {
@@ -214,7 +215,6 @@ void FilesDirList()
     root = SPIFFS.open("/", "r");
   else
   {
-    // root = SD.open("/", "r");
     root = SD.open(SdPath, "r");
   }
 
@@ -245,7 +245,7 @@ void FilesDirList()
 }
 
 // #############################################################################################
-//  Dirを含まない。fileのみを表示する。  .. by NoRi
+//  Dirを含まない。fileのみを表示  .. by NoRi
 void FilesList()
 {
   numfiles = 0; // Reset number of SPIFFS/SD files counter
@@ -255,7 +255,6 @@ void FilesList()
     root = SPIFFS.open("/", "r");
   else
   {
-    // root = SD.open("/", "r");
     root = SD.open(SdPath, "r");
   }
 
@@ -287,11 +286,10 @@ void FilesList()
 }
 
 // #############################################################################################
-//  File含まない。Dirのみを表示する。  .. by NoRi
+//  File含まない。Dirのみの表示 for SD Only  .. by NoRi
 void DirsList()
 {
   numDirs = 0; // Reset number of dirs counter
-  // File root = SD.open("/", "r");
   File root = SD.open(SdPath, "r");
 
   if (root)
@@ -513,10 +511,11 @@ void notFound(AsyncWebServerRequest *request)
   if (request->url().startsWith("/downloadhandler") ||
       request->url().startsWith("/streamhandler") ||
       request->url().startsWith("/deletehandler") ||
+      //--- Add by NoRi directory func for SD ------
       request->url().startsWith("/chdirhandler") ||
       request->url().startsWith("/mkdirhandler") ||
       request->url().startsWith("/rmdirhandler") ||
-
+      // --------------------------------------------
       request->url().startsWith("/renamehandler"))
   {
     // Now get the filename and handle the request for 'delete' or 'download' or 'stream' functions
@@ -559,17 +558,16 @@ void notFound(AsyncWebServerRequest *request)
 
       String flname_base = filename;
 
-
       if (isSPIFFS)
         response = request->beginResponse(SPIFFS, filename, ContentType);
       else
       {
         if (SdPath != "/")
           filename = SdPath + filename;
-        // Serial.println("filename1 = " + filename);
+
         response = request->beginResponse(SD, filename, ContentType);
       }
-      Serial.println("filename_S1 = " + filename);
+      // Serial.println("filename_S1 = " + filename);
 
       request->send(response);
       if(isSPIFFS)
@@ -583,18 +581,17 @@ void notFound(AsyncWebServerRequest *request)
     if (request->url().startsWith("/deletehandler"))
     {
       Serial.println("Delete handler started...");
-      Handle_File_Delete(filename); // Build webpage ready for display
+      Handle_File_Delete(filename);
       request->send(200, "text/html", webpage);
     }
 
     if (request->url().startsWith("/renamehandler"))
     {
-      Handle_File_Rename(request, filename, request->args()); // Build webpage ready for display
+      Handle_File_Rename(request, filename, request->args());
       request->send(200, "text/html", webpage);
     }
 
-    // -------- Directory  HANDLER by NoRi ---------------
-
+    // -------- Directory  HANDLER by NoRi --------------
     if (request->url().startsWith("/chdirhandler"))
     {
       Serial.println("chdir handler started...");
@@ -615,6 +612,7 @@ void notFound(AsyncWebServerRequest *request)
       Handle_rmdir(filename);
       request->send(200, "text/html", webpage);
     }
+    // -----------------------------------------------------
   }
   else
   {
@@ -628,7 +626,7 @@ void Handle_File_Download()
 {
   String filename = "";
   int index = 0;
-  FilesList(); // Get a list of files on the SPI
+  FilesList(); // Get a Files list at Device 
   webpage = HTML_Header();
   webpage += "<h3>Select a File to Download</h3>";
   webpage += "<table>";
@@ -728,7 +726,7 @@ void Select_File_For_Function(String title, String function)
 {
   String Fname1, Fname2;
   int index = 0;
-  FilesList(); // Get a list of files on the SPI
+  FilesList();
   webpage = HTML_Header();
   webpage += "<h3>Select a File to " + title + " from this device</h3>";
   webpage += "<table class='center'>";
@@ -760,12 +758,10 @@ void Select_Dir_For_Function(String title, String function)
 {
   String Fname1, Fname2;
   int index = 0;
-  DirsList(); // Get a list of files on the SPI
+  DirsList(); // Get a Dir list
   webpage = HTML_Header();
   webpage += "<h3>Select a Directory to " + title + " from this device</h3>";
   webpage += "<table class='center'>";
-
-  // webpage += "<tr><th>Directory Name</th><th>Dir Size</th><th class='sp'></th><th>Dir Name</th><th>Dir Size</th></tr>";
   webpage += "<tr> <th>Directory Name</th> <th>Directory Name</th> </tr>";
 
   while (index < numDirs)
@@ -779,12 +775,9 @@ void Select_Dir_For_Function(String title, String function)
 
     webpage += "<tr>";
     webpage += "<td style='width:25%'><button><a href='" + function + "~/" + Fname1 + "'>" + Fname1 + "</a></button></td>";
-    // webpage += "<td class='sp'></td>";
 
     if (index < numDirs - 1)
     {
-      // webpage += "<td style='width:25%'><button><a href='" + function + "~/" + Fname2 + "'>" + Fname2 + "</a></button></td><td style = 'width:10%'>" + Filenames[index + 1].fsize + "</td>";
-
       webpage += "<td style='width:25%'><button><a href='" + function + "~/" + Fname2 + "'>" + Fname2 + "</a></button></td>";
     }
     webpage += "</tr>";
@@ -794,57 +787,7 @@ void Select_Dir_For_Function(String title, String function)
   webpage += HTML_Footer();
 }
 
-// #############################################################################################
-// void Select_Dir_For_Function(String title, String function)
-// {
-//   String Fname1, Fname2;
-//   int index = 0;
-//   DirsList(); // Get a list of files on the SPI
-//   webpage = HTML_Header();
-//   webpage += "<h3>Select a Directory to " + title + " from this device</h3>";
-//   webpage += "<table class='center'>";
 
-//   // webpage += "<tr><th>Directory Name</th><th>Dir Size</th><th class='sp'></th><th>Dir Name</th><th>Dir Size</th></tr>";
-//   webpage += "<tr> <th>Directory Name</th> <th>Directory Name</th> </tr>";
-
-//   while (index < numDirs)
-//   {
-//     Fname1 = Filenames[index].filename;
-//     Fname2 = Filenames[index + 1].filename;
-//     if (Fname1.startsWith("/"))
-//       Fname1 = Fname1.substring(1);
-//     if (Fname2.startsWith("/"))
-//       Fname2 = Fname2.substring(1);
-
-//     webpage += "<tr>";
-//     webpage += "<td style='width:25%'><button><a href='" + function + "~/" + Fname1 + "'>" + Fname1 + "</a></button></td>";
-//     // webpage += "<td class='sp'></td>";
-
-//     if (index < numfiles - 1)
-//     {
-//       // webpage += "<td style='width:25%'><button><a href='" + function + "~/" + Fname2 + "'>" + Fname2 + "</a></button></td><td style = 'width:10%'>" + Filenames[index + 1].fsize + "</td>";
-
-//       webpage += "<td style='width:25%'><button><a href='" + function + "~/" + Fname2 + "'>" + Fname2 + "</a></button></td>";
-//     }
-//     webpage += "</tr>";
-//     index = index + 2;
-//   }
-//   webpage += "</table>";
-//   webpage += HTML_Footer();
-// }
-
-
-// #############################################################################################
-void SelectInput(String Heading, String Command, String Arg_name)
-{
-  webpage = HTML_Header();
-  webpage += "<h3>" + Heading + "</h3>";
-  webpage += "<form  action='/" + Command + "'>";
-  webpage += "Filename: <input type='text' name='" + Arg_name + "'><br><br>";
-  webpage += "<input type='submit' value='Enter'>";
-  webpage += "</form>";
-  webpage += HTML_Footer();
-}
 
 // #############################################################################################
 int GetFileSize(String filename)
@@ -857,16 +800,18 @@ int GetFileSize(String filename)
   {
     if (SdPath != "/")
       filename = SdPath + filename;
-    // Serial.println("filename = " + filename);
+
     CheckFile = SD.open(filename, "r");
   }
 
-  Serial.println("filename_GetFileSize1 = " + filename);
+  // Serial.println("filename_GetFileSize1 = " + filename);
 
   filesize = CheckFile.size();
   CheckFile.close();
   return filesize;
 }
+
+// #############################################################################################
 void Page_Not_Found()
 {
   webpage = HTML_Header();
@@ -1026,19 +971,19 @@ void handle_fileSystem(AsyncWebServerRequest *request)
 void handle_root_sd()
 {
   SdPath = String("/");
-  Serial.println("change SdPath to Root");
+  // Serial.println("change SdPath to Root");
   Home();
 }
 
 // #############################################################################################
-void wait_SD()
-{
-  if (!isSPIFFS)
-  {
-    ;
-    // delay(1);
-  }
-}
+// void wait_SD()
+// {
+//   if (!isSPIFFS)
+//   {
+//     ;
+//     // delay(1);
+//   }
+// }
 
 // #############################################################################################
 // chdir for SD -- by NoRi
@@ -1180,4 +1125,57 @@ void SelectInputDirName(String Heading, String Command, String Arg_name)
 // void Dir_Change()
 // {
 //   SelectInputDirName("Change Directory", "chdirhandler", "filename");
+// }
+
+
+// #############################################################################################
+// void Select_Dir_For_Function(String title, String function)
+// {
+//   String Fname1, Fname2;
+//   int index = 0;
+//   DirsList(); // Get a list of files on the SPI
+//   webpage = HTML_Header();
+//   webpage += "<h3>Select a Directory to " + title + " from this device</h3>";
+//   webpage += "<table class='center'>";
+
+//   // webpage += "<tr><th>Directory Name</th><th>Dir Size</th><th class='sp'></th><th>Dir Name</th><th>Dir Size</th></tr>";
+//   webpage += "<tr> <th>Directory Name</th> <th>Directory Name</th> </tr>";
+
+//   while (index < numDirs)
+//   {
+//     Fname1 = Filenames[index].filename;
+//     Fname2 = Filenames[index + 1].filename;
+//     if (Fname1.startsWith("/"))
+//       Fname1 = Fname1.substring(1);
+//     if (Fname2.startsWith("/"))
+//       Fname2 = Fname2.substring(1);
+
+//     webpage += "<tr>";
+//     webpage += "<td style='width:25%'><button><a href='" + function + "~/" + Fname1 + "'>" + Fname1 + "</a></button></td>";
+//     // webpage += "<td class='sp'></td>";
+
+//     if (index < numfiles - 1)
+//     {
+//       // webpage += "<td style='width:25%'><button><a href='" + function + "~/" + Fname2 + "'>" + Fname2 + "</a></button></td><td style = 'width:10%'>" + Filenames[index + 1].fsize + "</td>";
+
+//       webpage += "<td style='width:25%'><button><a href='" + function + "~/" + Fname2 + "'>" + Fname2 + "</a></button></td>";
+//     }
+//     webpage += "</tr>";
+//     index = index + 2;
+//   }
+//   webpage += "</table>";
+//   webpage += HTML_Footer();
+// }
+
+
+// #############################################################################################
+// void SelectInput(String Heading, String Command, String Arg_name)
+// {
+//   webpage = HTML_Header();
+//   webpage += "<h3>" + Heading + "</h3>";
+//   webpage += "<form  action='/" + Command + "'>";
+//   webpage += "Filename: <input type='text' name='" + Arg_name + "'><br><br>";
+//   webpage += "<input type='submit' value='Enter'>";
+//   webpage += "</form>";
+//   webpage += HTML_Footer();
 // }

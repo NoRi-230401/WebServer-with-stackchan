@@ -60,6 +60,7 @@ extern void sysInfoDispEnd();
 void chatGptManage();
 void wsHandleRandomSpeak(String modeS);
 void wsHandelChat(String textS, String voiceS);
+void wsHandelChatGpt(String historyS);
 void wsHandleRoleSet(String roleS);
 void wsHandleRoleGet();
 bool chatDocInit();

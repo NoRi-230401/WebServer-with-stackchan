@@ -118,6 +118,24 @@ void wsHandelChat(String textS, String voiceS)
   webpage += "chat : text = " + textS;
 }
 
+void wsHandelChatGpt(String historyS)
+{
+  if (historyS == "")
+    return;
+
+  webpage = "\n";
+  int max_history =chatHistory.size();
+  for(int i=0; i<max_history ;i++)
+  {
+    webpage +=   String(i,DEC)  +  "] " + chatHistory[i] + "\n";
+  }
+
+  // webpage = "chat : voice = " + voiceS;
+  // webpage += "chat : text = " + textS;
+}
+
+
+
 void wsHandleRoleSet(String roleS)
 {
   String role = roleS;

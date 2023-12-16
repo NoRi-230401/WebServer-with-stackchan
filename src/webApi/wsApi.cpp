@@ -47,10 +47,15 @@ void setupApiHandler()
   server.on("/face", HTTP_GET, [](AsyncWebServerRequest *request)
             {    handle_face(request); serverSend(request); });
 
+  // ##################### chatGpt ############################
+  server.on("/chatGpt", HTTP_GET, [](AsyncWebServerRequest *request)
+            { handle_chatGpt(request); serverSend(request); });
+  
   // ##################### chat ############################
   server.on("/chat", HTTP_GET, [](AsyncWebServerRequest *request)
             { handle_chat(request); serverSend(request); });
   
+
   // ##################### role_set ############################
   server.on("/role_set", HTTP_POST, [](AsyncWebServerRequest *request)
             { handle_role_set(request);  serverSend(request); });
@@ -156,6 +161,15 @@ void handle_speech(AsyncWebServerRequest *request)
   String expressionS = request->arg("expression");
   String voiceS = request->arg("voice");
   wsHandleSpeech(sayS, expressionS, voiceS);
+}
+
+// chatHistory etc, utility for chatGpt -----------
+void handle_chatGpt(AsyncWebServerRequest *request)
+{
+  tone(2);
+  webpage = "NG";
+  String historyS = request->arg("history");
+  wsHandelChatGpt(historyS);
 }
 
 void handle_chat(AsyncWebServerRequest *request)

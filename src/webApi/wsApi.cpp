@@ -49,7 +49,7 @@ void setupApiHandler()
 
   // ##################### chatGpt ############################
   server.on("/chatGpt", HTTP_GET, [](AsyncWebServerRequest *request)
-            { handle_chatGpt(request); serverSend(request); });
+            { handle_chatGpt(request); serverSend3(request); });
   
   // ##################### chat ############################
   server.on("/chat", HTTP_GET, [](AsyncWebServerRequest *request)

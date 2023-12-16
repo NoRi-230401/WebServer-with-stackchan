@@ -123,15 +123,20 @@ void wsHandelChatGpt(String historyS)
   if (historyS == "")
     return;
 
-  webpage = "\n";
+  webpage = "<br>";
   int max_history =chatHistory.size();
   for(int i=0; i<max_history ;i++)
   {
-    webpage +=   String(i,DEC)  +  "] " + chatHistory[i] + "\n";
+    if( (i % 2) == 0)
+    {
+      webpage +=   "Q -- " + chatHistory[i] + "<br>";
+    }
+    else
+    {
+      webpage +=   "A -- " + chatHistory[i] + "<br><br>";
+    }
   }
-
-  // webpage = "chat : voice = " + voiceS;
-  // webpage += "chat : text = " + textS;
+  
 }
 
 

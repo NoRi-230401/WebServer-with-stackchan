@@ -67,6 +67,25 @@ void serverSend(AsyncWebServerRequest *request)
   }
 }
 
+
+void serverSend3(AsyncWebServerRequest *request)
+{
+  if (webpage == "NG")
+  {
+    webpage = HTML_Header2Ng() + webpage + HTML_Footer2();
+    request->send(400, "text/html", webpage);
+  }
+  else
+  {
+    String tmpPage;
+    tmpPage = HTML_Header3() + webpage + HTML_Footer3();
+    webpage = tmpPage;
+    request->send(200, "text/html", webpage);
+  }
+}
+
+
+
 void handle_wss1()
 {
   htmlConv(WSS1_HTML);
@@ -320,6 +339,8 @@ String HTML_Header2Ng()
   return page;
 }
 
+
+
 // #############################################################################################
 String HTML_Footer2()
 {
@@ -327,6 +348,42 @@ String HTML_Footer2()
   // page += "<footer>";
   // page += "</footer>";
   page += "</pre><br><br>";
+  page += "<div><form><input type='button' name='button' value='このウィンドウを閉じる' onclick='window.close();'></form><div>";
+  page += "</body></html>";
+  return page;
+}
+
+// #############################################################################################
+String HTML_Header3()
+{
+  String page;
+  page = "<!DOCTYPE html>";
+  page += "<html lang = 'ja'>";
+  page += "<head>";
+  page += "<meta charset='UTF-8'>";
+  page += "<meta name='viewport' content='width=device-width,initial-scale=1.0'>";
+  page += "<title>StackChan</title>";
+  page += "<base target='StackChanSub'>";
+  page += "<style>";
+  page += "html {font-size: 62.5%;}";
+  page += "body {font-size:1.6rem;background-color:#fffde7;text-align:left;}";
+  page += "div {font-size:1.6rem;text-align:center;}";
+  page += "@media screen and (max-width: 480px) {body{font-size:1.4rem;} img{width:100%;height:auto;}}";
+  page += "</style>";
+  page += "</head>";
+  // page += "<body><pre>";
+  page += "<body>";
+  return page;
+}
+
+String HTML_Footer3()
+{
+  String page;
+  // page += "<footer>";
+  // page += "</footer>";
+  
+  // page += "</pre><br><br>";
+  page += "<br><br>";
   page += "<div><form><input type='button' name='button' value='このウィンドウを閉じる' onclick='window.close();'></form><div>";
   page += "</body></html>";
   return page;

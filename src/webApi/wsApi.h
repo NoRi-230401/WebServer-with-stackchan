@@ -90,6 +90,8 @@ extern bool MUTE_ON_STATE;
 extern String webpage;
 extern String HTML_Header();
 extern String HTML_Footer();
+extern String HTML_Header3();
+extern String HTML_Footer3();
 extern AsyncWebServer server;
 extern void Req_MsgCls();
 extern void servoSetup2();
@@ -160,9 +162,11 @@ extern void chatHistoryCls();
 extern void wsHandleWifiSetting(String initS, String ssidS, String passwdS,String removeS,
     String ipS, String gatewayS, String subnetS, String dnsS  );
 extern void wsHandleRoleSet(String roleS);
+extern void serverSend(AsyncWebServerRequest *request);
+extern void serverSend3(AsyncWebServerRequest *request);
 
 // ---------------------------------------------------------
-void serverSend(AsyncWebServerRequest *request);
+
 void setupApiHandler();
 void handle_button(AsyncWebServerRequest *request);
 void handle_setting(AsyncWebServerRequest *request);

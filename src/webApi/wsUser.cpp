@@ -174,6 +174,7 @@ void Home()
   webpage = HTML_Header();
   webpage += "<br>";
   webpage += "<img src='icon.gif' alt='icon'>";
+  // webpage += "<img src='icon.gif'>";
   webpage += "<h3>[&nbsp;Home&nbsp;]　" + SERVER_NAME + "　IP=" + IP_ADDR + "</h3>";
   // webpage += "<br>";
   webpage += HTML_Footer();

@@ -432,7 +432,10 @@ void M5StackConfig()
   while (i < 3)
   { // SDカードマウント待ち
     // success = SD.begin(GPIO_NUM_4, SPI, 15000000, "/sdcard", 10, false);
-    success = SD.begin(GPIO_NUM_4, SPI, 16000000,"/sd", 10, false);
+    // success = SD.begin(GPIO_NUM_4, SPI, 16000000,"/sd", 10, false);
+    // success = SD.begin(GPIO_NUM_4, SPI, 15000000,"/sd", 10, false);
+    success = SD.begin(GPIO_NUM_4, SPI, 15000000U,"/sd", 10U, false);
+    
     if (success)
       break;
 

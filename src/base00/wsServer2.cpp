@@ -111,12 +111,16 @@ void handle_fileSystem(AsyncWebServerRequest *request)
 
 // #############################################################################################
 void handle_root_sd()
-{
-  SdPath = String("/");
-  // Serial.println("change SdPath to Root");
-  Home();
-}
+{ // change SD Path to Root 
 
+  SdPath = String("/");
+  Serial.println("change SdPath to Root");
+
+  webpage = HTML_Header();
+  webpage += "<h3>Change SD Path to Root</h3>";
+  webpage += "<a href='/dir'>[Enter]</a><br><br>";
+  webpage += HTML_Footer();
+}
 
 // #############################################################################################
 void Handle_chdir(String filename)

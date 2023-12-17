@@ -9,8 +9,6 @@ const String json_ChatString =
 //     "{\"model\": \"gpt-3.5-turbo-0613\",\"messages\": [{\"role\": \"user\", \"content\": \""
 //     "\"}]}";
 
-
-
 const String CHATDOC_SPI = "/data.json"; // chatDoc in SPIFFS
 const int MAX_HISTORY = 5;               // 保存する質問と回答の最大数
 String INIT_BUFFER = "";
@@ -36,7 +34,7 @@ int WK_LAST_ERR_CODE = 0;
 void chatGptManage()
 {
   // --  RandomSpeakManage ---
-  if ( (RANDOM_SPEAK_ON_GET) && (SPEECH_TEXT_BUFFER == "") && (SPEECH_TEXT == "") )
+  if ((RANDOM_SPEAK_ON_GET) && (SPEECH_TEXT_BUFFER == "") && (SPEECH_TEXT == ""))
   {
     RANDOM_SPEAK_ON_GET = false;
 
@@ -76,9 +74,7 @@ void chatGptManage()
 
     exec_chatGPT(REQ_MSG);
   }
-
 }
-
 
 void wsHandleRandomSpeak(String modeS)
 {
@@ -118,28 +114,114 @@ void wsHandelChat(String textS, String voiceS)
   webpage += "chat : text = " + textS;
 }
 
-void wsHandelChatGpt(String historyS)
-{
-  if (historyS == "")
-    return;
+const String CHARA_SPIFFS = "/wsCharacter.json";
+// const String charaJsonInitStr = " { \"character\": [ ] }";
+// const String charaJsonInitStr =" {\"character\":[{\"name\":\"\",\"vSpeakerNo\": \"3\",\"role\": \"\"},{\"name\":\"\",\"vSpeakerNo\": \"3\",\"role\": \"\"},{\"name\":\"\",\"vSpeakerNo\": \"3\",\"role\": \"\"}]}";
 
-  webpage = "<br>";
-  int max_history =chatHistory.size();
-  for(int i=0; i<max_history ;i++)
+const String charaJsonInitStr = "{\"character\":[{\"name\":\"\",\"vSpkNo\":\"3\",\"role\":\"\"},{\"name\":\"\",\"vSpkNo\":\"3\",\"role\":\"\"},{\"name\":\"\",\"vSpkNo\":\"3\",\"role\":\"\"},{\"name\":\"\",\"vSpkNo\":\"3\",\"role\":\"\"},{\"name\":\"\",\"vSpkNo\":\"3\",\"role\":\"\"},{\"name\":\"\",\"vSpkNo\":\"3\",\"role\":\"\"}]}";
+
+bool initCharaJson(DynamicJsonDocument &charaJson)
+{
+  DeserializationError error = deserializeJson(charaJson, charaJsonInitStr);
+  if (error)
   {
-    if( (i % 2) == 0)
-    {
-      webpage +=   "Q -- " + chatHistory[i] + "<br>";
-    }
-    else
-    {
-      webpage +=   "A -- " + chatHistory[i] + "<br><br>";
-    }
+    Serial.println("DeserializationError in initCharaJson func");
+    return false;
   }
-  
+  jsonSave(charaJson, CHARA_SPIFFS);
+  return true;
 }
 
+void wsHandelChatGpt(String historyS, String charaS)
+{
+  if (historyS == "" && charaS == "")
+    return;
 
+  if (charaS == "0" || charaS == "1" || charaS == "2" || charaS == "3" || charaS == "4" || charaS == "5")
+  {
+    DynamicJsonDocument charaJson(CHARA_SIZE);
+
+    if (!jsonRead(FLTYPE_SPIFFS, charaJson, CHARA_SPIFFS))
+    {
+      Serial.println("faile to Read from SPIFFS in wsHandleChatGpt func");
+      initCharaJson(charaJson);
+      return;
+    }
+
+    // --- New Character Set -------------------------
+    JsonArray jsonArray = charaJson["character"];
+    int charaNo = charaS.toInt();
+    JsonObject chara = jsonArray[charaNo];
+    String chara_name = chara["name"];
+    String chara_vSpeakerNoS = chara["vSpkNo"];
+    String chara_role = chara["role"];
+
+    Serial.println("charaNo = " + String(charaNo, DEC));
+    Serial.println("name = " + chara_name);
+    Serial.println("vSpeakerNo = " + chara_vSpeakerNoS);
+    Serial.println("role = " + chara_role);
+
+    init_chat_doc(json_ChatString.c_str());
+    JsonArray messages = CHAT_DOC["messages"];
+    JsonObject systemMessage1 = messages.createNestedObject();
+    systemMessage1["role"] = "system";
+    systemMessage1["content"] = chara_role;
+
+    // 会話履歴をクリア
+    chatHistory.clear();
+    INIT_BUFFER = "";
+    serializeJson(CHAT_DOC, INIT_BUFFER);
+    Serial.println("INIT_BUFFER = " + INIT_BUFFER);
+    // JSONデータをspiffsへ保存
+    save_json();
+
+    // ---- Speaker -------
+    size_t speaker_no;
+    if (chara_vSpeakerNoS != "")
+    {
+      uint32_t nvs_handle;
+
+      speaker_no = chara_vSpeakerNoS.toInt();
+      if (speaker_no > 66)
+      {
+        speaker_no = 3;
+      }
+      TTS2_SPEAKER_NO = String(speaker_no);
+      TTS2_PARMS = TTS2_SPEAKER + TTS2_SPEAKER_NO;
+
+      if (ESP_OK == nvs_open(SETTING_NVS, NVS_READWRITE, &nvs_handle))
+      {
+        nvs_set_u32(nvs_handle, "vSpeakerNo", speaker_no);
+        Serial.println("NVS Write : vSpeakerNo = " + String(speaker_no, DEC));
+      }
+      nvs_close(nvs_handle);
+    }
+    
+    webpage = "<br>chatGPT : new character data set <br><br>";
+    webpage += "CharacterNo = " + String(charaNo, DEC) + "<br>";
+    webpage += "name = " + chara_name + "<br>";
+    webpage += "vSpeakerNo = " + chara_vSpeakerNoS + "<br>";
+    webpage += "role = " + chara_role + "<br><br>";
+    return;
+  }
+
+  if (historyS.equalsIgnoreCase("all"))
+  {
+    webpage = "<br>";
+    int max_history = chatHistory.size();
+    for (int i = 0; i < max_history; i++)
+    {
+      if ((i % 2) == 0)
+      {
+        webpage += "Q - " + chatHistory[i] + "<br>";
+      }
+      else
+      {
+        webpage += "A - " + chatHistory[i] + "<br><br>";
+      }
+    }
+  }
+}
 
 void wsHandleRoleSet(String roleS)
 {
@@ -165,7 +247,7 @@ void wsHandleRoleSet(String roleS)
   INIT_BUFFER = "";
   serializeJson(CHAT_DOC, INIT_BUFFER);
   Serial.println("INIT_BUFFER = " + INIT_BUFFER);
-  
+
   // JSONデータをspiffsへ保存
   save_json();
 }
@@ -174,7 +256,7 @@ void wsHandleRoleSet(String roleS)
 // {
 //   String chatDocGet = "";
 //   serializeJsonPretty(CHAT_DOC, chatDocGet);
-  
+
 //   Serial.println("\n****** role_get ******");
 //   Serial.println(chatDocGet);
 //   Serial.println("**********************\n");
@@ -187,13 +269,12 @@ void wsHandleRoleSet(String roleS)
 
 void wsHandleRoleGet()
 {
-  webpage="";
+  webpage = "";
   serializeJsonPretty(CHAT_DOC, webpage);
   Serial.println("\n****** role_get ******");
   Serial.println(webpage);
   Serial.println("**********************\n");
 }
-
 
 bool chatDocInit()
 {

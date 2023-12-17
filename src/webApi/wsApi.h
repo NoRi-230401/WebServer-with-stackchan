@@ -141,7 +141,7 @@ extern void wsHandleServo(String swingXYS,String swingXS, String swingYS,
 extern void wsHandleRoleGet();
 extern void wsHandleFace(String expression);
 extern void wsHandelChat(String textS, String voiceS);
-extern void wsHandelChatGpt(String historyS);
+extern void wsHandelChatGpt(String historyS,String charaS);
 extern void wsHandleRandomSpeak(String modeS);
 extern void wsServoSetting(String txS,String servoS, String servoPortS,
       String servoModeS, String servoHomeXS, String servoHomeYS);

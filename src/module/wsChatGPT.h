@@ -24,6 +24,12 @@
 #define REQ_SPEAK_MSG2 4
 #define DOC_SIZE 1024 * 4
 
+#define CHARA_SIZE 6 * 1024
+#define FLTYPE_SPIFFS 1
+#define FLTYPE_SD 2
+extern bool jsonRead(int flType, DynamicJsonDocument &jsonDoc, String readFile);
+extern bool jsonSave(DynamicJsonDocument &jsonDoc, String saveFile);
+
 using namespace m5avatar;
 extern Avatar avatar;
 extern const Expression expressions_table[];
@@ -51,6 +57,7 @@ extern void timerStop2();
 extern void REBOOT();
 extern const String random_words[];
 extern const String json_ChatString;
+extern const char *SETTING_NVS; // setting --NVS の設定用ファイル
 extern void ttsDo( const String& text );
 extern String webpage;
 extern int TTS_PARMS_NO;
@@ -60,7 +67,7 @@ extern void sysInfoDispEnd();
 void chatGptManage();
 void wsHandleRandomSpeak(String modeS);
 void wsHandelChat(String textS, String voiceS);
-void wsHandelChatGpt(String historyS);
+void wsHandelChatGpt(String historyS,String charaS);
 void wsHandleRoleSet(String roleS);
 void wsHandleRoleGet();
 bool chatDocInit();

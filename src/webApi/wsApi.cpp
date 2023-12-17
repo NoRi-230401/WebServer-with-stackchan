@@ -169,7 +169,9 @@ void handle_chatGpt(AsyncWebServerRequest *request)
   tone(2);
   webpage = "NG";
   String historyS = request->arg("history");
-  wsHandelChatGpt(historyS);
+  String charaS = request->arg("chara");
+  
+  wsHandelChatGpt(historyS,charaS);
 }
 
 void handle_chat(AsyncWebServerRequest *request)

@@ -10,7 +10,7 @@ const String WSS5_HTML = "/wss5.html";
 const String NAME_WSS1 = "Setting";
 const String NAME_WSS2 = "Servo";
 const String NAME_WSS3 = "Remote";
-const String NAME_WSS4 = "wss4";
+const String NAME_WSS4 = "Chat";
 const String NAME_WSS5 = "wss5";
 
 void setupUserHandler()
@@ -271,6 +271,7 @@ String HTML_Header()
   page += "<a href='/wss1' target='" + NAME_WSS1 + "'>" + NAME_WSS1 + "</a> ";
   page += "<a href='/wss2' target='" + NAME_WSS2 + "'>" + NAME_WSS2 + "</a> ";
   page += "<a href='/wss3' target='" + NAME_WSS3 + "'>" + NAME_WSS3 + "</a> ";
+  page += "<a href='/wss4' target='" + NAME_WSS4 + "'>" + NAME_WSS4 + "</a> ";
   // page += "<a href='/wss4'>" + NAME_WSS4 + "</a> ";
   // page += "<a href='/wss5'>" + NAME_WSS5 + "</a> ";
   page += "<a href='/system'>Status</a>";

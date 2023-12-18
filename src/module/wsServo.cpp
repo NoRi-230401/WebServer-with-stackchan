@@ -344,8 +344,10 @@ void servo2(int mode)
     SV_MD = SV_MD_NONE;
     sv_setEaseToXY(SV_CENTER_X, SV_CENTER_Y);
     synchronizeAllServosStartAndWaitForAllServosToStop();
-    REQ_MSG = "サーボ調整";
-    servoReqSpkMsg();
+    // REQ_MSG = "サーボ調整";
+    // ReqSpkMsg();
+    ReqSpkMsg( "サーボ調整" );
+
     break;
 
   case SV_MD_POINT:

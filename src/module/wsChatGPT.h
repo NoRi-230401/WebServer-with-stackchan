@@ -62,6 +62,8 @@ extern void ttsDo( const String& text );
 extern String webpage;
 extern int TTS_PARMS_NO;
 extern void sysInfoDispEnd();
+extern void ReqSpkMsg(String spkMsg);
+extern void ReqSpkMsg2(String spkMsg);
 
 // -----------------------------------------------------------------------------
 void chatGptManage();

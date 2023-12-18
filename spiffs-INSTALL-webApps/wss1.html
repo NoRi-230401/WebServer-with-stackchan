@@ -106,7 +106,8 @@
   <a href="http://stackchan/" target="Home">０.Home</a><br>
   <br>
   <a href="#kihon">１.基本操作</a><br>
-  <a href="#chatgpt">２.chatGPT</a><br>
+  <a href="#chatgpt">２Ａ.chatGPT</a><br>
+  <a href="#chatgpt2B">２Ｂ.キャラクター設定</a><br>
   <a href="#kantan">３.簡単設定</a><br>
   <a href="#startup">４.スタートアップ設定</a><br>
   <a href="#wifiSelect">５.Wifi設定</a><br>
@@ -221,6 +222,39 @@
     </form>
   </div>
   <br>
+
+  <h4>ロール設定</h4>
+  chatGPTのロール設定の確認と変更ができます。<br><br>
+  <p>
+    <a href="http://stackchan/role_get">ロールの確認</a>
+  </p>
+  <br>
+  <p>
+  <form action="http://stackchan/role_set" method="post">
+    <label for="textarea">ロールの変更:<br>
+      　何も入力しないとロール情報は消去されます。　</label><br>
+    <textarea id="role_textarea" name="textarea" rows="10" cols="40"></textarea><br>
+    <input type="submit" value="送信">
+  </form>
+  </p>
+  <br>
+  <br>
+  <a href="#top">トップ</a>
+  　<a href="http://stackchan/sysInfo">システム情報</a>
+  　<a href="http://stackchan/apikey">wsApikey.json</a>
+  　<a href="http://stackchan/shutdown?reboot=on">再起動</a>
+  <br><br>
+  <hr><br>
+  <a name="chatgpt2B"></a>
+  <h2>★２Ｂ.キャラクター設定</h2>
+
+chatGPTのロール設定とVOICEVOXの話者番号を９セット保存することができます。<br>
+（spiffs領域の"wsCharacter.json"ファイルに保存）<br>
+「Chat」リモコンを使用することによりワンタッチでキャラクターの変更ができます。<br>
+<br>
+ここでは、各キャラクター指定と保存を提供します。<br>
+（尚、直接ファイルをＰＣで書き換えてからUPLOADする方法もあります。）<br>
+ 
 
   <h4>ロール設定</h4>
   chatGPTのロール設定の確認と変更ができます。<br><br>

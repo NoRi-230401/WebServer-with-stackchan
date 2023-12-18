@@ -202,6 +202,13 @@ void wsHandelChatGpt(String historyS, String charaS)
     webpage += "name = " + chara_name + "<br>";
     webpage += "vSpeakerNo = " + chara_vSpeakerNoS + "<br>";
     webpage += "role = " + chara_role + "<br><br>";
+
+    if(chara_name!="")
+    {
+      String spkMsg = chara_name + " です。";
+      Serial.println(spkMsg);
+      ReqSpkMsg2(spkMsg);
+    }
     return;
   }
 

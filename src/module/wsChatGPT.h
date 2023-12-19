@@ -24,7 +24,7 @@
 #define REQ_SPEAK_MSG2 4
 #define DOC_SIZE 1024 * 4
 
-#define CHARA_SIZE 6 * 1024
+#define CHARA_SIZE 9 * 1024
 #define FLTYPE_SPIFFS 1
 #define FLTYPE_SD 2
 extern bool jsonRead(int flType, DynamicJsonDocument &jsonDoc, String readFile);

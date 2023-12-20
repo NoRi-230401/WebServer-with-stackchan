@@ -55,7 +55,10 @@ void setupApiHandler()
   server.on("/chat", HTTP_GET, [](AsyncWebServerRequest *request)
             { handle_chat(request); serverSend(request); });
   
-
+  // ##################### chat ############################
+  server.on("/chatChara", HTTP_GET, [](AsyncWebServerRequest *request)
+            { handle_chatCharacter(request); serverSend(request); });
+  
   // ##################### role_set ############################
   server.on("/role_set", HTTP_POST, [](AsyncWebServerRequest *request)
             { handle_role_set(request);  serverSend(request); });
@@ -182,6 +185,18 @@ void handle_chat(AsyncWebServerRequest *request)
   String voiceS = request->arg("voice");
   wsHandelChat(textS, voiceS);
 }
+
+void handle_chatCharacter(AsyncWebServerRequest *request)
+{
+  tone(2);
+  webpage = "NG";
+  String ch_NoS = request->arg("no");
+  String ch_nameS = request->arg("name");
+  String ch_voiceS = request->arg("voice");
+  String ch_roleS = request->arg("role");
+  wsHandelChatCharacter( ch_NoS, ch_nameS, ch_voiceS, ch_roleS);
+}
+
 
 void handle_role_set(AsyncWebServerRequest *request)
 {

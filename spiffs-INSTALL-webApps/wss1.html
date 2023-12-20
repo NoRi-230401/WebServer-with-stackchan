@@ -103,14 +103,14 @@
   <br>
   <hr color="#87ceeb" width="100%" size="3">
   <br>
-  <a href="http://stackchan/" target="Home">０.Home</a><br>
+  <a href="http://stackchan/" target="Home">０. Home</a><br>
   <br>
-  <a href="#kihon">１.基本操作</a><br>
-  <a href="#chatgpt">２Ａ.chatGPT</a><br>
-  <a href="#chatgpt2B">２Ｂ.キャラクター設定</a><br>
-  <a href="#kantan">３.簡単設定</a><br>
-  <a href="#startup">４.スタートアップ設定</a><br>
-  <a href="#wifiSelect">５.Wifi設定</a><br>
+  <a href="#kihon">１. 基本操作</a><br>
+  <a href="#chatgpt">２ａ. chatGpt 基本</a><br>
+  <a href="#chatgpt2B">２ｂ. chatGpt キャラ変</a><br>
+  <a href="#kantan">３. 簡単設定</a><br>
+  <a href="#startup">４. スタートアップ設定</a><br>
+  <a href="#wifiSelect">５. Wifi設定</a><br>
   <br>
   <b>★応答に時間がかかるので動作中であれば停止してください。</b><br>
   　　<a href="http://stackchan/randomSpeak?mode=off">「独り言」停止</a>
@@ -209,7 +209,7 @@
   <hr>
   <a name="chatgpt"></a>
   <br>
-  <h2>★２.chatGPT</h2>
+  <h2>★２ａ.　chatGpt_基本</h2>
 
 
   テキストを入力してAIと会話してください。<br>
@@ -246,35 +246,40 @@
   <br><br>
   <hr><br>
   <a name="chatgpt2B"></a>
-  <h2>★２Ｂ.キャラクター設定</h2>
+  <h2>★２ｂ.　chatGpt_キャラ変（キャラクター変更）</h2>
 
-chatGPTのロール設定とVOICEVOXの話者番号を９セット保存することができます。<br>
-（spiffs領域の"wsCharacter.json"ファイルに保存）<br>
-「Chat」リモコンを使用することによりワンタッチでキャラクターの変更ができます。<br>
+<b>キャラクター番号</b>(characterNo. 0-8)ごとに、次の３項目をセットで保存します。<br>
+・<b>名前</b>(name)：変更時に自分の名前を発声します。<br>
+・<b>話者番号</b>(vSpeakNo)： VOICEVOXの話者の番号 0-66<br>
+・<b>ロール</b>(role)：chatGptに設定するroleデータ<br>
 <br>
-ここでは、各キャラクター指定と保存を提供します。<br>
-（尚、直接ファイルをＰＣで書き換えてからUPLOADする方法もあります。）<br>
- 
+「Chat Remote Controlle」リモコンを使用し、保存した０～８番のキャラクター（性格）をワンタッチで変更することができます。<br><br>
 
-  <h4>ロール設定</h4>
-  chatGPTのロール設定の確認と変更ができます。<br><br>
-  <p>
-    <a href="http://stackchan/role_get">ロールの確認</a>
-  </p>
-  <br>
-  <p>
-  <form action="http://stackchan/role_set" method="post">
-    <label for="textarea">ロールの変更:<br>
-      　何も入力しないとロール情報は消去されます。　</label><br>
-    <textarea id="role_textarea" name="textarea" rows="10" cols="40"></textarea><br>
-    <input type="submit" value="送信">
+<h3>キャラクター保存</h3>
+<div>
+  <form action="http://stackchan/chatChara" method="get">
+    キャラクター番号：characterNo.(0-8半角数字)　<input type="text" name="no" value="" size="1" maxlength="1" /><br><br>
+    名前：name(全角10文字以内)　<input type="text" name="name" value="" size="20" maxlength="20"><br><br>
+    話者番号：vSpeakerNo(0-66半角数字)　<input type="text" name="voice" value="" size="2" maxlength="2" /><br><br>
+    
+    <label for="textarea">ロール：role</label><br>
+    <textarea id="role" name="role" rows="10" cols="40"></textarea><br><br>
+    
+    <input type="submit" value="送信" />
   </form>
-  </p>
+</div>
+<br>
+spiffs領域の"wsCharacter.json"ファイルに保存されます。<br>
+尚、ＰＣにファイルをDownloadし、ＰＣで書換え後にUploadして修正を反映させることもできます。<br>
+
+  <br>
+  <h3>設定ファイルの表示</h3>
+  　<a href="http://stackchan/chatChara">wsCharacter.json</a>
   <br>
   <br>
-  <a href="#top">トップ</a>
+  <br>
+    <a href="#top">トップ</a>
   　<a href="http://stackchan/sysInfo">システム情報</a>
-  　<a href="http://stackchan/apikey">wsApikey.json</a>
   　<a href="http://stackchan/shutdown?reboot=on">再起動</a>
   <br><br>
   <hr><br>

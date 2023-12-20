@@ -5,16 +5,15 @@ const String json_ChatString =
     "{\"model\": \"gpt-3.5-turbo-0613\",\"max_tokens\":512,\"messages\": [{\"role\": \"user\", \"content\": \""
     "\"}]}";
 
-// const String json_ChatString =
-//     "{\"model\": \"gpt-3.5-turbo-0613\",\"messages\": [{\"role\": \"user\", \"content\": \""
-//     "\"}]}";
-
 const String CHATDOC_SPI = "/data.json"; // chatDoc in SPIFFS
 const int MAX_HISTORY = 5;               // 保存する質問と回答の最大数
 String INIT_BUFFER = "";
 String CHAT_RESPONSE = "";
 DynamicJsonDocument CHAT_DOC(1024 * 10);
 std::deque<String> chatHistory; // 過去の質問と回答を保存するデータ構造
+
+const String CHARA_SPIFFS = "/wsCharacter.json";
+const String charaJsonInitStr = "{\"character\":[{\"name\":\"\",\"vSpkNo\":\"3\",\"role\":\"\"},{\"name\":\"\",\"vSpkNo\":\"3\",\"role\":\"\"},{\"name\":\"\",\"vSpkNo\":\"3\",\"role\":\"\"},{\"name\":\"\",\"vSpkNo\":\"3\",\"role\":\"\"},{\"name\":\"\",\"vSpkNo\":\"3\",\"role\":\"\"},{\"name\":\"\",\"vSpkNo\":\"3\",\"role\":\"\"},{\"name\":\"\",\"vSpkNo\":\"3\",\"role\":\"\"},{\"name\":\"\",\"vSpkNo\":\"3\",\"role\":\"\"},{\"name\":\"\",\"vSpkNo\":\"3\",\"role\":\"\"}]}";
 
 // 独り言
 const String random_words[] = {"あなたは誰", "楽しい", "怒った", "可愛い", "悲しい", "眠い", "ジョークを言って", "泣きたい", "怒ったぞ", "こんにちは", "お疲れ様", "詩を書いて", "疲れた", "お腹空いた", "嫌いだ", "苦しい", "俳句を作って", "歌をうたって"};
@@ -114,13 +113,72 @@ void wsHandelChat(String textS, String voiceS)
   webpage += "chat : text = " + textS;
 }
 
-const String CHARA_SPIFFS = "/wsCharacter.json";
-// const String charaJsonInitStr = " { \"character\": [ ] }";
-// const String charaJsonInitStr =" {\"character\":[{\"name\":\"\",\"vSpeakerNo\": \"3\",\"role\": \"\"},{\"name\":\"\",\"vSpeakerNo\": \"3\",\"role\": \"\"},{\"name\":\"\",\"vSpeakerNo\": \"3\",\"role\": \"\"}]}";
+void wsHandelChatCharacter(String ch_NoS, String ch_nameS, String ch_voiceS, String ch_roleS)
+{
+  Serial.println("no = " +ch_NoS );
+  Serial.println("name = " +ch_nameS );
+  Serial.println("voice = " +ch_voiceS );
+  Serial.println("role = " +ch_roleS );
+  
+  DynamicJsonDocument charaJson(CHARA_SIZE);
+  if (!jsonRead(FLTYPE_SPIFFS, charaJson, CHARA_SPIFFS))
+  {
+    Serial.println("faile to Read from SPIFFS in wsHandleChatGpt func");
+    initCharaJson(charaJson);
+    return;
+  }
 
-// const String charaJsonInitStr = "{\"character\":[{\"name\":\"\",\"vSpkNo\":\"3\",\"role\":\"\"},{\"name\":\"\",\"vSpkNo\":\"3\",\"role\":\"\"},{\"name\":\"\",\"vSpkNo\":\"3\",\"role\":\"\"},{\"name\":\"\",\"vSpkNo\":\"3\",\"role\":\"\"},{\"name\":\"\",\"vSpkNo\":\"3\",\"role\":\"\"},{\"name\":\"\",\"vSpkNo\":\"3\",\"role\":\"\"}]}";
+  if ((ch_NoS == "") && (ch_nameS == "") && (ch_voiceS == "") && (ch_roleS == ""))
+  {
+    // HTMLデータを出力する
+    String html = "";
+    serializeJsonPretty(charaJson, html);
+    // Serial.println(html);
+    webpage = html;
+    return;
+  }
 
-const String charaJsonInitStr = "{\"character\":[{\"name\":\"\",\"vSpkNo\":\"3\",\"role\":\"\"},{\"name\":\"\",\"vSpkNo\":\"3\",\"role\":\"\"},{\"name\":\"\",\"vSpkNo\":\"3\",\"role\":\"\"},{\"name\":\"\",\"vSpkNo\":\"3\",\"role\":\"\"},{\"name\":\"\",\"vSpkNo\":\"3\",\"role\":\"\"},{\"name\":\"\",\"vSpkNo\":\"3\",\"role\":\"\"},{\"name\":\"\",\"vSpkNo\":\"3\",\"role\":\"\"},{\"name\":\"\",\"vSpkNo\":\"3\",\"role\":\"\"},{\"name\":\"\",\"vSpkNo\":\"3\",\"role\":\"\"}]}";
+  int charaNo = 0;
+  String charaName = "";
+  String charaVoiceNo = "3";
+  String charaRole = "";
+
+  if (ch_NoS == "0" || ch_NoS == "1" || ch_NoS == "2" || ch_NoS == "3" || ch_NoS == "4" || ch_NoS == "5" || ch_NoS == "6" || ch_NoS == "7" || ch_NoS == "8")
+  {
+    charaNo = ch_NoS.toInt();
+  }
+  else
+    return;
+
+  if (ch_nameS == "")
+    charaName = ch_NoS + "　ばん";
+  else
+    charaName = ch_nameS;
+
+  int tmpVoiceNo = ch_voiceS.toInt();
+  if ((tmpVoiceNo >= 0) && (tmpVoiceNo <= 66))
+  {
+    charaVoiceNo = ch_voiceS;
+  }
+
+  if (ch_roleS != "")
+    charaRole = ch_roleS;
+
+  JsonArray jsonArray = charaJson["character"];
+  JsonObject object = jsonArray[charaNo];
+  object["name"] = charaName;
+  object["vSpkNo"] = charaVoiceNo;
+  object["role"] = charaRole;
+
+  bool success = jsonSave(charaJson, CHARA_SPIFFS);
+  if (!success)
+  {
+    return;
+  }
+
+  webpage = "Character No. = " + ch_NoS  + "  modified";
+}
+
 
 
 bool initCharaJson(DynamicJsonDocument &charaJson)
@@ -199,14 +257,14 @@ void wsHandelChatGpt(String historyS, String charaS)
       }
       nvs_close(nvs_handle);
     }
-    
-    webpage = "<br>chatGPT : new character data set <br><br>";
-    webpage += "CharacterNo = " + String(charaNo, DEC) + "<br>";
+
+    webpage = "character changed<br><br>";
+    webpage += "character No. = " + String(charaNo, DEC) + "<br>";
     webpage += "name = " + chara_name + "<br>";
     webpage += "vSpeakerNo = " + chara_vSpeakerNoS + "<br>";
     webpage += "role = " + chara_role + "<br><br>";
 
-    if(chara_name!="")
+    if (chara_name != "")
     {
       String spkMsg = chara_name + " です。";
       Serial.println(spkMsg);

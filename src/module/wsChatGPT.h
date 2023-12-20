@@ -70,6 +70,8 @@ void chatGptManage();
 void wsHandleRandomSpeak(String modeS);
 void wsHandelChat(String textS, String voiceS);
 void wsHandelChatGpt(String historyS,String charaS);
+void wsHandelChatCharacter(String ch_NoS,String ch_nameS, String ch_voiceS,String ch_rollS);
+bool initCharaJson(DynamicJsonDocument &charaJson);
 void wsHandleRoleSet(String roleS);
 void wsHandleRoleGet();
 bool chatDocInit();

@@ -36,15 +36,21 @@ void wsHandleBtn(String arg)
   arg_mode.toUpperCase();
   if (arg_mode == "BTNA")
   {
+    webpage = "self-talk On/Off changed";
     BTN_REQ = BtnREQ_A;
+    return;
   }
   else if (arg_mode == "BTNB")
   {
+    webpage = "timer Start/Stop changed";
     BTN_REQ = BtnREQ_B;
+    return;
   }
   else if (arg_mode == "BTNC")
   {
+    webpage = "speak Battery Level";
     BTN_REQ = BtnREQ_C;
+    return;
   }
   else if (arg_mode == "BOX_SERVO")
   {
@@ -53,7 +59,9 @@ void wsHandleBtn(String arg)
   }
   else if (arg_mode == "BOX_STT")
   {
+    webpage = "talk-with-chatGpt Start";
     BTN_REQ = BtnREQ_BOX_STT;
+    return;
   }
   else
   {

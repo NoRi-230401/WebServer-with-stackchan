@@ -106,8 +106,8 @@
   <a href="http://stackchan/" target="Home">０. Home</a><br>
   <br>
   <a href="#kihon">１. 基本操作</a><br>
-  <a href="#chatgpt">２ａ. chatGpt 基本</a><br>
-  <a href="#chatgpt2B">２ｂ. chatGpt キャラ変</a><br>
+  <a href="#chatgpt">２ａ. chatGPT 基本</a><br>
+  <a href="#chatgpt2B">２ｂ. chatGPT キャラ変</a><br>
   <a href="#kantan">３. 簡単設定</a><br>
   <a href="#startup">４. スタートアップ設定</a><br>
   <a href="#wifiSelect">５. Wifi設定</a><br>
@@ -209,7 +209,7 @@
   <hr>
   <a name="chatgpt"></a>
   <br>
-  <h2>★２ａ.　chatGpt_基本</h2>
+  <h2>★２ａ.　chatGPT_基本</h2>
 
 
   テキストを入力してAIと会話してください。<br>
@@ -246,14 +246,14 @@
   <br><br>
   <hr><br>
   <a name="chatgpt2B"></a>
-  <h2>★２ｂ.　chatGpt_キャラ変（キャラクター変更）</h2>
+  <h2>★２ｂ.　chatGPT_キャラ変（キャラクター変更）</h2>
 
 <b>キャラクター番号</b>(characterNo. 0-8)ごとに、次の３項目をセットで保存します。<br>
 ・<b>名前</b>(name)：変更時に自分の名前を発声します。<br>
-・<b>話者番号</b>(vSpeakNo)： VOICEVOXの話者の番号 0-66<br>
-・<b>ロール</b>(role)：chatGptに設定するroleデータ<br>
+・<b>話者番号</b>(vSpeakerNo)： VOICEVOXの話者の番号 0-66<br>
+・<b>ロール</b>(role)：chatGPTに設定するroleデータ<br>
 <br>
-「Chat Remote Controlle」リモコンを使用し、保存した０～８番のキャラクター（性格）をワンタッチで変更することができます。<br><br>
+「Chat Remote Controller」リモコンを使用し、保存した０～８番のキャラクター（性格）をワンタッチで変更することができます。<br><br>
 
 <h3>キャラクター保存</h3>
 <div>
@@ -269,17 +269,19 @@
   </form>
 </div>
 <br>
-spiffs領域の"wsCharacter.json"ファイルに保存されます。<br>
-尚、ＰＣにファイルをDownloadし、ＰＣで書換え後にUploadして修正を反映させることもできます。<br>
+spiffs領域の"wsCharacter.json"ファイルに保存されます。<br><br>
+
+※ ＰＣに設定ファイルをDownloadし、エディタ等で書換え、その後Uploadして修正を反映させることもできます。<br>
 
   <br>
-  <h3>設定ファイルの表示</h3>
+  <h3>設定ファイル表示</h3>
   　<a href="http://stackchan/chatChara">wsCharacter.json</a>
   <br>
   <br>
   <br>
     <a href="#top">トップ</a>
   　<a href="http://stackchan/sysInfo">システム情報</a>
+  　<a href="http://stackchan/role_get">data.json</a>
   　<a href="http://stackchan/shutdown?reboot=on">再起動</a>
   <br><br>
   <hr><br>

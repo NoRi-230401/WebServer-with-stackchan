@@ -38,7 +38,7 @@ Status　of m5Stack system information<br>
 Root  : change directory to Root<br>
 Chdir. : change directory<br>
 MkDir : make directory<br>
-Rmdir: rename directory<br>
+Rmdir: remove directory<br>
 <br>
 
 <b>(2).Webアプリとファームウエアが連携したスタックチャン・ソフトウエア。</b><br>

@@ -248,18 +248,28 @@
   <a name="chatgpt2B"></a>
   <h2>★２ｂ.　chatGPT_キャラ変（キャラクター変更）</h2>
 
-<b>キャラクター番号</b>(characterNo. 0-8)ごとに、次の３項目をセットで保存します。<br>
-・<b>名前</b>(name)：変更時に自分の名前を発声します。<br>
+<b>キャラ番号</b>(characterNo. 0-8)ごとに、次の３項目をセットで保存します。<br>
+・<b>名前</b>(name)：変更時に自分の名前を発声します。簡単な自己紹介。<br>
 ・<b>話者番号</b>(vSpeakerNo)： VOICEVOXの話者の番号 0-66<br>
 ・<b>ロール</b>(role)：chatGPTに設定するroleデータ<br>
 <br>
 「Chat Remote Controller」リモコンを使用し、保存した０～８番のキャラクター（性格）をワンタッチで変更することができます。<br><br>
 
-<h3>キャラクター保存</h3>
+<h3>キャラ修正方法１（推奨）</h3>
+spiffs領域の"wsCharacter.json"ファイルにデータが保存されています。<br><br>
+<a href="http://stackchan/" target="Home">（Home）に移動し、</a>　ＰＣに"wsCharacter.json"ファイルを　Download　します。<br>
+ＰＣのエディタ等でファイルのデータを書換えます。<br>
+保存後にファイルをUploadしてください。変更を反映させることができます。<br><br>
+
+<br>
+<h3>キャラ修正方法２</h3>
+(直接、書き換えることができます。入力後に「送信」ボタンを押下してください。)
+
+<br><br>
 <div>
   <form action="http://stackchan/chatChara" method="get">
-    キャラクター番号：characterNo.(0-8半角数字)　<input type="text" name="no" value="" size="1" maxlength="1" /><br><br>
-    名前：name(全角10文字以内)　<input type="text" name="name" value="" size="20" maxlength="20"><br><br>
+    キャラ番号：characterNo.(0-8半角数字)　<input type="text" name="no" value="" size="1" maxlength="1" /><br><br>
+    名前：name(全角20文字以内)　<input type="text" name="name" value="" size="20" maxlength="40"><br><br>
     話者番号：vSpeakerNo(0-66半角数字)　<input type="text" name="voice" value="" size="2" maxlength="2" /><br><br>
     
     <label for="textarea">ロール：role</label><br>
@@ -269,11 +279,7 @@
   </form>
 </div>
 <br>
-spiffs領域の"wsCharacter.json"ファイルに保存されます。<br><br>
-
-※ ＰＣに設定ファイルをDownloadし、エディタ等で書換え、その後Uploadして修正を反映させることもできます。<br>
-
-  <br>
+<br>
   <h3>設定ファイル表示</h3>
   　<a href="http://stackchan/chatChara">wsCharacter.json</a>
   <br>

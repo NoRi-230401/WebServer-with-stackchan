@@ -103,13 +103,14 @@
   <br>
   <hr color="#87ceeb" width="100%" size="3">
   <br>
-  <a href="http://stackchan/" target="Home">０.Home</a><br>
+  <a href="http://stackchan/" target="Home">０. Home</a><br>
   <br>
-  <a href="#kihon">１.基本操作</a><br>
-  <a href="#chatgpt">２.chatGPT</a><br>
-  <a href="#kantan">３.簡単設定</a><br>
-  <a href="#startup">４.スタートアップ設定</a><br>
-  <a href="#wifiSelect">５.Wifi設定</a><br>
+  <a href="#kihon">１. 基本操作</a><br>
+  <a href="#chatgpt">２ａ. chatGPT 基本</a><br>
+  <a href="#chatgpt2B">２ｂ. chatGPT キャラ変</a><br>
+  <a href="#kantan">３. 簡単設定</a><br>
+  <a href="#startup">４. スタートアップ設定</a><br>
+  <a href="#wifiSelect">５. Wifi設定</a><br>
   <br>
   <b>★応答に時間がかかるので動作中であれば停止してください。</b><br>
   　　<a href="http://stackchan/randomSpeak?mode=off">「独り言」停止</a>
@@ -208,7 +209,7 @@
   <hr>
   <a name="chatgpt"></a>
   <br>
-  <h2>★２.chatGPT</h2>
+  <h2>★２ａ.　chatGPT_基本</h2>
 
 
   テキストを入力してAIと会話してください。<br>
@@ -241,6 +242,52 @@
   <a href="#top">トップ</a>
   　<a href="http://stackchan/sysInfo">システム情報</a>
   　<a href="http://stackchan/apikey">wsApikey.json</a>
+  　<a href="http://stackchan/shutdown?reboot=on">再起動</a>
+  <br><br>
+  <hr><br>
+  <a name="chatgpt2B"></a>
+  <h2>★２ｂ.　chatGPT_キャラ変（キャラクター変更）</h2>
+
+<b>キャラ番号</b>(characterNo. 0-8)ごとに、次の３項目をセットで保存します。<br>
+・<b>名前</b>(name)：変更時に自分の名前を発声します。簡単な自己紹介。<br>
+・<b>話者番号</b>(vSpeakerNo)： VOICEVOXの話者の番号 0-66<br>
+・<b>ロール</b>(role)：chatGPTに設定するroleデータ<br>
+<br>
+「Chat Remote Controller」リモコンを使用し、保存した０～８番のキャラクター（性格）をワンタッチで変更することができます。<br><br>
+
+<h3>キャラ修正方法１（推奨）</h3>
+spiffs領域の"wsCharacter.json"ファイルにデータが保存されています。<br><br>
+<a href="http://stackchan/" target="Home">（Home）に移動し、</a>　ＰＣに"wsCharacter.json"ファイルを　Download　します。<br>
+ＰＣのエディタ等でファイルのデータを書換えます。<br>
+保存後にファイルをUploadしてください。変更を反映させることができます。<br><br>
+
+<br>
+<h3>キャラ修正方法２</h3>
+(直接、書き換えることができます。入力後に「送信」ボタンを押下してください。)
+
+<br><br>
+<div>
+  <form action="http://stackchan/chatChara" method="get">
+    キャラ番号：characterNo.(0-8半角数字)　<input type="text" name="no" value="" size="1" maxlength="1" /><br><br>
+    名前：name(全角20文字以内)　<input type="text" name="name" value="" size="20" maxlength="40"><br><br>
+    話者番号：vSpeakerNo(0-66半角数字)　<input type="text" name="voice" value="" size="2" maxlength="2" /><br><br>
+    
+    <label for="textarea">ロール：role</label><br>
+    <textarea id="role" name="role" rows="10" cols="40"></textarea><br><br>
+    
+    <input type="submit" value="送信" />
+  </form>
+</div>
+<br>
+<br>
+  <h3>設定ファイル表示</h3>
+  　<a href="http://stackchan/chatChara">wsCharacter.json</a>
+  <br>
+  <br>
+  <br>
+    <a href="#top">トップ</a>
+  　<a href="http://stackchan/sysInfo">システム情報</a>
+  　<a href="http://stackchan/role_get">data.json</a>
   　<a href="http://stackchan/shutdown?reboot=on">再起動</a>
   <br><br>
   <hr><br>

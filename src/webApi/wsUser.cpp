@@ -1,6 +1,7 @@
 // ---------------------------< wsUser.cpp >------------------------------------
 #include "wsUser.h"
 
+String SERVER_NAME = "stackchan";
 const String WSS1_HTML = "/wss1.html";
 const String WSS2_HTML = "/wss2.html";
 const String WSS3_HTML = "/wss3.html";
@@ -9,7 +10,7 @@ const String WSS5_HTML = "/wss5.html";
 const String NAME_WSS1 = "Setting";
 const String NAME_WSS2 = "Servo";
 const String NAME_WSS3 = "Remote";
-const String NAME_WSS4 = "wss4";
+const String NAME_WSS4 = "Chat";
 const String NAME_WSS5 = "wss5";
 
 void setupUserHandler()
@@ -31,7 +32,6 @@ void setupUserHandler()
   server.on("/wss5", HTTP_GET, [](AsyncWebServerRequest *request)
             { request->send(SPIFFS, "/wss5.html", String(), false, processor05); });
 
-
   // #########################################################################
   server.on("/icon.gif", HTTP_GET, [](AsyncWebServerRequest *request)
             { request->send(SPIFFS, "/icon.gif", "image/gif"); });
@@ -51,7 +51,6 @@ void setupUserHandler()
   // ###########################################################################
 }
 
-
 void serverSend(AsyncWebServerRequest *request)
 {
   if (webpage == "NG")
@@ -67,6 +66,25 @@ void serverSend(AsyncWebServerRequest *request)
     request->send(200, "text/html", webpage);
   }
 }
+
+
+void serverSend3(AsyncWebServerRequest *request)
+{
+  if (webpage == "NG")
+  {
+    webpage = HTML_Header2Ng() + webpage + HTML_Footer2();
+    request->send(400, "text/html", webpage);
+  }
+  else
+  {
+    String tmpPage;
+    tmpPage = HTML_Header3() + webpage + HTML_Footer3();
+    webpage = tmpPage;
+    request->send(200, "text/html", webpage);
+  }
+}
+
+
 
 void handle_wss1()
 {
@@ -92,9 +110,6 @@ void handle_wss5()
 {
   htmlConv(WSS5_HTML);
 }
-
-
-
 
 // #define DEBUG_INDEX_HTML
 bool htmlConv(const String flname)
@@ -123,7 +138,7 @@ bool htmlConv(const String flname)
   buff = (char *)malloc(sz + 1);
   if (!buff)
   {
-    String msg = "ERROR:  Unable to malloc " + String(sz,DEC) + " bytes for app";
+    String msg = "ERROR:  Unable to malloc " + String(sz, DEC) + " bytes for app";
     webpage = String(msg);
     Serial.println(msg);
     fl.close();
@@ -139,7 +154,7 @@ bool htmlConv(const String flname)
 
 #ifndef DEBUG_INDEX_HTML
   // ** 本体のIP_ADDRに変換 **
-  String replacedStr = "http://" + IP_ADDR + "/"; 
+  String replacedStr = "http://" + IP_ADDR + "/";
   webpage.replace(findStr, (const char *)replacedStr.c_str());
 #endif
   return true;
@@ -178,66 +193,10 @@ void Home()
   webpage = HTML_Header();
   webpage += "<br>";
   webpage += "<img src='icon.gif' alt='icon'>";
+  // webpage += "<img src='icon.gif'>";
   webpage += "<h3>[&nbsp;Home&nbsp;]　" + SERVER_NAME + "　IP=" + IP_ADDR + "</h3>";
   // webpage += "<br>";
   webpage += HTML_Footer();
-}
-
-// #############################################################################################
-String HTML_Header2()
-{
-  String page;
-  page = "<!DOCTYPE html>";
-  page += "<html lang = 'ja'>";
-  page += "<head>";
-  page += "<meta charset='UTF-8'>";
-  page += "<meta name='viewport' content='width=device-width,initial-scale=1.0'>";
-    page += "<title>StackChan</title>";
-  page += "<base target='StackChanSub'>";
-  page += "<style>";
-  page += "html {font-size: 62.5%;}";
-  page += "body {font-size:1.6rem;background-color:#fffde7;text-align:left;}";
-  page += "div {font-size:1.6rem;text-align:center;}";
-  page += "@media screen and (max-width: 480px) {body{font-size:1.4rem;} img{width:100%;height:auto;}}";
-  page += "</style>";
-  page += "</head>";
-  page += "<body><pre>";
-  return page;
-}
-
-// #############################################################################################
-String HTML_Header2Ng()
-{
-  String page;
-  page = "<!DOCTYPE html>";
-  page += "<html lang = 'ja'>";
-  page += "<head>";
-  page += "<meta charset='UTF-8'>";
-  page += "<title>StackChan</title>";
-  page += "<base target='StackChanSub'>";
-  page += "<meta name='viewport' content='width=device-width,initial-scale=1.0'>";
-  page += "<style>";
-  page += "html {font-size: 62.5%;}";
-  page += "body {font-size:1.6rem;background-color:#ffccff;text-align:left;}";
-  page += "div {font-size:1.6rem;text-align:center;}";
-  page += "@media screen and (max-width: 480px) {body{font-size:1.4rem;} img{width:100%;height:auto;}}";
-  page += "</style>";
-  page += "</head>";
-  page += "<body><pre>";
-  return page;
-}
-
-
-// #############################################################################################
-String HTML_Footer2()
-{
-  String page;
-  // page += "<footer>";
-  // page += "</footer>";
-  page += "</pre><br><br>";
-  page += "<div><form><input type='button' name='button' value='このウィンドウを閉じる' onclick='window.close();'></form><div>";
-  page += "</body></html>";
-  return page;
 }
 
 // #############################################################################################
@@ -286,29 +245,42 @@ String HTML_Header()
   page += "<body>";
 
   page += "<div class = 'topnav'>";
-  page += "<a href='/dir'>Files</a> ";
+  page += "<a href='/dir'>Dir</a> ";
   page += "<a href='/upload'>Upload</a> ";
   page += "<a href='/download'>Download</a> ";
   page += "<a href='/stream'>Stream</a> ";
   page += "<a href='/delete'>Delete</a> ";
   page += "<a href='/rename'>Rename</a> ";
   page += "<a href='/fileSystem?mode=toggle'>Spiffs/Sd</a>:" + FLS_NAME[isSPIFFS];
-  // page += "<a href='/format'>Format FS</a>";
   page += "</div>";
+
+  if (!isSPIFFS)
+  { // directory func to SD --- by NoRi -----
+    page += "<div class = 'topnav'>";
+    page += "<a href='/root_sd'>Root</a>CurrentDir = " + SdPath;
+    page += "<a href='/chdir'>Chdir</a> ";
+    page += "<a href='/mkdir'>Mkdir</a> ";
+    page += "<a href='/rmdir'>Rmdir</a>";
+    page += "</div>";
+    // page += "<br>";
+  }
+
   page += "<br>";
   page += "<div class = 'topnav2'>";
   page += "<a href='/' target='Home'>Home</a>";
   page += "<a href='/wss1' target='" + NAME_WSS1 + "'>" + NAME_WSS1 + "</a> ";
   page += "<a href='/wss2' target='" + NAME_WSS2 + "'>" + NAME_WSS2 + "</a> ";
   page += "<a href='/wss3' target='" + NAME_WSS3 + "'>" + NAME_WSS3 + "</a> ";
+  page += "<a href='/wss4' target='" + NAME_WSS4 + "'>" + NAME_WSS4 + "</a> ";
   // page += "<a href='/wss4'>" + NAME_WSS4 + "</a> ";
   // page += "<a href='/wss5'>" + NAME_WSS5 + "</a> ";
   page += "<a href='/system'>Status</a>";
   page += "<a href='https://nori.rdy.jp/wss/' target='WSS-Support'>Support</a>";
   page += "</div>";
-    
+
   return page;
 }
+
 // #############################################################################################
 String HTML_Footer()
 {
@@ -324,124 +296,96 @@ String HTML_Footer()
   return page;
 }
 
-void checkWebReq(AsyncWebServerRequest *request)
+// #############################################################################################
+String HTML_Header2()
 {
-  // List all parameters
-  int params = request->params();
-  for (int i = 0; i < params; i++)
-  {
-    AsyncWebParameter *p = request->getParam(i);
-    if (p->isFile())
-    { // p->isPost() is also true
-      Serial.printf("FILE[%s]: %s, size: %u\n", p->name().c_str(), p->value().c_str(), p->size());
-    }
-    else if (p->isPost())
-    {
-      Serial.printf("POST[%s]: %s\n", p->name().c_str(), p->value().c_str());
-    }
-    else
-    {
-      Serial.printf("GET[%s]: %s\n", p->name().c_str(), p->value().c_str());
-    }
-  }
+  String page;
+  page = "<!DOCTYPE html>";
+  page += "<html lang = 'ja'>";
+  page += "<head>";
+  page += "<meta charset='UTF-8'>";
+  page += "<meta name='viewport' content='width=device-width,initial-scale=1.0'>";
+  page += "<title>StackChan</title>";
+  page += "<base target='StackChanSub'>";
+  page += "<style>";
+  page += "html {font-size: 62.5%;}";
+  page += "body {font-size:1.6rem;background-color:#fffde7;text-align:left;}";
+  page += "div {font-size:1.6rem;text-align:center;}";
+  page += "@media screen and (max-width: 480px) {body{font-size:1.4rem;} img{width:100%;height:auto;}}";
+  page += "</style>";
+  page += "</head>";
+  page += "<body><pre>";
+  return page;
+}
 
-  // List all parameters (Compatibility)
-  int args = request->args();
-  for (int i = 0; i < args; i++)
-  {
-    Serial.printf("ARG[%s]: %s\n", request->argName(i).c_str(), request->arg(i).c_str());
-  }
+// #############################################################################################
+String HTML_Header2Ng()
+{
+  String page;
+  page = "<!DOCTYPE html>";
+  page += "<html lang = 'ja'>";
+  page += "<head>";
+  page += "<meta charset='UTF-8'>";
+  page += "<title>StackChan</title>";
+  page += "<base target='StackChanSub'>";
+  page += "<meta name='viewport' content='width=device-width,initial-scale=1.0'>";
+  page += "<style>";
+  page += "html {font-size: 62.5%;}";
+  page += "body {font-size:1.6rem;background-color:#ffccff;text-align:left;}";
+  page += "div {font-size:1.6rem;text-align:center;}";
+  page += "@media screen and (max-width: 480px) {body{font-size:1.4rem;} img{width:100%;height:auto;}}";
+  page += "</style>";
+  page += "</head>";
+  page += "<body><pre>";
+  return page;
 }
 
 
-void handle_test(AsyncWebServerRequest *request)
+
+// #############################################################################################
+String HTML_Footer2()
 {
-  // List all collected headers (Compatibility)
-  int headers = request->headers();
-  int i;
-  for (i = 0; i < headers; i++)
-  {
-    Serial.printf("HEADER[%s]: %s\n", request->headerName(i).c_str(), request->header(i).c_str());
-  }
-
-  // List all parameters
-  int params = request->params();
-  for (int i = 0; i < params; i++)
-  {
-    AsyncWebParameter *p = request->getParam(i);
-    if (p->isFile())
-    { // p->isPost() is also true
-      Serial.printf("FILE[%s]: %s, size: %u\n", p->name().c_str(), p->value().c_str(), p->size());
-    }
-    else if (p->isPost())
-    {
-      Serial.printf("POST[%s]: %s\n", p->name().c_str(), p->value().c_str());
-    }
-    else
-    {
-      Serial.printf("GET[%s]: %s\n", p->name().c_str(), p->value().c_str());
-    }
-  }
-
-  // List all parameters (Compatibility)
-  int args = request->args();
-  for (int i = 0; i < args; i++)
-  {
-    Serial.printf("ARG[%s]: %s\n", request->argName(i).c_str(), request->arg(i).c_str());
-  }
-
-  // tone(2);
-  webpage = "NG";
+  String page;
+  // page += "<footer>";
+  // page += "</footer>";
+  page += "</pre><br><br>";
+  page += "<div><form><input type='button' name='button' value='このウィンドウを閉じる' onclick='window.close();'></form><div>";
+  page += "</body></html>";
+  return page;
 }
 
+// #############################################################################################
+String HTML_Header3()
+{
+  String page;
+  page = "<!DOCTYPE html>";
+  page += "<html lang = 'ja'>";
+  page += "<head>";
+  page += "<meta charset='UTF-8'>";
+  page += "<meta name='viewport' content='width=device-width,initial-scale=1.0'>";
+  page += "<title>StackChan</title>";
+  page += "<base target='StackChanSub'>";
+  page += "<style>";
+  page += "html {font-size: 62.5%;}";
+  page += "body {font-size:1.6rem;background-color:#fffde7;text-align:left;}";
+  page += "div {font-size:1.6rem;text-align:center;}";
+  page += "@media screen and (max-width: 480px) {body{font-size:1.4rem;} img{width:100%;height:auto;}}";
+  page += "</style>";
+  page += "</head>";
+  // page += "<body><pre>";
+  page += "<body>";
+  return page;
+}
 
-// void Directory3()
-// {
-//   int numfiles = 0; // Reset number of SPIFFS/SD files counter
-//   File root;
-
-//   if (isSPIFFS)
-//     root = SPIFFS.open("/", "r");
-//   else
-//     root = SD.open("/", "r");
-
-//   webpage = "";
-//   printDirectory(root, 0);
-//   root.close();
-// }
-
-// void printDirectory(File dir, int numTabs)
-// {
-//   while (true)
-//   {
-//     File entry = dir.openNextFile();
-//     if (!entry)
-//     {
-//       dir.rewindDirectory();
-//       break;
-//     }
-
-//     for (uint8_t i = 0; i < numTabs; i++)
-//     {
-//       webpage += "        ";
-//       Serial.print("        ");
-//     }
-
-//     webpage += entry.name();
-//     Serial.print(entry.name());
-
-//     if (entry.isDirectory())
-//     {
-//       // M5.Lcd.println("/");
-//       webpage += "/\n";
-//       Serial.println("/");
-//       printDirectory(entry, numTabs + 1);
-//     }
-//     else
-//     {
-//       // M5.Lcd.println("\t\t");
-//       webpage += "                \n";
-//       Serial.println("                ");
-//     }
-//   }
-// }
+String HTML_Footer3()
+{
+  String page;
+  // page += "<footer>";
+  // page += "</footer>";
+  
+  // page += "</pre><br><br>";
+  page += "<br><br>";
+  page += "<div><form><input type='button' name='button' value='このウィンドウを閉じる' onclick='window.close();'></form><div>";
+  page += "</body></html>";
+  return page;
+}

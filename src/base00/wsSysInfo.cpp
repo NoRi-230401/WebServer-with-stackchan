@@ -109,6 +109,11 @@ bool sysInfoGet(String txArg, String &txData)
     sprintf(msg2, "volume = %d", VOLUME_VALUE);
     txData = msg2;
   }
+  else if (txArg == "vSpeakerNo")
+  {
+    sprintf(msg2, "vSpeakerNo = %s", TTS2_SPEAKER_NO);
+    txData = msg2;
+  }
   else if (txArg == "timer")
   {
     sprintf(msg2, "timer = %d sec", TIMER_SEC_VALUE);

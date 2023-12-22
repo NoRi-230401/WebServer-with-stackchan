@@ -2,10 +2,11 @@
 // Extended from
 //  ESPAsynch_Server_v1.1 by David Bird 2022
 //--------------------------------------------------------------------------------
-// **************** by Nori ********************
+// **************** by NoRi ***********************************
+// 2023-09-18 Add folder funciton for SD (chdir,mkdir,rmdir, etc) 
 // 2023-08-20 Handle_File_Rename() func Bugfix
-// 2023-06-27 suport SD file system
-// *********************************************
+// 2023-06-27 Support SD file system
+// ************************************************************
 /*
   This software, the ideas and concepts is Copyright (c) David Bird 2022
   All rights to this software are reserved.
@@ -24,63 +25,26 @@
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
   See more at http://dsbird.org.uk
 */
-
 #include "wsServer.h"
 
-String SERVER_NAME = "stackchan";
 AsyncWebServer server(80);
-
-extern const String FLS_NAME[];
-const String FLS_NAME[] = {"SD", "SPIFFS"};
-int isSPIFFS = 1;
-
 typedef struct
 {
   String filename;
   String ftype;
   String fsize;
 } fileinfo;
-
-String webpage, MessageLine;
 fileinfo Filenames[200]; // Enough for most purposes!
-bool StartupErrors = false;
+String webpage, MessageLine;
 int start, downloadtime = 1, uploadtime = 1, downloadsize, uploadsize, downloadrate, uploadrate, numfiles;
-// float Temperature = 21.34; // for example new page, amend in a sensor function if required
-// String Name = "Dave";
 
-void serverSetup()
+void serverSetup1()
 {
-  if (!StartMDNSservice(SERVER_NAME.c_str()))
-  {
-    Serial.println("Error starting mDNS Service...");
-    ;
-    StartupErrors = true;
-  }
-  Serial.println("ServerName = " + SERVER_NAME);
-
-  // ##################### ApiHandler/ UserHandler ##################
-  setupApiHandler();
-  setupUserHandler();
-
-  // ###########################################################################
-  server.on("/fileSystem", HTTP_GET, [](AsyncWebServerRequest *request)
+  // ##################### DIR HANDLER ##############################
+  server.on("/dir", HTTP_GET, [](AsyncWebServerRequest *request)
             {
-    Serial.println("change file system mode  SPIFFS <-> SD ...");
-    handle_fileSystem(request); // file System change  SPIFFS - SD
-    request->send(200, "text/html", webpage); });
-
-  // ##################### HOMEPAGE HANDLER ########################
-  server.on("/", HTTP_GET, [](AsyncWebServerRequest *request)
-            {
-    Serial.println("Home Page...");
-    Home(); // Build webpage ready for display
-    request->send(200, "text/html", webpage); });
-
-  // ##################### DOWNLOAD HANDLER ##########################
-  server.on("/download", HTTP_GET, [](AsyncWebServerRequest *request)
-            {
-    Serial.println("Downloading file...");
-    Select_File_For_Function("[DOWNLOAD]", "downloadhandler"); // Build webpage ready for display
+    Serial.println("File directory...");
+    Dir(request);
     request->send(200, "text/html", webpage); });
 
   // ##################### UPLOAD HANDLERS ###########################
@@ -89,32 +53,24 @@ void serverSetup()
     Serial.println("Uploading file...");
     UploadFileSelect(); // Build webpage ready for display
     request->send(200, "text/html", webpage); });
-
-  // Set handler for '/handleupload'
-  server.on(
+    // Set handler for '/handleupload'
+    server.on(
       "/handleupload", HTTP_POST, [](AsyncWebServerRequest *request) {},
       [](AsyncWebServerRequest *request, const String &filename, size_t index, uint8_t *data, size_t len, bool final)
       { handleFileUpload(request, filename, index, data, len, final); });
+
+  // ##################### DOWNLOAD HANDLER ##########################
+  server.on("/download", HTTP_GET, [](AsyncWebServerRequest *request)
+            {
+    Serial.println("Downloading file...");
+    Select_File_For_Function("[DOWNLOAD]", "downloadhandler"); // Build webpage ready for display
+    request->send(200, "text/html", webpage); });
 
   // ##################### STREAM HANDLER ############################
   server.on("/stream", HTTP_GET, [](AsyncWebServerRequest *request)
             {
     Serial.println("Streaming file...");
     Select_File_For_Function("[STREAM]", "streamhandler"); // Build webpage ready for display
-    request->send(200, "text/html", webpage); });
-
-  // ##################### RENAME HANDLER ############################
-  server.on("/rename", HTTP_GET, [](AsyncWebServerRequest *request)
-            {
-    Serial.println("Renaming file...");
-    File_Rename(); // Build webpage ready for display
-    request->send(200, "text/html", webpage); });
-
-  // ##################### DIR HANDLER ###############################
-  server.on("/dir", HTTP_GET, [](AsyncWebServerRequest *request)
-            {
-    Serial.println("File Directory...");
-    Dir(request); // Build webpage ready for display
     request->send(200, "text/html", webpage); });
 
   // ##################### DELETE HANDLER ############################
@@ -124,35 +80,21 @@ void serverSetup()
     Select_File_For_Function("[DELETE]", "deletehandler"); // Build webpage ready for display
     request->send(200, "text/html", webpage); });
 
-  // ##################### FORMAT HANDLER ############################
-  server.on("/format", HTTP_GET, [](AsyncWebServerRequest *request)
+  // ##################### RENAME HANDLER ############################
+  server.on("/rename", HTTP_GET, [](AsyncWebServerRequest *request)
             {
-    Serial.println("Request to Format File System...");
-    Format(); // Build webpage ready for display
+    Serial.println("Renaming file...");
+    File_Rename(); // Build webpage ready for display
     request->send(200, "text/html", webpage); });
 
-  // Set handler for '/handleformat'
-  server.on("/handleformat", HTTP_GET, [](AsyncWebServerRequest *request)
+  // ##################### HOMEPAGE HANDLER ########################
+  server.on("/", HTTP_GET, [](AsyncWebServerRequest *request)
             {
-    if(isSPIFFS)
-    {
-    Serial.println("Processing Format Request of File System...");
-    if (request->getParam("format")->value() == "YES") {
-      Serial.print("Starting to Format Filing System...");
-      SPIFFS.end();
-      // *** SD は、format できない **
-      bool formatted = SPIFFS.format();
-      if (formatted) {
-        Serial.println(" Successful Filing System Format...");
-      }
-      else         {
-        Serial.println(" Formatting Failed...");
-      }
-    }
-    }
-    request->redirect("/dir"); });
+    Serial.println("Home Page...");
+    Home(); // Build webpage ready for display
+    request->send(200, "text/html", webpage); });
 
-  // ##################### SYSTEM HANDLER ############################
+  // ##################### Status(SYSTEM) HANDLER ###################
   server.on("/system", HTTP_GET, [](AsyncWebServerRequest *request)
             {
     Display_System_Info(); // Build webpage ready for display
@@ -160,14 +102,6 @@ void serverSetup()
 
   // ##################### NOT FOUND HANDLER #########################
   server.onNotFound(notFound);
-
-  // #################################################################
-  server.begin(); // Start the server
-  if (!StartupErrors)
-    Serial.println("** AsyncWebServer started successfully... **");
-  else
-    Serial.println("** AsyncWebServer : There were problems starting all services... **");
-  Directory(); // Update the file list
 }
 
 // #############################################################################################
@@ -175,8 +109,7 @@ void Dir(AsyncWebServerRequest *request)
 {
   String Fname1, Fname2;
   int index = 0;
-  // Directory(); // Get a list of the current files on the FS
-  Directory_org(); // Get a list of the current files on the FS
+  FilesDirList(); // Get a list of the current files and dir List
   webpage = HTML_Header();
   webpage += "<h3>Filing System Content</h3><br>";
   if (numfiles > 0)
@@ -210,7 +143,7 @@ void Dir(AsyncWebServerRequest *request)
 }
 
 // #############################################################################################
-void Directory_org()
+void FilesDirList()
 {
   numfiles = 0; // Reset number of SPIFFS/SD files counter
   File root;
@@ -218,31 +151,39 @@ void Directory_org()
   if (isSPIFFS)
     root = SPIFFS.open("/", "r");
   else
-    root = SD.open("/", "r");
+  {
+    root = SD.open(SdPath, "r");
+  }
 
   if (root)
   {
-    wait_SD();
     root.rewindDirectory();
-
-    wait_SD();
     File file = root.openNextFile();
 
+    String flname;
     while (file)
     { // Now get all the filenames, file types and sizes
-      Filenames[numfiles].filename = (String(file.name()).startsWith("/") ? String(file.name()).substring(1) : file.name());
-      Filenames[numfiles].ftype = (file.isDirectory() ? "Dir" : "File");
-      Filenames[numfiles].fsize = ConvBinUnits(file.size(), 1);
-      wait_SD();
-      file = root.openNextFile();
-      numfiles++;
+      flname = (String(file.name()).startsWith("/") ? String(file.name()).substring(1) : file.name());
+      if (flname == "System Volume Information")
+      {
+        file = root.openNextFile();
+      }
+      else
+      {
+        Filenames[numfiles].filename = flname;
+        Filenames[numfiles].ftype = (file.isDirectory() ? "Dir" : "File");
+        Filenames[numfiles].fsize = ConvBinUnits(file.size(), 1);
+        file = root.openNextFile();
+        numfiles++;
+      }
     }
     root.close();
   }
 }
 
 // #############################################################################################
-void Directory()
+//  Dirを含まない。fileのみを表示  .. by NoRi
+void FilesList()
 {
   numfiles = 0; // Reset number of SPIFFS/SD files counter
   File root;
@@ -250,32 +191,28 @@ void Directory()
   if (isSPIFFS)
     root = SPIFFS.open("/", "r");
   else
-    root = SD.open("/", "r");
+  {
+    root = SD.open(SdPath, "r");
+  }
 
   if (root)
   {
-    wait_SD();
     root.rewindDirectory();
-
-    wait_SD();
     File file = root.openNextFile();
 
     while (file)
     { // Now get all the filenames, file types and sizes
-      size_t flsize = file.size();
-      if (flsize > 0)
+      if (!file.isDirectory())
       {
         Filenames[numfiles].filename = (String(file.name()).startsWith("/") ? String(file.name()).substring(1) : file.name());
         Filenames[numfiles].ftype = (file.isDirectory() ? "Dir" : "File");
         Filenames[numfiles].fsize = ConvBinUnits(file.size(), 1);
 
-        wait_SD();
         file = root.openNextFile();
         numfiles++;
       }
       else
       {
-        wait_SD();
         file = root.openNextFile();
       }
     }
@@ -294,18 +231,7 @@ void UploadFileSelect()
   webpage += "</form>";
   webpage += HTML_Footer();
 }
-// #############################################################################################
-void Format()
-{
-  webpage = HTML_Header();
-  webpage += "<h3>***  Format Filing System on this device ***</h3>";
-  webpage += "<form action='/handleformat'>";
-  webpage += "<input type='radio' id='YES' name='format' value = 'YES'><label for='YES'>YES</label><br><br>";
-  webpage += "<input type='radio' id='NO'  name='format' value = 'NO' checked><label for='NO'>NO</label><br><br>";
-  webpage += "<input type='submit' value='Format?'>";
-  webpage += "</form>";
-  webpage += HTML_Footer();
-}
+
 // #############################################################################################
 void handleFileUpload(AsyncWebServerRequest *request, const String &filename, size_t index, uint8_t *data, size_t len, bool final)
 {
@@ -321,14 +247,16 @@ void handleFileUpload(AsyncWebServerRequest *request, const String &filename, si
     }
     else
     {
+      if (SdPath != "/")
+        file = SdPath + file;
+      Serial.println("filename = " + file);
       request->_tempFile = SD.open(file, "w");
     }
-
-    wait_SD();
-    if (!request->_tempFile)
-      Serial.println("Error creating file for upload...");
-    start = millis();
   }
+
+  if (!request->_tempFile)
+    Serial.println("Error creating file for upload...");
+  start = millis();
 
   if (request->_tempFile)
   {
@@ -337,10 +265,8 @@ void handleFileUpload(AsyncWebServerRequest *request, const String &filename, si
       request->_tempFile.write(data, len); // Chunked data
       Serial.println("Transferred : " + String(len) + " Bytes");
     }
-
     if (final)
     {
-      wait_SD();
       uploadsize = request->_tempFile.size();
       request->_tempFile.close();
       uploadtime = millis() - start;
@@ -348,29 +274,25 @@ void handleFileUpload(AsyncWebServerRequest *request, const String &filename, si
     }
   }
 }
-// #############################################################################################
-void File_Stream()
-{
-  SelectInput("Select a File to Stream", "handlestream", "filename");
-}
-// #############################################################################################
-void File_Delete()
-{
-  SelectInput("Select a File to Delete", "handledelete", "filename");
-}
+
 // #############################################################################################
 void Handle_File_Delete(String filename)
 { // Delete the file
   webpage = HTML_Header();
   if (!filename.startsWith("/"))
     filename = "/" + filename;
+
   File dataFile;
   if (isSPIFFS)
-    dataFile = SPIFFS.open(filename, "r"); // Now read SPIFFS to see if file exists
+    dataFile = SPIFFS.open(filename, "r");
   else
-    dataFile = SD.open(filename, "r"); // Now read SD to see if file exists
+  {
+    if (SdPath != "/")
+      filename = SdPath + filename;
+    Serial.println("filename = " + filename);
+    dataFile = SD.open(filename, "r");
+  }
 
-  wait_SD();
   if (dataFile)
   { // It does so delete it
     if (isSPIFFS)
@@ -388,10 +310,11 @@ void Handle_File_Delete(String filename)
   }
   webpage += HTML_Footer();
 }
+
 // #############################################################################################
 void File_Rename()
 { // Rename the file
-  Directory();
+  FilesList();
   webpage = HTML_Header();
   webpage += "<h3>Select a File to [RENAME] on this device</h3>";
   webpage += "<FORM action='/renamehandler'>";
@@ -415,19 +338,8 @@ void Handle_File_Rename(AsyncWebServerRequest *request, String filename, int Arg
 { // Rename the file
   String newfilename;
   int j = 0;
-  // Serial.println("\n#No1 = " + String(++j, DEC) + " filename = " + filename + " Args = " + String(Args, DEC));
   webpage = HTML_Header();
 
-  // -------------------------------------------------------------
-  // for (int i = 0; i < Args; i++)
-  // {
-  //   if (request->arg(i) != "" && request->arg(i + 1) == "on")
-  //   {
-  //     filename = request->arg(i - 1);
-  //     newfilename = request->arg(i);
-  //   }
-  // }
-  // Bugfix ------ by NoRi 2023-08-20 -----------------------------
   if (Args >= 3)
   {
     for (int i = 2; i < Args; i++)
@@ -436,7 +348,6 @@ void Handle_File_Rename(AsyncWebServerRequest *request, String filename, int Arg
       {
         filename = request->arg(i - 2);
         newfilename = request->arg(i - 1);
-        // Serial.println("#No2a = " + String(++j, DEC) + " filename = " + filename + " newfilename = " + newfilename + " i = " + String(i, DEC));
         break;
       }
     }
@@ -450,12 +361,18 @@ void Handle_File_Rename(AsyncWebServerRequest *request, String filename, int Arg
 
   File CurrentFile;
 
-  // Serial.println("#No3 = " + String(++j, DEC) + " filename = " + filename + " newfilename = " + newfilename);
-
   if (isSPIFFS)
     CurrentFile = SPIFFS.open(filename, "r"); // Now read SPIFFS to see if file exists
   else
+  {
+    if(SdPath != "/")
+    {
+      filename = SdPath + filename;
+      newfilename = SdPath + newfilename;
+    }
+    Serial.println("filename = " + filename);
     CurrentFile = SD.open(filename, "r"); // Now read SD to see if file exists
+  }
 
   if (CurrentFile && filename != "/" && newfilename != "/" && (filename != newfilename))
   { // It does so rename it, ignore if no entry made, or Newfile name exists already
@@ -484,64 +401,6 @@ void Handle_File_Rename(AsyncWebServerRequest *request, String filename, int Arg
     webpage += "<a href='/rename'>[Enter]</a><br><br>";
   }
 
-  CurrentFile.close();
-  webpage += HTML_Footer();
-}
-
-// #############################################################################################
-void ORG_Handle_File_Rename(AsyncWebServerRequest *request, String filename, int Args)
-{ // Rename the file
-  String newfilename;
-  // int Args = request->args();
-  webpage = HTML_Header();
-  for (int i = 0; i < Args; i++)
-  {
-    if (request->arg(i) != "" && request->arg(i + 1) == "on")
-    {
-      filename = request->arg(i - 1);
-      newfilename = request->arg(i);
-    }
-  }
-  if (!filename.startsWith("/"))
-    filename = "/" + filename;
-  if (!newfilename.startsWith("/"))
-    newfilename = "/" + newfilename;
-
-  File CurrentFile;
-
-  if (isSPIFFS)
-    CurrentFile = SPIFFS.open(filename, "r"); // Now read SPIFFS to see if file exists
-  else
-    CurrentFile = SD.open(filename, "r"); // Now read SD to see if file exists
-
-  if (CurrentFile && filename != "/" && newfilename != "/" && (filename != newfilename))
-  { // It does so rename it, ignore if no entry made, or Newfile name exists already
-    wait_SD();
-
-    if (isSPIFFS && SPIFFS.rename(filename, newfilename))
-    {
-      filename = filename.substring(1);
-      newfilename = newfilename.substring(1);
-      webpage += "<h3>File '" + filename + "' has been renamed to '" + newfilename + "'</h3>";
-      webpage += "<a href='/dir'>[Enter]</a><br><br>";
-    }
-
-    if (!isSPIFFS && SD.rename(filename, newfilename))
-    {
-      filename = filename.substring(1);
-      newfilename = newfilename.substring(1);
-      webpage += "<h3>File '" + filename + "' has been renamed to '" + newfilename + "'</h3>";
-      webpage += "<a href='/dir'>[Enter]</a><br><br>";
-    }
-  }
-  else
-  {
-    if (filename == "/" && newfilename == "/")
-      webpage += "<h3>File was not renamed</h3>";
-    else
-      webpage += "<h3>New filename exists, cannot rename</h3>";
-    webpage += "<a href='/rename'>[Enter]</a><br><br>";
-  }
   CurrentFile.close();
   webpage += HTML_Footer();
 }
@@ -554,12 +413,19 @@ void notFound(AsyncWebServerRequest *request)
   if (request->url().startsWith("/downloadhandler") ||
       request->url().startsWith("/streamhandler") ||
       request->url().startsWith("/deletehandler") ||
+      //--- Add by NoRi directory func for SD ------
+      request->url().startsWith("/chdirhandler") ||
+      request->url().startsWith("/mkdirhandler") ||
+      request->url().startsWith("/rmdirhandler") ||
+      // --------------------------------------------
       request->url().startsWith("/renamehandler"))
   {
     // Now get the filename and handle the request for 'delete' or 'download' or 'stream' functions
+
     if (!request->url().startsWith("/renamehandler"))
       filename = request->url().substring(request->url().indexOf("~/") + 1);
     start = millis();
+
     if (request->url().startsWith("/downloadhandler"))
     {
       Serial.println("Download handler started...");
@@ -569,7 +435,12 @@ void notFound(AsyncWebServerRequest *request)
       if (isSPIFFS)
         file = SPIFFS.open(filename, "r");
       else
+      {
+        if (SdPath != "/")
+          filename = SdPath + filename;
+        Serial.println("filename = " + filename);
         file = SD.open(filename, "r");
+      }
 
       String contentType = getContentType("download");
       AsyncWebServerResponse *response = request->beginResponse(contentType, file.size(), [file](uint8_t *buffer, size_t maxLen, size_t total) mutable -> size_t
@@ -580,33 +451,70 @@ void notFound(AsyncWebServerRequest *request)
       downloadsize = GetFileSize(filename);
       request->redirect("/dir");
     }
+
     if (request->url().startsWith("/streamhandler"))
     {
       Serial.println("Stream handler started...");
       String ContentType = getContentType(filename);
       AsyncWebServerResponse *response;
+
+      String flname_base = filename;
+
       if (isSPIFFS)
         response = request->beginResponse(SPIFFS, filename, ContentType);
       else
+      {
+        if (SdPath != "/")
+          filename = SdPath + filename;
+
         response = request->beginResponse(SD, filename, ContentType);
+      }
+      // Serial.println("filename_S1 = " + filename);
 
       request->send(response);
-      downloadsize = GetFileSize(filename);
+      if(isSPIFFS)
+        downloadsize = GetFileSize(filename);
+      else
+        downloadsize = GetFileSize(flname_base);
       downloadtime = millis() - start;
       request->redirect("/dir");
     }
+
     if (request->url().startsWith("/deletehandler"))
     {
       Serial.println("Delete handler started...");
-      Handle_File_Delete(filename); // Build webpage ready for display
+      Handle_File_Delete(filename);
       request->send(200, "text/html", webpage);
     }
 
     if (request->url().startsWith("/renamehandler"))
     {
-      Handle_File_Rename(request, filename, request->args()); // Build webpage ready for display
+      Handle_File_Rename(request, filename, request->args());
       request->send(200, "text/html", webpage);
     }
+
+    // -------- Directory  HANDLER by NoRi --------------
+    if (request->url().startsWith("/chdirhandler"))
+    {
+      Serial.println("chdir handler started...");
+      Handle_chdir(filename);
+      request->send(200, "text/html", webpage);
+    }
+
+    if (request->url().startsWith("/mkdirhandler"))
+    {
+      Serial.println("mkdir handler started...");
+      Handle_mkdir(request);
+      request->send(200, "text/html", webpage);
+    }
+
+    if (request->url().startsWith("/rmdirhandler"))
+    {
+      Serial.println("rmdir handler started...");
+      Handle_rmdir(filename);
+      request->send(200, "text/html", webpage);
+    }
+    // -----------------------------------------------------
   }
   else
   {
@@ -614,12 +522,13 @@ void notFound(AsyncWebServerRequest *request)
     request->send(200, "text/html", webpage);
   }
 }
+
 // #############################################################################################
 void Handle_File_Download()
 {
   String filename = "";
   int index = 0;
-  Directory(); // Get a list of files on the SPI
+  FilesList(); // Get a Files list at Device 
   webpage = HTML_Header();
   webpage += "<h3>Select a File to Download</h3>";
   webpage += "<table>";
@@ -633,6 +542,7 @@ void Handle_File_Download()
   webpage += "<p>" + MessageLine + "</p>";
   webpage += HTML_Footer();
 }
+
 // #############################################################################################
 String getContentType(String filenametype)
 { // Tell the browser what file type is being sent
@@ -712,12 +622,13 @@ String getContentType(String filenametype)
 
   return "text/plain";
 }
+
 // #############################################################################################
 void Select_File_For_Function(String title, String function)
 {
   String Fname1, Fname2;
   int index = 0;
-  Directory(); // Get a list of files on the SPI
+  FilesList();
   webpage = HTML_Header();
   webpage += "<h3>Select a File to " + title + " from this device</h3>";
   webpage += "<table class='center'>";
@@ -743,17 +654,7 @@ void Select_File_For_Function(String title, String function)
   webpage += "</table>";
   webpage += HTML_Footer();
 }
-// #############################################################################################
-void SelectInput(String Heading, String Command, String Arg_name)
-{
-  webpage = HTML_Header();
-  webpage += "<h3>" + Heading + "</h3>";
-  webpage += "<form  action='/" + Command + "'>";
-  webpage += "Filename: <input type='text' name='" + Arg_name + "'><br><br>";
-  webpage += "<input type='submit' value='Enter'>";
-  webpage += "</form>";
-  webpage += HTML_Footer();
-}
+
 // #############################################################################################
 int GetFileSize(String filename)
 {
@@ -762,32 +663,20 @@ int GetFileSize(String filename)
   if (isSPIFFS)
     CheckFile = SPIFFS.open(filename, "r");
   else
+  {
+    if (SdPath != "/")
+      filename = SdPath + filename;
+
     CheckFile = SD.open(filename, "r");
+  }
+
+  // Serial.println("filename_GetFileSize1 = " + filename);
 
   filesize = CheckFile.size();
   CheckFile.close();
   return filesize;
 }
-// #############################################################################################
-// void LogOut()
-// {
-//   webpage = HTML_Header();
-//   webpage += "<h1>Log Out</h1>";
-//   webpage += "<h4>You have now been logged out...</h4>";
-//   webpage += "<h4>NOTE: On most browsers you must close all windows for this to take effect...</h4>";
-//   webpage += HTML_Footer();
-// }
-// #############################################################################################
-// void Display_New_Page()
-// {
-//   webpage = HTML_Header();                            // Add HTML headers, note '=' for new page assignment
-//   webpage += "<h1>My New Web Page</h1>";              // Give it a heading
-//   webpage += "<h3>Example entries for the page</h3>"; // Set the scene
-//   webpage += "<p>NOTE:</p>";
-//   // webpage += "<p>You can display global variables like this: " + String(Temperature, 2) + "属C</p>"; // Convert numeric variables to a string, use 2-decimal places
-//   // webpage += "<p>Or, like this, my name is: " + Name + "</p>";                                       // no need to convert string variables
-//   webpage += HTML_Footer(); // Add HTML footers, don't forget to add a menu name in header!
-// }
+
 // #############################################################################################
 void Page_Not_Found()
 {
@@ -801,6 +690,7 @@ void Page_Not_Found()
   webpage += "<p>Or click <b><a href='/'>[Here]</a></b> for the home page.</p></div>";
   webpage += HTML_Footer();
 }
+
 // #############################################################################################
 void Display_System_Info()
 {
@@ -851,6 +741,7 @@ void Display_System_Info()
   webpage += "</table> ";
   webpage += HTML_Footer();
 }
+
 // #############################################################################################
 String ConvBinUnits(int bytes, int resolution)
 {
@@ -869,6 +760,7 @@ String ConvBinUnits(int bytes, int resolution)
   else
     return "";
 }
+
 // #############################################################################################
 String EncryptionType(wifi_auth_mode_t encryptionType)
 {
@@ -892,6 +784,7 @@ String EncryptionType(wifi_auth_mode_t encryptionType)
     return "";
   }
 }
+
 // #############################################################################################
 bool StartMDNSservice(const char *Name)
 {
@@ -904,47 +797,4 @@ bool StartMDNSservice(const char *Name)
   mdns_hostname_set(Name); // Set hostname
   return true;
 }
-// #############################################################################################
 
-void handle_fileSystem(AsyncWebServerRequest *request)
-{
-  String modeS;
-  modeS = request->arg("mode");
-
-  if (modeS != "")
-  {
-    if (modeS == "toggle")
-      isSPIFFS ^= 1; // 反転
-
-    else if (modeS == "SPIFFS")
-      isSPIFFS = 1;
-
-    else if (modeS == "SD")
-    {
-      isSPIFFS = 0;
-    }
-
-    if (!isSPIFFS)
-    {
-      bool success;
-      success = SD.begin(GPIO_NUM_4, SPI, 15000000, "/sdcard", 10, false);
-      if (!success)
-        Serial.println("SD.begin faile ...");
-
-      SD_ENABLE = success;
-    }
-  }
-
-  Serial.println("file System is " + FLS_NAME[isSPIFFS]);
-
-  Home();
-}
-
-void wait_SD()
-{
-  if (!isSPIFFS)
-  {
-    ;
-    // delay(1);
-  }
-}

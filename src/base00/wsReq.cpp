@@ -66,13 +66,21 @@ void Req_SpkMsgDo2()
 {
   avatar.setExpression(expressions_table[REQ_SPK_EXPR]);
   Serial.println("Req_SpkMsgDo2: REQ_SPK_EXPR = " + String(REQ_SPK_EXPR,DEC));
+  // avatar.setSpeechText(REQ_MSG.c_str());
   ttsDo(REQ_MSG);
 }
 
 
-void servoReqSpkMsg()
+void ReqSpkMsg(String spkMsg)
 {
+  REQ_MSG = spkMsg;
   REQUEST_GET = REQ_SPEAK_MSG;
+}
+
+void ReqSpkMsg2(String spkMsg)
+{
+  REQ_MSG = spkMsg;
+  REQUEST_GET = REQ_SPEAK_MSG2;
 }
 
 void Req_SpkMsgDo()
@@ -86,6 +94,7 @@ void Req_SpkMsgDo()
   avatar.setExpression(Expression::Neutral);
 }
 
+
 void Req_SpkDo()
 {
   if (!SV_ADJUST_STATE)
@@ -95,6 +104,7 @@ void Req_SpkDo()
   ttsDo(REQ_MSG);
   avatar.setExpression(Expression::Neutral);
 }
+
 
 void Req_MsgOnlyDo()
 {

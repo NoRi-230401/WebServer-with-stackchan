@@ -356,6 +356,7 @@ bool wifiSmartConfigConnect()
   return true;
 }
 
+// #define FORCE_SD_SETTING
 int wifiConnect2()
 {
   int cnNo = 0;
@@ -366,11 +367,15 @@ int wifiConnect2()
   M5.Lcd.print("Connecting");
 
   Serial.println("## " + String(++cnNo, DEC) + ".  CONNECTING : wsWifi.json in SPIFFS");
+  // --- Force SD SETTING ----------------- 
+  #ifndef FORCE_SD_SETTING
   if (wifiSelect(FLTYPE_SPIFFS))
   {
     Serial.println("\nCONNECTED : wsWifi.json in SPIFFS");
     return cnNo;
   }
+  #endif
+  // --------------------------------------
 
   if (SD_ENABLE)
   {

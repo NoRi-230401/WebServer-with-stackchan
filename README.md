@@ -1,24 +1,45 @@
 # WebServer-with-stackchan (WSS)
 
+## New（Ver302 新機能）
+<b>(1).　Chat（Chat Remote Controller）Webアプリ</b><br>
+ChatGPTの操作に特化したリモコンを追加しました。<br>
+・　キャラ変機能<br>
+９つのキャラクター（ロールと音声）をワンタッチで変更<br>
+・　チャット履歴表示（chat History）<br>
+
+![画像](images/chatRemoCon.png )<br>
+
+<b>(2).　暫定版：ＳＤファイル管理のフォルダ機能</b><br>
+Spiffs/SDで、ＳＤを選択するとフォルダ機能のメニューが出ます。<br>
+Chdir, Mkdir, Rmdir　などが使えるようになりました。<br>
+<br>
+<br>
+
 
 ## Features（特徴）
 <b>(1).ファイル管理機能つき、WebServer</b><br>
 SPIFFS/SDにPCから直接ファイルをアップロードまたは、PCにファイルをダウンロードすることが可能になりました。
 
+
 ![画像](images/gazo01.png )<br>
 <br>
 
-<b>ファイル管理機能</b>
-1. Files of SPIFFS/SD file system
-2. Upload a file to SPIFFS/SD from PC
-3. Download a file from SPIFFS/SD to PC
-4. Stream a file to PC browser
-5. Delete a file in SPIFFS/SD
-6. Rename a file in SPIFFS/SD
-7. Spiffs/Sd change file system
-8. Status of m5Stack system information<br>
-（※注）現在、「フォルダ」操作に対応はしてません。<br><br>
+<b>ファイル管理機能</b><br>
+Dir of SPIFFS/SD file system<br>
+Upload a file to SPIFFS/SD from PC <br>
+Download a file from SPIFFS/SD to PC <br>
+Stream a file to PC browser<br>
+Delete a file in SPIFFS/SD<br>
+Rename a file in SPIFFS/SD<br>
+Spiffs/Sd change file system<br>
+Status　of m5Stack system information<br>
 
+<b>SD folder function (Ver3.02)</b><br>
+Root  : change directory to Root<br>
+Chdir. : change directory<br>
+MkDir : make directory<br>
+Rmdir: rename directory<br>
+<br>
 
 <b>(2).Webアプリとファームウエアが連携したスタックチャン・ソフトウエア。</b><br>
 設定・サーボ調整・リモコンのオールインワンのソフトを提供。<br>
@@ -106,8 +127,10 @@ stack-chan-testerの開発者で、博識でいつも適切なアドバイスを
 [NoRi](https://github.com/NoRi-230401)
 <br>
 
-
-## Ver3.01 2023-08-23　
-first Release
+## history
+### Ver3.02 2023-12-22　
+・Chat WebApp and SD folder func Add
+### Ver3.01 2023-08-23　
+・first Release
 <br>
 

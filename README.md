@@ -37,7 +37,7 @@ Status　of m5Stack system information<br>
 <b>SD folder function (Ver3.02)</b><br>
 Root  : change directory to Root<br>
 Chdir. : change directory<br>
-MkDir : make directory<br>
+Mkdir : make directory<br>
 Rmdir: remove directory<br>
 <br>
 
@@ -128,6 +128,8 @@ stack-chan-testerの開発者で、博識でいつも適切なアドバイスを
 <br>
 
 ## history
+### Ver3.03 2023-12-24　
+・CORE2 V1.1対応 -- M5UnifiedライブラリV0.1.11使用
 ### Ver3.02 2023-12-22　
 ・Chat WebApp and SD folder func Add
 ### Ver3.01 2023-08-23　

@@ -93,15 +93,31 @@ M5Burnerで、ファームウエアを入手することもできます。<br>
 <br>
 
 ## LICENSE
-本ソフトは、[MITライセンス](LICENSE)です。<br><br>
-ただし、"src/base00/wsServer.cpp"のソース・ファイルは除きます。<br>
-["doc/ESP-File-Server-License.txt"](doc/ESP-File-Server-License.txt) を読んで、ご自分の責任でご利用ください。<br>
-<br>
+
+私が作成した、ソフト(srcディレクトリ以下)は、[MIT license](LICENSE) です。<br>
+ただし、"src/base00/wsServer.cpp"ファイルは、[ESP-File-Server-License](doc/ESP-File-Server-License.txt)　となります。<br>
+ご自分の判断でご活用ください。<br>
+
+その他の主なライブラリのライセンスは下記となります。<br>
+  - [ｽﾀｯｸﾁｬﾝ](https://protopedia.net/prototype/2345)「Apache-2.0 license」
+  - [m5stack-avatar](https://github.com/meganetaaan/m5stack-avatar)「MIT license」
+  - [M5Unified](https://github.com/m5stack/M5Unified)「MIT license」
+  - [ESP8266Audio](https://github.com/earlephilhower/ESP8266Audio)「GPL-3.0 license」
+  - [ServoEasing]( https://github.com/ArminJo/ServoEasing) 「GPL-3.0 license」
+  - [ArduinoJson](https://github.com/bblanchon/ArduinoJson)「MIT license」
+  - [AsysnTCP](https://github.com/me-no-dev/AsyncTCP)「LGPL-2.1 license」
+  - [ESPAsyncWebServer](https://github.com/me-no-dev/ESPAsyncWebServer)「LGPL-2.1 license」
+  - [HTTPClient](https://github.com/espressif/arduino-esp32/blob/master/libraries/HTTPClient/src/HTTPClient.h)「LGPL-2.1 license」
+  - [ESPmDNS](https://github.com/espressif/arduino-esp32/blob/master/libraries/ESPmDNS/src/ESPmDNS.h)「MIT license」
+  - [nvs](https://github.com/espressif/esp-idf/blob/master/components/nvs_flash/include/nvs.h)「Apache-2.0 license」
+  - [SD](https://github.com/arduino-libraries/SD)「GPL-3.0 license」
+ 
+
 
 ## 参考にしたリポジトリ
-- [AI_StackChan2 (robo8080さん)](https://github.com/robo8080/AI_StackChan2)
-- [stack-chan-tester (タカオさん)](https://github.com/mongonta0716/stack-chan-tester)
-- [ESP-File-Server(David Bird:UK)](https://github.com/G6EJD/G6EJD-ESP-File-Server)
+- [AI_StackChan2 (robo8080さん)](https://github.com/robo8080/AI_StackChan2)　「MIT License」
+- [stack-chan-tester (タカオさん)](https://github.com/mongonta0716/stack-chan-tester)　「MIT License」
+- [ESP-File-Server(David Bird:UK)](https://github.com/G6EJD/G6EJD-ESP-File-Server)： [ESP-File-Server-License](doc/ESP-File-Server-License.txt)
 <br><br>
 
 

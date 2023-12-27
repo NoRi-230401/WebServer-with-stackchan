@@ -2,7 +2,7 @@
 #ifndef WS_SERVER_H
 #define WS_SERVER_H
 // ---------------------------
-#include <Arduino.h>
+// #include <Arduino.h>
 #include <ArduinoJson.h>
 #include <AsyncTCP.h>          
 #include <ESPAsyncWebServer.h> 

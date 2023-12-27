@@ -1,7 +1,10 @@
-// ---- <main.cpp>-------------------------------------------------------
+// ---- <main.cpp>-----------------------------------------------------------
+// Copyright (c) 2023 NoRi(NoRi-230401)
+// Released under the MIT license
+// https://github.com/NoRi-230401/WebServer-with-stackchan/blob/main/LICENSE
+// ---------------------------------------------------------------------------
 #include "main.h"
 const String WS_VERSION = "WebServer-with-stackchan_V303-231224";
-
 // ---------------------------------------------------------------------
 // Extended from
 //  ESPAsynch_Server_v1.1       : by David Bird 2022

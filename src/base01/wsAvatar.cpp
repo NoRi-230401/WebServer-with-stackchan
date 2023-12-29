@@ -23,10 +23,6 @@ void avatarSTART()
   avatar.setSpeechFont(&fonts::efontJA_16);
 }
 
-extern String webpage;
-void wsHandleFace(String expression);
-
-
 void wsHandleFace(String expression)
 {
   int expr = expression.toInt();
@@ -34,7 +30,6 @@ void wsHandleFace(String expression)
   if (setFace(expr))
     webpage = "face No. =  " + String(expr,DEC) + " : " + EXPRESSION_STRING[expr] ;
 }
-
 
 bool setFace(int expr)
 {

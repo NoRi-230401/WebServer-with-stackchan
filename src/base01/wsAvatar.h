@@ -41,6 +41,8 @@ extern String webpage;
 
 // -----------------------------------
 void wsHandleFace(String expression);
+void batteryIconManage();
+void set_avatar_color();
 void servo(void *args);
 bool setFace(int expr);
 void lipSync(void *args);

@@ -1,6 +1,6 @@
 // ---- <main.cpp>-------------------------------------------------------
 #include "main.h"
-const String WS_VERSION = "WebServer-with-stackchan_V303-231224";
+const String WS_VERSION = "WebServer-with-stackchan_V304-240101";
 
 // ---------------------------------------------------------------------
 // Extended from
@@ -33,7 +33,7 @@ void setup()
   avatarSTART();
 }
 
- 
+
 void loop()
 {
   chatGptManage();
@@ -41,5 +41,6 @@ void loop()
   ButtonManage();
   RequestManage();
   SpeechManage();
+  batteryIconManage();
 }
 

@@ -17,10 +17,78 @@ const Expression expressions_table[] = {
 
 void avatarSTART()
 {
-  avatar.init();
+  avatar.init(8);
+
+  // avatar.setSpeechFont(&fonts::efontJA_16);
+  // avatar.setBatteryIcon(true);
+  // ---------------------------------------------------
+  // avatar.setBatteryIcon(false);
+  avatar.setBatteryIcon(true, BATTERY_MD_ICON);
+  // avatar.setBatteryIcon(true, BATTERY_MD_NUM);
+  // avatar.setBatteryIcon(true, BATTERY_MD_LINE_DISP);
+  // ---------------------------------------------------
+
+  avatar.setSpeechFont(&fonts::efontJA_16_b);
+  set_avatar_color();
+
   avatar.addTask(lipSync, "lipSync");
   avatar.addTask(servo, "servo");
-  avatar.setSpeechFont(&fonts::efontJA_16);
+}
+
+constexpr int duration_500 = 500;             // 500ミリ秒
+constexpr int duration_1000 = 1 * 1000;       // 1秒
+constexpr int duration_5000 = 5 * 1000;       // 5秒
+constexpr int duration_10000 = 10 * 1000;     // 10秒
+constexpr int duration_60000 = 60 * 1000;     // 60秒
+constexpr int duration_90000 = 90 * 1000;     // 90秒
+constexpr int duration_600000 = 600 * 1000;   // 10分
+constexpr int duration_1800000 = 1800 * 1000; // 30分
+
+uint32_t battery_time = millis(); // 前回チェック：バッテリー
+void batteryIconManage()
+{
+  // バッテリー状態を更新
+  if (millis() - battery_time >= duration_5000)
+  {
+    // avatar.setBatteryStatus(M5.Power.isCharging(), M5.Power.getBatteryLevel());
+    String msg = "Hello StackChan";
+    Serial.println(msg);
+
+    bool isCharging = M5.Power.isCharging();
+    if (isCharging)
+      Serial.println("charging");
+    else
+      Serial.println("discharging");
+
+    int batteryLevel = M5.Power.getBatteryLevel();
+    Serial.println("batteryLevel = " + String(batteryLevel, DEC));
+
+    avatar.setBatteryStatus(M5.Power.isCharging(), M5.Power.getBatteryLevel(), msg);
+    // avatar.setBatteryLineText(msg);
+    battery_time = millis();
+  }
+}
+
+uint8_t config_color1_red = 0;     // 背景の色
+uint8_t config_color1_green = 0;   // 背景の色
+uint8_t config_color1_blue = 0;    // 背景の色
+uint8_t config_color2_red = 255;   // 目口の色
+uint8_t config_color2_green = 255; // 目口の色
+uint8_t config_color2_blue = 255;  // 目口の色
+uint8_t config_color3_red = 248;   // ほっぺの色
+uint8_t config_color3_green = 171; // ほっぺの色
+uint8_t config_color3_blue = 166;  // ほっぺの色
+
+// アバターの色
+void set_avatar_color()
+{
+  ColorPalette cp;
+  cp.set(COLOR_BACKGROUND, M5.Lcd.color565(config_color1_red, config_color1_green, config_color1_blue));
+  cp.set(COLOR_PRIMARY, M5.Lcd.color565(config_color2_red, config_color2_green, config_color2_blue));
+  cp.set(COLOR_SECONDARY, M5.Lcd.color565(config_color3_red, config_color3_green, config_color3_blue));
+  cp.set(COLOR_BALLOON_FOREGROUND, M5.Lcd.color565(config_color1_red, config_color1_green, config_color1_blue));
+  cp.set(COLOR_BALLOON_BACKGROUND, M5.Lcd.color565(config_color2_red, config_color2_green, config_color2_blue));
+  avatar.setColorPalette(cp);
 }
 
 void wsHandleFace(String expression)
@@ -28,7 +96,7 @@ void wsHandleFace(String expression)
   int expr = expression.toInt();
 
   if (setFace(expr))
-    webpage = "face No. =  " + String(expr,DEC) + " : " + EXPRESSION_STRING[expr] ;
+    webpage = "face No. =  " + String(expr, DEC) + " : " + EXPRESSION_STRING[expr];
 }
 
 bool setFace(int expr)

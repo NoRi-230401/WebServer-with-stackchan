@@ -37,8 +37,10 @@ extern int SV_HOME_Y;
 extern void servo2(int mode);
 extern void sv_setEaseToX(int x);
 extern void sv_setEaseToY(int y);
+extern String webpage;
 
 // -----------------------------------
+void wsHandleFace(String expression);
 void servo(void *args);
 bool setFace(int expr);
 void lipSync(void *args);

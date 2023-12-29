@@ -94,7 +94,7 @@ M5Burnerで、ファームウエアを入手することもできます。<br>
 
 ## LICENSE
 
-私が作成した、ソフト(srcディレクトリ以下)は、[MIT license](LICENSE) です。<br>
+私が作成した、ソフト(srcフォルダ以下:libフォルダは除く)は、[MIT license](LICENSE) です。<br>
 ただし、"src/base00/wsServer.cpp"ファイルは、[ESP-File-Server-License](doc/ESP-File-Server-License.txt)　となります。<br>
 ご自分の判断でご活用ください。<br>
 
@@ -105,7 +105,7 @@ M5Burnerで、ファームウエアを入手することもできます。<br>
   - [ESP8266Audio](https://github.com/earlephilhower/ESP8266Audio)「GPL-3.0 license」
   - [ServoEasing]( https://github.com/ArminJo/ServoEasing) 「GPL-3.0 license」
   - [ArduinoJson](https://github.com/bblanchon/ArduinoJson)「MIT license」
-  - [AsysnTCP](https://github.com/me-no-dev/AsyncTCP)「LGPL-2.1 license」
+  - [AsysnTCP](https://github.com/me-no-dev/AsyncTCP)「GPL-3.0 license」
   - [ESPAsyncWebServer](https://github.com/me-no-dev/ESPAsyncWebServer)「LGPL-2.1 license」
   - [HTTPClient](https://github.com/espressif/arduino-esp32/blob/master/libraries/HTTPClient/src/HTTPClient.h)「LGPL-2.1 license」
   - [ESPmDNS](https://github.com/espressif/arduino-esp32/blob/master/libraries/ESPmDNS/src/ESPmDNS.h)「MIT license」

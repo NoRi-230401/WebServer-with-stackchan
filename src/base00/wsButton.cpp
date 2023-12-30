@@ -18,13 +18,12 @@ struct box_t
     this->y = y;
     this->w = w;
     this->h = h;
-    Serial.println("x = " + String(x,DEC));
-    Serial.println("y = " + String(y,DEC));
-    Serial.println("wide = " + String(w,DEC));
-    Serial.println("height = " + String(h,DEC) + "\n");
-
+    // Serial.println("x = " + String(x, DEC));
+    // Serial.println("y = " + String(y, DEC));
+    // Serial.println("wide = " + String(w, DEC));
+    // Serial.println("height = " + String(h, DEC) + "\n");
   }
-  
+
   bool contain(int x, int y)
   {
     return this->x <= x && x < (this->x + this->w) && this->y <= y && y < (this->y + this->h);
@@ -34,7 +33,6 @@ struct box_t
 static box_t BOX_SERVO;
 static box_t BOX_STT;
 static box_t BOX_BATTERY_ICON;
-
 
 void wsHandleBtn(String arg)
 {
@@ -108,9 +106,9 @@ void BtnReqGet()
     BtnC_Do();
     break;
 
-  // case BtnREQ_BOX_SERVO:
-  //   BoxServoDo();
-  //   break;
+    // case BtnREQ_BOX_SERVO:
+    //   BoxServoDo();
+    //   break;
 
   case BtnREQ_BOX_STT:
     BoxSttDo();
@@ -179,8 +177,6 @@ void ButtonManage()
   }
 }
 
-
-
 void BtnA_Do()
 {
   tone(1);
@@ -247,23 +243,19 @@ void BoxSttDo()
   SST_ChatGPT();
 }
 
-
 void BoxTouchSetup()
 {
-  // BOX_SERVO.setupBox(80, 120, 80, 80);
-  // BOX_STT.setupBox(0, 0, M5.Display.width(), 60);
-
   int w100 = M5.Display.width();
+  int w50 = w100 / 2;
   int w25 = w100 / 4;
   int h100 = M5.Display.height();
-  int h20 = h100/5;
+  int h50 = h100 / 2;
+  int h25 = h100 / 4;
 
-  BOX_BATTERY_ICON.setupBox( w100-w25-1, 0, w25, h20 );
-  BOX_STT.setupBox(0, 0, w25, h20);
+  BOX_STT.setupBox(0, 0, w25, h25);                       // 左上
+  BOX_BATTERY_ICON.setupBox(w100 - w25 - 1, 0, w25, h25); // 右上
+  BOX_SERVO.setupBox(w50 - (w25 / 2) - 1, h50 - (h25 / 2) - 1, w25, h25); // 中央
 
-  BOX_SERVO.setupBox(80, 120, 80, 80);
-  
-  Serial.println("width = " + String(w100,DEC));
-  Serial.println("height = " + String(h100,DEC));
-
+  Serial.println("M5.Display.width = " + String(w100, DEC));
+  Serial.println("M5.Display.height = " + String(h100, DEC));
 }

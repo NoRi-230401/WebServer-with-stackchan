@@ -55,13 +55,13 @@ void batteryIconManage()
     Serial.println(msg);
 
     bool isCharging = M5.Power.isCharging();
-    if (isCharging)
-      Serial.println("charging");
-    else
-      Serial.println("discharging");
-
     int batteryLevel = M5.Power.getBatteryLevel();
-    Serial.println("batteryLevel = " + String(batteryLevel, DEC));
+
+    // if (isCharging)
+    //   Serial.println("charging");
+    // else
+    //   Serial.println("discharging");
+    // Serial.println("batteryLevel = " + String(batteryLevel, DEC));
 
     avatar.setBatteryStatus(M5.Power.isCharging(), M5.Power.getBatteryLevel(), msg);
     // avatar.setBatteryLineText(msg);

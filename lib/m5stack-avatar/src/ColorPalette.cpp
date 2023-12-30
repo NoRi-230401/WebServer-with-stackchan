@@ -27,7 +27,8 @@ uint16_t ColorPalette::get(const char* key) const {
 void ColorPalette::set(const char* key, uint16_t value) {
   auto itr = colors.find(key);
   if (itr != colors.end()) {
-    Serial.println("Overwriting");
+    // Serial.println("Overwriting");
+    Serial.println("ColerPalette.cpp set() --- Overwriting");
   }
   itr->second = value;
 }

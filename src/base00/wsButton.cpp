@@ -18,14 +18,23 @@ struct box_t
     this->y = y;
     this->w = w;
     this->h = h;
+    Serial.println("x = " + String(x,DEC));
+    Serial.println("y = " + String(y,DEC));
+    Serial.println("wide = " + String(w,DEC));
+    Serial.println("height = " + String(h,DEC) + "\n");
+
   }
+  
   bool contain(int x, int y)
   {
     return this->x <= x && x < (this->x + this->w) && this->y <= y && y < (this->y + this->h);
   }
 };
+
 static box_t BOX_SERVO;
 static box_t BOX_STT;
+static box_t BOX_BATTERY_ICON;
+
 
 void wsHandleBtn(String arg)
 {
@@ -135,6 +144,11 @@ void ButtonManage()
           BoxServoDo();
         }
 
+        if (BOX_BATTERY_ICON.contain(t.x, t.y))
+        {
+          BoxBatteryIconDo();
+        }
+
         if (BOX_STT.contain(t.x, t.y) && (!mp3->isRunning()))
         {
           BoxSttDo();
@@ -215,6 +229,15 @@ void BtnC_Do()
   }
 }
 
+void BoxBatteryIconDo()
+{
+  tone(1);
+  if (SYSINFO_DISP_STATE)
+    sysInfoDispEnd();
+
+  batteryIconChange();
+}
+
 void BoxSttDo()
 {
   tone(1);
@@ -224,8 +247,23 @@ void BoxSttDo()
   SST_ChatGPT();
 }
 
+
 void BoxTouchSetup()
 {
+  // BOX_SERVO.setupBox(80, 120, 80, 80);
+  // BOX_STT.setupBox(0, 0, M5.Display.width(), 60);
+
+  int w100 = M5.Display.width();
+  int w25 = w100 / 4;
+  int h100 = M5.Display.height();
+  int h20 = h100/5;
+
+  BOX_BATTERY_ICON.setupBox( w100-w25-1, 0, w25, h20 );
+  BOX_STT.setupBox(0, 0, w25, h20);
+
   BOX_SERVO.setupBox(80, 120, 80, 80);
-  BOX_STT.setupBox(0, 0, M5.Display.width(), 60);
+  
+  Serial.println("width = " + String(w100,DEC));
+  Serial.println("height = " + String(h100,DEC));
+
 }

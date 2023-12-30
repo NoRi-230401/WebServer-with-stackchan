@@ -34,6 +34,7 @@ namespace m5avatar
 
     void drawBatteryIcon02(M5Canvas *spi, uint32_t x, uint32_t y, uint16_t fgcolor, uint16_t bgcolor, float offset, BatteryIconStatus batteryIconStatus, int32_t batteryLevel)
     {
+      // 一度、balloonの表示を出さないとキャラクタ設定が反映されない？？
       spi->setFont(&fonts::lgfxJapanGothic_16);
       // spi->setFont(&fonts::lgfxJapanGothicP_12);
       // spi->setFont(&fonts::efontJA_10);
@@ -41,12 +42,20 @@ namespace m5avatar
       spi->setTextColor(fgcolor, bgcolor); // （文字色, 背景色）
       spi->setTextDatum(top_left);
       spi->setCursor(0, 0);
+      // --------------------------------------------------------------
 
       String chargeState = "";
       if (batteryIconStatus == BatteryIconStatus::Ncharging)
-        chargeState = "充電中";
+        chargeState = "   充電中";
 
-      spi->print("電池残量:" + String(batteryLevel, DEC) + "\% " + chargeState);
+      String baLevelText;
+      // 桁揃え
+      if(batteryLevel>=100)     baLevelText = "電池：";
+      else if(batteryLevel>=10) baLevelText = "電池： ";
+      else if(batteryLevel>=0)  baLevelText = "電池：  ";
+      else return;
+
+      spi->print( baLevelText + String(batteryLevel, DEC) + "\% " + chargeState);
     }
 
     void drawBatteryIcon03(M5Canvas *spi, uint32_t x, uint32_t y, uint16_t fgcolor, uint16_t bgcolor, float offset, BatteryIconStatus batteryIconStatus, int32_t batteryLevel, String msg)

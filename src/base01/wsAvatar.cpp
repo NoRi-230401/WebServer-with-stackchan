@@ -15,25 +15,70 @@ const Expression expressions_table[] = {
     Expression::Sad,
     Expression::Angry};
 
+int bIconState = 1;
+#define bIconStateMax 4
+
 void avatarSTART()
 {
-  avatar.init(8);
-
-  // avatar.setSpeechFont(&fonts::efontJA_16);
+  // --- BatteryIcon -------------
   // avatar.setBatteryIcon(true);
-  // ---------------------------------------------------
   // avatar.setBatteryIcon(false);
+  // --- -Extended form NoRi 231230 -------------------
+  // avatar.setBatteryIcon(false, BATTERY_MD_INVISIBLE);
   avatar.setBatteryIcon(true, BATTERY_MD_ICON);
+  bIconState = 1;
   // avatar.setBatteryIcon(true, BATTERY_MD_NUM);
   // avatar.setBatteryIcon(true, BATTERY_MD_LINE_DISP);
   // ---------------------------------------------------
 
-  avatar.setSpeechFont(&fonts::efontJA_16_b);
+  avatar.setSpeechFont(&fonts::efontJA_16);
+  // avatar.setSpeechFont(&fonts::efontJA_16_b);
+  
+  avatar.init(8);
   set_avatar_color();
 
   avatar.addTask(lipSync, "lipSync");
   avatar.addTask(servo, "servo");
+  
+  avatar.setBatteryStatus(M5.Power.isCharging(), M5.Power.getBatteryLevel(),"Hello StackChan");
+    // 一度balloon表示しないとBatteryIconのテキスト設定うまくいかない為
+  avatar.setSpeechText("スタックチャン");
+  delay(1000);
+  avatar.setSpeechText("");
+
 }
+
+void batteryIconChange()
+{
+  
+  bIconState++;
+  bIconState = bIconState % bIconStateMax;
+
+  switch(bIconState)
+  {
+    case 0:
+      avatar.setBatteryIcon(true, BATTERY_MD_INVISIBLE);
+      break;
+
+    case 1:
+      avatar.setBatteryIcon(true, BATTERY_MD_ICON);
+      break;
+
+    case 2:
+      avatar.setBatteryIcon(true, BATTERY_MD_NUM);
+      break;
+
+    case 3:
+      avatar.setBatteryIcon(true, BATTERY_MD_LINE_DISP);
+      break;
+
+    default:
+      break;
+  }
+}
+
+
+
 
 constexpr int duration_500 = 500;             // 500ミリ秒
 constexpr int duration_1000 = 1 * 1000;       // 1秒
@@ -50,21 +95,13 @@ void batteryIconManage()
   // バッテリー状態を更新
   if (millis() - battery_time >= duration_5000)
   {
-    // avatar.setBatteryStatus(M5.Power.isCharging(), M5.Power.getBatteryLevel());
+    bool isCharging = (bool)M5.Power.isCharging();
+    int batteryLevel = (int)M5.Power.getBatteryLevel();
     String msg = "Hello StackChan";
-    Serial.println(msg);
 
-    bool isCharging = M5.Power.isCharging();
-    int batteryLevel = M5.Power.getBatteryLevel();
+    avatar.setBatteryStatus(isCharging, batteryLevel, msg);
+    // avatar.setBatteryStatus(M5.Power.isCharging(), M5.Power.getBatteryLevel());
 
-    // if (isCharging)
-    //   Serial.println("charging");
-    // else
-    //   Serial.println("discharging");
-    // Serial.println("batteryLevel = " + String(batteryLevel, DEC));
-
-    avatar.setBatteryStatus(M5.Power.isCharging(), M5.Power.getBatteryLevel(), msg);
-    // avatar.setBatteryLineText(msg);
     battery_time = millis();
   }
 }
@@ -145,8 +182,10 @@ void lipSync(void *args)
     }
     float open = (float)level / 15000.0;
     avatar->setMouthOpenRatio(open);
+
     avatar->getGaze(&gazeY, &gazeX);
-    avatar->setRotation(gazeX * 5);
+    // avatar->setRotation(gazeX * 5);
+
     delay(50);
   }
 }

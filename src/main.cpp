@@ -31,6 +31,8 @@ void setup()
     
  //*** Wake UP! STACKCHAN ***
   avatarSTART();
+  // ReqSpkMsg2( "スタックチャン" );
+  Serial.println("## --- setup() done !! --- ## ");
 }
 
 

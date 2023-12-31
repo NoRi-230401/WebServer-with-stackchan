@@ -31,7 +31,8 @@ extern void tone(int mode);
 extern void SST_ChatGPT();
 extern bool TIMER_STOP_GET;
 extern bool TIMER_GO_GET;
-extern void batteryIconChange();
+extern void batteryIconSelect();
+extern void batteryIconOnOff();
 // --------------------------------------------------------
 void wsHandleBtn(String arg);
 void BtnReqGet();
@@ -41,6 +42,7 @@ void BtnB_Do();
 void BtnC_Do();
 void BoxSttDo();
 void BoxTouchSetup();
-void BoxBatteryIconDo();
+void BoxBatteryIconDoOnOff();
+void BoxBatteryIconDoSelect();
 // --------------------------------------------------------
 #endif

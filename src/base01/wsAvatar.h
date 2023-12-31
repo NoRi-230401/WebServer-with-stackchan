@@ -41,7 +41,7 @@ extern String webpage;
 
 // -----------------------------------
 void wsHandleFace(String expression);
-void batteryIconChange();
+void batteryIconSelect();
 void batteryIconManage();
 void set_avatar_color();
 void servo(void *args);

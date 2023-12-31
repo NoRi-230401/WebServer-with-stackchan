@@ -16,7 +16,8 @@ const Expression expressions_table[] = {
     Expression::Angry};
 
 int bIconState = 1;
-#define bIconStateMax 4
+bool bIconOnOff = true;
+#define bIconStateMax 3
 
 void avatarSTART()
 {
@@ -26,59 +27,84 @@ void avatarSTART()
   // --- -Extended form NoRi 231230 -------------------
   // avatar.setBatteryIcon(false, BATTERY_MD_INVISIBLE);
   avatar.setBatteryIcon(true, BATTERY_MD_ICON);
-  bIconState = 1;
   // avatar.setBatteryIcon(true, BATTERY_MD_NUM);
   // avatar.setBatteryIcon(true, BATTERY_MD_LINE_DISP);
+  bIconState = 1;
+  bIconOnOff = true;
   // ---------------------------------------------------
 
   avatar.setSpeechFont(&fonts::efontJA_16);
   // avatar.setSpeechFont(&fonts::efontJA_16_b);
-  
+
   avatar.init(8);
   set_avatar_color();
 
   avatar.addTask(lipSync, "lipSync");
   avatar.addTask(servo, "servo");
-  
-  avatar.setBatteryStatus(M5.Power.isCharging(), M5.Power.getBatteryLevel(),"Hello StackChan");
-    // 一度balloon表示しないとBatteryIconのテキスト設定うまくいかない為
+
+  avatar.setBatteryStatus(M5.Power.isCharging(), M5.Power.getBatteryLevel(), "Hello StackChan");
+  // 一度balloon表示しないとBatteryIconのテキスト設定うまくいかない為
   avatar.setSpeechText("スタックチャン");
   delay(1000);
   avatar.setSpeechText("");
-
 }
 
-void batteryIconChange()
+void batteryIconSelect()
 {
-  
+  if (bIconOnOff == false)
+    return;
+
   bIconState++;
   bIconState = bIconState % bIconStateMax;
 
-  switch(bIconState)
+  switch (bIconState)
   {
-    case 0:
-      avatar.setBatteryIcon(true, BATTERY_MD_INVISIBLE);
-      break;
+  case 0:
+    avatar.setBatteryIcon(true, BATTERY_MD_ICON);
+    break;
 
-    case 1:
+  case 1:
+    avatar.setBatteryIcon(true, BATTERY_MD_NUM);
+    break;
+
+  case 2:
+    avatar.setBatteryIcon(true, BATTERY_MD_LINE_DISP);
+    break;
+
+  default:
+    break;
+  }
+}
+
+void batteryIconOnOff()
+{
+  if (bIconOnOff == true)
+  {
+    bIconOnOff = false;
+    avatar.setBatteryIcon(true, BATTERY_MD_INVISIBLE);
+  }
+  else
+  {
+    bIconOnOff = true;
+    switch (bIconState)
+    {
+    case 0:
       avatar.setBatteryIcon(true, BATTERY_MD_ICON);
       break;
 
-    case 2:
+    case 1:
       avatar.setBatteryIcon(true, BATTERY_MD_NUM);
       break;
 
-    case 3:
+    case 2:
       avatar.setBatteryIcon(true, BATTERY_MD_LINE_DISP);
       break;
 
     default:
       break;
+    }
   }
 }
-
-
-
 
 constexpr int duration_500 = 500;             // 500ミリ秒
 constexpr int duration_1000 = 1 * 1000;       // 1秒

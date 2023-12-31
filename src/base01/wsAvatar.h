@@ -38,7 +38,7 @@ extern void servo2(int mode);
 extern void sv_setEaseToX(int x);
 extern void sv_setEaseToY(int y);
 extern String webpage;
-
+extern String getDateTime();
 // -----------------------------------
 void wsHandleFace(String expression);
 void batteryIconSelect();

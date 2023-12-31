@@ -33,6 +33,7 @@ extern bool TIMER_STOP_GET;
 extern bool TIMER_GO_GET;
 extern void batteryIconSelect();
 extern void batteryIconOnOff();
+extern bool bIconOnOff;
 // --------------------------------------------------------
 void wsHandleBtn(String arg);
 void BtnReqGet();

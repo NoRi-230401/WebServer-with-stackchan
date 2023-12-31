@@ -138,7 +138,7 @@ void ButtonManage()
       auto t = M5.Touch.getDetail();
       if (t.wasPressed())
       {
-        if (BOX_BATTERY_ICON_SELECT.contain(t.x, t.y)) BoxBatteryIconDoSelect();
+        if (BOX_BATTERY_ICON_SELECT.contain(t.x, t.y) && (bIconOnOff==true) ) BoxBatteryIconDoSelect();
         if (BOX_BATTERY_ICON_ONOFF.contain(t.x, t.y))  BoxBatteryIconDoOnOff();
         if (BOX_STT.contain(t.x, t.y) && (!mp3->isRunning())) BoxSttDo();
         if (BOX_SERVO.contain(t.x, t.y))  BoxServoDo();
@@ -258,8 +258,4 @@ void BoxTouchSetup()
   BOX_STT.setupBox(0, h50 - (h25 / 2) - 1, w25, h25);             // 左中央
   BOX_SERVO.setupBox(w100-w25-1, h50 - (h25 / 2) - 1 , w25, h25); // 右中央
   
-  // BOX_SERVO.setupBox(w50 - (w25 / 2) - 1, h50 - (h25 / 2) - 1, w25, h25); // 中央
-  // Serial.println("M5.Display.width = " + String(w100, DEC));
-  // Serial.println("M5.Display.height = " + String(h100, DEC));
-
 }

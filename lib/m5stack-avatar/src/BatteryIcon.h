@@ -60,8 +60,9 @@ namespace m5avatar
 
     void drawBatteryIcon03(M5Canvas *spi, uint32_t x, uint32_t y, uint16_t fgcolor, uint16_t bgcolor, float offset, BatteryIconStatus batteryIconStatus, int32_t batteryLevel, String msg)
     {
-      // spi->setFont(&fonts::lgfxJapanGothicP_12);
-      spi->setFont(&fonts::efontJA_10);
+      // spi->setFont(&fonts::lgfxJapanGothic_16);
+      spi->setFont(&fonts::lgfxJapanGothicP_12);
+      // spi->setFont(&fonts::efontJA_10);
 
       spi->setTextColor(fgcolor, bgcolor); // （文字色, 背景色）
       spi->setTextDatum(top_left);

@@ -21,6 +21,7 @@ extern void ButtonManage();
 extern void RequestManage();
 extern void SpeechManage();
 extern void batteryIconManage();
+extern void clockSetup();
 // ----------------------------------------------------------
 void setup();
 void loop();

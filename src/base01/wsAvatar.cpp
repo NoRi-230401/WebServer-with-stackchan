@@ -124,7 +124,8 @@ void batteryIconManage()
     bool isCharging = (bool)M5.Power.isCharging();
     int batteryLevel = (int)M5.Power.getBatteryLevel();
     String msg = "Hello StackChan";
-
+    msg = getDateTime();
+    
     avatar.setBatteryStatus(isCharging, batteryLevel, msg);
     // avatar.setBatteryStatus(M5.Power.isCharging(), M5.Power.getBatteryLevel());
 

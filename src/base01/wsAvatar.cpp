@@ -107,7 +107,8 @@ void batteryIconOnOff()
 }
 
 constexpr int duration_500 = 500;             // 500ミリ秒
-constexpr int duration_1000 = 1 * 1000;       // 1秒
+constexpr int duration_1013 = 1 * 1013;       // 1.013秒
+constexpr int duration_1000 = 1 * 1013;       // 1秒
 constexpr int duration_5000 = 5 * 1000;       // 5秒
 constexpr int duration_10000 = 10 * 1000;     // 10秒
 constexpr int duration_60000 = 60 * 1000;     // 60秒
@@ -119,7 +120,7 @@ uint32_t battery_time = millis(); // 前回チェック：バッテリー
 void batteryIconManage()
 {
   // バッテリー状態を更新
-  if (millis() - battery_time >= duration_5000)
+  if (millis() - battery_time >= duration_1013)
   {
     bool isCharging = (bool)M5.Power.isCharging();
     int batteryLevel = (int)M5.Power.getBatteryLevel();

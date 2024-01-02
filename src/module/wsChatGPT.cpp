@@ -193,6 +193,8 @@ bool initCharaJson(DynamicJsonDocument &charaJson)
   return true;
 }
 
+int CHARA_NO= -1;
+
 void wsHandelChatGpt(String historyS, String charaS)
 {
   if (historyS == "" && charaS == "")
@@ -211,13 +213,13 @@ void wsHandelChatGpt(String historyS, String charaS)
 
     // --- New Character Set -------------------------
     JsonArray jsonArray = charaJson["character"];
-    int charaNo = charaS.toInt();
-    JsonObject chara = jsonArray[charaNo];
+    CHARA_NO = charaS.toInt();
+    JsonObject chara = jsonArray[CHARA_NO];
     String chara_name = chara["name"];
     String chara_vSpeakerNoS = chara["vSpkNo"];
     String chara_role = chara["role"];
 
-    Serial.println("charaNo = " + String(charaNo, DEC));
+    Serial.println("charaNo = " + String(CHARA_NO, DEC));
     Serial.println("name = " + chara_name);
     Serial.println("vSpeakerNo = " + chara_vSpeakerNoS);
     Serial.println("role = " + chara_role);
@@ -259,7 +261,7 @@ void wsHandelChatGpt(String historyS, String charaS)
     }
 
     webpage = "character changed<br><br>";
-    webpage += "character No. = " + String(charaNo, DEC) + "<br>";
+    webpage += "character No. = " + String(CHARA_NO, DEC) + "<br>";
     webpage += "name = " + chara_name + "<br>";
     webpage += "vSpeakerNo = " + chara_vSpeakerNoS + "<br>";
     webpage += "role = " + chara_role + "<br><br>";

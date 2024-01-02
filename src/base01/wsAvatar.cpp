@@ -20,9 +20,10 @@ int StatusMD = 0;
 #define STATUS_MD_ICON 0
 #define STATUS_MD_NUM 1
 #define STATUS_MD_CLOCK 2
-#define STATUS_MD_IP 3
-#define STATUS_MD_RSSI 4
-#define STATUS_MD_MAX 5
+#define STATUS_MD_RSSI 3
+#define STATUS_MD_IP 4
+#define STATUS_MD_VOL 5
+#define STATUS_MD_MAX 6
 
 void avatarSTART()
 {
@@ -34,20 +35,18 @@ void avatarSTART()
   StatusMD = 0;
   bIconOnOff = true;
   avatar.setBatteryIcon(true, BATTERY_MD_ICON);
-  
+
   avatar.setSpeechFont(&fonts::efontJA_16);
   avatar.addTask(lipSync, "lipSync");
   avatar.addTask(servo, "servo");
 
   avatar.setBatteryStatus(M5.Power.isCharging(), M5.Power.getBatteryLevel(), "Hello StackChan");
-  
+
   // 一度balloon表示しないとBatteryIconのテキスト設定うまくいかない為
-    avatar.setSpeechText("スタックチャン");
+  avatar.setSpeechText("スタックチャン");
   delay(1000);
   avatar.setSpeechText("");
 }
-
-
 
 void batteryIconSelect()
 {
@@ -68,14 +67,72 @@ void batteryIconSelect()
     break;
 
   case STATUS_MD_CLOCK:
-  case STATUS_MD_IP:
   case STATUS_MD_RSSI:
+  case STATUS_MD_IP:
+  case STATUS_MD_VOL:
     avatar.setBatteryIcon(true, BATTERY_MD_LINE_DISP);
     break;
 
   default:
     break;
   }
+}
+
+constexpr int duration_500 = 500;             // 500ミリ秒
+constexpr int duration_1013 = 1 * 1013;       // 1.013秒
+constexpr int duration_1000 = 1 * 1000;       // 1秒
+constexpr int duration_5000 = 5 * 1000;       // 5秒
+constexpr int duration_10000 = 10 * 1000;     // 10秒
+constexpr int duration_60000 = 60 * 1000;     // 60秒
+constexpr int duration_90000 = 90 * 1000;     // 90秒
+constexpr int duration_600000 = 600 * 1000;   // 10分
+constexpr int duration_1800000 = 1800 * 1000; // 30分
+
+bool batteryIconOnceState = false;
+uint32_t battery_OnceTime = 0; // 前回チェック：バッテリー
+
+void batteryIconOnce()
+{
+  if (batteryIconOnceState || bIconOnOff)
+    return;
+
+  batteryIconOnceState = true;
+
+  switch (StatusMD)
+  {
+  case STATUS_MD_ICON:
+    avatar.setBatteryIcon(true, BATTERY_MD_ICON);
+    break;
+
+  case STATUS_MD_NUM:
+    avatar.setBatteryIcon(true, BATTERY_MD_NUM);
+    break;
+
+  case STATUS_MD_CLOCK:
+  case STATUS_MD_RSSI:
+  case STATUS_MD_IP:
+  case STATUS_MD_VOL:
+    avatar.setBatteryIcon(true, BATTERY_MD_LINE_DISP);
+    break;
+
+  default:
+    break;
+  }
+  battery_OnceTime = millis();
+}
+
+void batteryIconOnceManage()
+{
+  if (!batteryIconOnceState || bIconOnOff)
+    return;
+
+  if ( (millis() - battery_OnceTime) < duration_10000)
+    return;
+
+  batteryIconOnceState = false;
+  bIconOnOff = false;
+  avatar.setBatteryIcon(true, BATTERY_MD_INVISIBLE);
+  battery_OnceTime = millis();
 }
 
 void batteryIconOnOff()
@@ -90,15 +147,18 @@ void batteryIconOnOff()
     bIconOnOff = true;
     switch (StatusMD)
     {
-    case 0:
+    case STATUS_MD_ICON:
       avatar.setBatteryIcon(true, BATTERY_MD_ICON);
       break;
 
-    case 1:
+    case STATUS_MD_NUM:
       avatar.setBatteryIcon(true, BATTERY_MD_NUM);
       break;
 
-    case 2:
+    case STATUS_MD_CLOCK:
+    case STATUS_MD_RSSI:
+    case STATUS_MD_IP:
+    case STATUS_MD_VOL:
       avatar.setBatteryIcon(true, BATTERY_MD_LINE_DISP);
       break;
 
@@ -108,17 +168,8 @@ void batteryIconOnOff()
   }
 }
 
-constexpr int duration_500 = 500;             // 500ミリ秒
-constexpr int duration_1013 = 1 * 1013;       // 1.013秒
-constexpr int duration_1000 = 1 * 1013;       // 1秒
-constexpr int duration_5000 = 5 * 1000;       // 5秒
-constexpr int duration_10000 = 10 * 1000;     // 10秒
-constexpr int duration_60000 = 60 * 1000;     // 60秒
-constexpr int duration_90000 = 90 * 1000;     // 90秒
-constexpr int duration_600000 = 600 * 1000;   // 10分
-constexpr int duration_1800000 = 1800 * 1000; // 30分
 
-uint32_t battery_time = millis(); // 前回チェック：バッテリー
+uint32_t battery_time = 0; // 前回チェック：バッテリー
 void batteryIconManage()
 {
   // バッテリー状態を更新
@@ -127,27 +178,41 @@ void batteryIconManage()
     bool isCharging = (bool)M5.Power.isCharging();
     int batteryLevel = (int)M5.Power.getBatteryLevel();
     String msg = "";
-    
+    char s[40];
 
-    if(StatusMD==STATUS_MD_CLOCK)
+    switch (StatusMD)
     {
-        msg = getDateTime();
-    }
-    else if(StatusMD==STATUS_MD_IP)
-    {
+    case STATUS_MD_ICON:
+    case STATUS_MD_NUM:
+      break;
 
-    }
-    else if(StatusMD==STATUS_MD_RSSI)
-    {
+    case STATUS_MD_CLOCK:
+      msg = getDateTime();
+      break;
 
-    }
+    case STATUS_MD_RSSI:
+      msg = "WiFi  Rssi=" + String(WiFi.RSSI()) + "dB   Chan=" + String(WiFi.channel());
+      break;
 
+    case STATUS_MD_IP:
+      msg = String(WiFi.localIP().toString()) + "  " + SERVER_NAME;
+      break;
+
+    case STATUS_MD_VOL:
+      sprintf(s, "vol=%3d  vSpk=%2d  chara=%d", VOLUME_VALUE, TTS2_SPEAKER_NO.toInt(), CHARA_NO);
+      msg = String(s);
+      break;
+
+    default:
+      break;
+    }
 
     avatar.setBatteryStatus(isCharging, batteryLevel, msg);
-    // avatar.setBatteryStatus(M5.Power.isCharging(), M5.Power.getBatteryLevel());
-
     battery_time = millis();
   }
+
+  batteryIconOnceManage();
+
 }
 
 uint8_t config_color1_red = 0;     // 背景の色

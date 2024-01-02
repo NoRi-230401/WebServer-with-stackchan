@@ -2,7 +2,8 @@
 #ifndef WS_WIFI_H
 #define WS_WIFI_H
 // ---------------------------
-#include "wsServer.h"
+// #include "wsServer.h"
+#include <WiFi.h>  
 #include <Arduino.h>
 #include <ArduinoJson.h>
 #include <SD.h>
@@ -32,6 +33,7 @@ extern bool jsonRead(int flType, DynamicJsonDocument &jsonDoc, String readFile);
 extern File fileOpen(int flType, const String path, const char *mode);
 extern bool jsonInitSave(DynamicJsonDocument &jsonDoc,const String inJson, const String saveFile);
 extern String SERVER_NAME;
+extern String EncryptionType(wifi_auth_mode_t encryptionType);
 
 //----------------------------------------------
 void wifiNetworkInformation();

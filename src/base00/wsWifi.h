@@ -2,6 +2,7 @@
 #ifndef WS_WIFI_H
 #define WS_WIFI_H
 // ---------------------------
+#include "wsServer.h"
 #include <Arduino.h>
 #include <ArduinoJson.h>
 #include <SD.h>
@@ -30,8 +31,10 @@ extern bool jsonSave(DynamicJsonDocument &jsonDoc, String saveFile);
 extern bool jsonRead(int flType, DynamicJsonDocument &jsonDoc, String readFile);
 extern File fileOpen(int flType, const String path, const char *mode);
 extern bool jsonInitSave(DynamicJsonDocument &jsonDoc,const String inJson, const String saveFile);
+extern String SERVER_NAME;
 
 //----------------------------------------------
+void wifiNetworkInformation();
 void wsHandleWifiSetting(String initS, String ssidS, String passwdS,String removeS, String ipS, String gatewayS, String subnetS, String dnsS  );
 bool initWifiJson(DynamicJsonDocument &wifiJson);
 bool jsonInitSave_wifi(DynamicJsonDocument &jsonDoc);

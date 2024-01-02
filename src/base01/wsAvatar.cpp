@@ -15,59 +15,61 @@ const Expression expressions_table[] = {
     Expression::Sad,
     Expression::Angry};
 
-int bIconState = 1;
 bool bIconOnOff = true;
-#define bIconStateMax 3
+int StatusMD = 0;
+#define STATUS_MD_ICON 0
+#define STATUS_MD_NUM 1
+#define STATUS_MD_CLOCK 2
+#define STATUS_MD_IP 3
+#define STATUS_MD_RSSI 4
+#define STATUS_MD_MAX 5
 
 void avatarSTART()
 {
-  // --- BatteryIcon -------------
-  // avatar.setBatteryIcon(true);
-  // avatar.setBatteryIcon(false);
-  // --- -Extended form NoRi 231230 -------------------
-  // avatar.setBatteryIcon(false, BATTERY_MD_INVISIBLE);
-  avatar.setBatteryIcon(true, BATTERY_MD_ICON);
-  // avatar.setBatteryIcon(true, BATTERY_MD_NUM);
-  // avatar.setBatteryIcon(true, BATTERY_MD_LINE_DISP);
-  bIconState = 1;
-  bIconOnOff = true;
-  // ---------------------------------------------------
-
-  avatar.setSpeechFont(&fonts::efontJA_16);
-  // avatar.setSpeechFont(&fonts::efontJA_16_b);
-
   avatar.init(8);
   set_avatar_color();
 
+  // --- BatteryIcon -------------
+  // avatar.setBatteryIcon(true);
+  StatusMD = 0;
+  bIconOnOff = true;
+  avatar.setBatteryIcon(true, BATTERY_MD_ICON);
+  
+  avatar.setSpeechFont(&fonts::efontJA_16);
   avatar.addTask(lipSync, "lipSync");
   avatar.addTask(servo, "servo");
 
   avatar.setBatteryStatus(M5.Power.isCharging(), M5.Power.getBatteryLevel(), "Hello StackChan");
+  
   // 一度balloon表示しないとBatteryIconのテキスト設定うまくいかない為
-  avatar.setSpeechText("スタックチャン");
+    avatar.setSpeechText("スタックチャン");
   delay(1000);
   avatar.setSpeechText("");
 }
+
+
 
 void batteryIconSelect()
 {
   if (bIconOnOff == false)
     return;
 
-  bIconState++;
-  bIconState = bIconState % bIconStateMax;
+  StatusMD++;
+  StatusMD = StatusMD % STATUS_MD_MAX;
 
-  switch (bIconState)
+  switch (StatusMD)
   {
-  case 0:
+  case STATUS_MD_ICON:
     avatar.setBatteryIcon(true, BATTERY_MD_ICON);
     break;
 
-  case 1:
+  case STATUS_MD_NUM:
     avatar.setBatteryIcon(true, BATTERY_MD_NUM);
     break;
 
-  case 2:
+  case STATUS_MD_CLOCK:
+  case STATUS_MD_IP:
+  case STATUS_MD_RSSI:
     avatar.setBatteryIcon(true, BATTERY_MD_LINE_DISP);
     break;
 
@@ -86,7 +88,7 @@ void batteryIconOnOff()
   else
   {
     bIconOnOff = true;
-    switch (bIconState)
+    switch (StatusMD)
     {
     case 0:
       avatar.setBatteryIcon(true, BATTERY_MD_ICON);
@@ -124,9 +126,23 @@ void batteryIconManage()
   {
     bool isCharging = (bool)M5.Power.isCharging();
     int batteryLevel = (int)M5.Power.getBatteryLevel();
-    String msg = "Hello StackChan";
-    msg = getDateTime();
+    String msg = "";
     
+
+    if(StatusMD==STATUS_MD_CLOCK)
+    {
+        msg = getDateTime();
+    }
+    else if(StatusMD==STATUS_MD_IP)
+    {
+
+    }
+    else if(StatusMD==STATUS_MD_RSSI)
+    {
+
+    }
+
+
     avatar.setBatteryStatus(isCharging, batteryLevel, msg);
     // avatar.setBatteryStatus(M5.Power.isCharging(), M5.Power.getBatteryLevel());
 

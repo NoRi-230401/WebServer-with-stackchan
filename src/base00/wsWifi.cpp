@@ -5,6 +5,28 @@ const String WIFI_SPIFFS = "/wsWifi.json";
 const String WIFI_SD = "/wsWifi.json";
 const String WIFITXT_SD = "/wifi.txt";
 
+
+void wifiNetworkInformation()
+{
+  String w_IP = String(WiFi.localIP().toString());
+  String w_MAC = String(WiFi.BSSIDstr());
+  String w_SSID = String(WiFi.SSID());
+  String w_RSSI = String(WiFi.RSSI()) + " dB";
+  String w_Channel = String(WiFi.channel()) ;
+  String w_EncryptionT = String(EncryptionType(WiFi.encryptionType(0)));;
+  
+  Serial.println("#### WiFi Network Information ####");
+  Serial.println("ServerName = " + SERVER_NAME);
+  Serial.println("IP = "+ w_IP);
+  Serial.println("MAC = "+ w_MAC);
+  Serial.println("SSID = "+ w_SSID);
+  Serial.println("RSSI = "+ w_RSSI);
+  Serial.println("Channel = "+ w_Channel);
+  Serial.println("EncryptionType = "+ w_EncryptionT);
+  Serial.println("-----------------------------------");
+}
+
+
 void wsHandleWifiSetting(String initS, String ssidS, String passwdS, String removeS,
                          String ipS, String gatewayS, String subnetS, String dnsS)
 {
@@ -129,6 +151,8 @@ void wifiSetup()
   {
     addSuccessAP();
   }
+
+  // wifiNetworkInformation();
 }
 
 void addSuccessAP()

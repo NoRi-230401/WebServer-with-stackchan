@@ -22,6 +22,7 @@ extern void RequestManage();
 extern void SpeechManage();
 extern void batteryIconManage();
 extern void clockSetup();
+extern void wifiNetworkInformation();
 // ----------------------------------------------------------
 void setup();
 void loop();

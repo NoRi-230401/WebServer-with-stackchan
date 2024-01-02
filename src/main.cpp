@@ -22,6 +22,7 @@ void setup()
   wifiSetup();
   serverSetup();
   clockSetup();
+  wifiNetworkInformation();
   
   // *** Servo,TTS,chatGpt ***
   servoSetup();

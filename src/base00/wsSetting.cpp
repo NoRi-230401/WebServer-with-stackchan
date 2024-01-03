@@ -123,7 +123,10 @@ void wsHandleSetting(String volumeS, String volumeDS, String vSpeakerNoS,
   if (toneModeS != "")
   {
     if (toneModeS == "next")
-      TONE_MODE = (TONE_MODE + 1) % 4;
+    {
+      TONE_MODE++;
+      TONE_MODE = TONE_MODE % 4;
+    }
     else
     {
       TONE_MODE = toneModeS.toInt();

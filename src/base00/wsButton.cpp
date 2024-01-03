@@ -34,7 +34,7 @@ static box_t BOX_STATUS_LINE_SELECT;
 static box_t BOX_STATUS_LINE_ONE;
 static box_t BOX_STATUS_LINE_ONOFF;
 static box_t BOX_SERVO;
-static box_t BOX_STT;
+// static box_t BOX_STT;
 
 void wsHandleBtn(String arg)
 {
@@ -51,14 +51,32 @@ void wsHandleBtn(String arg)
   }
   else if (arg_mode == "BTNB")
   {
-    webpage = "timer Start/Stop changed";
+    webpage = "talk to chatGPT";
     BTN_REQ = BtnREQ_B;
     return;
   }
   else if (arg_mode == "BTNC")
   {
-    webpage = "speak Battery Level";
+    webpage = "timer Start/Stop changed";
     BTN_REQ = BtnREQ_C;
+    return;
+  }
+  else if (arg_mode == "BTNUA")
+  {
+    webpage = "statusLineSelect";
+    BTN_REQ = BtnREQ_UA;
+    return;
+  }
+  else if (arg_mode == "BTNUB")
+  {
+    webpage = "statusLineOne";
+    BTN_REQ = BtnREQ_UB;
+    return;
+  }
+  else if (arg_mode == "BTNUC")
+  {
+    webpage = "statusLineOnOff";
+    BTN_REQ = BtnREQ_UC;
     return;
   }
   else if (arg_mode == "BOX_SERVO")
@@ -66,12 +84,12 @@ void wsHandleBtn(String arg)
     webpage = BoxServoDo();
     return;
   }
-  else if (arg_mode == "BOX_STT")
-  {
-    webpage = "talk-with-chatGpt Start";
-    BTN_REQ = BtnREQ_BOX_STT;
-    return;
-  }
+  // else if (arg_mode == "BOX_STT")
+  // {
+  //   webpage = "talk-with-chatGpt Start";
+  //   BTN_REQ = BtnREQ_BOX_STT;
+  //   return;
+  // }
   else
   {
     BTN_REQ = 0;
@@ -108,13 +126,25 @@ void BtnReqGet()
     BtnC_Do();
     break;
 
-    // case BtnREQ_BOX_SERVO:
-    //   BoxServoDo();
-    //   break;
-
-  case BtnREQ_BOX_STT:
-    BoxSttDo();
+  case BtnREQ_UA:
+    BtnUA_Do();
     break;
+
+  case BtnREQ_UB:
+    BtnUB_Do();
+    break;
+
+  case BtnREQ_UC:
+    BtnUC_Do();
+    break;
+
+  case BtnREQ_BOX_SERVO:
+    BoxServoDo();
+    break;
+
+    // case BtnREQ_BOX_STT:
+    //   BoxSttDo();
+    //   break;
 
   default:
     break;
@@ -139,30 +169,35 @@ void ButtonManage()
       auto t = M5.Touch.getDetail();
       if (t.wasPressed())
       {
-        if (BOX_STATUS_LINE_SELECT.contain(t.x, t.y) && statusLineOnOffState && !statusLineOneState) StatusLineDoSelect();
-        if (BOX_STATUS_LINE_ONE.contain(t.x, t.y) && !statusLineOnOffState && !statusLineOneState ) StatusLineDoOne();
-        if (BOX_STATUS_LINE_ONOFF.contain(t.x, t.y) && !statusLineOneState)  StatusLineDoOnOff();
-        if (BOX_STT.contain(t.x, t.y) && (!mp3->isRunning())) BoxSttDo();
-        if (BOX_SERVO.contain(t.x, t.y))  BoxServoDo();
+        if (BOX_STATUS_LINE_SELECT.contain(t.x, t.y) && statusLineOnOffState && !statusLineOneState)
+          StatusLineDoSelect();
+        if (BOX_STATUS_LINE_ONE.contain(t.x, t.y) && !statusLineOnOffState && !statusLineOneState)
+          StatusLineDoOne();
+        if (BOX_STATUS_LINE_ONOFF.contain(t.x, t.y) && !statusLineOneState)
+          StatusLineDoOnOff();
+        // if (BOX_STT.contain(t.x, t.y) && (!mp3->isRunning())) BoxSttDo();
+        if (BOX_SERVO.contain(t.x, t.y))
+          BoxServoDo();
       }
     }
   }
 #endif
 
+  // ** (BtnA) self-talk OnOff
   if (M5.BtnA.wasPressed())
   {
     if (!KEYLOCK_STATE)
       BtnA_Do();
   }
 
-  // ** (BtnB) Timer Start/Stop
+  // ** (BtnB) talk to chatGPT --STT
   if (M5.BtnB.wasPressed())
   {
     if (!KEYLOCK_STATE)
       BtnB_Do();
   }
 
-  // ** (BtnC) batteryLeve and SysInfoDisp
+  // ** (BtnC) Timer Start/Stop
   if (M5.BtnC.wasPressed())
   {
     if (!KEYLOCK_STATE)
@@ -182,7 +217,39 @@ void BtnA_Do()
     RANDOM_SPEAK_OFF_GET = true;
 }
 
-void BtnB_Do()
+void BtnUA_Do()
+{
+  tone(1);
+  if (SYSINFO_DISP_STATE)
+    sysInfoDispEnd();
+
+  statusLineSelect();
+}
+
+void BtnUB_Do()
+{
+  tone(1);
+  if (SYSINFO_DISP_STATE)
+    sysInfoDispEnd();
+  
+  statusLineOne();
+}
+
+void BtnUC_Do()
+{
+  tone(1);
+  if (SYSINFO_DISP_STATE)
+    sysInfoDispEnd();
+
+  statusLineOnOff();
+}
+
+
+// 240113 btn change by NoRi
+// ----------------------------
+// BtnB --> talk to ChatGPT
+// BtnC --> TimerOn/Off
+void BtnC_Do()
 {
   tone(1);
   if (SYSINFO_DISP_STATE)
@@ -201,22 +268,20 @@ void BtnB_Do()
   }
 }
 
-void BtnC_Do()
+void BtnB_Do()
+{
+  BoxSttDo();
+}
+
+void BoxSttDo()
 {
   tone(1);
-
-  if (!SYSINFO_DISP_STATE)
-  {
-    randomSpeakStop2();
-    timerStop2();
-    report_batt_level();
-    // sysInfoDispStart(0);
-  }
-  else
-  {
+  if (SYSINFO_DISP_STATE)
     sysInfoDispEnd();
-  }
+
+  SST_ChatGPT();
 }
+//-----------------------------------------------
 
 void StatusLineDoOnOff()
 {
@@ -246,16 +311,6 @@ void StatusLineDoOne()
   statusLineOne();
 }
 
-
-void BoxSttDo()
-{
-  tone(1);
-  if (SYSINFO_DISP_STATE)
-    sysInfoDispEnd();
-
-  SST_ChatGPT();
-}
-
 void BoxTouchSetup()
 {
   int w100 = M5.Display.width();
@@ -265,11 +320,11 @@ void BoxTouchSetup()
   int h50 = h100 / 2;
   int h25 = h100 / 4;
 
-  BOX_STATUS_LINE_SELECT.setupBox(0, 0, w25, h25);                // 上左
-  BOX_STATUS_LINE_ONE.setupBox(w50 - w25/2 - 1, 0, w25, h25);     // 上中
-  BOX_STATUS_LINE_ONOFF.setupBox(w100 - w25 - 1, 0, w25, h25);    // 上右
-  
-  BOX_STT.setupBox(0, h50 - (h25 / 2) - 1, w25, h25);             // 中左
-  BOX_SERVO.setupBox(w100-w25-1, h50 - (h25 / 2) - 1 , w25, h25); // 中右
-  
+  BOX_STATUS_LINE_SELECT.setupBox(0, 0, w25, h25);              // 上左
+  BOX_STATUS_LINE_ONE.setupBox(w50 - w25 / 2 - 1, 0, w25, h25); // 上中
+  BOX_STATUS_LINE_ONOFF.setupBox(w100 - w25 - 1, 0, w25, h25);  // 上右
+
+  // BOX_STT.setupBox(0, h50 - (h25 / 2) - 1, w25, h25);             // 中左
+  // BOX_SERVO.setupBox(w100-w25-1, h50 - (h25 / 2) - 1 , w25, h25); // 中右
+  BOX_SERVO.setupBox(w50 - w25 - 1, h50 - (h25 / 2) - 1, w25, h25); // 中心
 }

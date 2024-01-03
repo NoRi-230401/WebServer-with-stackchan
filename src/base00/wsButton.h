@@ -11,6 +11,9 @@
 #define BtnREQ_C 3
 #define BtnREQ_BOX_SERVO 4
 #define BtnREQ_BOX_STT 5
+#define BtnREQ_UA 7
+#define BtnREQ_UB 8
+#define BtnREQ_UC 9
 
 extern AudioGeneratorMP3 *mp3;
 extern bool SYSINFO_DISP_STATE;
@@ -44,6 +47,10 @@ void ButtonManage();
 void BtnA_Do();
 void BtnB_Do();
 void BtnC_Do();
+void BtnUA_Do();
+void BtnUB_Do();
+void BtnUC_Do();
+
 void BoxSttDo();
 void BoxTouchSetup();
 void StatusLineDoOnOff();

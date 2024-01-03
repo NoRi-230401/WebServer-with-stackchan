@@ -45,6 +45,6 @@ void loop()
   ButtonManage();
   RequestManage();
   SpeechManage();
-  batteryIconManage();
+  StatusLineManage();
 }
 

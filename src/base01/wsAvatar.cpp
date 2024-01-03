@@ -15,8 +15,8 @@ const Expression expressions_table[] = {
     Expression::Sad,
     Expression::Angry};
 
-bool bIconOnOff = true;
-int StatusMD = 0;
+bool statusLineOnOffState = true;
+bool statusLineOneState = false;
 #define STATUS_MD_ICON 0
 #define STATUS_MD_NUM 1
 #define STATUS_MD_CLOCK 2
@@ -24,39 +24,45 @@ int StatusMD = 0;
 #define STATUS_MD_IP 4
 #define STATUS_MD_VOL 5
 #define STATUS_MD_MAX 6
+int StatusLineMode = STATUS_MD_ICON;
+
+constexpr int duration_1013 = 1 * 1013;       // 1.013秒: statusLineCheck_time
+constexpr int duration_10000 = 10 * 1000;     // 10秒    : statusLineOne_time
+uint32_t statusLineOne_time = 0; 
+uint32_t statusLineCheck_time = 0;
+
+
 
 void avatarSTART()
 {
   avatar.init(8);
   set_avatar_color();
-
-  // --- BatteryIcon -------------
-  // avatar.setBatteryIcon(true);
-  StatusMD = 0;
-  bIconOnOff = true;
-  avatar.setBatteryIcon(true, BATTERY_MD_ICON);
-
+  
   avatar.setSpeechFont(&fonts::efontJA_16);
   avatar.addTask(lipSync, "lipSync");
   avatar.addTask(servo, "servo");
 
-  avatar.setBatteryStatus(M5.Power.isCharging(), M5.Power.getBatteryLevel(), "Hello StackChan");
-
-  // 一度balloon表示しないとBatteryIconのテキスト設定うまくいかない為
+  // --- status line initial setup ---
+  StatusLineMode = STATUS_MD_ICON;
+  statusLineOnOffState = true;
+  statusLineOneState=false;
+  avatar.setBatteryIcon(true, BATTERY_MD_ICON);
+  avatar.setBatteryStatus(M5.Power.isCharging(), M5.Power.getBatteryLevel(), "");
+  // 一度balloon表示しないとBatteryIconのフォント設定が反映されない？？ -- by NoRi 240101 --
   avatar.setSpeechText("スタックチャン");
   delay(1000);
   avatar.setSpeechText("");
 }
 
-void batteryIconSelect()
+void statusLineSelect()
 {
-  if (bIconOnOff == false)
+  if (!statusLineOnOffState)
     return;
 
-  StatusMD++;
-  StatusMD = StatusMD % STATUS_MD_MAX;
+  StatusLineMode++;
+  StatusLineMode = StatusLineMode % STATUS_MD_MAX;
 
-  switch (StatusMD)
+  switch (StatusLineMode)
   {
   case STATUS_MD_ICON:
     avatar.setBatteryIcon(true, BATTERY_MD_ICON);
@@ -78,27 +84,14 @@ void batteryIconSelect()
   }
 }
 
-constexpr int duration_500 = 500;             // 500ミリ秒
-constexpr int duration_1013 = 1 * 1013;       // 1.013秒
-constexpr int duration_1000 = 1 * 1000;       // 1秒
-constexpr int duration_5000 = 5 * 1000;       // 5秒
-constexpr int duration_10000 = 10 * 1000;     // 10秒
-constexpr int duration_60000 = 60 * 1000;     // 60秒
-constexpr int duration_90000 = 90 * 1000;     // 90秒
-constexpr int duration_600000 = 600 * 1000;   // 10分
-constexpr int duration_1800000 = 1800 * 1000; // 30分
-
-bool batteryIconOnceState = false;
-uint32_t battery_OnceTime = 0; // 前回チェック：バッテリー
-
-void batteryIconOnce()
+void statusLineOne()
 {
-  if (batteryIconOnceState || bIconOnOff)
+  if (statusLineOneState || statusLineOnOffState)
     return;
 
-  batteryIconOnceState = true;
+  statusLineOneState = true;
 
-  switch (StatusMD)
+  switch (StatusLineMode)
   {
   case STATUS_MD_ICON:
     avatar.setBatteryIcon(true, BATTERY_MD_ICON);
@@ -118,34 +111,20 @@ void batteryIconOnce()
   default:
     break;
   }
-  battery_OnceTime = millis();
+  statusLineOne_time = millis();
 }
 
-void batteryIconOnceManage()
+void statusLineOnOff()
 {
-  if (!batteryIconOnceState || bIconOnOff)
-    return;
-
-  if ( (millis() - battery_OnceTime) < duration_10000)
-    return;
-
-  batteryIconOnceState = false;
-  bIconOnOff = false;
-  avatar.setBatteryIcon(true, BATTERY_MD_INVISIBLE);
-  battery_OnceTime = millis();
-}
-
-void batteryIconOnOff()
-{
-  if (bIconOnOff == true)
+  if (statusLineOnOffState)
   {
-    bIconOnOff = false;
+    statusLineOnOffState = false;
     avatar.setBatteryIcon(true, BATTERY_MD_INVISIBLE);
   }
   else
   {
-    bIconOnOff = true;
-    switch (StatusMD)
+    statusLineOnOffState = true;
+    switch (StatusLineMode)
     {
     case STATUS_MD_ICON:
       avatar.setBatteryIcon(true, BATTERY_MD_ICON);
@@ -168,19 +147,32 @@ void batteryIconOnOff()
   }
 }
 
-
-uint32_t battery_time = 0; // 前回チェック：バッテリー
-void batteryIconManage()
+void statusLineOneManage()
 {
-  // バッテリー状態を更新
-  if (millis() - battery_time >= duration_1013)
+  if (!statusLineOneState || statusLineOnOffState)
+    return;
+
+  if ( (millis() - statusLineOne_time) < duration_10000)
+    return;
+
+  statusLineOneState = false;
+  statusLineOnOffState = false;
+  avatar.setBatteryIcon(true, BATTERY_MD_INVISIBLE);
+  statusLineOne_time = millis();
+}
+
+
+
+void statusLineCheckManage()
+{
+  if (millis() - statusLineCheck_time >= duration_1013)
   {
     bool isCharging = (bool)M5.Power.isCharging();
     int batteryLevel = (int)M5.Power.getBatteryLevel();
     String msg = "";
     char s[40];
 
-    switch (StatusMD)
+    switch (StatusLineMode)
     {
     case STATUS_MD_ICON:
     case STATUS_MD_NUM:
@@ -208,12 +200,16 @@ void batteryIconManage()
     }
 
     avatar.setBatteryStatus(isCharging, batteryLevel, msg);
-    battery_time = millis();
+    statusLineCheck_time = millis();
   }
-
-  batteryIconOnceManage();
-
 }
+
+void StatusLineManage()
+{
+  statusLineCheckManage();
+  statusLineOneManage();
+}
+
 
 uint8_t config_color1_red = 0;     // 背景の色
 uint8_t config_color1_green = 0;   // 背景の色

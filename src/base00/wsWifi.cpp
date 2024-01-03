@@ -15,7 +15,7 @@ void wifiNetworkInformation()
   String w_Channel = String(WiFi.channel()) ;
   String w_EncryptionT = String(EncryptionType(WiFi.encryptionType(0)));;
   
-  Serial.println("#### WiFi Network Information ####");
+  Serial.println("\n** WiFi Network Information **");
   Serial.println("ServerName = " + SERVER_NAME);
   Serial.println("IP = "+ w_IP);
   Serial.println("MAC = "+ w_MAC);
@@ -23,7 +23,7 @@ void wifiNetworkInformation()
   Serial.println("RSSI = "+ w_RSSI);
   Serial.println("Channel = "+ w_Channel);
   Serial.println("EncryptionType = "+ w_EncryptionT);
-  Serial.println("-----------------------------------");
+  Serial.println("-------------------------------");
 }
 
 
@@ -139,9 +139,9 @@ void wifiSetup()
   IP_ADDR = String(WiFi.localIP().toString());
   SSID = String(WiFi.SSID());
 
-  Serial.println("IP_ADDR = " + IP_ADDR);
-  Serial.println("SSID = " + SSID);
-  Serial.println("Go to http://" + IP_ADDR);
+  // Serial.println("IP_ADDR = " + IP_ADDR);
+  // Serial.println("SSID = " + SSID);
+  // Serial.println("Go to http://" + IP_ADDR);
 
   M5.Lcd.println("\nConnected");
   M5.Lcd.print("Go to http://");

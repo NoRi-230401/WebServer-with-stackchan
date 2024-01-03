@@ -11,7 +11,9 @@ const String jsonSTARTUP = "{\"startup\":[{\"serverName\":\"stackchan\",\"vSpeak
 
 size_t VOLUME_VALUE;
 bool MUTE_ON_STATE = false;
-uint8_t TONE_MODE = 1; // 0:allOff 1:buttonOn 2:extCommOn 3:allOn
+#define TONE_MODE_INIT 0
+// uint8_t TONE_MODE = 1; // 0:allOff 1:buttonOn 2:extCommOn 3:allOn
+uint8_t TONE_MODE = TONE_MODE_INIT; // 0:allOff(default) 1:buttonOn 2:extCommOn 3:allOn
 String SYSINFO_MSG = "";
 String IP_ADDR = "";
 String SSID = "";
@@ -127,7 +129,7 @@ void wsHandleSetting(String volumeS, String volumeDS, String vSpeakerNoS,
       TONE_MODE = toneModeS.toInt();
       if ((TONE_MODE < 0) || (TONE_MODE > 3))
       {
-        TONE_MODE = 1;
+        TONE_MODE = TONE_MODE_INIT;
       }
     }
 
@@ -607,7 +609,7 @@ bool startupFileRead()
   RANDOM_TIME = -1;
   RANDOM_SPEAK_ON_GET = false;
   RANDOM_SPEAK_STATE = false;
-  TONE_MODE = 1;
+  TONE_MODE = TONE_MODE_INIT;
   MUTE_ON_STATE = false;
   KEYLOCK_STATE = false;
   TIMER_SEC_VALUE = 180;
@@ -708,7 +710,7 @@ bool startupFileRead()
   {
     int getVal = getStr6.toInt();
     if (getVal < 0 || getVal > 3)
-      getVal = 1;
+      getVal = TONE_MODE_INIT;
     TONE_MODE = getVal;
     Serial.println("Startup : toneMode = " + getStr6);
     cnt++;
@@ -721,7 +723,7 @@ bool startupFileRead()
       size_t mode;
       nvs_get_u32(nvs_handle, "toneMode", &mode);
       if (mode < 0 || mode > 3)
-        mode = 1;
+        mode = TONE_MODE_INIT;
       TONE_MODE = mode;
       nvs_close(nvs_handle);
       Serial.println("Startup : NVS toneMode = " + String(mode, DEC));

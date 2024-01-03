@@ -47,12 +47,12 @@ extern int CHARA_NO;
 
 // -----------------------------------
 void wsHandleFace(String expression);
-void batteryIconSelect();
-void batteryIconOnce();
-
-void batteryIconOnOff();
-void batteryIconManage();
-void batteryIconOnceManage();
+void statusLineSelect();
+void statusLineOne();
+void statusLineOnOff();
+void StatusLineManage();
+void statusLineCheckManage();
+void statusLineOneManage();
 void set_avatar_color();
 void servo(void *args);
 bool setFace(int expr);

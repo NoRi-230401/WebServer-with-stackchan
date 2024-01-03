@@ -20,7 +20,7 @@ extern void TimerManage();
 extern void ButtonManage();
 extern void RequestManage();
 extern void SpeechManage();
-extern void batteryIconManage();
+extern void StatusLineManage();
 extern void clockSetup();
 extern void wifiNetworkInformation();
 // ----------------------------------------------------------

@@ -31,11 +31,12 @@ extern void tone(int mode);
 extern void SST_ChatGPT();
 extern bool TIMER_STOP_GET;
 extern bool TIMER_GO_GET;
-extern void batteryIconSelect();
-extern void batteryIconOnce();
-extern void batteryIconOnOff();
-extern bool bIconOnOff;
-extern bool batteryIconOnceState;
+extern void statusLineSelect();
+extern void statusLineOnOff();
+extern void statusLineOne();
+extern bool statusLineOnOffState;
+extern bool statusLineOneState;
+
 // --------------------------------------------------------
 void wsHandleBtn(String arg);
 void BtnReqGet();
@@ -45,8 +46,9 @@ void BtnB_Do();
 void BtnC_Do();
 void BoxSttDo();
 void BoxTouchSetup();
-void BoxBatteryIconDoOnOff();
-void BoxBatteryIconDoSelect();
-void BoxBatteryIconDoOnce();
+void StatusLineDoOnOff();
+void StatusLineDoSelect();
+void StatusLineDoOne();
 // --------------------------------------------------------
+
 #endif

@@ -16,7 +16,7 @@ namespace m5avatar
   {
   private:
     void drawBatteryIcon(M5Canvas *spi, uint32_t x, uint32_t y, uint16_t fgcolor, uint16_t bgcolor, float offset, BatteryIconStatus batteryIconStatus, int32_t batteryLevel)
-    {
+    { // draw : battery Icon
       spi->drawRect(x, y + 5, 5, 5, fgcolor);
       spi->drawRect(x + 5, y, 30, 15, fgcolor);
       int battery_width = 30 * (float)(batteryLevel / 100.0f);
@@ -32,10 +32,9 @@ namespace m5avatar
       }
     }
 
-    void drawBatteryIcon02(M5Canvas *spi, uint16_t fgcolor, uint16_t bgcolor,
+    void drawBatteryLvlNum(M5Canvas *spi, uint16_t fgcolor, uint16_t bgcolor,
        BatteryIconStatus batteryIconStatus, int32_t batteryLevel, const lgfx::IFont *font)
-    {
-      // 一度、balloonの表示を出さないとキャラクタ設定が反映されない？？
+    {// draw : batteryLevel number(%) 
       spi->setFont(font);
       spi->setTextColor(fgcolor, bgcolor);
       spi->setTextDatum(top_left);
@@ -46,22 +45,18 @@ namespace m5avatar
         chargeState = "charging";
 
       char levelTxt[30];
-      sprintf(levelTxt,"BatteryLevel = %3d", batteryLevel);
-      spi->print( String(levelTxt) + "\% " + chargeState);
+      sprintf(levelTxt,"Battery:%3d", batteryLevel);
+      spi->print( String(levelTxt) + "\%   " + chargeState);
     }
 
-
-    void drawBatteryIcon03(M5Canvas *spi, uint16_t fgcolor, uint16_t bgcolor, 
-      BatteryIconStatus batteryIconStatus, int32_t batteryLevel, String msg, const lgfx::IFont *font) 
-    {
+    void drawStatusLineMsg(M5Canvas *spi, uint16_t fgcolor, uint16_t bgcolor, String msg, const lgfx::IFont *font) 
+    {// draw : statusLine Text
       spi->setFont(font);
       spi->setTextColor(fgcolor, bgcolor);
       spi->setTextDatum(top_left);
       spi->setCursor(0, 0);
       spi->print( msg );
     }
-
-
 
   public:
     // constructor
@@ -74,7 +69,7 @@ namespace m5avatar
       auto iStatus = ctx->getBatteryIconStatus();
 
       if (iStatus == BatteryIconStatus::discharging || iStatus == BatteryIconStatus::charging || iStatus == BatteryIconStatus::unknown)
-      {
+      {// batteryLevel ICON disp
         uint16_t primaryColor = ctx->getColorDepth() == 1 ? 1 : ctx->getColorPalette()->get(COLOR_PRIMARY);
         uint16_t bgColor = ctx->getColorDepth() == 1 ? ERACER_COLOR : ctx->getColorPalette()->get(COLOR_BACKGROUND);
         float offset = ctx->getBreath();
@@ -82,23 +77,20 @@ namespace m5avatar
         drawBatteryIcon(spi, 285, 5, primaryColor, bgColor, -offset, ctx->getBatteryIconStatus(), batteryLevel);
       }
       else if (iStatus == BatteryIconStatus::Ndischarging || iStatus == BatteryIconStatus::Ncharging || iStatus == BatteryIconStatus::numMD)
-      {
+      {// batteryLevel number(%) disp
         uint16_t primaryColor = ctx->getColorDepth() == 1 ? 1 : ctx->getColorPalette()->get(COLOR_PRIMARY);
         uint16_t bgColor = ctx->getColorDepth() == 1 ? ERACER_COLOR : ctx->getColorPalette()->get(COLOR_BACKGROUND);
         int32_t batteryLevel = ctx->getBatteryLevel();
         const lgfx::IFont *font = ctx->getStatusLineFont();
-
-        drawBatteryIcon02(spi, primaryColor, bgColor, ctx->getBatteryIconStatus(), batteryLevel, font);
+        drawBatteryLvlNum(spi, primaryColor, bgColor, ctx->getBatteryIconStatus(), batteryLevel, font);
       }
       else if (iStatus == BatteryIconStatus::lineDispMD)
-      {
+      {// status line mode
         uint16_t primaryColor = ctx->getColorDepth() == 1 ? 1 : ctx->getColorPalette()->get(COLOR_PRIMARY);
         uint16_t bgColor = ctx->getColorDepth() == 1 ? ERACER_COLOR : ctx->getColorPalette()->get(COLOR_BACKGROUND);
-        int32_t batteryLevel = ctx->getBatteryLevel();
         String msg = ctx->getBatteryLineText();
         const lgfx::IFont *font = ctx->getStatusLineFont();
-
-        drawBatteryIcon03(spi, primaryColor, bgColor, ctx->getBatteryIconStatus(), batteryLevel, msg , font);
+        drawStatusLineMsg(spi, primaryColor, bgColor, msg , font);
       }
     };
   };

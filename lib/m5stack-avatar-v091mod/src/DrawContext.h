@@ -14,7 +14,6 @@
 
 
 namespace m5avatar {
-// enum BatteryIconStatus { discharging, charging, invisible, unknown };
 enum BatteryIconStatus { invisible, discharging, charging, unknown, Ndischarging, Ncharging, numMD, lineDispMD };
 class DrawContext {
  private:
@@ -32,20 +31,20 @@ class DrawContext {
   String batteryLineText = "";
   int32_t batteryLevel = 0;
   const lgfx::IFont* speechFont = nullptr; // = &fonts::lgfxJapanGothicP_16; //  = &fonts::efontCN_10;
-  const lgfx::IFont* statusLineFont = nullptr; // = &fonts::lgfxJapanGothicP_16; //  = &fonts::efontCN_10;
+  const lgfx::IFont* statusLineFont = nullptr;
 
  public:
   DrawContext() = delete;
   DrawContext(Expression expression, float breath, ColorPalette* const palette,
               Gaze gaze, float eyeOpenRatio, float mouthOpenRatio,
               String speechText, BatteryIconStatus batteryIconStatus, String batteryLineText,
-              int32_t batteryLevel, const lgfx::IFont* speechFont, const lgfx::IFont* stutusLineFont);
+              int32_t batteryLevel, const lgfx::IFont* speechFont, const lgfx::IFont* stutusLineFont
+              );
   
   DrawContext(Expression expression, float breath, ColorPalette* const palette,
               Gaze gaze, float eyeOpenRatio, float mouthOpenRatio,
               String speechText, float rotation, float scale, int colorDepth, BatteryIconStatus batteryIconStatus, String batteryLineText,
-              int32_t batteryLevel,
-              const lgfx::IFont* speechFont, const lgfx::IFont* statusLineFont
+              int32_t batteryLevel, const lgfx::IFont* speechFont, const lgfx::IFont* statusLineFont
               );
   
   ~DrawContext() = default;

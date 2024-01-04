@@ -26,29 +26,27 @@ bool statusLineOneState = false;
 #define STATUS_MD_MAX 6
 int StatusLineMode = STATUS_MD_ICON;
 
-constexpr int duration_1013 = 1 * 1013;       // 1.013秒: statusLineCheck_time
-constexpr int duration_10000 = 10 * 1000;     // 10秒    : statusLineOne_time
-uint32_t statusLineOne_time = 0; 
+constexpr int duration_1013 = 1 * 1013;   // 1.013秒: statusLineCheck_time
+constexpr int duration_10000 = 10 * 1000; // 10秒    : statusLineOne_time
+uint32_t statusLineOne_time = 0;
 uint32_t statusLineCheck_time = 0;
-
-
 
 void avatarSTART()
 {
   avatar.init(8);
   set_avatar_color();
-  
   avatar.setSpeechFont(&fonts::efontJA_16);
-  avatar.setStatusLineFont(&fonts::lgfxJapanGothicP_12);
   avatar.addTask(lipSync, "lipSync");
   avatar.addTask(servo, "servo");
 
-  // --- status line initial setup ---
+  // -- batteryStatusLine setup ---
   StatusLineMode = STATUS_MD_ICON;
   statusLineOnOffState = true;
-  statusLineOneState=false;
+  statusLineOneState = false;
   avatar.setBatteryIcon(true, BATTERY_MD_ICON);
-  avatar.setBatteryStatus(M5.Power.isCharging(), M5.Power.getBatteryLevel(), "");
+  avatar.setBatteryStatus(M5.Power.isCharging(), M5.Power.getBatteryLevel());
+  avatar.setStatusLineFont(&fonts::lgfxJapanGothicP_12);
+  
   // 一度balloon表示しないとBatteryIconのフォント設定が反映されない？？ -- by NoRi 240101 --
   avatar.setSpeechText("スタックチャン");
   delay(1000);
@@ -153,7 +151,7 @@ void statusLineOneManage()
   if (!statusLineOneState || statusLineOnOffState)
     return;
 
-  if ( (millis() - statusLineOne_time) < duration_10000)
+  if ((millis() - statusLineOne_time) < duration_10000)
     return;
 
   statusLineOneState = false;
@@ -162,46 +160,42 @@ void statusLineOneManage()
   statusLineOne_time = millis();
 }
 
-
-
 void statusLineCheckManage()
 {
   if (millis() - statusLineCheck_time >= duration_1013)
   {
-    bool isCharging = (bool)M5.Power.isCharging();
-    int batteryLevel = (int)M5.Power.getBatteryLevel();
-    String msg = "";
+    String statusLineMsg = "";
     char s[40];
+    statusLineCheck_time = millis();
 
     switch (StatusLineMode)
     {
     case STATUS_MD_ICON:
     case STATUS_MD_NUM:
-      break;
+      avatar.setBatteryStatus(M5.Power.isCharging(), M5.Power.getBatteryLevel());
+      return;
 
     case STATUS_MD_CLOCK:
-      msg = getDateTime();
+      statusLineMsg = getDateTime();
       break;
 
     case STATUS_MD_RSSI:
-      msg = "WiFi  Rssi=" + String(WiFi.RSSI()) + "dB   Chan=" + String(WiFi.channel());
+      statusLineMsg = "WiFi  Rssi=" + String(WiFi.RSSI()) + "dB   Chan=" + String(WiFi.channel());
       break;
 
     case STATUS_MD_IP:
-      msg = String(WiFi.localIP().toString()) + "  " + SERVER_NAME;
+      statusLineMsg = String(WiFi.localIP().toString()) + "  " + SERVER_NAME;
       break;
 
     case STATUS_MD_VOL:
-      sprintf(s, "vol=%3d  vSpk=%2d  chara=%d", VOLUME_VALUE, TTS2_SPEAKER_NO.toInt(), CHARA_NO);
-      msg = String(s);
+      sprintf(s, "Vol=%3d  vSpk=%2d  Chara=%d", VOLUME_VALUE, TTS2_SPEAKER_NO.toInt(), CHARA_NO);
+      statusLineMsg = String(s);
       break;
 
     default:
-      break;
+      return;
     }
-
-    avatar.setBatteryStatus(isCharging, batteryLevel, msg);
-    statusLineCheck_time = millis();
+    avatar.setBatteryLineText(statusLineMsg);
   }
 }
 
@@ -210,7 +204,6 @@ void StatusLineManage()
   statusLineCheckManage();
   statusLineOneManage();
 }
-
 
 uint8_t config_color1_red = 0;     // 背景の色
 uint8_t config_color1_green = 0;   // 背景の色

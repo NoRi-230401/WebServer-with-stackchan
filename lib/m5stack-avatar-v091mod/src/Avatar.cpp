@@ -170,7 +170,9 @@ namespace m5avatar
     DrawContext *ctx = new DrawContext(this->expression, this->breath,
                                        &this->palette, g, this->eyeOpenRatio,
                                        this->mouthOpenRatio, this->speechText,
-                                       this->rotation, this->scale, this->colorDepth, this->batteryIconStatus, this->batteryLineText, this->batteryLevel, this->speechFont, this->statusLineFont);
+                                       this->rotation, this->scale, this->colorDepth,
+                                       this->batteryIconStatus, this->batteryLineText,
+                                       this->batteryLevel, this->speechFont, this->statusLineFont);
     face->draw(ctx);
     delete ctx;
   }
@@ -235,23 +237,28 @@ namespace m5avatar
     this->speechFont = speechFont;
   }
 
+  
+  // -- BatteryIcon modified for StatusLine by NoRi 2024/01/01 ----------
   void Avatar::setStatusLineFont(const lgfx::IFont *statusLineFont)
   {
     this->statusLineFont = statusLineFont;
   }
-
+  
   void Avatar::setBatteryIcon(bool batteryIcon)
   {
-    if (!batteryIcon) {
+    if (!batteryIcon)
+    {
       batteryIconStatus = BatteryIconStatus::invisible;
-    } else {
+    }
+    else
+    {
       batteryIconStatus = BatteryIconStatus::unknown;
     }
   }
 
   void Avatar::setBatteryIcon(bool batteryIcon, int8_t batteryIconMode)
   {
-    if (!batteryIcon) 
+    if (!batteryIcon)
     {
       batteryIconStatus = BatteryIconStatus::invisible;
       return;
@@ -280,27 +287,18 @@ namespace m5avatar
 
   void Avatar::setBatteryStatus(bool isCharging, int32_t batteryLevel)
   {
-    // if (this->batteryIconStatus != BatteryIconStatus::invisible) {
-    //   if (isCharging) {
-    //     this->batteryIconStatus = BatteryIconStatus::charging;
-    //   } else {
-    //     this->batteryIconStatus = BatteryIconStatus::discharging;
-    //   }
-    //   this->batteryLevel = batteryLevel;
-    // }
-
     auto iStatus = this->batteryIconStatus;
     if (iStatus == BatteryIconStatus::invisible)
       return;
 
-    if(iStatus==BatteryIconStatus::charging ||iStatus==BatteryIconStatus::discharging ||iStatus==BatteryIconStatus::unknown )
+    if (iStatus == BatteryIconStatus::charging || iStatus == BatteryIconStatus::discharging || iStatus == BatteryIconStatus::unknown)
     {
       if (isCharging)
         this->batteryIconStatus = BatteryIconStatus::charging;
       else
         this->batteryIconStatus = BatteryIconStatus::discharging;
     }
-    else if(iStatus==BatteryIconStatus::Ncharging ||iStatus==BatteryIconStatus::Ndischarging ||iStatus==BatteryIconStatus::numMD)
+    else if (iStatus == BatteryIconStatus::Ncharging || iStatus == BatteryIconStatus::Ndischarging || iStatus == BatteryIconStatus::numMD)
     {
       if (isCharging)
         this->batteryIconStatus = BatteryIconStatus::Ncharging;
@@ -308,28 +306,12 @@ namespace m5avatar
         this->batteryIconStatus = BatteryIconStatus::Ndischarging;
     }
 
-    this->batteryLevel = batteryLevel; 
+    this->batteryLevel = batteryLevel;
   }
-
-  void Avatar::setBatteryStatus(bool isCharging, int32_t batteryLevel, String lineText )
-  {
-    setBatteryStatus(isCharging, batteryLevel);
-
-    // Serial.println("setBatteryStatus() LineMsg=" + LineMsg);
-    auto iStatus = this->batteryIconStatus;
-    if (iStatus == BatteryIconStatus::lineDispMD)
-    {
-      this->batteryLineText = lineText;
-    }
-
-    // Serial.println("setBatteryStatus() batteryLineText = " + this->batteryLineText);
-    
-  }
-
-  void Avatar::setBatteryLineText( String lineText )
+  
+  void Avatar::setBatteryLineText(String lineText)
   {
     this->batteryLineText = lineText;
   }
-
 
 } // namespace m5avatar

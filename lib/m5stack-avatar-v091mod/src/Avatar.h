@@ -74,13 +74,10 @@ class Avatar {
   void resume();
 
   void setBatteryIcon(bool iconStatus);
-  void setBatteryStatus(bool isCharging, int32_t batteryLevel);
-  // ---------------------------------------------------------------------------------
   void setBatteryIcon(bool iconStatus, int8_t iconStatusMode);
-  void setBatteryStatus(bool isCharging, int32_t batteryLevel, String LineMsg );
+  void setBatteryStatus(bool isCharging, int32_t batteryLevel);
   void setBatteryLineText( String lineText );
-  // ---------------------------------------------------------------------------------
- 
+  
 };
 
 

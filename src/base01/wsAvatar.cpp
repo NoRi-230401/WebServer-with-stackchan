@@ -39,6 +39,7 @@ void avatarSTART()
   set_avatar_color();
   
   avatar.setSpeechFont(&fonts::efontJA_16);
+  avatar.setStatusLineFont(&fonts::lgfxJapanGothicP_12);
   avatar.addTask(lipSync, "lipSync");
   avatar.addTask(servo, "servo");
 

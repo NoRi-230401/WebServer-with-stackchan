@@ -10,14 +10,14 @@ DrawContext::DrawContext(Expression expression, float breath,
                          ColorPalette* const palette, Gaze gaze,
                          float eyeOpenRatio, float mouthOpenRatio,
                          String speechText, BatteryIconStatus batteryIcon, String batteryLineText,
-                         int32_t batteryLevel, const lgfx::IFont* speechFont)
-    : DrawContext(expression, breath, palette, gaze, eyeOpenRatio, mouthOpenRatio, speechText, 0, 1, 1, BatteryIconStatus::invisible, batteryLineText,0, speechFont){};
+                         int32_t batteryLevel, const lgfx::IFont* speechFont, const lgfx::IFont* statusLineFont)
+    : DrawContext(expression, breath, palette, gaze, eyeOpenRatio, mouthOpenRatio, speechText, 0, 1, 1, BatteryIconStatus::invisible, batteryLineText,0, speechFont, statusLineFont ){};
 
 DrawContext::DrawContext(Expression expression, float breath,
                          ColorPalette* const palette, Gaze gaze,
                          float eyeOpenRatio, float mouthOpenRatio,
                          String speechText, float rotation, float scale, int colorDepth, BatteryIconStatus batteryIconStatus, String batteryLineText,
-                         int32_t batteryLevel, const lgfx::IFont* speechFont) 
+                         int32_t batteryLevel, const lgfx::IFont* speechFont, const lgfx::IFont* statusLineFont) 
     : expression{expression},
       breath{breath},
       eyeOpenRatio{eyeOpenRatio},
@@ -31,7 +31,8 @@ DrawContext::DrawContext(Expression expression, float breath,
       batteryIconStatus(batteryIconStatus),
       batteryLineText{batteryLineText},
       batteryLevel(batteryLevel),
-      speechFont{speechFont}{}
+      speechFont{speechFont},
+      statusLineFont{statusLineFont}{}
 
 Expression DrawContext::getExpression() const { return expression; }
 
@@ -54,6 +55,8 @@ ColorPalette* const DrawContext::getColorPalette() const { return palette; }
 int DrawContext::getColorDepth() const { return colorDepth; }
 
 const lgfx::IFont* DrawContext::getSpeechFont() const { return speechFont; }
+
+const lgfx::IFont* DrawContext::getStatusLineFont() const { return statusLineFont; }
 
 BatteryIconStatus DrawContext::getBatteryIconStatus() const { return batteryIconStatus; }
   

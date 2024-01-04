@@ -33,6 +33,7 @@ class Avatar {
   String batteryLineText;
   int32_t batteryLevel;
   const lgfx::IFont *speechFont;
+  const lgfx::IFont *statusLineFont;
 
  public:
   Avatar();
@@ -55,6 +56,7 @@ class Avatar {
   void setMouthOpenRatio(float ratio);
   void setSpeechText(const char *speechText);
   void setSpeechFont(const lgfx::IFont *speechFont);
+  void setStatusLineFont(const lgfx::IFont *statusLineFont);
   void setRotation(float radian);
   void setPosition(int top, int left);
   void setScale(float scale);

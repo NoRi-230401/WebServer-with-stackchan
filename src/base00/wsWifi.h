@@ -36,7 +36,7 @@ extern String SERVER_NAME;
 extern String EncryptionType(wifi_auth_mode_t encryptionType);
 
 //----------------------------------------------
-void wifiNetworkInformation();
+void networkInformation();
 void wsHandleWifiSetting(String initS, String ssidS, String passwdS,String removeS, String ipS, String gatewayS, String subnetS, String dnsS  );
 bool initWifiJson(DynamicJsonDocument &wifiJson);
 bool jsonInitSave_wifi(DynamicJsonDocument &jsonDoc);

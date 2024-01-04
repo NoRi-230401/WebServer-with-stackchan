@@ -22,7 +22,8 @@ extern void RequestManage();
 extern void SpeechManage();
 extern void StatusLineManage();
 extern void clockSetup();
-extern void wifiNetworkInformation();
+extern void networkInformation();
+extern void log_free_size(const char *text);
 // ----------------------------------------------------------
 void setup();
 void loop();

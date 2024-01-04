@@ -1,6 +1,6 @@
 // ---- <main.cpp>-------------------------------------------------------
 #include "main.h"
-const String WS_VERSION = "WebServer-with-stackchan_V304-240101";
+const String WS_VERSION = "WebServer-with-stackchan_V304-240106";
 
 // ---------------------------------------------------------------------
 // Extended from
@@ -12,7 +12,8 @@ void setup()
 {
   // ** initial Setting **
   M5StackConfig();
-  
+  log_free_size("初期化開始：");
+
   // ** Setting files **
   startupSetting();
   apikeySetting();
@@ -22,7 +23,7 @@ void setup()
   wifiSetup();
   serverSetup();
   clockSetup();
-  wifiNetworkInformation();
+  networkInformation();
   
   // *** Servo,TTS,chatGpt ***
   servoSetup();
@@ -33,8 +34,7 @@ void setup()
     
  //*** Wake UP! STACKCHAN ***
   avatarSTART();
-  // ReqSpkMsg2( "スタックチャン" );
-  Serial.println("## --- setup() done !! --- ## ");
+  log_free_size("初期化終了：");
 }
 
 

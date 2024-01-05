@@ -3,9 +3,10 @@
 const String WS_VERSION = "WebServer-with-stackchan_V304-240106";
 
 // ---------------------------------------------------------------------
-// Extended from
-//  ESPAsynch_Server_v1.1       : by David Bird 2022
-//  AiStackChanEx_v112          : by NoRi 2023-06-23
+//  *** Extended from ***
+// AI_StackChan2                         : robo8080さん
+// ESPAsynch_Server_v1.1　　　　　　　　　: David Bird 2022
+// M5Stack_Stack-chan_another_dimension  : つゆきぱぱさん
 // ----------------------------------------------------------------------
 
 void setup()

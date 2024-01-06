@@ -188,7 +188,7 @@ void statusLineCheckManage()
       break;
 
     case STATUS_MD_VOL:
-      sprintf(s, "Vol=%3d  vSpk=%2d  Chara=%d", VOLUME_VALUE, TTS2_SPEAKER_NO.toInt(), CHARA_NO);
+      sprintf(s, "Vol=%3d vSpk=%2d Chara=%d", VOLUME_VALUE, TTS2_SPEAKER_NO.toInt(), CHARA_NO);
       statusLineMsg = String(s);
       break;
 

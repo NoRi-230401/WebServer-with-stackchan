@@ -77,7 +77,7 @@ void Req_SpkMsgDo2()
 {
   avatar.setExpression(expressions_table[REQ_SPK_EXPR]);
   Serial.println("Req_SpkMsgDo2: REQ_SPK_EXPR = " + String(REQ_SPK_EXPR,DEC));
-  avatar.setSpeechText(REQ_MSG.c_str());
+  // avatar.setSpeechText(REQ_MSG.c_str());
   ttsDo(REQ_MSG);
 }
 

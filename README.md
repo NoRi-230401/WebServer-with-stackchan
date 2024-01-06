@@ -1,20 +1,26 @@
 # WebServer-with-stackchan (WSS)
 
-## New（Ver302 新機能）
-<b>(1).　Chat（Chat Remote Controller）Webアプリ</b><br>
-ChatGPTの操作に特化したリモコンを追加しました。<br>
-・　キャラ変機能<br>
-９つのキャラクター（ロールと音声）をワンタッチで変更<br>
-・　チャット履歴表示（chat History）<br>
+## New（Ver304 新機能）
+<b>(1).ステータス表示</b><br>
+バッテリー・アイコンを拡張してステータス表示ができるよになりました。<br>
+画面上部をタッチすると、６種のモード切替え・１０秒表示・常時表示OnOff機能を実行します。
 
-![画像](images/chatRemoCon.png )<br>
+![画像](images/statusLineMode.jpg)<br>
+<br>
 
-<b>(2).　暫定版：ＳＤファイル管理のフォルダ機能</b><br>
-Spiffs/SDで、ＳＤを選択するとフォルダ機能のメニューが出ます。<br>
-Chdir, Mkdir, Rmdir　などが使えるようになりました。<br>
+<b>(2).イラストのHome画面表示（自由に選択可）</b><br>
+おきもくさんがまとめてくれた、自由に使えるイラストをHome画面に表示できるようになりました。現在、ご提供いただいたイラスト９＋１(下の画像)の計１０種類のファイルが選択できます。
+![画像](images/home-gazo03.png)<br>
 <br>
 <br>
 
+<b>(3).スタックチャン用リモコンの更新（Remote StackChan）</b><br>
+ステータス表示の対応とKeyLock・Rebootボタンが追加されました。
+
+![画像](images/remoteStackChan.png)<br>
+
+<br>
+<br>
 
 ## Features（特徴）
 <b>(1).ファイル管理機能つき、WebServer</b><br>
@@ -34,7 +40,7 @@ Rename a file in SPIFFS/SD<br>
 Spiffs/Sd change file system<br>
 Status　of m5Stack system information<br>
 
-<b>SD folder function (Ver3.02)</b><br>
+<b>SD folder function (暫定版)</b><br>
 Root  : change directory to Root<br>
 Chdir. : change directory<br>
 Mkdir : make directory<br>
@@ -45,9 +51,6 @@ Rmdir: remove directory<br>
 設定・サーボ調整・リモコンのオールインワンのソフトを提供。<br>
 スマートフォンとPC両方に対応しています。<br>
 Webアプリは、html、styleSheet、javaScript、画像ファイルなどを使用して作成できます。<br>
-(　↓　スタックチャン用のリモコン　)
-
-![画像](images/s-remote-smaho.png)<br>
 <br>
 
 <b>(3).階層構造</b><br>
@@ -94,29 +97,23 @@ M5Burnerで、ファームウエアを入手することもできます。<br>
 
 ## LICENSE
 
-私が作成した、ソフト(srcフォルダ以下:libフォルダは除く)は、[MIT license](LICENSE) です。<br>
+私が作成した部分のソフト(srcフォルダ以下:libフォルダは除く)は、[MIT license](LICENSE) です。<br>
 ただし、"src/base00/wsServer.cpp"ファイルは、[ESP-File-Server-License](doc/ESP-File-Server-License.txt)　となります。<br>
 ご自分の判断でご活用ください。<br>
 
-その他の主なライブラリのライセンスは下記となります。<br>
-  - [ｽﾀｯｸﾁｬﾝ](https://protopedia.net/prototype/2345)「Apache-2.0 license」
-  - [m5stack-avatar](https://github.com/meganetaaan/m5stack-avatar)「MIT license」
-  - [M5Unified](https://github.com/m5stack/M5Unified)「MIT license」
-  - [ESP8266Audio](https://github.com/earlephilhower/ESP8266Audio)「GPL-3.0 license」
-  - [ServoEasing]( https://github.com/ArminJo/ServoEasing) 「GPL-3.0 license」
-  - [ArduinoJson](https://github.com/bblanchon/ArduinoJson)「MIT license」
-  - [AsysnTCP](https://github.com/me-no-dev/AsyncTCP)「GPL-3.0 license」
-  - [ESPAsyncWebServer](https://github.com/me-no-dev/ESPAsyncWebServer)「LGPL-2.1 license」
-  - [HTTPClient](https://github.com/espressif/arduino-esp32/blob/master/libraries/HTTPClient/src/HTTPClient.h)「LGPL-2.1 license」
-  - [ESPmDNS](https://github.com/espressif/arduino-esp32/blob/master/libraries/ESPmDNS/src/ESPmDNS.h)「MIT license」
-  - [nvs](https://github.com/espressif/esp-idf/blob/master/components/nvs_flash/include/nvs.h)「Apache-2.0 license」
-  - [SD](https://github.com/arduino-libraries/SD)「GPL-3.0 license」
- 
+イラストのライセンスは下記をご参照ください。<br>
+  - [おきもくさんの公開物wiki] (https://okimoku.com/wiki/%E3%82%A4%E3%83%A9%E3%82%B9%E3%83%88)
+
+<br>
 
 
-## 参考にしたリポジトリ
-- [AI_StackChan2 (robo8080さん)](https://github.com/robo8080/AI_StackChan2)　「MIT License」
-- [stack-chan-tester (タカオさん)](https://github.com/mongonta0716/stack-chan-tester)　「MIT License」
+## 参考リポジトリ
+- [AI_StackChan2 (robo8080さん)](https://github.com/robo8080/AI_StackChan2)「MIT License」
+- [M5Stack_Stack-chan_another_dimension(つゆきぱぱさん)](https://github.com/yakumo0623/M5Stack_Stack-chan_another_dimension)「MIT License」 
+- [stack-chan-tester (タカオさん)](https://github.com/mongonta0716/stack-chan-tester)「MIT License」
+
+- [m5stack-avatar(ししかわさん)](https://github.com/meganetaaan/m5stack-avatar)「MIT License」
+
 - [ESP-File-Server(David Bird:UK)](https://github.com/G6EJD/G6EJD-ESP-File-Server)： [ESP-File-Server-License](doc/ESP-File-Server-License.txt)
 <br><br>
 
@@ -132,9 +129,11 @@ https://github.com/meganetaaan/stack-chan
 ## 謝辞
 このソフトを作成するにあたり、<br>
 
-AiStackChan2の開発者で、先進的な取り組みでスタックチャン界をリードしてくださる[robo8080](https://github.com/robo8080)氏に感謝いたします。<br>
+- AiStackChan2の開発者で、先進的な取り組みでスタックチャン界をリードしてくださる[robo8080](https://github.com/robo8080)氏に感謝いたします。<br>
 
-stack-chan-testerの開発者で、博識でいつも適切なアドバイスをして頂ける[タカオ](https://github.com/mongonta0716)氏に感謝いたします。<br>
+- stack-chan-testerの開発者で、博識でいつも適切なアドバイスをして頂ける[タカオ](https://github.com/mongonta0716)氏に感謝いたします。<br>
+
+- スタックチャン・コミュニティを様々な角度から暖かく支えてくれて、自由に使えるイラストをまとめてくれた[おきもく](http://okimoku.com/gallery/)氏に感謝いたします。<br>
 
 他にも、たくさんの方々からアドバイスとアイデアを頂き、感謝いたしております。
 <br><br>
@@ -144,10 +143,24 @@ stack-chan-testerの開発者で、博識でいつも適切なアドバイスを
 <br>
 
 ## history
+### Ver3.04 2024-01-06
+　
 ### Ver3.03 2023-12-24　
 ・CORE2 V1.1対応 -- M5UnifiedライブラリV0.1.11使用
 ### Ver3.02 2023-12-22　
-・Chat WebApp and SD folder func Add
+<b>(1).　Chat（Chat Remote Controller）Webアプリ</b><br>
+ChatGPTの操作に特化したリモコンを追加しました。<br>
+・　キャラ変機能<br>
+９つのキャラクター（ロールと音声）をワンタッチで変更<br>
+・　チャット履歴表示（chat History）<br>
+
+![画像](images/chatRemoCon.png )<br>
+
+<b>(2).　暫定版：ＳＤファイル管理のフォルダ機能</b><br>
+Spiffs/SDで、ＳＤを選択するとフォルダ機能のメニューが出ます。<br>
+Chdir, Mkdir, Rmdir　などが使えるようになりました。<br>
+<br>
+
 ### Ver3.01 2023-08-23　
 ・first Release
 <br>

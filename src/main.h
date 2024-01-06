@@ -3,7 +3,7 @@
 #define WS_MAIN_H
 // -------------------------------------------------------
 #include <Arduino.h>
-
+extern void ReqSpkMsg2(String spkMsg);
 extern const String WS_VERSION;
 extern void M5StackConfig();
 extern void startupSetting();
@@ -20,7 +20,10 @@ extern void TimerManage();
 extern void ButtonManage();
 extern void RequestManage();
 extern void SpeechManage();
-
+extern void StatusLineManage();
+extern void clockSetup();
+extern void networkInformation();
+extern void log_free_size(const char *text);
 // ----------------------------------------------------------
 void setup();
 void loop();

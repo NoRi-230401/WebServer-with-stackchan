@@ -60,6 +60,8 @@ String BoxServoDo()
   return String("NG");
 }
 
+
+
 void wsHandleServo(String swingXYS, String swingXS, String swingYS,
                    String pointXS, String pointYS, String deltaXS, String deltaYS,
                    String txS, String modeS)

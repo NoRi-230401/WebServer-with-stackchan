@@ -117,30 +117,30 @@ button.btn {
   border-radius: 0.5rem;
 }
 
-.btn--BtnABC,
-a.btn--BtnABC {
-  font-size: 1.7rem;
-  font-weight: 400;
-  padding: 0.1rem 0.5rem;
-  color: #fff;
-  background-color: #16ceca;
-}
-.btn--BtnABC:hover,
-a.btn--BtnABC:hover {
-  color: #fff;
-  background: #d19d0d;
-}
-
 .btn--BtnBOX,
 a.btn--BtnBOX {
   font-size: 1.7rem;
   font-weight: 400;
   padding: 0.1rem 0.5rem;
   color: #fff;
-  background-color: #16ce7e;
+  background-color: #16ceca;
 }
 .btn--BtnBOX:hover,
 a.btn--BtnBOX:hover {
+  color: #fff;
+  background: #d19d0d;
+}
+
+.btn--BtnABC,
+a.btn--BtnABC {
+  font-size: 1.7rem;
+  font-weight: 400;
+  padding: 0.1rem 0.5rem;
+  color: #fff;
+  background-color: #16ce7e;
+}
+.btn--BtnABC:hover,
+a.btn--BtnABC:hover {
   color: #fff;
   background: #d19d0d;
 }

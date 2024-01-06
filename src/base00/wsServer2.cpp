@@ -38,7 +38,7 @@ void setupMDNS()
     ;
     StartupErrors = true;
   }
-  Serial.println("ServerName = " + SERVER_NAME);
+  // Serial.println("ServerName = " + SERVER_NAME);
 }
 
 void serverSetup2()

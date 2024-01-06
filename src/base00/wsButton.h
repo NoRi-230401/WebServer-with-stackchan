@@ -11,6 +11,9 @@
 #define BtnREQ_C 3
 #define BtnREQ_BOX_SERVO 4
 #define BtnREQ_BOX_STT 5
+#define BtnREQ_UA 7
+#define BtnREQ_UB 8
+#define BtnREQ_UC 9
 
 extern AudioGeneratorMP3 *mp3;
 extern bool SYSINFO_DISP_STATE;
@@ -31,6 +34,11 @@ extern void tone(int mode);
 extern void SST_ChatGPT();
 extern bool TIMER_STOP_GET;
 extern bool TIMER_GO_GET;
+extern void statusLineSelect();
+extern void statusLineOnOff();
+extern void statusLineOne();
+extern bool statusLineOnOffState;
+extern bool statusLineOneState;
 
 // --------------------------------------------------------
 void wsHandleBtn(String arg);
@@ -39,7 +47,15 @@ void ButtonManage();
 void BtnA_Do();
 void BtnB_Do();
 void BtnC_Do();
+void BtnUA_Do();
+void BtnUB_Do();
+void BtnUC_Do();
+
 void BoxSttDo();
 void BoxTouchSetup();
+void StatusLineDoOnOff();
+void StatusLineDoSelect();
+void StatusLineDoOne();
 // --------------------------------------------------------
+
 #endif

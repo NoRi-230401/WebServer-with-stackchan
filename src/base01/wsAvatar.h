@@ -2,6 +2,7 @@
 #ifndef WS_AVATAR_H
 #define WS_AVATAR_H
 // ---------------------------
+#include <WiFi.h>  
 #include <Arduino.h>
 #include <ArduinoJson.h>
 #include <Avatar.h>
@@ -37,8 +38,22 @@ extern int SV_HOME_Y;
 extern void servo2(int mode);
 extern void sv_setEaseToX(int x);
 extern void sv_setEaseToY(int y);
+extern String webpage;
+extern String getDateTime();
+extern String SERVER_NAME;
+extern size_t VOLUME_VALUE;
+extern String TTS2_SPEAKER_NO;
+extern int CHARA_NO;
 
 // -----------------------------------
+void wsHandleFace(String expression);
+void statusLineSelect();
+void statusLineOne();
+void statusLineOnOff();
+void StatusLineManage();
+void statusLineCheckManage();
+void statusLineOneManage();
+void set_avatar_color();
 void servo(void *args);
 bool setFace(int expr);
 void lipSync(void *args);

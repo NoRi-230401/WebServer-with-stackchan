@@ -52,7 +52,6 @@ void errSTOP()
   }
 }
 
-
 void REBOOT()
 {
   Serial.println(" *** Reboot ***");
@@ -67,7 +66,6 @@ void REBOOT()
     delay(1000);
   }
 }
-
 
 void POWER_OFF()
 {
@@ -84,8 +82,6 @@ void POWER_OFF()
     delay(1000);
   }
 }
-
-
 
 // Called when a metadata event occurs (i.e. an ID3 tag, an ICY block, etc.
 void MDCallback(void *cbData, const char *type, bool isUnicode, const char *string)
@@ -114,7 +110,6 @@ void StatusCallback(void *cbData, int code, const char *string)
   Serial.flush();
 }
 
-
 bool SD_begin()
 {
   if (!SD.begin(GPIO_NUM_4, SPI, 25000000))
@@ -141,12 +136,12 @@ File SD_open(const String path, const char *mode)
 {
   // 途中で SD.end()を呼び出している箇所があるので必ずおこなう。
   // if (!isSD_enable)
-    SD_begin();
+  SD_begin();
 
   return (SD.open(path, mode));
 }
 
-static File FILE_PT; 
+static File FILE_PT;
 File fileOpen(int flType, const String path, const char *mode)
 {
 
@@ -154,13 +149,13 @@ File fileOpen(int flType, const String path, const char *mode)
   {
     FILE_PT = SPIFFS.open(path.c_str(), mode);
 
-    Serial.println("###  SPIFFS.open(" + path + "," + String(mode) +")  ###" ); 
+    Serial.println("###  SPIFFS.open(" + path + "," + String(mode) + ")  ###");
     return FILE_PT;
   }
-  else if(flType == FLTYPE_SD)
+  else if (flType == FLTYPE_SD)
   {
     FILE_PT = SD_open(path.c_str(), mode);
-    Serial.println("###  SD.open(" + path + "," + String(mode) +")  ###" ); 
+    Serial.println("###  SD.open(" + path + "," + String(mode) + ")  ###");
     return FILE_PT;
   }
 
@@ -190,9 +185,7 @@ bool jsonRead(int flType, DynamicJsonDocument &jsonDoc, String filePath)
   return true;
 }
 
-
-
-bool jsonSave( DynamicJsonDocument &jsonDoc, const String filePath)
+bool jsonSave(DynamicJsonDocument &jsonDoc, const String filePath)
 {
   File file = SPIFFS.open(filePath.c_str(), "w");
   if (!file)
@@ -200,23 +193,19 @@ bool jsonSave( DynamicJsonDocument &jsonDoc, const String filePath)
     Serial.println("Failed to open file for writing");
     return false;
   }
-  
+
   serializeJsonPretty(jsonDoc, file);
   file.close();
   return true;
 }
 
-
-
-
-
-bool jsonInitSave(DynamicJsonDocument &jsonDoc,const String inJson, const String saveFile)
+bool jsonInitSave(DynamicJsonDocument &jsonDoc, const String inJson, const String saveFile)
 {
-  bool success = jsonInit(jsonDoc,inJson);
+  bool success = jsonInit(jsonDoc, inJson);
 
-  if(!success)
+  if (!success)
     return false;
-  
+
   File fl_SPIFFS = SPIFFS.open(saveFile, "w");
   if (!fl_SPIFFS)
   {
@@ -224,13 +213,12 @@ bool jsonInitSave(DynamicJsonDocument &jsonDoc,const String inJson, const String
     return false;
   }
   // JSONデータをシリアル化して書き込む
-  serializeJsonPretty(jsonDoc,fl_SPIFFS);
+  serializeJsonPretty(jsonDoc, fl_SPIFFS);
   // serializeJson(jsonDoc, fl_SPIFFS);
   fl_SPIFFS.close();
 
   return true;
 }
-
 
 bool jsonInit(DynamicJsonDocument &jsonDoc, const String inJson)
 {
@@ -241,15 +229,13 @@ bool jsonInit(DynamicJsonDocument &jsonDoc, const String inJson)
     Serial.println(error.c_str());
     return false;
   }
-  
-  String json_str;                        
-  serializeJsonPretty(jsonDoc, json_str); 
+
+  String json_str;
+  serializeJsonPretty(jsonDoc, json_str);
   Serial.println(json_str);
 
   return true;
 }
-
-
 
 bool setJsonItem(String flName, String item, String setData, DynamicJsonDocument &jsonDoc, String arrayName)
 {
@@ -271,8 +257,7 @@ bool setJsonItem(String flName, String item, String setData, DynamicJsonDocument
   return true;
 }
 
-
-bool getJsonItem(String flName, String item, String& getData, DynamicJsonDocument &jsonDoc, String arrayName)
+bool getJsonItem(String flName, String item, String &getData, DynamicJsonDocument &jsonDoc, String arrayName)
 {
   if (!jsonRead(FLTYPE_SPIFFS, jsonDoc, flName))
   {
@@ -290,4 +275,13 @@ bool getJsonItem(String flName, String item, String& getData, DynamicJsonDocumen
   }
   getData = "";
   return false;
+}
+
+// 空きメモリをシリアル出力 from つゆきぱぱさん
+void log_free_size(const char *text)
+{
+  M5.Log.printf("%s メモリ残/最大ブロック残（DEFAULT->DMA->SPIRAM）：%4dKB/%4dKB %3dKB/%3dKB %4dKB/%4dKB\n", text,
+                heap_caps_get_free_size(MALLOC_CAP_DEFAULT) / 1024, heap_caps_get_largest_free_block(MALLOC_CAP_DEFAULT) / 1024,
+                heap_caps_get_free_size(MALLOC_CAP_DMA) / 1024, heap_caps_get_largest_free_block(MALLOC_CAP_DMA) / 1024,
+                heap_caps_get_free_size(MALLOC_CAP_SPIRAM) / 1024, heap_caps_get_largest_free_block(MALLOC_CAP_SPIRAM) / 1024);
 }

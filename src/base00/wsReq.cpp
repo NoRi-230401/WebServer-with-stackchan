@@ -61,16 +61,6 @@ void RequestManage()
   }
 }
 
-
-void Req_SpkMsgDo2()
-{
-  avatar.setExpression(expressions_table[REQ_SPK_EXPR]);
-  Serial.println("Req_SpkMsgDo2: REQ_SPK_EXPR = " + String(REQ_SPK_EXPR,DEC));
-  // avatar.setSpeechText(REQ_MSG.c_str());
-  ttsDo(REQ_MSG);
-}
-
-
 void ReqSpkMsg(String spkMsg)
 {
   REQ_MSG = spkMsg;
@@ -81,6 +71,14 @@ void ReqSpkMsg2(String spkMsg)
 {
   REQ_MSG = spkMsg;
   REQUEST_GET = REQ_SPEAK_MSG2;
+}
+
+void Req_SpkMsgDo2()
+{
+  avatar.setExpression(expressions_table[REQ_SPK_EXPR]);
+  Serial.println("Req_SpkMsgDo2: REQ_SPK_EXPR = " + String(REQ_SPK_EXPR,DEC));
+  avatar.setSpeechText(REQ_MSG.c_str());
+  ttsDo(REQ_MSG);
 }
 
 void Req_SpkMsgDo()

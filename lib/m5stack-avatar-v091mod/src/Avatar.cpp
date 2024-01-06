@@ -238,7 +238,7 @@ namespace m5avatar
   }
 
   
-  // -- BatteryIcon modified for StatusLine by NoRi 2024/01/01 ----------
+  // -- << BatteryIcon modified for StatusLine by NoRi 2024/01/01 >> --------------------
   void Avatar::setStatusLineFont(const lgfx::IFont *statusLineFont)
   {
     this->statusLineFont = statusLineFont;
@@ -313,5 +313,6 @@ namespace m5avatar
   {
     this->batteryLineText = lineText;
   }
+  // ------------- << end of StatusLine modify >> -------------------------------
 
 } // namespace m5avatar

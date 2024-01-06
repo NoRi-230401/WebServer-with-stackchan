@@ -11,7 +11,6 @@
 
 namespace m5avatar
 {
-
   class BatteryIcon final : public Drawable
   {
   private:

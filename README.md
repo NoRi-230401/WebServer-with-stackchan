@@ -139,7 +139,7 @@ https://github.com/meganetaaan/stack-chan
 <br><br>
 
 ## Author
-[NoRi](https://github.com/NoRi-230401)
+[NoRi](https://twitter.com/NoRi230401)
 <br>
 
 ## history

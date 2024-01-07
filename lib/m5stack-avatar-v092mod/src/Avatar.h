@@ -56,7 +56,7 @@ class Avatar {
   const lgfx::IFont *speechFont;
 
 	//---- statusLine Add ---------
-  String batteryLineText;
+  String statusLineText;
   const lgfx::IFont *statusLineFont;
 
 
@@ -97,13 +97,15 @@ class Avatar {
               , const BaseType_t core_id=APP_CPU_NUM);
   void suspend();
   void resume();
+  
   void setBatteryIcon(bool iconStatus);
   void setBatteryStatus(bool isCharging, int32_t batteryLevel);
   
 	//---- statusLine Add ---------
   void setBatteryIcon(bool iconStatus, int8_t iconStatusMode);
-  void setBatteryLineText( String lineText );
-  void setStatusLineFont(const lgfx::IFont *statusLineFont);  
+  void setStatusLineText( String lineText );
+  void setStatusLineFont(const lgfx::IFont *lineFont);  
+
 };
 
 

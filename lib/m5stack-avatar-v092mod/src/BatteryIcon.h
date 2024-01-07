@@ -88,7 +88,7 @@ namespace m5avatar
       {// status line mode
         uint16_t primaryColor = ctx->getColorDepth() == 1 ? 1 : ctx->getColorPalette()->get(COLOR_PRIMARY);
         uint16_t bgColor = ctx->getColorDepth() == 1 ? ERACER_COLOR : ctx->getColorPalette()->get(COLOR_BACKGROUND);
-        String msg = ctx->getBatteryLineText();
+        String msg = ctx->getStatusLineText();
         const lgfx::IFont *font = ctx->getStatusLineFont();
         drawStatusLineMsg(spi, primaryColor, bgColor, msg , font);
       }

@@ -195,7 +195,7 @@ void statusLineCheckManage()
     default:
       return;
     }
-    avatar.setBatteryLineText(statusLineMsg);
+    avatar.setStatusLineText(statusLineMsg);
   }
 }
 

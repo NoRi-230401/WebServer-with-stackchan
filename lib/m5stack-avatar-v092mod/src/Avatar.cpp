@@ -121,7 +121,7 @@ namespace m5avatar
         speechText{""},
         colorDepth{1},
         // --- statusLine Add ----
-        batteryLineText{""},
+        statusLineText{""},
         batteryIconStatus{BatteryIconStatus::invisible}
   {
   }
@@ -221,7 +221,7 @@ namespace m5avatar
                                        &this->palette, g, this->eyeOpenRatio,
                                        this->mouthOpenRatio, this->speechText,
                                        this->rotation, this->scale, this->colorDepth,
-                                       this->batteryIconStatus, this->batteryLineText,
+                                       this->batteryIconStatus, this->statusLineText,
                                        this->batteryLevel, this->speechFont, this->statusLineFont);
 
     face->draw(ctx);
@@ -288,7 +288,7 @@ namespace m5avatar
     this->speechFont = speechFont;
   }
 
-  // ----- StatusLine ------------------
+  // ----- setBatteryIcon() Origin  ------------------
   void Avatar::setBatteryIcon(bool batteryIcon)
   {
     if (!batteryIcon)
@@ -301,6 +301,7 @@ namespace m5avatar
     }
   }
 
+  // ----- StatusLine Mode Set ----------------
   void Avatar::setBatteryIcon(bool batteryIcon, int8_t batteryIconMode)
   {
     if (!batteryIcon)
@@ -354,14 +355,14 @@ namespace m5avatar
     this->batteryLevel = batteryLevel;
   }
 
-  void Avatar::setBatteryLineText(String lineText)
+  void Avatar::setStatusLineText(String lineText)
   {
-    this->batteryLineText = lineText;
+    this->statusLineText = lineText;
   }
 
-  void Avatar::setStatusLineFont(const lgfx::IFont *statusLineFont)
+  void Avatar::setStatusLineFont(const lgfx::IFont *lineFont)
   {
-    this->statusLineFont = statusLineFont;
+    this->statusLineFont = lineFont;
   }
   // --- end of statisLine -----------------
 

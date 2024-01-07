@@ -10,16 +10,16 @@ namespace m5avatar {
 DrawContext::DrawContext(Expression expression, float breath,
                          ColorPalette* const palette, Gaze gaze,
                          float eyeOpenRatio, float mouthOpenRatio,
-                         String speechText, BatteryIconStatus batteryIcon, String batteryLineText,
+                         String speechText, BatteryIconStatus batteryIcon, String statusLineText,
                          int32_t batteryLevel, const lgfx::IFont* speechFont, const lgfx::IFont* statusLineFont)
-    : DrawContext(expression, breath, palette, gaze, eyeOpenRatio, mouthOpenRatio, speechText, 0, 1, 1, BatteryIconStatus::invisible, batteryLineText,0, speechFont, statusLineFont ){};
+    : DrawContext(expression, breath, palette, gaze, eyeOpenRatio, mouthOpenRatio, speechText, 0, 1, 1, BatteryIconStatus::invisible, statusLineText,0, speechFont, statusLineFont ){};
 
 
 // --- statusLine Add ----
 DrawContext::DrawContext(Expression expression, float breath,
                          ColorPalette* const palette, Gaze gaze,
                          float eyeOpenRatio, float mouthOpenRatio,
-                         String speechText, float rotation, float scale, int colorDepth, BatteryIconStatus batteryIconStatus, String batteryLineText,
+                         String speechText, float rotation, float scale, int colorDepth, BatteryIconStatus batteryIconStatus, String statusLineText,
                          int32_t batteryLevel, const lgfx::IFont* speechFont, const lgfx::IFont* statusLineFont) 
     : expression{expression},
       breath{breath},
@@ -32,7 +32,7 @@ DrawContext::DrawContext(Expression expression, float breath,
       scale{scale},
       colorDepth{colorDepth},
       batteryIconStatus(batteryIconStatus),
-      batteryLineText{batteryLineText},
+      statusLineText{statusLineText},
       batteryLevel(batteryLevel),
       speechFont{speechFont},
       statusLineFont{statusLineFont}{}
@@ -66,7 +66,7 @@ int32_t DrawContext::getBatteryLevel() const { return batteryLevel; }
 // --------- statusLine --------------
 const lgfx::IFont* DrawContext::getStatusLineFont() const { return statusLineFont; }
 
-String DrawContext::getBatteryLineText() const { return batteryLineText; }
+String DrawContext::getStatusLineText() const { return statusLineText; }
 // -----------------------------------
 
 }  // namespace m5avatar

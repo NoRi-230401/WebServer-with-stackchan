@@ -31,7 +31,7 @@ class DrawContext {
   float scale = 1.0;
   int colorDepth = 1;
   BatteryIconStatus batteryIconStatus = BatteryIconStatus::invisible;
-  String batteryLineText = "";
+  String statusLineText = "";
   int32_t batteryLevel = 0;
   const lgfx::IFont* speechFont = nullptr; // = &fonts::lgfxJapanGothicP_16; //  = &fonts::efontCN_10;
   const lgfx::IFont* statusLineFont = nullptr;
@@ -40,13 +40,13 @@ class DrawContext {
   DrawContext() = delete;
   DrawContext(Expression expression, float breath, ColorPalette* const palette,
               Gaze gaze, float eyeOpenRatio, float mouthOpenRatio,
-              String speechText, BatteryIconStatus batteryIconStatus, String batteryLineText,
+              String speechText, BatteryIconStatus batteryIconStatus, String statusLineText,
               int32_t batteryLevel, const lgfx::IFont* speechFont, const lgfx::IFont* stutusLineFont
               );
   
   DrawContext(Expression expression, float breath, ColorPalette* const palette,
               Gaze gaze, float eyeOpenRatio, float mouthOpenRatio,
-              String speechText, float rotation, float scale, int colorDepth, BatteryIconStatus batteryIconStatus, String batteryLineText,
+              String speechText, float rotation, float scale, int colorDepth, BatteryIconStatus batteryIconStatus, String statusLineText,
               int32_t batteryLevel, const lgfx::IFont* speechFont, const lgfx::IFont* statusLineFont
               );
   
@@ -67,7 +67,7 @@ class DrawContext {
   int32_t getBatteryLevel() const;
   const lgfx::IFont* getSpeechFont() const; 
   // --- statusLine -----
-  String getBatteryLineText() const;
+  String getStatusLineText() const;
   const lgfx::IFont* getStatusLineFont() const; 
   //---------------------
 };

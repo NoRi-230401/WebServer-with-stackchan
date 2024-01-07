@@ -21,10 +21,10 @@ bool statusLineOneState = false;
 #define STATUS_MD_NUM 1
 #define STATUS_MD_CLOCK 2
 #define STATUS_MD_RSSI 3
-#define STATUS_MD_IP 4
-#define STATUS_MD_VOL 5
+#define STATUS_MD_VOL 4
+#define STATUS_MD_IP 5
 #define STATUS_MD_MAX 6
-int StatusLineMode = STATUS_MD_ICON;
+int StatusLineMode = STATUS_MD_IP;
 
 constexpr int duration_1013 = 1 * 1013;   // 1.013秒: statusLineCheck_time
 constexpr int duration_10000 = 10 * 1000; // 10秒    : statusLineOne_time
@@ -40,10 +40,10 @@ void avatarSTART()
   avatar.addTask(servo, "servo");
 
   // -- batteryStatusLine setup ---
-  StatusLineMode = STATUS_MD_ICON;
+  StatusLineMode = STATUS_MD_IP;
   statusLineOnOffState = true;
   statusLineOneState = false;
-  avatar.setBatteryIcon(true, BATTERY_MD_ICON);
+  avatar.setBatteryIcon(true, BATTERY_MD_LINE_DISP);
   avatar.setBatteryStatus(M5.Power.isCharging(), M5.Power.getBatteryLevel());
   avatar.setStatusLineFont(&fonts::lgfxJapanGothicP_12);
   
@@ -73,8 +73,8 @@ void statusLineSelect()
 
   case STATUS_MD_CLOCK:
   case STATUS_MD_RSSI:
-  case STATUS_MD_IP:
   case STATUS_MD_VOL:
+  case STATUS_MD_IP:
     avatar.setBatteryIcon(true, BATTERY_MD_LINE_DISP);
     break;
 
@@ -102,8 +102,8 @@ void statusLineOne()
 
   case STATUS_MD_CLOCK:
   case STATUS_MD_RSSI:
-  case STATUS_MD_IP:
   case STATUS_MD_VOL:
+  case STATUS_MD_IP:
     avatar.setBatteryIcon(true, BATTERY_MD_LINE_DISP);
     break;
 
@@ -135,8 +135,8 @@ void statusLineOnOff()
 
     case STATUS_MD_CLOCK:
     case STATUS_MD_RSSI:
-    case STATUS_MD_IP:
     case STATUS_MD_VOL:
+    case STATUS_MD_IP:
       avatar.setBatteryIcon(true, BATTERY_MD_LINE_DISP);
       break;
 
@@ -183,13 +183,13 @@ void statusLineCheckManage()
       statusLineMsg = "WiFi  Rssi=" + String(WiFi.RSSI()) + "dB   Chan=" + String(WiFi.channel());
       break;
 
-    case STATUS_MD_IP:
-      statusLineMsg = String(WiFi.localIP().toString()) + "  " + SERVER_NAME;
-      break;
-
     case STATUS_MD_VOL:
       sprintf(s, "Vol=%3d vSpk=%2d Chara=%d", VOLUME_VALUE, TTS2_SPEAKER_NO.toInt(), CHARA_NO);
       statusLineMsg = String(s);
+      break;
+
+    case STATUS_MD_IP:
+      statusLineMsg = String(WiFi.localIP().toString()) + "  " + SERVER_NAME;
       break;
 
     default:

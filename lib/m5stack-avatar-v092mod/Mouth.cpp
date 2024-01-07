@@ -4,6 +4,10 @@
 
 #include "Mouth.h"
 
+#ifndef _min
+#define _min(a, b) std::min(a, b)
+#endif
+
 namespace m5avatar {
 
 Mouth::Mouth(uint16_t minWidth, uint16_t maxWidth, uint16_t minHeight,
@@ -23,7 +27,7 @@ void Mouth::draw(M5Canvas *spi, BoundingRect rect, DrawContext *ctx) {
   int y = rect.getTop() - h / 2 + breath * 2;
   spi->fillRect(x, y, w, h, primaryColor);
   
-  // (カスタマイズ) ほっぺを表示
+  // (カスタマイズ) ほっぺを表示 （つゆきぱぱさん）
   uint16_t secondaryColor = ctx->getColorDepth() == 1 ? 1 : ctx->getColorPalette()->get(COLOR_SECONDARY);
   int cheeks_r = static_cast<int>(M5.Display.height() / 20);
   int cheeks_x1 = cheeks_r * 4;
@@ -31,6 +35,8 @@ void Mouth::draw(M5Canvas *spi, BoundingRect rect, DrawContext *ctx) {
   int cheeks_y = y + h / 2;
   spi->fillCircle(cheeks_x1, cheeks_y, cheeks_r, secondaryColor);
   spi->fillCircle(cheeks_x2, cheeks_y, cheeks_r, secondaryColor);
+ 
 }
+
 
 }  // namespace m5avatar

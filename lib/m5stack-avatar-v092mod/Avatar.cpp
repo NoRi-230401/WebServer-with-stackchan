@@ -3,10 +3,35 @@
 // license information.
 
 #include "Avatar.h"
+
+#ifndef PI
+#define PI 3.1415926535897932384626433832795
+#endif
+
 namespace m5avatar
 {
 
   unsigned int seed = 0;
+
+#ifndef rand_r
+#define init_rand() srand(seed)
+#define _rand() rand()
+#else
+#define init_rand() ;
+#define _rand() rand_r(&seed)
+#endif
+
+#ifdef SDL_h_
+#define TaskResult() return 0
+#define TaskDelay(ms) lgfx::delay(ms)
+  long random(long howbig)
+  {
+    return std::rand() % howbig;
+  }
+#else
+#define TaskResult() vTaskDelete(NULL)
+#define TaskDelay(ms) vTaskDelay(ms / portTICK_PERIOD_MS)
+#endif
 
   // TODO(meganetaaan): make read-only
   DriveContext::DriveContext(Avatar *avatar) : avatar{avatar} {}
@@ -15,7 +40,7 @@ namespace m5avatar
 
   TaskHandle_t drawTaskHandle;
 
-  void drawLoop(void *args)
+  TaskResult_t drawLoop(void *args)
   {
     DriveContext *ctx = reinterpret_cast<DriveContext *>(args);
     Avatar *avatar = ctx->getAvatar();
@@ -25,12 +50,12 @@ namespace m5avatar
       {
         avatar->draw();
       }
-      vTaskDelay(33);
+      TaskDelay(10);
     }
-    vTaskDelete(NULL);
+    TaskResult();
   }
 
-  void facialLoop(void *args)
+  TaskResult_t facialLoop(void *args)
   {
     int c = 0;
     DriveContext *ctx = reinterpret_cast<DriveContext *>(args);
@@ -43,19 +68,20 @@ namespace m5avatar
     float vertical = 0.0f;
     float horizontal = 0.0f;
     float breath = 0.0f;
+    init_rand();
     while (avatar->isDrawing())
     {
 
-      if ((millis() - last_saccade_millis) > saccade_interval)
+      if ((lgfx::millis() - last_saccade_millis) > saccade_interval)
       {
-        vertical = rand_r(&seed) / (RAND_MAX / 2.0) - 1;
-        horizontal = rand_r(&seed) / (RAND_MAX / 2.0) - 1;
+        vertical = _rand() / (RAND_MAX / 2.0) - 1;
+        horizontal = _rand() / (RAND_MAX / 2.0) - 1;
         avatar->setGaze(vertical, horizontal);
         saccade_interval = 500 + 100 * random(20);
-        last_saccade_millis = millis();
+        last_saccade_millis = lgfx::millis();
       }
 
-      if ((millis() - last_blink_millis) > blink_interval)
+      if ((lgfx::millis() - last_blink_millis) > blink_interval)
       {
         if (eye_open)
         {
@@ -68,14 +94,14 @@ namespace m5avatar
           blink_interval = 300 + 10 * random(20);
         }
         eye_open = !eye_open;
-        last_blink_millis = millis();
+        last_blink_millis = lgfx::millis();
       }
       c = (c + 1) % 100;
       breath = sin(c * 2 * PI / 100.0);
       avatar->setBreath(breath);
-      vTaskDelay(33);
+      TaskDelay(33);
     }
-    vTaskDelete(NULL);
+    TaskResult();
   }
 
   Avatar::Avatar() : Avatar(new Face()) {}
@@ -94,8 +120,11 @@ namespace m5avatar
         palette{ColorPalette()},
         speechText{""},
         colorDepth{1},
+        // --- statusLine Add ----
         batteryLineText{""},
-        batteryIconStatus{BatteryIconStatus::invisible} {}
+        batteryIconStatus{BatteryIconStatus::invisible}
+  {
+  }
 
   Avatar::~Avatar()
   {
@@ -109,6 +138,16 @@ namespace m5avatar
   void Avatar::addTask(TaskFunction_t f, const char *name, const uint32_t stack_size, UBaseType_t priority, TaskHandle_t *const task_handle, const BaseType_t core_id)
   {
     DriveContext *ctx = new DriveContext(this);
+#ifdef SDL_h_
+    if (task_handle == NULL)
+    {
+      SDL_CreateThreadWithStackSize(f, name, stack_size, ctx);
+    }
+    else
+    {
+      *task_handle = SDL_CreateThreadWithStackSize(f, name, stack_size, ctx);
+    }
+#else
     // TODO(meganetaaan): set a task handler
     xTaskCreateUniversal(f,           /* Function to implement the task */
                          name,        /* Name of the task */
@@ -117,6 +156,7 @@ namespace m5avatar
                          priority,    /* Priority of the task */
                          task_handle, /* Task handle. */
                          core_id);    /* Core No*/
+#endif
   }
 
   void Avatar::init(int colorDepth)
@@ -129,12 +169,16 @@ namespace m5avatar
 
   void Avatar::suspend()
   {
+#ifndef SDL_h_
     vTaskSuspend(drawTaskHandle);
+#endif
   }
 
   void Avatar::resume()
   {
+#ifndef SDL_h_
     vTaskResume(drawTaskHandle);
+#endif
   }
 
   void Avatar::start(int colorDepth)
@@ -146,6 +190,10 @@ namespace m5avatar
 
     this->colorDepth = colorDepth;
     DriveContext *ctx = new DriveContext(this);
+#ifdef SDL_h_
+    drawTaskHandle = SDL_CreateThreadWithStackSize(drawLoop, "drawLoop", 2048, ctx);
+    SDL_CreateThreadWithStackSize(facialLoop, "facialLoop", 1024, ctx);
+#else
     // TODO(meganetaaan): keep handle of these tasks
     xTaskCreateUniversal(drawLoop,        /* Function to implement the task */
                          "drawLoop",      /* Name of the task */
@@ -162,17 +210,20 @@ namespace m5avatar
                          2,            /* Priority of the task */
                          NULL,         /* Task handle. */
                          APP_CPU_NUM);
+#endif
   }
 
   void Avatar::draw()
   {
     Gaze g = Gaze(this->gazeV, this->gazeH);
+
     DrawContext *ctx = new DrawContext(this->expression, this->breath,
                                        &this->palette, g, this->eyeOpenRatio,
                                        this->mouthOpenRatio, this->speechText,
                                        this->rotation, this->scale, this->colorDepth,
                                        this->batteryIconStatus, this->batteryLineText,
                                        this->batteryLevel, this->speechFont, this->statusLineFont);
+
     face->draw(ctx);
     delete ctx;
   }
@@ -237,13 +288,7 @@ namespace m5avatar
     this->speechFont = speechFont;
   }
 
-  
-  // -- << BatteryIcon modified for StatusLine by NoRi 2024/01/01 >> --------------------
-  void Avatar::setStatusLineFont(const lgfx::IFont *statusLineFont)
-  {
-    this->statusLineFont = statusLineFont;
-  }
-  
+  // ----- StatusLine ------------------
   void Avatar::setBatteryIcon(bool batteryIcon)
   {
     if (!batteryIcon)
@@ -308,11 +353,17 @@ namespace m5avatar
 
     this->batteryLevel = batteryLevel;
   }
-  
+
   void Avatar::setBatteryLineText(String lineText)
   {
     this->batteryLineText = lineText;
   }
-  // ------------- << end of StatusLine modify >> -------------------------------
+
+  void Avatar::setStatusLineFont(const lgfx::IFont *statusLineFont)
+  {
+    this->statusLineFont = statusLineFont;
+  }
+  // --- end of statisLine -----------------
+
 
 } // namespace m5avatar

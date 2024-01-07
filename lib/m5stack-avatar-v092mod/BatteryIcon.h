@@ -31,6 +31,7 @@ namespace m5avatar
       }
     }
 
+    // -- statusLine Add --------
     void drawBatteryLvlNum(M5Canvas *spi, uint16_t fgcolor, uint16_t bgcolor,
        BatteryIconStatus batteryIconStatus, int32_t batteryLevel, const lgfx::IFont *font)
     {// draw : batteryLevel number(%) 

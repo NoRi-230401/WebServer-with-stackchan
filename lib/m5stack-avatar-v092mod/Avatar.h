@@ -8,10 +8,32 @@
 #include "Face.h"
 #include <M5GFX.h>
 
+#ifdef SDL_h_
+typedef SDL_ThreadFunction TaskFunction_t;
+typedef int BaseType_t;
+typedef unsigned int UBaseType_t;
+typedef SDL_Thread* TaskHandle_t;
+typedef int TaskResult_t;
+#define APP_CPU_NUM (1)
+#else
+typedef void TaskResult_t;
+#endif
+
+#ifndef APP_CPU_NUM
+#define APP_CPU_NUM PRO_CPU_NUM
+#endif
+
+#ifndef ARDUINO
+#include <string>
+typedef std::string String;
+#endif  // ARDUINO
+
+//---- statusLine Add ---------
 #define BATTERY_MD_INVISIBLE 0
 #define BATTERY_MD_ICON 1
 #define BATTERY_MD_NUM 2
 #define BATTERY_MD_LINE_DISP 3
+
 
 namespace m5avatar {
 class Avatar {
@@ -30,10 +52,14 @@ class Avatar {
   String speechText;
   int colorDepth;
   BatteryIconStatus batteryIconStatus;
-  String batteryLineText;
   int32_t batteryLevel;
   const lgfx::IFont *speechFont;
+
+	//---- statusLine Add ---------
+  String batteryLineText;
   const lgfx::IFont *statusLineFont;
+
+
 
  public:
   Avatar();
@@ -56,7 +82,6 @@ class Avatar {
   void setMouthOpenRatio(float ratio);
   void setSpeechText(const char *speechText);
   void setSpeechFont(const lgfx::IFont *speechFont);
-  void setStatusLineFont(const lgfx::IFont *statusLineFont);
   void setRotation(float radian);
   void setPosition(int top, int left);
   void setScale(float scale);
@@ -72,12 +97,13 @@ class Avatar {
               , const BaseType_t core_id=APP_CPU_NUM);
   void suspend();
   void resume();
-
   void setBatteryIcon(bool iconStatus);
-  void setBatteryIcon(bool iconStatus, int8_t iconStatusMode);
   void setBatteryStatus(bool isCharging, int32_t batteryLevel);
-  void setBatteryLineText( String lineText );
   
+	//---- statusLine Add ---------
+  void setBatteryIcon(bool iconStatus, int8_t iconStatusMode);
+  void setBatteryLineText( String lineText );
+  void setStatusLineFont(const lgfx::IFont *statusLineFont);  
 };
 
 

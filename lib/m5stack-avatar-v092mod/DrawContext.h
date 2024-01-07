@@ -14,7 +14,10 @@
 
 
 namespace m5avatar {
+// --- stutusline--
 enum BatteryIconStatus { invisible, discharging, charging, unknown, Ndischarging, Ncharging, numMD, lineDispMD };
+// ----------------
+
 class DrawContext {
  private:
   Expression expression;
@@ -61,11 +64,12 @@ class DrawContext {
   String getspeechText() const;
   int getColorDepth() const;
   BatteryIconStatus getBatteryIconStatus() const;
-  String getBatteryLineText() const;
   int32_t getBatteryLevel() const;
   const lgfx::IFont* getSpeechFont() const; 
+  // --- statusLine -----
+  String getBatteryLineText() const;
   const lgfx::IFont* getStatusLineFont() const; 
-  
+  //---------------------
 };
 }  // namespace m5avatar
 

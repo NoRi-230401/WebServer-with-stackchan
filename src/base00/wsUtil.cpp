@@ -281,7 +281,22 @@ bool getJsonItem(String flName, String item, String &getData, DynamicJsonDocumen
 void log_free_size(const char *text)
 {
   M5.Log.printf("%s メモリ残/最大ブロック残（DEFAULT->DMA->SPIRAM）：%4dKB/%4dKB %3dKB/%3dKB %4dKB/%4dKB\n", text,
-                heap_caps_get_free_size(MALLOC_CAP_DEFAULT) / 1024, heap_caps_get_largest_free_block(MALLOC_CAP_DEFAULT) / 1024,
-                heap_caps_get_free_size(MALLOC_CAP_DMA) / 1024, heap_caps_get_largest_free_block(MALLOC_CAP_DMA) / 1024,
-                heap_caps_get_free_size(MALLOC_CAP_SPIRAM) / 1024, heap_caps_get_largest_free_block(MALLOC_CAP_SPIRAM) / 1024);
+                // heap_caps_get_free_size(MALLOC_CAP_DEFAULT) / 1024, heap_caps_get_largest_free_block(MALLOC_CAP_DEFAULT) / 1024,
+                // heap_caps_get_free_size(MALLOC_CAP_DMA) / 1024, heap_caps_get_largest_free_block(MALLOC_CAP_DMA) / 1024,
+                // heap_caps_get_free_size(MALLOC_CAP_SPIRAM) / 1024, heap_caps_get_largest_free_block(MALLOC_CAP_SPIRAM) / 1024);
+                heap_caps_get_minimum_free_size(MALLOC_CAP_DEFAULT) / 1024, heap_caps_get_largest_free_block(MALLOC_CAP_DEFAULT) / 1024,
+                heap_caps_get_minimum_free_size(MALLOC_CAP_DMA) / 1024, heap_caps_get_largest_free_block(MALLOC_CAP_DMA) / 1024,
+                heap_caps_get_minimum_free_size(MALLOC_CAP_SPIRAM) / 1024, heap_caps_get_largest_free_block(MALLOC_CAP_SPIRAM) / 1024);
+                
+}
+
+String getHeapFreeSize()
+{
+  char s[40];
+  int minDEF = heap_caps_get_minimum_free_size(MALLOC_CAP_DEFAULT) / 1024;
+  int minPSRAM = heap_caps_get_minimum_free_size(MALLOC_CAP_SPIRAM) / 1024;
+  int minDMA = heap_caps_get_minimum_free_size(MALLOC_CAP_DMA) / 1024;
+  sprintf(s,"Mem=%4dKB ps:%d dma:%d",minDEF,minPSRAM,minDMA);
+
+  return String(s);
 }

@@ -22,8 +22,9 @@ bool statusLineOneState = false;
 #define STATUS_MD_CLOCK 2
 #define STATUS_MD_RSSI 3
 #define STATUS_MD_VOL 4
-#define STATUS_MD_IP 5
-#define STATUS_MD_MAX 6
+#define STATUS_MD_MEM 5
+#define STATUS_MD_IP 6
+#define STATUS_MD_MAX 7
 int StatusLineMode = STATUS_MD_IP;
 
 constexpr int duration_1013 = 1 * 1013;   // 1.013秒: statusLineCheck_time
@@ -75,6 +76,12 @@ void statusLineSelect()
   case STATUS_MD_RSSI:
   case STATUS_MD_VOL:
   case STATUS_MD_IP:
+    avatar.setStatusLineFont(&fonts::lgfxJapanGothicP_12);
+    avatar.setBatteryIcon(true, BATTERY_MD_LINE_DISP);
+    break;
+
+  case STATUS_MD_MEM:
+    avatar.setStatusLineFont(&fonts::Font0);
     avatar.setBatteryIcon(true, BATTERY_MD_LINE_DISP);
     break;
 
@@ -103,6 +110,7 @@ void statusLineOne()
   case STATUS_MD_CLOCK:
   case STATUS_MD_RSSI:
   case STATUS_MD_VOL:
+  case STATUS_MD_MEM:
   case STATUS_MD_IP:
     avatar.setBatteryIcon(true, BATTERY_MD_LINE_DISP);
     break;
@@ -136,6 +144,7 @@ void statusLineOnOff()
     case STATUS_MD_CLOCK:
     case STATUS_MD_RSSI:
     case STATUS_MD_VOL:
+    case STATUS_MD_MEM:
     case STATUS_MD_IP:
       avatar.setBatteryIcon(true, BATTERY_MD_LINE_DISP);
       break;
@@ -186,6 +195,10 @@ void statusLineCheckManage()
     case STATUS_MD_VOL:
       sprintf(s, "Vol=%3d vSpk=%2d Chara=%d", VOLUME_VALUE, TTS2_SPEAKER_NO.toInt(), CHARA_NO);
       statusLineMsg = String(s);
+      break;
+
+    case STATUS_MD_MEM:
+      statusLineMsg = getHeapFreeSize();
       break;
 
     case STATUS_MD_IP:

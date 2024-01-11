@@ -49,6 +49,7 @@ void SD_end();
 File SD_open(const String path, const char *mode);
 File fileOpen(int flType, const String path, const char *mode);
 void log_free_size(const char *text);
+String getHeapFreeSize();
 //------------------------------------------------------------
 
 #endif

@@ -44,7 +44,7 @@ extern String SERVER_NAME;
 extern size_t VOLUME_VALUE;
 extern String TTS2_SPEAKER_NO;
 extern int CHARA_NO;
-
+extern String getHeapFreeSize();
 // -----------------------------------
 void wsHandleFace(String expression);
 void statusLineSelect();

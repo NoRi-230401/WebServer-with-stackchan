@@ -48,7 +48,8 @@ void SST_ChatGPT()
   if (ret != "")
   {
     Serial.println(ret);
-    if (!mp3->isRunning() && SPEECH_TEXT == "" && SPEECH_TEXT_BUFFER == "")
+    // if (!mp3->isRunning() && SPEECH_TEXT == "" && SPEECH_TEXT_BUFFER == "")
+    if ( SPEECH_TEXT == "" && SPEECH_TEXT_BUFFER == "")
     {
       exec_chatGPT(ret);
       // WAKEWORD_MODE = 0;

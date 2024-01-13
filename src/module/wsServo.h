@@ -29,13 +29,16 @@
 #define SV_MD_DELTA 8
 #define SV_MD_NONE 99
 
-// -- Request ------------
+
+// -- Request ---------
 #define REQ_MSG_CLS 0
-#define REQ_SPEAK 1
-#define REQ_MSG_ONLY 2
-#define REQ_SPEAK_MSG 3
-#define REQ_SPEAK_MSG2 4
+#define REQ_SPEAK_ADJUST 1
+#define REQ_BALOON_ADJUST 2
+#define REQ_SPEAK_BALOON_ADJUST 3
+#define REQ_SPEAK 4
+#define REQ_BALOON 5
 #define REQ_SV_MD_ADJUST 9
+
 
 #define SV_SWING_AXIS_X 0
 #define SV_SWING_AXIS_Y 1
@@ -56,13 +59,13 @@ extern int REQUEST_GET;
 extern String REQ_MSG;
 extern bool jsonSave(DynamicJsonDocument &jsonDoc, String saveFile);
 extern bool jsonRead(int flType, DynamicJsonDocument &jsonDoc, String readFile);
-extern void Req_SpkMsgDo(); 
-extern void Req_MsgOnlyDo();
-extern void Req_SpkDo();
-extern void Req_MsgOnly();
+extern void Req_SpkBaloonDo_adjust(); 
+extern void Req_BaloonDo_adjust();
+extern void Req_SpkDo_adjust();
+extern void Req_Baloon_adjust();
 extern bool KEYLOCK_STATE;
 // extern void ReqSpkMsg();
-extern void ReqSpkMsg(String spkMsg);
+extern void ReqSpkBaloon_adjust(String spkMsg);
 extern String webpage;
 extern void Req_MsgCls();
 extern void tone(int mode);

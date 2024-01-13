@@ -54,7 +54,8 @@ void chatGptManage()
   {
     LASTMS1 = millis();                      // 今回のRandomSpeak起動した時刻
     RANDOM_TIME = 40000 + 1000 * random(30); // 次回のRandomSpeak起動までの時間
-    if ((!mp3->isRunning()) && (SPEECH_TEXT == "") && (SPEECH_TEXT_BUFFER == ""))
+    // if ((!mp3->isRunning()) && (SPEECH_TEXT == "") && (SPEECH_TEXT_BUFFER == ""))
+    if ( !isTalking() && (SPEECH_TEXT == "") && (SPEECH_TEXT_BUFFER == ""))
     {
       exec_chatGPT(random_words[random(18)]);
     }
@@ -270,7 +271,7 @@ void wsHandelChatGpt(String historyS, String charaS)
     {
       String spkMsg = chara_name + " です。";
       Serial.println(spkMsg);
-      ReqSpkMsg2(spkMsg);
+      ReqSpkOnly(spkMsg);
     }
     return;
   }
@@ -434,10 +435,12 @@ void randomSpeak(bool mode)
     RANDOM_SPEAK_STATE = false;
   }
   RANDOM_SPEAK_ON_GET = false;
-  avatar.setExpression(Expression::Happy);
-  ttsDo(speakMsg);
-  avatar.setExpression(Expression::Neutral);
-  Serial.println("mp3 begin");
+  
+  sendReq(REQ_SPEAK,speakMsg);
+  // avatar.setExpression(Expression::Happy);
+  // ttsDo(speakMsg);
+  // avatar.setExpression(Expression::Neutral);
+  // Serial.println("mp3 begin");
 }
 
 bool init_chat_doc(const char *data)

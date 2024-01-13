@@ -160,7 +160,9 @@ void timerStart()
   sprintf(timer_msg_str, "%s%s%s", timer_min_str, timer_sec_str, EX_TmrSTART_TXT);
   Serial.println(timer_msg_str);
   // ttsDo(timer_msg_str, tts_parms2);
-  ttsDo(String(timer_msg_str));
+  sendReq(REQ_SPEAK,String(timer_msg_str));
+  // ttsDo(String(timer_msg_str));
+
   led_show();
 
   delay(3000); // 3秒待機
@@ -184,7 +186,9 @@ void timerStop()
   led_setColor2(7, led_ColorLED3(255, 0, 0));
 
   char EX_TmrSTOP_TXT[] = "タイマーを停止します。";
-  ttsDo(String(EX_TmrSTOP_TXT));
+  // ttsDo(String(EX_TmrSTOP_TXT));
+  sendReq(REQ_SPEAK,String(EX_TmrSTOP_TXT));
+
   led_show();
   delay(2000); // 2秒待機
 
@@ -241,7 +245,9 @@ void timerStarted()
       }
     }
     avatar.setExpression(Expression::Happy);
-    ttsDo(String(buffer));
+    // ttsDo(String(buffer));
+    sendReq(REQ_SPEAK,String(buffer));
+
     avatar.setExpression(Expression::Neutral);
   }
 }
@@ -257,7 +263,9 @@ void timerEnd()
   led_show();
 
   avatar.setExpression(Expression::Happy);
-  ttsDo(String("設定時間になりました。"));
+  // ttsDo(String("設定時間になりました。"));
+  sendReq(REQ_SPEAK,String("設定時間になりました。"));
+
   avatar.setExpression(Expression::Neutral);
 
   // 全てのLEDを消す処理を追加

@@ -3,7 +3,7 @@
 #define WS_MAIN_H
 // -------------------------------------------------------
 #include <Arduino.h>
-extern void ReqSpkMsg2(String spkMsg);
+extern void ReqSpkOnly(String spkMsg);
 extern const String WS_VERSION;
 extern void M5StackConfig();
 extern void startupSetting();

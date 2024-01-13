@@ -5,8 +5,8 @@
 #include <Arduino.h>
 #include <ArduinoJson.h>
 #include <Avatar.h>
-#include <AudioGeneratorMP3.h>
-#include <AudioOutput.h>
+// #include <AudioGeneratorMP3.h>
+// #include <AudioOutput.h>
 #include <deque>
 #include <SD.h>
 #include <SPIFFS.h>
@@ -14,14 +14,19 @@
 #include <nvs.h>
 #include <HTTPClient.h>
 #include <WiFiClientSecure.h>
-#include "../lib/AudioOutputM5Speaker.h"
+// #include "../lib/AudioOutputM5Speaker.h"
 #include "../lib/rootCACertificate.h"
 
+// -- Request ---------
 #define REQ_MSG_CLS 0
-#define REQ_SPEAK 1
-#define REQ_MSG_ONLY 2
-#define REQ_SPEAK_MSG 3
-#define REQ_SPEAK_MSG2 4
+#define REQ_SPEAK_ADJUST 1
+#define REQ_BALOON_ADJUST 2
+#define REQ_SPEAK_BALOON_ADJUST 3
+#define REQ_SPEAK 4
+#define REQ_BALOON 5
+#define REQ_SV_MD_ADJUST 9
+// -----------------------
+
 #define DOC_SIZE 1024 * 4
 
 #define CHARA_SIZE 9 * 1024
@@ -45,7 +50,7 @@ extern String SPEECH_TEXT_BUFFER;
 extern String TTS2_SPEAKER_NO;
 extern String TTS2_SPEAKER;
 extern String TTS2_PARMS;
-extern AudioGeneratorMP3 *mp3;
+// extern AudioGeneratorMP3 *mp3;
 extern bool LED_OnOff_STATE;
 extern void led_setColor2(uint16_t n, uint32_t c);
 extern void led_setColor4(uint16_t n, uint8_t r, uint8_t g, uint8_t b);
@@ -58,12 +63,14 @@ extern void REBOOT();
 extern const String random_words[];
 extern const String json_ChatString;
 extern const char *SETTING_NVS; // setting --NVS の設定用ファイル
-extern void ttsDo( const String& text );
+// extern void ttsDo( const String& text );
 extern String webpage;
 extern int TTS_PARMS_NO;
 extern void sysInfoDispEnd();
-extern void ReqSpkMsg(String spkMsg);
-extern void ReqSpkMsg2(String spkMsg);
+extern void ReqSpkBaloon_adjust(String spkMsg);
+extern void ReqSpkOnly(String spkMsg);
+extern bool isTalking();
+void sendReq(int reqNo,String msg);
 
 // -----------------------------------------------------------------------------
 void chatGptManage();

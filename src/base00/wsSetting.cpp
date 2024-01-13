@@ -9,6 +9,7 @@ const String OffOn[] = {"off", "on"};
 const String jsonAPIKEY = "{\"apikey\":[{\"openAiApiKey\":\"***\",\"voicevoxApiKey\":\"***\"}]}";
 const String jsonSTARTUP = "{\"startup\":[{\"serverName\":\"stackchan\",\"vSpeakerNo\":\"3\",\"volume\":\"200\",\"led\":\"on\",\"randomSpeak\":\"off\",\"toneMode\":\"1\",\"mute\":\"off\",\"keyLock\":\"off\",\"timer\":\"180\"}]}";
 
+static constexpr uint8_t m5spk_virtual_channel = 0;
 size_t VOLUME_VALUE;
 bool MUTE_ON_STATE = false;
 #define TONE_MODE_INIT 0
@@ -389,34 +390,23 @@ void wsHandleApikeySetting(String openAiS, String voicevoxS, String txS)
   return;
 }
 
+uint8_t config_brightness = 120; // 明るさ
+
 void M5StackConfig()
 {
   // ********** M5 config **************
   auto cfg = M5.config();
-
-  cfg.external_spk = true; /// use external speaker (SPK HAT / ATOMIC SPK)
-                           // cfg.external_spk_detail.omit_atomic_spk = true; // exclude ATOMIC SPK
-  // cfg.external_spk_detail.omit_spk_hat    = true; // exclude SPK HAT
-  // cfg.output_power = true;
+  // cfg.external_spk = true; /// use external speaker (SPK HAT / ATOMIC SPK)
   M5.begin(cfg);
-  // delay(500);
+  Wire.begin(M5.Ex_I2C.getSDA(), M5.Ex_I2C.getSCL());
 
-  // { // Mic Setting
-  //   auto micConfig = M5.Mic.config();
-  //   micConfig.stereo = false;
-  //   micConfig.sample_rate = 16000;
-  //   M5.Mic.config(micConfig);
-  // }
-  // M5.Mic.begin();
-
-  { // Speaker Setting
-    auto spk_cfg = M5.Speaker.config();
-    /// Increasing the sample_rate will improve the sound quality instead of increasing the CPU load.
-    spk_cfg.sample_rate = 96000; // default:64000 (64kHz)  e.g. 48000 , 50000 , 80000 , 96000 , 100000 , 128000 , 144000 , 192000 , 200000
-    spk_cfg.task_pinned_core = APP_CPU_NUM;
-    M5.Speaker.config(spk_cfg);
-  }
+  auto spk_cfg = M5.Speaker.config();
+  // spk_cfg.sample_rate = 96000; // default:64000 (64kHz)  e.g. 48000 , 50000 , 80000 , 96000 , 100000 , 128000 , 144000 , 192000 , 200000
+  // spk_cfg.task_pinned_core = APP_CPU_NUM;
+  M5.Speaker.config(spk_cfg);
   M5.Speaker.begin();
+
+  M5.Display.setBrightness(config_brightness);
 
   M5.Lcd.setTextSize(2);
   led_allOff();
@@ -428,8 +418,8 @@ void M5StackConfig()
     Serial.println("Error preparing SPIFFS Filing System...");
     // StartupErrors = true;
   }
-  isSPIFFS = 1;  
-  
+  isSPIFFS = 1;
+
   // --- SD begin -------
   int i = 0;
   bool success = false;
@@ -439,8 +429,8 @@ void M5StackConfig()
     // success = SD.begin(GPIO_NUM_4, SPI, 15000000, "/sdcard", 10, false);
     // success = SD.begin(GPIO_NUM_4, SPI, 16000000,"/sd", 10, false);
     // success = SD.begin(GPIO_NUM_4, SPI, 15000000,"/sd", 10, false);
-    success = SD.begin(GPIO_NUM_4, SPI, 15000000U,"/sd", 10U, false);
-    
+    success = SD.begin(GPIO_NUM_4, SPI, 15000000U, "/sd", 10U, false);
+
     if (success)
       break;
 
@@ -448,7 +438,7 @@ void M5StackConfig()
     delay(500);
     i++;
   }
-  
+
   if (i >= 3)
   {
     Serial.println("SD.begin faile ...");
@@ -456,10 +446,7 @@ void M5StackConfig()
   }
   else
     SD_ENABLE = true;
-
 }
-
-
 
 bool jsonAPIKEYinit(DynamicJsonDocument &jsonDoc)
 {
@@ -468,9 +455,9 @@ bool jsonAPIKEYinit(DynamicJsonDocument &jsonDoc)
 
 bool apiKeyTxtRead()
 {
-  if(!SD_ENABLE)
+  if (!SD_ENABLE)
     return false;
-    
+
   File fs = fileOpen(FLTYPE_SD, APIKEY_TXT_SD, "r");
   if (!fs)
   {

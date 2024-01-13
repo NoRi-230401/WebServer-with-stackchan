@@ -6,6 +6,7 @@
 #include <Arduino.h>
 #include <ArduinoJson.h>
 #include <SD.h>
+#include <Wire.h>
 #include <SPIFFS.h>
 #include <nvs.h>
 #include <M5Unified.h>
@@ -30,7 +31,7 @@ extern String TTS2_PARMS;
 extern bool LED_OnOff_STATE;
 extern bool RANDOM_SPEAK_ON_GET;
 extern uint16_t TIMER_SEC_VALUE;
-extern uint8_t m5spk_virtual_channel;
+// extern uint8_t m5spk_virtual_channel;
 extern int RANDOM_TIME;
 extern bool TIMER_STARTED;
 extern void led_allOff();

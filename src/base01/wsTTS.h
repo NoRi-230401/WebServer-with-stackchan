@@ -14,16 +14,25 @@
 #include <WiFiClientSecure.h>
 #include "../lib/AudioFileSourceHTTPSStream.h"
 #include "../lib/WebVoiceVoxTTS.h"
-#include "../lib/AudioOutputM5Speaker.h"
+// #include "../lib/AudioOutputM5Speaker.h"
 
-#define SV_REQ_MSG_CLS 0
-#define SV_REQ_SPEAK 1
-#define SV_REQ_MSG 2
-#define SV_REQ_SPEAK_MSG 3
-#define REQ_SPEAK_MSG2 4
-#define SV_REQ_MD_ADJUST 9
+#include "VoiceVox.h"
 
 using namespace m5avatar;
+
+// -- Request ---------
+#define REQ_MSG_CLS 0
+#define REQ_SPEAK_ADJUST 1
+#define REQ_BALOON_ADJUST 2
+#define REQ_SPEAK_BALOON_ADJUST 3
+#define REQ_SPEAK 4
+#define REQ_BALOON 5
+#define REQ_SV_MD_ADJUST 9
+extern void sendReq(int reqNo,String msg);
+// -----------------------
+
+
+
 extern Avatar avatar;
 extern HTTPClient http;
 extern WiFiClient client;
@@ -35,6 +44,7 @@ extern int REQ_SPK_PARMS_NO;
 extern int REQ_SHUTDOWN_REBOOT;
 extern int REQUEST_GET;
 extern String REQ_MSG;
+extern void log_free_size(const char *text);
 
 //------------------------------------------------------------
 void wsHandleSpeech(String sayS, String expressionS, String voiceS);
@@ -43,6 +53,12 @@ void SpeechText1st();
 void SpeechTextNext();
 void ttsDo( const String& speechText );
 void ttsSetup();
+
+bool isTalking();
+// void ttsDoTp(const String &speechText);
+void execute_talk(String url);
+String execute_voicevox(String text);
+String get_speaker_name(String speaker);
 // --------------------------------------------------------------------------
 
 #endif

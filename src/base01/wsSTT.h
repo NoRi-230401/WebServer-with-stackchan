@@ -7,7 +7,7 @@
 #include <Avatar.h>
 #include <AudioOutput.h>
 #include <AudioFileSourceBuffer.h>
-#include <AudioGeneratorMP3.h>
+// #include <AudioGeneratorMP3.h>
 #include <AudioFileSourcePROGMEM.h>
 #include <M5Unified.h>
 #include "../lib/AudioWhisper.h"
@@ -29,7 +29,7 @@
 extern String STT_API_KEY;
 extern String OPENAI_API_KEY;
 extern bool RANDOM_SPEAK_STATE;
-extern AudioGeneratorMP3 *mp3;
+// extern AudioGeneratorMP3 *mp3;
 extern String SPEECH_TEXT;
 extern String SPEECH_TEXT_BUFFER;
 extern const char* root_ca_openai;

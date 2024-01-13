@@ -9,6 +9,13 @@ int REQ_SPK_PARMS_NO;
 int REQ_SPK_EXPR;
 
 
+void sendReq(int reqNo,String msg)
+{
+  REQ_MSG = msg;
+  REQUEST_GET = reqNo;
+}
+
+
 void RequestManage()
 {
 
@@ -18,21 +25,26 @@ void RequestManage()
 
     switch (req)
     {
+    case REQ_SPEAK_ADJUST:
+      Req_SpkDo_adjust();
+      break;
+
+    case REQ_BALOON_ADJUST:
+      Req_BaloonDo_adjust();
+      break;
+
+    case REQ_SPEAK_BALOON_ADJUST:
+      Req_SpkBaloonDo_adjust();
+      break;
+
     case REQ_SPEAK:
       Req_SpkDo();
       break;
 
-    case REQ_MSG_ONLY:
-      Req_MsgOnlyDo();
+    case REQ_BALOON:
+      Req_BaloonDo();
       break;
 
-    case REQ_SPEAK_MSG:
-      Req_SpkMsgDo();
-      break;
-
-    case REQ_SPEAK_MSG2:
-      Req_SpkMsgDo2();
-      break;
 
     case REQ_SV_MD_ADJUST:
       SV_MD = SV_MD_ADJUST;
@@ -61,40 +73,54 @@ void RequestManage()
   }
 }
 
-void ReqSpkMsg(String spkMsg)
+void ReqSpkBaloon_adjust(String spkMsg)
 {
   REQ_MSG = spkMsg;
-  REQUEST_GET = REQ_SPEAK_MSG;
+  REQUEST_GET = REQ_SPEAK_BALOON_ADJUST;
 }
 
-void ReqSpkMsg2(String spkMsg)
+void ReqSpkOnly(String spkMsg)
 {
   REQ_MSG = spkMsg;
-  REQUEST_GET = REQ_SPEAK_MSG2;
+  REQUEST_GET = REQ_SPEAK;
 }
 
-void Req_SpkMsgDo2()
+void ReqBaloonOnly(String msg)
 {
-  avatar.setExpression(expressions_table[REQ_SPK_EXPR]);
-  Serial.println("Req_SpkMsgDo2: REQ_SPK_EXPR = " + String(REQ_SPK_EXPR,DEC));
-  // avatar.setSpeechText(REQ_MSG.c_str());
-  ttsDo(REQ_MSG);
+  REQ_MSG = msg;
+  REQUEST_GET = REQ_BALOON;
 }
 
-void Req_SpkMsgDo()
+void Req_BaloonDo()
 {
-  if (!SV_ADJUST_STATE)
-    return;
-
   avatar.setExpression(Expression::Happy);
   avatar.setSpeechText(REQ_MSG.c_str());
-  ttsDo(REQ_MSG);
   avatar.setExpression(Expression::Neutral);
 }
-
 
 void Req_SpkDo()
 {
+  avatar.setExpression(expressions_table[REQ_SPK_EXPR]);
+  Serial.println("Req_SpkMsgDo2: REQ_SPK_EXPR = " + String(REQ_SPK_EXPR,DEC));
+  ttsDo(REQ_MSG);
+}
+
+
+
+void Req_SpkBaloonDo_adjust()
+{
+  if (!SV_ADJUST_STATE)
+    return;
+
+  avatar.setExpression(Expression::Happy);
+  avatar.setSpeechText(REQ_MSG.c_str());
+  ttsDo(REQ_MSG);
+  avatar.setExpression(Expression::Neutral);
+}
+
+
+void Req_SpkDo_adjust()
+{
   if (!SV_ADJUST_STATE)
     return;
 
@@ -104,7 +130,7 @@ void Req_SpkDo()
 }
 
 
-void Req_MsgOnlyDo()
+void Req_BaloonDo_adjust()
 {
   if (!SV_ADJUST_STATE)
     return;
@@ -114,12 +140,12 @@ void Req_MsgOnlyDo()
   avatar.setExpression(Expression::Neutral);
 }
 
-void Req_MsgOnly()
+void Req_Baloon_adjust()
 {
   if (!SV_ADJUST_STATE)
     return;
 
-  REQUEST_GET = REQ_MSG_ONLY;
+  REQUEST_GET = REQ_BALOON_ADJUST;
 }
 
 void Req_MsgCls()

@@ -39,7 +39,7 @@ extern String SSID_PASSWD;
 extern bool KEYLOCK_STATE;
 extern String VOICEVOX_API_KEY;
 extern String OPENAI_API_KEY;
-extern void ttsDo( const String& text );
+// extern void ttsDo( const String& text );
 extern String webpage;
 extern String TTS2_SPEAKER_NO;
 extern bool LED_OnOff_STATE;

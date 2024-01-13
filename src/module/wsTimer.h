@@ -13,6 +13,18 @@
 #define TIMER_MIN 30            // 最小タイマー設定値：３０秒
 #define TIMER_MAX (60 * 60 - 1) // 最大タイマー設定値：６０分未満 (59分59秒)
 
+// -- Request ---------
+#define REQ_MSG_CLS 0
+#define REQ_SPEAK_ADJUST 1
+#define REQ_BALOON_ADJUST 2
+#define REQ_SPEAK_BALOON_ADJUST 3
+#define REQ_SPEAK 4
+#define REQ_BALOON 5
+#define REQ_SV_MD_ADJUST 9
+extern void sendReq(int reqNo,String msg);
+// -----------------------
+
+
 extern String TTS2_PARMS;
 extern const char tts_parms2[];
 extern const char tts_parms6[];
@@ -25,7 +37,7 @@ extern void led_setColor4(uint16_t n, uint8_t r, uint8_t g, uint8_t b);
 extern uint32_t led_ColorLED3(uint8_t r, uint8_t g, uint8_t b);
 extern void led_show();
 extern void led_clear();
-void ttsDo( const String& text );
+// void ttsDo( const String& text );
 extern String webpage;
 extern void randomSpeakStop2();
 extern String SPEECH_TEXT;

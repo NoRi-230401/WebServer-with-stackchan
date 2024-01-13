@@ -25,7 +25,7 @@ bool statusLineOneState = false;
 #define STATUS_MD_MEM 5
 #define STATUS_MD_IP 6
 #define STATUS_MD_MAX 7
-int StatusLineMode = STATUS_MD_IP;
+int StatusLineMode;
 
 constexpr int duration_1013 = 1 * 1013;   // 1.013秒: statusLineCheck_time
 constexpr int duration_10000 = 10 * 1000; // 10秒    : statusLineOne_time
@@ -37,17 +37,21 @@ void avatarSTART()
   avatar.init(8);
   set_avatar_color();
   avatar.setSpeechFont(&fonts::efontJA_16);
-  avatar.addTask(lipSync, "lipSync");
+  // avatar.addTask(lipSync, "lipSync");
   avatar.addTask(servo, "servo");
 
   // -- batteryStatusLine setup ---
-  StatusLineMode = STATUS_MD_IP;
+  StatusLineMode = STATUS_MD_MEM;
   statusLineOnOffState = true;
   statusLineOneState = false;
+  
+  avatar.setStatusLineText("");
+  avatar.setStatusLineFont(&fonts::Font0);
+  // avatar.setStatusLineFont(&fonts::lgfxJapanGothicP_12);
+  
   avatar.setBatteryIcon(true, BATTERY_MD_LINE_DISP);
   avatar.setBatteryStatus(M5.Power.isCharging(), M5.Power.getBatteryLevel());
-  avatar.setStatusLineFont(&fonts::lgfxJapanGothicP_12);
-  
+
   // 一度balloon表示しないとBatteryIconのフォント設定が反映されない？？ -- by NoRi 240101 --
   avatar.setSpeechText("スタックチャン");
   delay(1000);
@@ -61,6 +65,7 @@ void statusLineSelect()
 
   StatusLineMode++;
   StatusLineMode = StatusLineMode % STATUS_MD_MAX;
+  avatar.setStatusLineText("");
 
   switch (StatusLineMode)
   {
@@ -279,27 +284,27 @@ bool setFace(int expr)
 
 void lipSync(void *args)
 {
-  float gazeX, gazeY;
-  int level = 0;
-  DriveContext *ctx = (DriveContext *)args;
-  Avatar *avatar = ctx->getAvatar();
-  for (;;)
-  {
-    level = abs(*out.getBuffer());
-    if (level < 100)
-      level = 0;
-    if (level > 15000)
-    {
-      level = 15000;
-    }
-    float open = (float)level / 15000.0;
-    avatar->setMouthOpenRatio(open);
+  // float gazeX, gazeY;
+  // int level = 0;
+  // DriveContext *ctx = (DriveContext *)args;
+  // Avatar *avatar = ctx->getAvatar();
+  // for (;;)
+  // {
+  //   level = abs(*out.getBuffer());
+  //   if (level < 100)
+  //     level = 0;
+  //   if (level > 15000)
+  //   {
+  //     level = 15000;
+  //   }
+  //   float open = (float)level / 15000.0;
+  //   avatar->setMouthOpenRatio(open);
 
-    avatar->getGaze(&gazeY, &gazeX);
-    // avatar->setRotation(gazeX * 5);
+  //   avatar->getGaze(&gazeY, &gazeX);
+  //   // avatar->setRotation(gazeX * 5);
 
-    delay(50);
-  }
+  //   delay(50);
+  // }
 }
 
 void servo(void *args)

@@ -42,6 +42,9 @@ extern int SV_MD;
 extern uint16_t SHUTDOWN_TM_SEC;
 extern void REBOOT();
 extern void POWER_OFF();
+extern bool isTalking();
+extern String SPEECH_TEXT;
+extern String SPEECH_TEXT_BUFFER;
 
 // ---------------------------------------------------------------------
 void sendReq(int reqNo,String msg);

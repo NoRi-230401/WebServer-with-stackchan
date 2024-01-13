@@ -79,8 +79,10 @@ void ttsSetup()
 void SpeechManage()
 {
   // *** SPEECH_TEXT 1st ****
-  if ( !isTalking() && SPEECH_TEXT != "")
-    SpeechText1st();
+  // if ( !isTalking() && SPEECH_TEXT != "" )
+  // {
+  //   SpeechText1st();
+  // }
 
   // // ** mp3 Running and SPEECH Next **
   // if (mp3->isRunning())

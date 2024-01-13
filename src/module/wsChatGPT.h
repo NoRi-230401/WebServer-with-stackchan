@@ -70,8 +70,8 @@ extern void sysInfoDispEnd();
 extern void ReqSpkBaloon_adjust(String spkMsg);
 extern void ReqSpkOnly(String spkMsg);
 extern bool isTalking();
-void sendReq(int reqNo,String msg);
-
+extern void sendReq(int reqNo,String msg);
+extern void SpeechText1st();
 // -----------------------------------------------------------------------------
 void chatGptManage();
 void wsHandleRandomSpeak(String modeS);

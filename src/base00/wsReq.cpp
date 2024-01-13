@@ -8,13 +8,11 @@ int REQ_SHUTDOWN_REBOOT = 0;
 int REQ_SPK_PARMS_NO;
 int REQ_SPK_EXPR;
 
-
-void sendReq(int reqNo,String msg)
+void sendReq(int reqNo, String msg)
 {
   REQ_MSG = msg;
   REQUEST_GET = reqNo;
 }
-
 
 void RequestManage()
 {
@@ -27,34 +25,44 @@ void RequestManage()
     {
     case REQ_SPEAK_ADJUST:
       Req_SpkDo_adjust();
+      REQUEST_GET = 0;
       break;
 
     case REQ_BALOON_ADJUST:
       Req_BaloonDo_adjust();
+      REQUEST_GET = 0;
       break;
 
     case REQ_SPEAK_BALOON_ADJUST:
-      Req_SpkBaloonDo_adjust();
+      if (!isTalking() && (SPEECH_TEXT_BUFFER == "") && (SPEECH_TEXT == ""))
+      {
+        Req_SpkBaloonDo_adjust();
+        REQUEST_GET = 0;
+      }
       break;
 
     case REQ_SPEAK:
-      Req_SpkDo();
+      if (!isTalking() )
+      {
+        Req_SpkDo();
+        REQUEST_GET = 0;
+      }
       break;
 
     case REQ_BALOON:
       Req_BaloonDo();
+      REQUEST_GET = 0;
       break;
-
 
     case REQ_SV_MD_ADJUST:
       SV_MD = SV_MD_ADJUST;
+      REQUEST_GET = 0;
       break;
 
     default:
+      REQUEST_GET = 0;
       break;
     }
-
-    REQUEST_GET = 0;
   }
 
   if (REQ_SHUTDOWN_REBOOT > 0)
@@ -101,11 +109,9 @@ void Req_BaloonDo()
 void Req_SpkDo()
 {
   avatar.setExpression(expressions_table[REQ_SPK_EXPR]);
-  Serial.println("Req_SpkMsgDo2: REQ_SPK_EXPR = " + String(REQ_SPK_EXPR,DEC));
+  // Serial.println("Req_SpkMsgDo2: REQ_SPK_EXPR = " + String(REQ_SPK_EXPR, DEC));
   ttsDo(REQ_MSG);
 }
-
-
 
 void Req_SpkBaloonDo_adjust()
 {
@@ -118,7 +124,6 @@ void Req_SpkBaloonDo_adjust()
   avatar.setExpression(Expression::Neutral);
 }
 
-
 void Req_SpkDo_adjust()
 {
   if (!SV_ADJUST_STATE)
@@ -128,7 +133,6 @@ void Req_SpkDo_adjust()
   ttsDo(REQ_MSG);
   avatar.setExpression(Expression::Neutral);
 }
-
 
 void Req_BaloonDo_adjust()
 {

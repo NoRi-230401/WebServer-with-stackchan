@@ -496,9 +496,9 @@ String https_post_json(const char *url, const char *json_string, const char *roo
           if (httpCode == HTTP_CODE_OK || httpCode == HTTP_CODE_MOVED_PERMANENTLY)
           {
             payload = https.getString();
-            Serial.println("/////payload-start/////");
-            Serial.print(payload);
-            Serial.println("/////payload-end/////");
+            // Serial.println("/////payload-start/////");
+            // Serial.print(payload);
+            // Serial.println("/////payload-end/////");
 
             if (payload == "")
             {
@@ -675,6 +675,10 @@ void exec_chatGPT(String text)
     SPEECH_TEXT = CHAT_RESPONSE;
     // 返答をチャット履歴に追加
     chatHistory.push_back(CHAT_RESPONSE);
+
+    // REQUEST SPEAK 
+    SpeechText1st();
+    
   }
   else
   {

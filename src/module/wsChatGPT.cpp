@@ -284,11 +284,11 @@ void wsHandelChatGpt(String historyS, String charaS)
     {
       if ((i % 2) == 0)
       {
-        webpage += "Q - " + chatHistory[i] + "<br>";
+        webpage += "(You) " + chatHistory[i] + "<br>";
       }
       else
       {
-        webpage += "A - " + chatHistory[i] + "<br><br>";
+        webpage += "(chatGPT) " + chatHistory[i] + "<br><br>";
       }
     }
   }

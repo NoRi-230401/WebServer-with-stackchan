@@ -41,8 +41,12 @@ public:
     AudioOutputM5Speaker *out;
     bool is_talking = false;
     String talk_type;
+    uint32_t getStartTime();
+    void setStartTime();
+
 private:
     const String url = "https://api.tts.quest/v3/voicevox/synthesis";
+    uint32_t voicevox_start_time = 0;
 };
 
 #endif

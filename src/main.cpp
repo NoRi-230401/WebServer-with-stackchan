@@ -29,7 +29,7 @@ void setup()
   
   // *** Servo,TTS,chatGpt ***
   servoSetup();
-  ttsSetup();
+  // ttsSetup();
   chatGptSetup();
   
   delay(3000);
@@ -46,7 +46,7 @@ void loop()
   TimerManage();
   ButtonManage();
   RequestManage();
-  SpeechManage();
+  // SpeechManage();
   StatusLineManage();
 }
 

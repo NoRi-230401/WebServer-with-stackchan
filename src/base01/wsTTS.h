@@ -48,17 +48,17 @@ extern void log_free_size(const char *text);
 
 //------------------------------------------------------------
 void wsHandleSpeech(String sayS, String expressionS, String voiceS);
-void SpeechManage();
-void SpeechText1st();
-void SpeechTextNext();
+// void SpeechManage();
+// void SpeechText1st();
+// void SpeechTextNext();
 void ttsDo( const String& speechText );
-void ttsSetup();
+// void ttsSetup();
 
 bool isTalking();
 // void ttsDoTp(const String &speechText);
 void execute_talk(String url);
 String execute_voicevox(String text);
-String get_speaker_name(String speaker);
+// String get_speaker_name(String speaker);
 // --------------------------------------------------------------------------
 
 #endif

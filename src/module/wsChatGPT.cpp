@@ -677,8 +677,11 @@ void exec_chatGPT(String text)
     chatHistory.push_back(CHAT_RESPONSE);
 
     // REQUEST SPEAK 
-    SpeechText1st();
-    
+    // SpeechText1st();
+    avatar.setExpression(Expression::Happy);
+    SPEECH_TEXT_BUFFER = SPEECH_TEXT;
+    SPEECH_TEXT = "";
+    sendReq(REQ_SPEAK,SPEECH_TEXT_BUFFER);
   }
   else
   {

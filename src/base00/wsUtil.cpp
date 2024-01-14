@@ -280,10 +280,16 @@ bool getJsonItem(String flName, String item, String &getData, DynamicJsonDocumen
 // 空きメモリをシリアル出力 from つゆきぱぱさん
 void log_free_size(const char *text)
 {
-  M5.Log.printf("%s メモリ残/最大ブロック残（DEFAULT->SPIRAM->DMA）：%4dKB/%4dKB %4dKB/%4dKB %3dKB/%3dKB\n", text,
-                heap_caps_get_free_size(MALLOC_CAP_DEFAULT) / 1024, heap_caps_get_largest_free_block(MALLOC_CAP_DEFAULT) / 1024,
-                heap_caps_get_free_size(MALLOC_CAP_SPIRAM) / 1024, heap_caps_get_largest_free_block(MALLOC_CAP_SPIRAM) / 1024,
-                heap_caps_get_free_size(MALLOC_CAP_DMA) / 1024, heap_caps_get_largest_free_block(MALLOC_CAP_DMA) / 1024         );
+  M5.Log.printf("%s メモリ残(def-ps-dma:kB): %4d-%4d-%3d\n", text,
+                heap_caps_get_free_size(MALLOC_CAP_DEFAULT) / 1024,
+                heap_caps_get_free_size(MALLOC_CAP_SPIRAM) / 1024, 
+                heap_caps_get_free_size(MALLOC_CAP_DMA) / 1024
+                );
+
+  // M5.Log.printf("%s メモリ残/最大ブロック残（DEFAULT->SPIRAM->DMA）：%4dKB/%4dKB %4dKB/%4dKB %3dKB/%3dKB\n", text,
+                // heap_caps_get_free_size(MALLOC_CAP_DEFAULT) / 1024, heap_caps_get_largest_free_block(MALLOC_CAP_DEFAULT) / 1024,
+                // heap_caps_get_free_size(MALLOC_CAP_SPIRAM) / 1024, heap_caps_get_largest_free_block(MALLOC_CAP_SPIRAM) / 1024,
+                // heap_caps_get_free_size(MALLOC_CAP_DMA) / 1024, heap_caps_get_largest_free_block(MALLOC_CAP_DMA) / 1024         );
 
                 // heap_caps_get_minimum_free_size(MALLOC_CAP_DEFAULT) / 1024, heap_caps_get_largest_free_block(MALLOC_CAP_DEFAULT) / 1024,
                 // heap_caps_get_minimum_free_size(MALLOC_CAP_DMA) / 1024, heap_caps_get_largest_free_block(MALLOC_CAP_DMA) / 1024,
@@ -302,7 +308,7 @@ String getHeapFreeSize()
   int mPSRAM = heap_caps_get_free_size(MALLOC_CAP_SPIRAM) / 1024;
   int mDMA = heap_caps_get_free_size(MALLOC_CAP_DMA) / 1024;
 
-  sprintf(s,"Mem=%4dKB ps:%d dma:%d",mDEF,mPSRAM,mDMA);
+  sprintf(s,"Mem=%4dkB ps:%4d dma:%3d",mDEF,mPSRAM,mDMA);
 
   return String(s);
 }

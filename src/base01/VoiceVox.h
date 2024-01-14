@@ -24,7 +24,7 @@ extern m5avatar::Avatar avatar;
 extern String VOICEVOX_API_KEY;
 extern uint8_t config_speaker;
 extern uint16_t https_timeout;
-extern String speaker_name;
+// extern String speaker_name;
 extern void log_free_size(const char *text);
 
 class VoiceVox {

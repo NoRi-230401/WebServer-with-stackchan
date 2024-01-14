@@ -44,11 +44,9 @@ void avatarSTART()
   StatusLineMode = STATUS_MD_MEM;
   statusLineOnOffState = true;
   statusLineOneState = false;
-  
   avatar.setStatusLineText("");
   avatar.setStatusLineFont(&fonts::Font0);
   // avatar.setStatusLineFont(&fonts::lgfxJapanGothicP_12);
-  
   avatar.setBatteryIcon(true, BATTERY_MD_LINE_DISP);
   avatar.setBatteryStatus(M5.Power.isCharging(), M5.Power.getBatteryLevel());
 

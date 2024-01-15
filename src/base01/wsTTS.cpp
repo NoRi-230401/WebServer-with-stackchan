@@ -48,9 +48,9 @@ uint16_t https_timeout = 60000;   // HTTPタイムアウト時間
 
 void ttsDo(const String &speechText)
 {
-  Serial.println("\n~~~~~ speak to you ~~~~~");
+  Serial.println("~~~~~~~ [ speak to you ] ~~~~~~~");
   Serial.println(speechText);
-  Serial.println("~~~~~~~~~~~~~~~~~~~~~~~");
+  // Serial.println("--------------------------------");
 
   // config_speaker = (uint8_t)TTS_SPEAKER_NO.toInt();  
   // speaker_name = get_speaker_name(String(config_speaker));

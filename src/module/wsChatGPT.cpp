@@ -638,9 +638,9 @@ String chatGpt(String json_string)
 
 void exec_chatGPT(String toChatGptText)
 {
-  Serial.println("~~~~~ talk to chatGPT ~~~~~");
+  Serial.println("~~~~~~ [ talk to chatGPT ] ~~~~~");
   Serial.println(toChatGptText);
-  Serial.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+  // Serial.println("--------------------------------");
 
   CHAT_RESPONSE = "";
   init_chat_doc(INIT_BUFFER.c_str());

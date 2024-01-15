@@ -223,8 +223,9 @@ void timerStarted()
   led_setColor4(ledIndex2, 0, 0, 255); // 現在のLEDを青色で点灯
   led_show();                          // LEDの状態を更新
 
-  // 10秒間隔で読み上げ
-  if ((TIMER_ELEAPSE_SEC % 10 == 0) && (TIMER_ELEAPSE_SEC < TIMER_SEC_VALUE))
+  // 10秒->20秒間隔で読み上げ
+  // if ((TIMER_ELEAPSE_SEC % 10 == 0) && (TIMER_ELEAPSE_SEC < TIMER_SEC_VALUE))
+  if ((TIMER_ELEAPSE_SEC % 20 == 0) && (TIMER_ELEAPSE_SEC < TIMER_SEC_VALUE))
   {
     char buffer[64];
     if (TIMER_ELEAPSE_SEC < 60)

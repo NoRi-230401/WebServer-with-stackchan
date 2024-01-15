@@ -40,7 +40,7 @@ extern const Expression expressions_table[];
 extern void errSTOP();
 extern String webpage;
 extern int REQ_SPK_EXPR;
-extern int REQ_SPK_PARMS_NO;
+// extern int REQ_SPK_PARMS_NO;
 extern int REQ_SHUTDOWN_REBOOT;
 extern int REQUEST_GET;
 extern String REQ_MSG;
@@ -48,17 +48,14 @@ extern void log_free_size(const char *text);
 
 //------------------------------------------------------------
 void wsHandleSpeech(String sayS, String expressionS, String voiceS);
-// void SpeechManage();
-// void SpeechText1st();
-// void SpeechTextNext();
 void ttsDo( const String& speechText );
-// void ttsSetup();
+
+void setSpeaker(uint8_t spkNo);
 
 bool isTalking();
-// void ttsDoTp(const String &speechText);
 void execute_talk(String url);
-String execute_voicevox(String text);
-// String get_speaker_name(String speaker);
+// String execute_voicevox(String text, uint8_t spk_no);
+String execute_voicevox(const String &text, uint8_t spk_no);
 // --------------------------------------------------------------------------
 
 #endif

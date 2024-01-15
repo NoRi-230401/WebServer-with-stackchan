@@ -25,7 +25,7 @@ extern void sendReq(int reqNo,String msg);
 // -----------------------
 
 
-extern String TTS2_PARMS;
+extern String TTS_PARMS;
 extern const char tts_parms2[];
 extern const char tts_parms6[];
 using namespace m5avatar;

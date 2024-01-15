@@ -105,7 +105,7 @@ void wsHandelChat(String textS, String voiceS)
     return;
 
   if (voiceS != "")
-    TTS2_PARMS = TTS2_SPEAKER + voiceS;
+    TTS_PARMS = TTS_SPEAKER + voiceS;
 
   REQ_chatGPT_GET = true;
   REQ_MSG = textS;
@@ -250,8 +250,8 @@ void wsHandelChatGpt(String historyS, String charaS)
       {
         speaker_no = 3;
       }
-      TTS2_SPEAKER_NO = String(speaker_no);
-      TTS2_PARMS = TTS2_SPEAKER + TTS2_SPEAKER_NO;
+      TTS_SPEAKER_NO = String(speaker_no);
+      TTS_PARMS = TTS_SPEAKER + TTS_SPEAKER_NO;
 
       if (ESP_OK == nvs_open(SETTING_NVS, NVS_READWRITE, &nvs_handle))
       {
@@ -271,7 +271,7 @@ void wsHandelChatGpt(String historyS, String charaS)
     {
       String spkMsg = chara_name + " です。";
       Serial.println(spkMsg);
-      ReqSpkOnly(spkMsg);
+      sendReq(REQ_SPEAK,spkMsg);
     }
     return;
   }
@@ -454,7 +454,7 @@ bool init_chat_doc(const char *data)
   }
   String json_str;                         //= JSON.stringify(chat_doc);
   serializeJsonPretty(CHAT_DOC, json_str); // 文字列をシリアルポートに出力する
-  Serial.println(json_str);
+  // Serial.println(json_str);
   return true;
 }
 
@@ -473,24 +473,24 @@ String https_post_json(const char *url, const char *json_string, const char *roo
       HTTPClient https;
       https.setTimeout(UINT16_MAX); // 最大値の約65秒にタイムアウトを設定
 
-      Serial.print("[HTTPS] begin...\n");
+      // Serial.print("[HTTPS] begin...\n");
       if (https.begin(*client, url))
       { // HTTPS
-        Serial.print("[HTTPS] POST...\n");
+        // Serial.print("[HTTPS] POST...\n");
         // start connection and send HTTP header
         https.addHeader("Content-Type", "application/json");
         https.addHeader("Authorization", String("Bearer ") + OPENAI_API_KEY);
         int httpCode = https.POST((uint8_t *)json_string, strlen(json_string));
 
         WK_ERR_CODE = httpCode;
-        Serial.print(" httpCode = ");
-        Serial.println(httpCode, DEC);
+        // Serial.print(" httpCode = ");
+        // Serial.println(httpCode, DEC);
 
         // httpCode will be negative on error
         if (httpCode > 0)
         {
           // HTTP header has been send and Server response header has been handled
-          Serial.printf("[HTTPS] POST... code: %d\n", httpCode);
+          // Serial.printf("[HTTPS] POST... code: %d\n", httpCode);
 
           // file found at server
           if (httpCode == HTTP_CODE_OK || httpCode == HTTP_CODE_MOVED_PERMANENTLY)
@@ -636,15 +636,15 @@ String chatGpt(String json_string)
   return response;
 }
 
-void exec_chatGPT(String text)
+void exec_chatGPT(String toChatGptText)
 {
-  Serial.println("\n~~ Send Msg to chatGPT ~~");
-  Serial.println(text);
-  Serial.println("~~~~~~~~~~~~~~~~~~~~~~~~~\n");
+  Serial.println("~~~~~ talk to chatGPT ~~~~~");
+  Serial.println(toChatGptText);
+  Serial.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~");
 
   CHAT_RESPONSE = "";
   init_chat_doc(INIT_BUFFER.c_str());
-  chatHistory.push_back(text);
+  chatHistory.push_back(toChatGptText);
   // チャット履歴が最大数を超えた場合、古い質問と回答を削除
   if (chatHistory.size() > MAX_HISTORY * 2)
   {
@@ -677,7 +677,6 @@ void exec_chatGPT(String text)
     chatHistory.push_back(CHAT_RESPONSE);
 
     // REQUEST SPEAK 
-    // SpeechText1st();
     avatar.setExpression(Expression::Happy);
     SPEECH_TEXT_BUFFER = SPEECH_TEXT;
     SPEECH_TEXT = "";

@@ -41,7 +41,7 @@ extern String VOICEVOX_API_KEY;
 extern String OPENAI_API_KEY;
 // extern void ttsDo( const String& text );
 extern String webpage;
-extern String TTS2_SPEAKER_NO;
+extern String TTS_SPEAKER_NO;
 extern bool LED_OnOff_STATE;
 extern uint16_t TIMER_SEC_VALUE;
 extern void timerStop2(); 

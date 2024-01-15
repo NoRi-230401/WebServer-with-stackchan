@@ -112,7 +112,7 @@ bool sysInfoGet(String txArg, String &txData)
   }
   else if (txArg == "vSpeakerNo")
   {
-    sprintf(msg2, "vSpeakerNo = %s", TTS2_SPEAKER_NO);
+    sprintf(msg2, "vSpeakerNo = %s", TTS_SPEAKER_NO);
     txData = msg2;
   }
   else if (txArg == "timer")
@@ -365,7 +365,7 @@ void sysInfo_m00_DispMake()
   SYSINFO_MSG += msg2;
   // SYSINFO_MSG += "\nttsSelect = " + String(TTS_NAME[TTS_TYPE]);
   
-  SYSINFO_MSG += "\nvSpeakerNo = " + TTS2_SPEAKER_NO;
+  SYSINFO_MSG += "\nvSpeakerNo = " + TTS_SPEAKER_NO;
   // SYSINFO_MSG += "\nlang = " + LANG_CODE;
 
   if (RANDOM_SPEAK_STATE)

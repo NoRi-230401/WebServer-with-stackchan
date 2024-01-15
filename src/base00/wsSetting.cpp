@@ -221,8 +221,8 @@ void wsHandleSetting(String volumeS, String volumeDS, String vSpeakerNoS,
     {
       speaker_no = 3;
     }
-    TTS2_SPEAKER_NO = String(speaker_no);
-    TTS2_PARMS = TTS2_SPEAKER + TTS2_SPEAKER_NO;
+    TTS_SPEAKER_NO = String(speaker_no);
+    TTS_PARMS = TTS_SPEAKER + TTS_SPEAKER_NO;
 
     if (ESP_OK == nvs_open(SETTING_NVS, NVS_READWRITE, &nvs_handle))
     {
@@ -553,7 +553,7 @@ void nvsSaveAll()
   size_t volume = (size_t)VOLUME_VALUE;
   size_t timer_value = (size_t)TIMER_SEC_VALUE;
   size_t tone_mode = (size_t)TONE_MODE;
-  size_t speaker_no = (size_t)TTS2_SPEAKER_NO.toInt();
+  size_t speaker_no = (size_t)TTS_SPEAKER_NO.toInt();
 
   uint8_t led_onoff = 0;
   if (LED_OnOff_STATE)
@@ -592,7 +592,7 @@ bool startupFileRead()
   // ****** 初期値設定　**********
   SERVER_NAME = "stackchan";
   // TTS_TYPE = 2; // VOICEVOX
-  TTS2_SPEAKER_NO = "3";
+  TTS_SPEAKER_NO = "3";
   // LANG_CODE = String(LANG_CODE_JP);
   VOLUME_VALUE = 200;
   LED_OnOff_STATE = true;
@@ -781,8 +781,8 @@ bool startupFileRead()
   String getStr1 = object["vSpeakerNo"];
   if ((getStr1 != "") && (getStr1 != "***") && (getStr1 != "-1") && (getStr1 != "null"))
   {
-    TTS2_SPEAKER_NO = getStr1;
-    Serial.println("Startup : vSpeakerNo = " + TTS2_SPEAKER_NO);
+    TTS_SPEAKER_NO = getStr1;
+    Serial.println("Startup : vSpeakerNo = " + TTS_SPEAKER_NO);
     cnt++;
   }
   else
@@ -794,13 +794,13 @@ bool startupFileRead()
       nvs_get_u32(nvs_handle, "vSpeakerNo", &speaker_no);
       if (speaker_no > 66)
         speaker_no = 3;
-      TTS2_SPEAKER_NO = String(speaker_no);
+      TTS_SPEAKER_NO = String(speaker_no);
       nvs_close(nvs_handle);
     }
-    Serial.println("Startup : NVS vSpeakerNo = " + TTS2_SPEAKER_NO);
+    Serial.println("Startup : NVS vSpeakerNo = " + TTS_SPEAKER_NO);
     cnt++;
   }
-  TTS2_PARMS = TTS2_SPEAKER + TTS2_SPEAKER_NO;
+  TTS_PARMS = TTS_SPEAKER + TTS_SPEAKER_NO;
 
   // randomSpeak
   String getStr5 = object["randomSpeak"];

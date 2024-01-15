@@ -46,7 +46,6 @@ void loop()
   TimerManage();
   ButtonManage();
   RequestManage();
-  // SpeechManage();
   StatusLineManage();
 }
 

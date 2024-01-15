@@ -30,7 +30,7 @@
 // -------------------------
 
 
-extern String TTS2_PARMS;
+extern String TTS_PARMS;
 using namespace m5avatar;
 extern Avatar avatar;
 extern const Expression expressions_table[];
@@ -52,13 +52,13 @@ void RequestManage();
 void Req_SpkDo();
 void Req_BaloonDo();
 // void ReqSpkMsg();
-void ReqSpkBaloon_adjust(String spkMsg);
-void ReqSpkOnly(String spkMsg);
+// void ReqSpkBaloon_adjust(String spkMsg);
+// void ReqSpkOnly(String spkMsg);
 
 void Req_SpkBaloonDo_adjust(); 
 void Req_SpkDo_adjust();
 void Req_BaloonDo_adjust();
-void Req_Baloon_adjust();
-void Req_MsgCls();
+// void Req_Baloon_adjust();
+void BaloonClear();
 // ---------------------------------------------------------------------
 #endif

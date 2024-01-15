@@ -47,9 +47,9 @@ extern String VOICEVOX_API_KEY;
 extern String OPENAI_API_KEY;
 extern String SPEECH_TEXT;
 extern String SPEECH_TEXT_BUFFER;
-extern String TTS2_SPEAKER_NO;
-extern String TTS2_SPEAKER;
-extern String TTS2_PARMS;
+extern String TTS_SPEAKER_NO;
+extern String TTS_SPEAKER;
+extern String TTS_PARMS;
 // extern AudioGeneratorMP3 *mp3;
 extern bool LED_OnOff_STATE;
 extern void led_setColor2(uint16_t n, uint32_t c);
@@ -67,11 +67,11 @@ extern const char *SETTING_NVS; // setting --NVS の設定用ファイル
 extern String webpage;
 extern int TTS_PARMS_NO;
 extern void sysInfoDispEnd();
-extern void ReqSpkBaloon_adjust(String spkMsg);
-extern void ReqSpkOnly(String spkMsg);
+// extern void ReqSpkBaloon_adjust(String spkMsg);
+// extern void ReqSpkOnly(String spkMsg);
 extern bool isTalking();
 extern void sendReq(int reqNo,String msg);
-extern void SpeechText1st();
+// extern void SpeechText1st();
 // -----------------------------------------------------------------------------
 void chatGptManage();
 void wsHandleRandomSpeak(String modeS);

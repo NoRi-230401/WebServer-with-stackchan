@@ -51,6 +51,7 @@
 #define FLTYPE_SPIFFS 1
 #define FLTYPE_SD 2
 
+extern void sendReq(int reqNo, String msg);
 extern bool setJsonItem(String flName, String item, String setData, DynamicJsonDocument &jsonDoc, String arrayName);
 extern bool getJsonItem(String flName, String item, String& getData, DynamicJsonDocument &jsonDoc, String arrayName);
 extern ServoEasing servo_x;
@@ -62,12 +63,12 @@ extern bool jsonRead(int flType, DynamicJsonDocument &jsonDoc, String readFile);
 extern void Req_SpkBaloonDo_adjust(); 
 extern void Req_BaloonDo_adjust();
 extern void Req_SpkDo_adjust();
-extern void Req_Baloon_adjust();
+// extern void Req_Baloon_adjust();
 extern bool KEYLOCK_STATE;
 // extern void ReqSpkMsg();
 extern void ReqSpkBaloon_adjust(String spkMsg);
 extern String webpage;
-extern void Req_MsgCls();
+extern void BaloonClear();
 extern void tone(int mode);
 extern bool jsonInitSave(DynamicJsonDocument &jsonDoc,const String inJson, const String saveFile);
 

@@ -596,7 +596,7 @@ bool startupFileRead()
   // LANG_CODE = String(LANG_CODE_JP);
   VOLUME_VALUE = 200;
   LED_OnOff_STATE = true;
-  RANDOM_TIME = -1;
+  // RANDOM_TM = 0;
   RANDOM_SPEAK_ON_GET = false;
   RANDOM_SPEAK_STATE = false;
   TONE_MODE = TONE_MODE_INIT;

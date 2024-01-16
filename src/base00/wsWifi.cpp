@@ -6,7 +6,7 @@ const String WIFI_SD = "/wsWifi.json";
 const String WIFITXT_SD = "/wifi.txt";
 
 
-void networkInformation()
+void WiFiInfo()
 {
   String w_IP = String(WiFi.localIP().toString());
   String w_MAC = String(WiFi.BSSIDstr());

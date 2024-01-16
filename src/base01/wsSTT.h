@@ -35,7 +35,7 @@ extern String SPEECH_TEXT_BUFFER;
 extern const char* root_ca_openai;
 extern int SV_MD;
 extern bool SV_USE;
-extern int RANDOM_TIME;
+extern int RANDOM_TM;
 using namespace m5avatar;
 extern Avatar avatar;
 extern void randomSpeakStop2();

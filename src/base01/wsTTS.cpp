@@ -50,10 +50,6 @@ void ttsDo(const String &speechText)
 {
   Serial.println("~~~~~~~ [ speak to you ] ~~~~~~~");
   Serial.println(speechText);
-  // Serial.println("--------------------------------");
-
-  // config_speaker = (uint8_t)TTS_SPEAKER_NO.toInt();  
-  // speaker_name = get_speaker_name(String(config_speaker));
 
   String return_string = execute_voicevox(speechText, (uint8_t)TTS_SPEAKER_NO.toInt());
   SPEECH_TEXT_BUFFER="";
@@ -64,7 +60,7 @@ void ttsDo(const String &speechText)
 
 bool isTalking()
 {
-  return( tts->is_talking);
+  return( (tts->is_talking) && (SPEECH_TEXT_BUFFER=="") && (SPEECH_TEXT==""));
 }
 
 void setSpeaker(uint8_t spk_no)

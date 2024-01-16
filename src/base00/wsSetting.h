@@ -32,7 +32,7 @@ extern bool LED_OnOff_STATE;
 extern bool RANDOM_SPEAK_ON_GET;
 extern uint16_t TIMER_SEC_VALUE;
 // extern uint8_t m5spk_virtual_channel;
-extern int RANDOM_TIME;
+// extern uint32_t RANDOM_TM;
 extern bool TIMER_STARTED;
 extern void led_allOff();
 extern void timerStop2(); 

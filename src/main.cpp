@@ -25,13 +25,11 @@ void setup()
   wifiSetup();
   serverSetup();
   clockSetup();
-  networkInformation();
+  WiFiInfo();
   
-  // *** Servo,TTS,chatGpt ***
+  // *** Servo, chatGpt ***
   servoSetup();
-  // ttsSetup();
   chatGptSetup();
-  
   delay(3000);
     
  //*** Wake UP! STACKCHAN ***

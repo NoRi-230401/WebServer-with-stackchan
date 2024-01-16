@@ -52,7 +52,7 @@ void statusLinePrev();
 void statusLineOnOff();
 void StatusLineManage();
 void statusLineCheckManage();
-void statusLineOneManage();
+// void statusLineOneManage();
 void setStatusLineMode(int mode);
 void set_avatar_color();
 void servo(void *args);

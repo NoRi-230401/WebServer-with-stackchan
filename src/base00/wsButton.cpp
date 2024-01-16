@@ -82,10 +82,12 @@ void wsHandleBtn(String arg)
     BTN_REQ = BtnREQ_UC;
     return;
   }
-  else if (arg_mode == "BOX_SERVO")
+  else if (arg_mode == "BOX_SERVO" || arg_mode == "BTNMA" )
   {
-    webpage = BoxServoDo();
+    BTN_REQ = BtnREQ_MA;
     return;
+    // webpage = BoxServoDo();
+    // return;
   }
   else if (arg_mode == "BOX_SYSINFO")
   {
@@ -149,7 +151,7 @@ void BtnReqGet()
     break;
 
   case BtnREQ_MA:
-    BoxServoDo();
+    BtnMA_Do();
     break;
 
   case BtnREQ_MC:
@@ -183,23 +185,26 @@ void ButtonManage()
       auto t = M5.Touch.getDetail();
       if (t.wasPressed())
       {
-        // if (BOX_STATUS_LINE_NEXT.contain(t.x, t.y) && statusLineOnOffState && !statusLineOneState)
-        //   StatusLineDoSelect();
-        // if (BOX_STATUS_LINE_ONOFF.contain(t.x, t.y) && !statusLineOneState)
-        //   StatusLineDoOnOff();
-        // if (BOX_STATUS_LINE_PREV.contain(t.x, t.y) && !statusLineOnOffState && !statusLineOneState)
-        //   StatusLineDoOne();
         if (BOX_STATUS_LINE_NEXT.contain(t.x, t.y) && statusLineOnOffState)
-          StatusLineDoNext();
+          // StatusLineDoNext();
+          BtnUA_Do();
+
         if (BOX_STATUS_LINE_ONOFF.contain(t.x, t.y) )
-          StatusLineDoOnOff();
+          // StatusLineDoOnOff();
+          BtnUB_Do();
+
         if (BOX_STATUS_LINE_PREV.contain(t.x, t.y) && statusLineOnOffState)
-          StatusLineDoPrev();
+          // StatusLineDoPrev();
+          BtnUC_Do();
 
         if (BOX_SERVO.contain(t.x, t.y))
-          BoxServoDo();
+          // BoxServoDo();
+          BtnMA_Do();
+
         if (BOX_SYSINFO.contain(t.x, t.y))
-          sysInfoDispOnOff();
+          // sysInfoDispOnOff();
+          BtnMC_Do();
+
       }
     }
   }
@@ -226,6 +231,9 @@ void ButtonManage()
       BtnC_Do();
   }
 }
+
+
+
 
 void BtnA_Do()
 {
@@ -268,12 +276,24 @@ void BtnUC_Do()
 
 void BtnMC_Do()
 {
+  tone(1);
   sysInfoDispOnOff();
 }
 
-void sysInfoDispOnOff()
+
+void BtnMA_Do()
 {
   tone(1);
+  if (SYSINFO_DISP_STATE)
+    sysInfoDispEnd();
+
+  BoxServoDo();
+}
+
+
+
+void sysInfoDispOnOff()
+{
   if (SYSINFO_DISP_STATE)
     sysInfoDispEnd();
   else
@@ -301,17 +321,18 @@ void BtnC_Do()
 
 void BtnB_Do()
 {
-  BoxSttDo();
-}
-
-void BoxSttDo()
-{
   tone(1);
   if (SYSINFO_DISP_STATE)
     sysInfoDispEnd();
 
   SST_ChatGPT();
+  // BoxSttDo();
 }
+
+// void BoxSttDo()
+// {
+//   SST_ChatGPT();
+// }
 //-----------------------------------------------
 
 void StatusLineDoOnOff()

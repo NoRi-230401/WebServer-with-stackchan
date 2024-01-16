@@ -55,3 +55,15 @@ void led_clear()
     pixels.clear();
 }
 
+void blueLedOn()
+{
+  led_clear();
+  led_show();
+  led_setColor2(2, led_ColorLED3(0, 0, 255));
+  led_setColor2(7, led_ColorLED3(0, 0, 255));
+  led_show();
+  delay(1000);
+  led_clear();
+  led_show();
+}
+

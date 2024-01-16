@@ -54,7 +54,7 @@ using namespace m5avatar;
 extern Avatar avatar;
 extern String webpage;
 extern int isSPIFFS;
-
+extern void blueLedOn();
 //-------------------------------------------------------------------------
 void startupSetting();
 void apikeySetting();

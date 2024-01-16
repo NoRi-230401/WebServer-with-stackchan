@@ -12,9 +12,11 @@ const String jsonSTARTUP = "{\"startup\":[{\"serverName\":\"stackchan\",\"vSpeak
 static constexpr uint8_t m5spk_virtual_channel = 0;
 size_t VOLUME_VALUE;
 bool MUTE_ON_STATE = false;
-#define TONE_MODE_INIT 0
-// uint8_t TONE_MODE = 1; // 0:allOff 1:buttonOn 2:extCommOn 3:allOn
-uint8_t TONE_MODE = TONE_MODE_INIT; // 0:allOff(default) 1:buttonOn 2:extCommOn 3:allOn
+
+#define TONE_MODE_INIT 4
+#define TONE_MODE_MAX 5
+uint8_t TONE_MODE = TONE_MODE_INIT; // 0:allOff(default) 1:buttonOn 2:extCommOn 3:allOn 4.LedOnly. 5.tone&LED
+
 String SYSINFO_MSG = "";
 String IP_ADDR = "";
 String SSID = "";
@@ -126,12 +128,12 @@ void wsHandleSetting(String volumeS, String volumeDS, String vSpeakerNoS,
     if (toneModeS == "next")
     {
       TONE_MODE++;
-      TONE_MODE = TONE_MODE % 4;
+      TONE_MODE = TONE_MODE % (TONE_MODE_MAX -1 );
     }
     else
     {
       TONE_MODE = toneModeS.toInt();
-      if ((TONE_MODE < 0) || (TONE_MODE > 3))
+      if ((TONE_MODE < 0) || (TONE_MODE > TONE_MODE_MAX))
       {
         TONE_MODE = TONE_MODE_INIT;
       }
@@ -914,10 +916,21 @@ void tone(int mode)
     toneOn();
     break;
 
+  case 4: // LED only 
+    // toneOn();
+    blueLedOn();
+    break;
+
+  case 5: // LED and Tone 
+    toneOn();
+    blueLedOn();
+    break;
+
   default:
     break;
   }
 }
+
 
 void muteOn()
 {

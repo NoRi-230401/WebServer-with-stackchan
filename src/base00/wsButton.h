@@ -55,10 +55,11 @@ void BtnC_Do();
 void BtnUA_Do();
 void BtnUB_Do();
 void BtnUC_Do();
+void BtnMA_Do();
 void BtnMC_Do();
 void sysInfoDispOnOff();
 
-void BoxSttDo();
+// void BoxSttDo();
 void BoxTouchSetup();
 void StatusLineDoOnOff();
 void StatusLineDoNext();

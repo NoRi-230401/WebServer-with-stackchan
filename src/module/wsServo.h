@@ -66,11 +66,13 @@ extern void Req_SpkDo_adjust();
 // extern void Req_Baloon_adjust();
 extern bool KEYLOCK_STATE;
 // extern void ReqSpkMsg();
-extern void ReqSpkBaloon_adjust(String spkMsg);
+// extern void ReqSpkBaloon_adjust(String spkMsg);
 extern String webpage;
 extern void BaloonClear();
 extern void tone(int mode);
 extern bool jsonInitSave(DynamicJsonDocument &jsonDoc,const String inJson, const String saveFile);
+extern void sysInfoDispEnd();
+extern bool SYSINFO_DISP_STATE;
 
 // -----------------------------------------------------------------
 bool jsonSERVOinit(DynamicJsonDocument &jsonDoc);

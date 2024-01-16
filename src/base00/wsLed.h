@@ -15,5 +15,6 @@ void led_setColor4(uint16_t n, uint8_t r, uint8_t g, uint8_t b);
 uint32_t led_ColorLED3(uint8_t r, uint8_t g, uint8_t b);
 void led_show();
 void led_clear();
+void blueLedOn();
 // ---------------------------------------------------------------------
 #endif

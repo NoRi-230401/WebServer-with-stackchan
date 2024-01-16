@@ -43,10 +43,6 @@ String BoxServoDo()
 {
   if (SV_USE)
   {
-    tone(1);
-    // if (SYSINFO_DISP_STATE)
-    //   sysInfoDispEnd();
-
     int svMode = SV_MD;
     if (svMode > SV_MD_CENTER)
       SV_MD = SV_MD_MOVING;
@@ -59,6 +55,8 @@ String BoxServoDo()
   }
   return String("NG");
 }
+
+
 
 
 

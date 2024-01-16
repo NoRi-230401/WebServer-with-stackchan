@@ -34,12 +34,15 @@ void wsHandleSysInfo(String txS, String dispS, String modeS)
       sysInfoDispEnd();
       webpage = "OK";
     }
-    // else if (dispS == "on")
-    // {
-    //   sysInfoDispStart(mode_no);
-    //   webpage = SYSINFO_MSG;
-    //   return;
-    // }
+    else if (dispS == "on")
+    {
+      // uint8_t mode_no =(uint8_t) modeS.toInt();
+      // sysInfoDispStart(mode_no);
+      sysInfoDispStart(0);
+
+      webpage = SYSINFO_MSG;
+      return;
+    }
     return;
   }
 
@@ -65,22 +68,22 @@ void wsHandleSysInfo(String txS, String dispS, String modeS)
 }
 
 
-void report_batt_level()
-{
-  // String buff="";
-  // int level = M5.Power.getBatteryLevel();
+// void report_batt_level()
+// {
+//   // String buff="";
+//   // int level = M5.Power.getBatteryLevel();
   
-  // if (M5.Power.isCharging())
-  //     buff = "充電中、バッテリーのレベルは" + String(level,DEC) + "％です。";
-  // else
-  //     buff = "バッテリーのレベルは" + String(level,DEC) + "％です。";
+//   // if (M5.Power.isCharging())
+//   //     buff = "充電中、バッテリーのレベルは" + String(level,DEC) + "％です。";
+//   // else
+//   //     buff = "バッテリーのレベルは" + String(level,DEC) + "％です。";
 
-  // avatar.setExpression(Expression::Happy);
-  // ttsDo(buff);
+//   // avatar.setExpression(Expression::Happy);
+//   // ttsDo(buff);
   
-  // avatar.setExpression(Expression::Neutral);
-  // Serial.println("mp3 begin");
-}
+//   // avatar.setExpression(Expression::Neutral);
+//   // Serial.println("mp3 begin");
+// }
 
 bool sysInfoGet(String txArg, String &txData)
 {
@@ -245,7 +248,10 @@ void sysInfoDispStart(uint8_t mode_no)
   if (!SYSINFO_DISP_STATE)
   {
     // muteOn();
-    avatar.stop();
+    // avatar.stop();
+    avatar.suspend();
+    Serial.println("avatar suspended");
+
     randomSpeakStop2();
     timerStop2();
     M5.Display.setTextFont(1);
@@ -277,7 +283,10 @@ void sysInfoDispEnd()
     return;
   }
 
-  avatar.start();
+  // avatar.start();
+  avatar.resume();
+  Serial.println("avatar resumed");
+
   delay(200);
   // muteOff();
   SYSINFO_DISP_STATE = false;

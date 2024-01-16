@@ -40,7 +40,7 @@ extern void randomSpeakStop2();
 extern void timerStart();
 extern void timerStop();
 extern void timerStop2(); 
-extern void report_batt_level();
+// extern void report_batt_level();
 extern void sysInfoDispStart(uint8_t mode_no);
 extern bool jsonSave(DynamicJsonDocument &jsonDoc, String saveFile);
 extern bool jsonRead(int flType, DynamicJsonDocument &jsonDoc, String readFile);

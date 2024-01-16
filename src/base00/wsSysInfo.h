@@ -56,7 +56,7 @@ extern const String WS_VERSION;
 //------------------------------------------------------------
 void wsHandleSysInfo(String txS, String dispS, String modeS);
 bool SYSINFO_DISP_STATE;
-void report_batt_level();
+// void report_batt_level();
 bool sysInfoGet(String txArg, String &txData);
 void sysInfoDispStart(uint8_t mode_no);
 void sysInfoDispEnd();

@@ -16,7 +16,7 @@ const Expression expressions_table[] = {
     Expression::Angry};
 
 bool statusLineOnOffState = true;
-bool statusLineOneState = false;
+// bool statusLineOneState = false;
 #define STATUS_MD_ICON 0
 #define STATUS_MD_NUM 1
 #define STATUS_MD_CLOCK 2
@@ -28,9 +28,9 @@ bool statusLineOneState = false;
 int StatusLineMode;
 
 constexpr int duration_1013 = 1 * 1013;   // 1.013秒: statusLineCheck_time
-constexpr int duration_10000 = 10 * 1000; // 10秒    : statusLineOne_time
-uint32_t statusLineOne_time = 0;
 uint32_t statusLineCheck_time = 0;
+// constexpr int duration_10000 = 10 * 1000; // 10秒    : statusLineOne_time
+// uint32_t statusLineOne_time = 0;
 
 void avatarSTART()
 {
@@ -43,7 +43,7 @@ void avatarSTART()
   // -- batteryStatusLine setup ---
   StatusLineMode = STATUS_MD_MEM;
   statusLineOnOffState = true;
-  statusLineOneState = false;
+  // statusLineOneState = false;
   avatar.setStatusLineText("");
   avatar.setStatusLineFont(&fonts::Font0);
   // avatar.setStatusLineFont(&fonts::lgfxJapanGothicP_12);
@@ -56,16 +56,36 @@ void avatarSTART()
   avatar.setSpeechText("");
 }
 
-void statusLineSelect()
+void statusLineNext()
 {
   if (!statusLineOnOffState)
     return;
 
   StatusLineMode++;
   StatusLineMode = StatusLineMode % STATUS_MD_MAX;
+
+  setStatusLineMode(StatusLineMode);
+}
+
+void statusLinePrev()
+{
+  if (!statusLineOnOffState)
+    return;
+
+  if(StatusLineMode==0)
+    StatusLineMode = STATUS_MD_MAX - 1;
+  else
+    StatusLineMode--;
+  
+  StatusLineMode = StatusLineMode % STATUS_MD_MAX;
+  setStatusLineMode(StatusLineMode);
+}
+
+void setStatusLineMode(int mode)
+{
   avatar.setStatusLineText("");
 
-  switch (StatusLineMode)
+  switch (mode)
   {
   case STATUS_MD_ICON:
     avatar.setBatteryIcon(true, BATTERY_MD_ICON);
@@ -93,36 +113,38 @@ void statusLineSelect()
   }
 }
 
-void statusLineOne()
-{
-  if (statusLineOneState || statusLineOnOffState)
-    return;
 
-  statusLineOneState = true;
+// void statusLineOne()
+// {
+//   if (statusLineOneState || statusLineOnOffState)
+//     return;
 
-  switch (StatusLineMode)
-  {
-  case STATUS_MD_ICON:
-    avatar.setBatteryIcon(true, BATTERY_MD_ICON);
-    break;
+//   statusLineOneState = true;
 
-  case STATUS_MD_NUM:
-    avatar.setBatteryIcon(true, BATTERY_MD_NUM);
-    break;
+//   switch (StatusLineMode)
+//   {
+//   case STATUS_MD_ICON:
+//     avatar.setBatteryIcon(true, BATTERY_MD_ICON);
+//     break;
 
-  case STATUS_MD_CLOCK:
-  case STATUS_MD_RSSI:
-  case STATUS_MD_VOL:
-  case STATUS_MD_MEM:
-  case STATUS_MD_IP:
-    avatar.setBatteryIcon(true, BATTERY_MD_LINE_DISP);
-    break;
+//   case STATUS_MD_NUM:
+//     avatar.setBatteryIcon(true, BATTERY_MD_NUM);
+//     break;
 
-  default:
-    break;
-  }
-  statusLineOne_time = millis();
-}
+//   case STATUS_MD_CLOCK:
+//   case STATUS_MD_RSSI:
+//   case STATUS_MD_VOL:
+//   case STATUS_MD_MEM:
+//   case STATUS_MD_IP:
+//     avatar.setBatteryIcon(true, BATTERY_MD_LINE_DISP);
+//     break;
+
+//   default:
+//     break;
+//   }
+//   statusLineOne_time = millis();
+// }
+
 
 void statusLineOnOff()
 {
@@ -158,19 +180,19 @@ void statusLineOnOff()
   }
 }
 
-void statusLineOneManage()
-{
-  if (!statusLineOneState || statusLineOnOffState)
-    return;
+// void statusLineOneManage()
+// {
+//   if (!statusLineOneState || statusLineOnOffState)
+//     return;
 
-  if ((millis() - statusLineOne_time) < duration_10000)
-    return;
+//   if ((millis() - statusLineOne_time) < duration_10000)
+//     return;
 
-  statusLineOneState = false;
-  statusLineOnOffState = false;
-  avatar.setBatteryIcon(true, BATTERY_MD_INVISIBLE);
-  statusLineOne_time = millis();
-}
+//   statusLineOneState = false;
+//   statusLineOnOffState = false;
+//   avatar.setBatteryIcon(true, BATTERY_MD_INVISIBLE);
+//   statusLineOne_time = millis();
+// }
 
 void statusLineCheckManage()
 {
@@ -218,7 +240,7 @@ void statusLineCheckManage()
 void StatusLineManage()
 {
   statusLineCheckManage();
-  statusLineOneManage();
+  // statusLineOneManage();
 }
 
 uint8_t config_color1_red = 0;     // 背景の色

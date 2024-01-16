@@ -9,11 +9,15 @@
 #define BtnREQ_A 1
 #define BtnREQ_B 2
 #define BtnREQ_C 3
-#define BtnREQ_BOX_SERVO 4
-#define BtnREQ_BOX_STT 5
+// #define BtnREQ_BOX_SERVO 4
+// #define BtnREQ_BOX_STT 5
+#define BtnREQ_MA 4
+#define BtnREQ_MB 5
+#define BtnREQ_MC 6
 #define BtnREQ_UA 7
 #define BtnREQ_UB 8
 #define BtnREQ_UC 9
+
 
 extern AudioGeneratorMP3 *mp3;
 extern bool SYSINFO_DISP_STATE;
@@ -26,17 +30,18 @@ extern bool RANDOM_SPEAK_OFF_GET;
 extern String BoxServoDo();
 extern void timerStop2(); 
 extern void randomSpeakStop2();
-extern void report_batt_level();
+// extern void report_batt_level();
 extern void timerStart();
 extern void timerStop();
 extern void sysInfoDispEnd();
+extern void sysInfoDispStart(uint8_t mode_no);
 extern void tone(int mode);
 extern void SST_ChatGPT();
 extern bool TIMER_STOP_GET;
 extern bool TIMER_GO_GET;
-extern void statusLineSelect();
+extern void statusLineNext();
 extern void statusLineOnOff();
-extern void statusLineOne();
+extern void statusLinePrev();
 extern bool statusLineOnOffState;
 extern bool statusLineOneState;
 
@@ -50,12 +55,14 @@ void BtnC_Do();
 void BtnUA_Do();
 void BtnUB_Do();
 void BtnUC_Do();
+void BtnMC_Do();
+void sysInfoDispOnOff();
 
 void BoxSttDo();
 void BoxTouchSetup();
 void StatusLineDoOnOff();
-void StatusLineDoSelect();
-void StatusLineDoOne();
+void StatusLineDoNext();
+void StatusLineDoPrev();
 // --------------------------------------------------------
 
 #endif

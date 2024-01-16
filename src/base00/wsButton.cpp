@@ -30,11 +30,14 @@ struct box_t
   }
 };
 
-static box_t BOX_STATUS_LINE_SELECT;
-static box_t BOX_STATUS_LINE_ONE;
+static box_t BOX_STATUS_LINE_NEXT;
 static box_t BOX_STATUS_LINE_ONOFF;
+static box_t BOX_STATUS_LINE_PREV;
 static box_t BOX_SERVO;
+static box_t BOX_SYSINFO;
 // static box_t BOX_STT;
+
+
 
 void wsHandleBtn(String arg)
 {
@@ -63,13 +66,13 @@ void wsHandleBtn(String arg)
   }
   else if (arg_mode == "BTNUA")
   {
-    webpage = "statusLineSelect";
+    webpage = "statusLineNext";
     BTN_REQ = BtnREQ_UA;
     return;
   }
   else if (arg_mode == "BTNUB")
   {
-    webpage = "statusLineOne";
+    webpage = "statusLinePrev";
     BTN_REQ = BtnREQ_UB;
     return;
   }
@@ -84,6 +87,13 @@ void wsHandleBtn(String arg)
     webpage = BoxServoDo();
     return;
   }
+  else if (arg_mode == "BOX_SYSINFO")
+  {
+    webpage = "sysInfo Disp";
+
+    return;
+  }
+
   // else if (arg_mode == "BOX_STT")
   // {
   //   webpage = "talk-with-chatGpt Start";
@@ -138,8 +148,12 @@ void BtnReqGet()
     BtnUC_Do();
     break;
 
-  case BtnREQ_BOX_SERVO:
+  case BtnREQ_MA:
     BoxServoDo();
+    break;
+
+  case BtnREQ_MC:
+    BtnMC_Do();
     break;
 
     // case BtnREQ_BOX_STT:
@@ -169,15 +183,23 @@ void ButtonManage()
       auto t = M5.Touch.getDetail();
       if (t.wasPressed())
       {
-        if (BOX_STATUS_LINE_SELECT.contain(t.x, t.y) && statusLineOnOffState && !statusLineOneState)
-          StatusLineDoSelect();
-        if (BOX_STATUS_LINE_ONE.contain(t.x, t.y) && !statusLineOnOffState && !statusLineOneState)
-          StatusLineDoOne();
-        if (BOX_STATUS_LINE_ONOFF.contain(t.x, t.y) && !statusLineOneState)
+        // if (BOX_STATUS_LINE_NEXT.contain(t.x, t.y) && statusLineOnOffState && !statusLineOneState)
+        //   StatusLineDoSelect();
+        // if (BOX_STATUS_LINE_ONOFF.contain(t.x, t.y) && !statusLineOneState)
+        //   StatusLineDoOnOff();
+        // if (BOX_STATUS_LINE_PREV.contain(t.x, t.y) && !statusLineOnOffState && !statusLineOneState)
+        //   StatusLineDoOne();
+        if (BOX_STATUS_LINE_NEXT.contain(t.x, t.y) && statusLineOnOffState)
+          StatusLineDoNext();
+        if (BOX_STATUS_LINE_ONOFF.contain(t.x, t.y) )
           StatusLineDoOnOff();
-        // if (BOX_STT.contain(t.x, t.y) && (!mp3->isRunning())) BoxSttDo();
+        if (BOX_STATUS_LINE_PREV.contain(t.x, t.y) && statusLineOnOffState)
+          StatusLineDoPrev();
+
         if (BOX_SERVO.contain(t.x, t.y))
           BoxServoDo();
+        if (BOX_SYSINFO.contain(t.x, t.y))
+          sysInfoDispOnOff();
       }
     }
   }
@@ -223,7 +245,7 @@ void BtnUA_Do()
   if (SYSINFO_DISP_STATE)
     sysInfoDispEnd();
 
-  statusLineSelect();
+  statusLineNext();
 }
 
 void BtnUB_Do()
@@ -232,7 +254,7 @@ void BtnUB_Do()
   if (SYSINFO_DISP_STATE)
     sysInfoDispEnd();
   
-  statusLineOne();
+  statusLineOnOff();  
 }
 
 void BtnUC_Do()
@@ -241,14 +263,23 @@ void BtnUC_Do()
   if (SYSINFO_DISP_STATE)
     sysInfoDispEnd();
 
-  statusLineOnOff();
+  statusLinePrev();
 }
 
+void BtnMC_Do()
+{
+  sysInfoDispOnOff();
+}
 
-// 240113 btn change by NoRi
-// ----------------------------
-// BtnB --> talk to ChatGPT
-// BtnC --> TimerOn/Off
+void sysInfoDispOnOff()
+{
+  tone(1);
+  if (SYSINFO_DISP_STATE)
+    sysInfoDispEnd();
+  else
+    sysInfoDispStart(0);
+}
+
 void BtnC_Do()
 {
   tone(1);
@@ -289,26 +320,28 @@ void StatusLineDoOnOff()
   if (SYSINFO_DISP_STATE)
     sysInfoDispEnd();
 
+  Serial.println("StatusLineOnOff");
   statusLineOnOff();
 }
 
-void StatusLineDoSelect()
+void StatusLineDoNext()
 {
   tone(1);
   if (SYSINFO_DISP_STATE)
     sysInfoDispEnd();
 
-  statusLineSelect();
+  Serial.println("StatusLineNext");
+  statusLineNext();
 }
 
-void StatusLineDoOne()
+void StatusLineDoPrev()
 {
   tone(1);
   if (SYSINFO_DISP_STATE)
     sysInfoDispEnd();
 
-  // Serial.println("batteryIconDoOnce()");
-  statusLineOne();
+  Serial.println("StatusLinePrev");
+  statusLinePrev();
 }
 
 void BoxTouchSetup()
@@ -320,11 +353,11 @@ void BoxTouchSetup()
   int h50 = h100 / 2;
   int h25 = h100 / 4;
 
-  BOX_STATUS_LINE_SELECT.setupBox(0, 0, w25, h25);              // 上左
-  BOX_STATUS_LINE_ONE.setupBox(w50 - w25 / 2 - 1, 0, w25, h25); // 上中
-  BOX_STATUS_LINE_ONOFF.setupBox(w100 - w25 - 1, 0, w25, h25);  // 上右
+  BOX_STATUS_LINE_NEXT.setupBox(0, 0, w25, h25);                    // 上左
+  BOX_STATUS_LINE_ONOFF.setupBox(w50 - w25 / 2 - 1, 0, w25, h25);   // 上中
+  BOX_STATUS_LINE_PREV.setupBox(w100 - w25 - 1, 0, w25, h25);       // 上右
 
-  // BOX_STT.setupBox(0, h50 - (h25 / 2) - 1, w25, h25);             // 中左
-  // BOX_SERVO.setupBox(w100-w25-1, h50 - (h25 / 2) - 1 , w25, h25); // 中右
-  BOX_SERVO.setupBox(w50 - w25 - 1, h50 - (h25 / 2) - 1, w25, h25); // 中心
+  // BOX_SERVO.setupBox(w50 - w25 - 1, h50 - (h25 / 2) - 1, w25, h25); // 中心
+  BOX_SERVO.setupBox(0, h50 - (h25 / 2) - 1, w25, h25);               // 中左
+  BOX_SYSINFO.setupBox(w100-w25-1, h50 - (h25 / 2) - 1 , w25, h25);   // 中右
 }

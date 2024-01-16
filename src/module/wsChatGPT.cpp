@@ -8,7 +8,6 @@ const String json_ChatString =
 const String CHATDOC_SPI = "/data.json"; // chatDoc in SPIFFS
 const int MAX_HISTORY = 5;               // 保存する質問と回答の最大数
 String INIT_BUFFER = "";
-// String CHAT_RESPONSE = "";
 DynamicJsonDocument CHAT_DOC(1024 * 10);
 std::deque<String> chatHistory; // 過去の質問と回答を保存するデータ構造
 

@@ -1,6 +1,7 @@
 // ---- <main.cpp>-------------------------------------------------------
 #include "main.h"
-const String WS_VERSION = "WebServer-with-stackchan_V305-240201";
+// const String WS_VERSION = "WebServer-with-stackchan_V305-240201";
+const String WS_VERSION = "WSS-v305-240201";
 
 // ---------------------------------------------------------------------
 //  *** Extended from ***

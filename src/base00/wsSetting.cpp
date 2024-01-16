@@ -127,8 +127,9 @@ void wsHandleSetting(String volumeS, String volumeDS, String vSpeakerNoS,
   {
     if (toneModeS == "next")
     {
+      Serial.println("toneMode=next preToneMode=" + String(TONE_MODE,DEC)  );
       TONE_MODE++;
-      TONE_MODE = TONE_MODE % (TONE_MODE_MAX -1 );
+      TONE_MODE = TONE_MODE % (TONE_MODE_MAX + 1);
     }
     else
     {
@@ -144,6 +145,7 @@ void wsHandleSetting(String volumeS, String volumeDS, String vSpeakerNoS,
       nvs_set_u32(nvs_handle, "toneMode", tMode);
     nvs_close(nvs_handle);
 
+    Serial.println("toneMode=next nextToneMode=" + String(TONE_MODE,DEC)  );
     webpage = "toneMode = " + String(TONE_MODE, DEC);
   }
 

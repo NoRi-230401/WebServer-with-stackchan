@@ -27,7 +27,7 @@ bool statusLineOnOffState = true;
 #define STATUS_MD_MAX 7
 int StatusLineMode;
 
-constexpr int duration_1013 = 1 * 1013;   // 1.013秒: statusLineCheck_time
+constexpr int duration_1013 = 1 * 1013; // 1.013秒: statusLineCheck_time
 uint32_t statusLineCheck_time = 0;
 // constexpr int duration_10000 = 10 * 1000; // 10秒    : statusLineOne_time
 // uint32_t statusLineOne_time = 0;
@@ -56,6 +56,21 @@ void avatarSTART()
   avatar.setSpeechText("");
 }
 
+void statusLinePrev()
+{
+  if (!statusLineOnOffState)
+    return;
+
+  if (StatusLineMode == 0)
+    StatusLineMode = STATUS_MD_MAX - 1;
+  else
+    StatusLineMode--;
+
+  StatusLineMode = StatusLineMode % STATUS_MD_MAX;
+  setStatusLineMode(StatusLineMode);
+}
+
+
 void statusLineNext()
 {
   if (!statusLineOnOffState)
@@ -67,19 +82,6 @@ void statusLineNext()
   setStatusLineMode(StatusLineMode);
 }
 
-void statusLinePrev()
-{
-  if (!statusLineOnOffState)
-    return;
-
-  if(StatusLineMode==0)
-    StatusLineMode = STATUS_MD_MAX - 1;
-  else
-    StatusLineMode--;
-  
-  StatusLineMode = StatusLineMode % STATUS_MD_MAX;
-  setStatusLineMode(StatusLineMode);
-}
 
 void setStatusLineMode(int mode)
 {
@@ -112,38 +114,6 @@ void setStatusLineMode(int mode)
     break;
   }
 }
-
-
-// void statusLineOne()
-// {
-//   if (statusLineOneState || statusLineOnOffState)
-//     return;
-
-//   statusLineOneState = true;
-
-//   switch (StatusLineMode)
-//   {
-//   case STATUS_MD_ICON:
-//     avatar.setBatteryIcon(true, BATTERY_MD_ICON);
-//     break;
-
-//   case STATUS_MD_NUM:
-//     avatar.setBatteryIcon(true, BATTERY_MD_NUM);
-//     break;
-
-//   case STATUS_MD_CLOCK:
-//   case STATUS_MD_RSSI:
-//   case STATUS_MD_VOL:
-//   case STATUS_MD_MEM:
-//   case STATUS_MD_IP:
-//     avatar.setBatteryIcon(true, BATTERY_MD_LINE_DISP);
-//     break;
-
-//   default:
-//     break;
-//   }
-//   statusLineOne_time = millis();
-// }
 
 
 void statusLineOnOff()
@@ -180,19 +150,6 @@ void statusLineOnOff()
   }
 }
 
-// void statusLineOneManage()
-// {
-//   if (!statusLineOneState || statusLineOnOffState)
-//     return;
-
-//   if ((millis() - statusLineOne_time) < duration_10000)
-//     return;
-
-//   statusLineOneState = false;
-//   statusLineOnOffState = false;
-//   avatar.setBatteryIcon(true, BATTERY_MD_INVISIBLE);
-//   statusLineOne_time = millis();
-// }
 
 void statusLineCheckManage()
 {

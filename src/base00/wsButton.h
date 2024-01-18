@@ -27,7 +27,7 @@ extern bool RANDOM_SPEAK_STATE;
 extern bool RANDOM_SPEAK_ON_GET;
 extern bool RANDOM_SPEAK_OFF_GET;
 
-extern String BoxServoDo();
+extern void BoxServoDo();
 extern void timerStop2(); 
 extern void randomSpeakStop2();
 // extern void report_batt_level();
@@ -39,9 +39,9 @@ extern void tone(int mode);
 extern void SST_ChatGPT();
 extern bool TIMER_STOP_GET;
 extern bool TIMER_GO_GET;
-extern void statusLineNext();
 extern void statusLineOnOff();
 extern void statusLinePrev();
+extern void statusLineNext();
 extern bool statusLineOnOffState;
 extern bool statusLineOneState;
 
@@ -57,13 +57,13 @@ void BtnUB_Do();
 void BtnUC_Do();
 void BtnMA_Do();
 void BtnMC_Do();
-void sysInfoDispOnOff();
+// void sysInfoDispOnOff();
 
 // void BoxSttDo();
 void BoxTouchSetup();
-void StatusLineDoOnOff();
-void StatusLineDoNext();
-void StatusLineDoPrev();
+// void StatusLineOnOff();
+// void StatusLineNext();
+// void StatusLinePrev();
 // --------------------------------------------------------
 
 #endif

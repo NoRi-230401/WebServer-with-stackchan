@@ -76,7 +76,7 @@ extern bool SYSINFO_DISP_STATE;
 
 // -----------------------------------------------------------------
 bool jsonSERVOinit(DynamicJsonDocument &jsonDoc);
-String BoxServoDo();
+void BoxServoDo();
 void wsHandleServo(String swingXYS,String swingXS, String swingYS,
   String pointXS, String pointYS, String deltaXS, String deltaYS,
   String txS, String modeS);

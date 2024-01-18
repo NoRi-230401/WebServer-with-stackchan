@@ -34,12 +34,10 @@ const String jsonSERVO = "{\"servo\":[{\"servo\":\"on\",\"servoPort\":\"portC\",
 
 bool jsonSERVOinit(DynamicJsonDocument &jsonDoc)
 {
-  return (jsonInitSave(jsonDoc,jsonSERVO,SERVO_SPIFFS));
+  return (jsonInitSave(jsonDoc, jsonSERVO, SERVO_SPIFFS));
 }
 
-
-
-String BoxServoDo()
+void BoxServoDo()
 {
   if (SV_USE)
   {
@@ -48,17 +46,13 @@ String BoxServoDo()
       SV_MD = SV_MD_MOVING;
 
     SV_MD = (svMode + 1) % (SV_MD_CENTER + 1);
-    String msg = "Button Pushed : BOX_SERVO\n";
-    msg += "ServoMode = " + SV_MD_NAME[SV_MD];
+    Serial.println("Button Pushed : BOX_SERVO");
+    String msg = "ServoMode = " + SV_MD_NAME[SV_MD];
     Serial.println(msg);
-    return msg;
+    webpage = msg;
   }
-  return String("NG");
+  // return String("NG");
 }
-
-
-
-
 
 void wsHandleServo(String swingXYS, String swingXS, String swingYS,
                    String pointXS, String pointYS, String deltaXS, String deltaYS,
@@ -290,8 +284,7 @@ void servo2(int mode)
       // REQ_MSG = SV_MD_NAME[SV_MD_HOME];
       // Serial.println(REQ_MSG);
       // Req_Baloon_adjust();
-      sendReq(REQ_BALOON_ADJUST,SV_MD_NAME[SV_MD_HOME]);
-
+      sendReq(REQ_BALOON_ADJUST, SV_MD_NAME[SV_MD_HOME]);
     }
     sv_setEaseToXY(SV_NEXT_PT_X, SV_NEXT_PT_Y);
     synchronizeAllServosStartAndWaitForAllServosToStop();
@@ -306,7 +299,7 @@ void servo2(int mode)
       // REQ_MSG = SV_MD_NAME[SV_MD_RANDOM];
       // Serial.println(REQ_MSG);
       // Req_Baloon_adjust();
-      sendReq(REQ_BALOON_ADJUST,SV_MD_NAME[SV_MD_RANDOM]);
+      sendReq(REQ_BALOON_ADJUST, SV_MD_NAME[SV_MD_RANDOM]);
     }
     SV_random();
     break;
@@ -320,8 +313,7 @@ void servo2(int mode)
       // REQ_MSG = SV_MD_NAME[SV_MD_CENTER];
       // Serial.println(REQ_MSG);
       // Req_Baloon_adjust();
-      sendReq(REQ_BALOON_ADJUST,SV_MD_NAME[SV_MD_CENTER]);
-
+      sendReq(REQ_BALOON_ADJUST, SV_MD_NAME[SV_MD_CENTER]);
     }
     sv_setEaseToXY(SV_NEXT_PT_X, SV_NEXT_PT_Y);
     synchronizeAllServosStartAndWaitForAllServosToStop();
@@ -341,7 +333,7 @@ void servo2(int mode)
     // REQ_MSG = SV_MD_NAME[SV_MD_STOP];
     // REQ_MSG = "ストップ";
     // Req_Baloon_adjust();
-    sendReq(REQ_BALOON_ADJUST,SV_MD_NAME[SV_MD_STOP]);
+    sendReq(REQ_BALOON_ADJUST, SV_MD_NAME[SV_MD_STOP]);
     break;
 
   case SV_MD_ADJUST:
@@ -353,7 +345,7 @@ void servo2(int mode)
     // REQ_MSG = "サーボ調整";
     // ReqSpkMsg();
     // ReqSpkBaloon_adjust( "サーボ調整" );
-    sendReq(REQ_SPEAK_BALOON_ADJUST,String("サーボ調整"));
+    sendReq(REQ_SPEAK_BALOON_ADJUST, String("サーボ調整"));
     break;
 
   case SV_MD_POINT:
@@ -364,7 +356,7 @@ void servo2(int mode)
       String msg = " X=" + String(SV_NEXT_PT_X, DEC) + " Y=" + String(SV_NEXT_PT_Y, DEC);
       // Serial.println(REQ_MSG);
       // Req_Baloon_adjust();
-      sendReq(REQ_BALOON_ADJUST,msg);
+      sendReq(REQ_BALOON_ADJUST, msg);
     }
     sv_setEaseToXY(SV_NEXT_PT_X, SV_NEXT_PT_Y);
     synchronizeAllServosStartAndWaitForAllServosToStop();
@@ -378,8 +370,7 @@ void servo2(int mode)
       String msg = " X=" + String(SV_NEXT_PT_X, DEC) + " Y=" + String(SV_NEXT_PT_Y, DEC);
       // Serial.println(REQ_MSG);
       // Req_Baloon_adjust();
-      sendReq(REQ_BALOON_ADJUST,msg);
-
+      sendReq(REQ_BALOON_ADJUST, msg);
     }
     sv_setEaseToXY(SV_NEXT_PT_X, SV_NEXT_PT_Y);
     synchronizeAllServosStartAndWaitForAllServosToStop();
@@ -468,7 +459,7 @@ void servoSwing(int sw_mode, int repeatNum, int len)
     msg = " Swing" + SV_AXIS_NAME[sw_mode] + String(len, DEC);
     // Serial.println(REQ_MSG);
     // Req_Baloon_adjust();
-    sendReq(REQ_BALOON_ADJUST,msg);
+    sendReq(REQ_BALOON_ADJUST, msg);
 
     sv_setEaseToXY(SV_CENTER_X, SV_CENTER_Y);
     synchronizeAllServosStartAndWaitForAllServosToStop();
@@ -482,57 +473,57 @@ void servoSwing(int sw_mode, int repeatNum, int len)
   case SV_SWING_AXIS_XY:
     msg = "X 90 -> 0  ";
     // Req_Baloon_adjust();
-    sendReq(REQ_BALOON_ADJUST,msg);
+    sendReq(REQ_BALOON_ADJUST, msg);
 
     sv_easeToX(0);
 
     msg = "X 0 -> 180  ";
     // Req_Baloon_adjust();
-    sendReq(REQ_BALOON_ADJUST,msg);
+    sendReq(REQ_BALOON_ADJUST, msg);
     sv_easeToX(180);
 
     msg = "X 180 -> 90  ";
     // Req_Baloon_adjust();
-    sendReq(REQ_BALOON_ADJUST,msg);
+    sendReq(REQ_BALOON_ADJUST, msg);
     sv_easeToX(90);
 
     msg = "Y 90 -> 50  ";
     // Req_Baloon_adjust();
-    sendReq(REQ_BALOON_ADJUST,msg);
+    sendReq(REQ_BALOON_ADJUST, msg);
     sv_easeToY(50);
 
     msg = "Y 50 -> 90  ";
     // Req_Baloon_adjust();
-    sendReq(REQ_BALOON_ADJUST,msg);
+    sendReq(REQ_BALOON_ADJUST, msg);
     sv_easeToY(90);
     break;
 
   case SV_SWING_AXIS_X:
     msg = "X 90 -> 0  ";
     // Req_Baloon_adjust();
-    sendReq(REQ_BALOON_ADJUST,msg);
+    sendReq(REQ_BALOON_ADJUST, msg);
     sv_easeToX(0);
 
-    msg  = "X 0 -> 180  ";
+    msg = "X 0 -> 180  ";
     // Req_Baloon_adjust();
-    sendReq(REQ_BALOON_ADJUST,msg);
+    sendReq(REQ_BALOON_ADJUST, msg);
     sv_easeToX(180);
 
     msg = "X 180 -> 90  ";
     // Req_Baloon_adjust();
-    sendReq(REQ_BALOON_ADJUST,msg);
+    sendReq(REQ_BALOON_ADJUST, msg);
     sv_easeToX(90);
     break;
 
   case SV_SWING_AXIS_Y:
     msg = "Y 90 -> 50  ";
     // Req_Baloon_adjust();
-    sendReq(REQ_BALOON_ADJUST,msg);
+    sendReq(REQ_BALOON_ADJUST, msg);
     sv_easeToY(50);
 
     msg = "Y 50 -> 90  ";
     // Req_Baloon_adjust();
-    sendReq(REQ_BALOON_ADJUST,msg);
+    sendReq(REQ_BALOON_ADJUST, msg);
     sv_easeToY(90);
     break;
   }
@@ -540,7 +531,7 @@ void servoSwing(int sw_mode, int repeatNum, int len)
   // sprintf(msg, "");
   msg = "";
   // Req_Baloon_adjust();
-  sendReq(REQ_BALOON_ADJUST,msg);
+  sendReq(REQ_BALOON_ADJUST, msg);
 }
 
 bool setServo(String item, String setData, DynamicJsonDocument &servoJson)
@@ -827,4 +818,3 @@ void SV_random()
   // delay(2000 + 500 * delayTm);
   delay(500 + 100 * delayTm); // max = 30000mSec delay
 }
-

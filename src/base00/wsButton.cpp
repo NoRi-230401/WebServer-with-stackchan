@@ -66,33 +66,32 @@ void wsHandleBtn(String arg)
   }
   else if (arg_mode == "BTNUA")
   {
-    webpage = "statusLineNext";
+    webpage = "statusLine Next";
     BTN_REQ = BtnREQ_UA;
-    return;
-  }
-  else if (arg_mode == "BTNUB")
-  {
-    webpage = "statusLinePrev";
-    BTN_REQ = BtnREQ_UB;
     return;
   }
   else if (arg_mode == "BTNUC")
   {
-    webpage = "statusLineOnOff";
+    webpage = "statusLine Prev";
     BTN_REQ = BtnREQ_UC;
+    return;
+  }
+  else if (arg_mode == "BTNUB")
+  {
+    webpage = "statusLine OnOff";
+    BTN_REQ = BtnREQ_UB;
     return;
   }
   else if (arg_mode == "BOX_SERVO" || arg_mode == "BTNMA" )
   {
     BTN_REQ = BtnREQ_MA;
+    webpage = "BtnMA: BoxServo";
     return;
-    // webpage = BoxServoDo();
-    // return;
   }
-  else if (arg_mode == "BOX_SYSINFO")
+  else if (arg_mode == "BOX_SYSINFO" || arg_mode == "BTNMC")
   {
-    webpage = "sysInfo Disp";
-
+    BTN_REQ = BtnREQ_MC;
+    webpage = "BtnMC: SysInfo Disp";
     return;
   }
 
@@ -253,6 +252,7 @@ void BtnUA_Do()
   if (SYSINFO_DISP_STATE)
     sysInfoDispEnd();
 
+  Serial.println("StatusLineNext");
   statusLineNext();
 }
 
@@ -262,6 +262,7 @@ void BtnUB_Do()
   if (SYSINFO_DISP_STATE)
     sysInfoDispEnd();
   
+  Serial.println("StatusLineOnOff");
   statusLineOnOff();  
 }
 
@@ -271,13 +272,20 @@ void BtnUC_Do()
   if (SYSINFO_DISP_STATE)
     sysInfoDispEnd();
 
+  Serial.println("StatusLinePrev");
   statusLinePrev();
 }
 
 void BtnMC_Do()
 {
   tone(1);
-  sysInfoDispOnOff();
+
+  if (SYSINFO_DISP_STATE)
+    sysInfoDispEnd();
+  else
+    sysInfoDispStart(0);
+
+  // sysInfoDispOnOff();
 }
 
 
@@ -292,13 +300,13 @@ void BtnMA_Do()
 
 
 
-void sysInfoDispOnOff()
-{
-  if (SYSINFO_DISP_STATE)
-    sysInfoDispEnd();
-  else
-    sysInfoDispStart(0);
-}
+// void sysInfoDispOnOff()
+// {
+//   if (SYSINFO_DISP_STATE)
+//     sysInfoDispEnd();
+//   else
+//     sysInfoDispStart(0);
+// }
 
 void BtnC_Do()
 {
@@ -335,35 +343,35 @@ void BtnB_Do()
 // }
 //-----------------------------------------------
 
-void StatusLineDoOnOff()
-{
-  tone(1);
-  if (SYSINFO_DISP_STATE)
-    sysInfoDispEnd();
+// void StatusLineOnOff()
+// {
+//   // tone(1);
+//   if (SYSINFO_DISP_STATE)
+//     sysInfoDispEnd();
 
-  Serial.println("StatusLineOnOff");
-  statusLineOnOff();
-}
+//   Serial.println("StatusLineOnOff");
+//   statusLineOnOff();
+// }
 
-void StatusLineDoNext()
-{
-  tone(1);
-  if (SYSINFO_DISP_STATE)
-    sysInfoDispEnd();
+// void StatusLineNext()
+// {
+//   // tone(1);
+//   if (SYSINFO_DISP_STATE)
+//     sysInfoDispEnd();
 
-  Serial.println("StatusLineNext");
-  statusLineNext();
-}
+//   Serial.println("StatusLineNext");
+//   statusLineNext();
+// }
 
-void StatusLineDoPrev()
-{
-  tone(1);
-  if (SYSINFO_DISP_STATE)
-    sysInfoDispEnd();
+// void StatusLinePrev()
+// {
+//   // tone(1);
+//   if (SYSINFO_DISP_STATE)
+//     sysInfoDispEnd();
 
-  Serial.println("StatusLinePrev");
-  statusLinePrev();
-}
+//   Serial.println("StatusLinePrev");
+//   statusLinePrev();
+// }
 
 void BoxTouchSetup()
 {

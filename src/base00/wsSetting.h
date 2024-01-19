@@ -24,9 +24,11 @@ extern void BoxTouchSetup();
 extern bool KEYLOCK_STATE;
 extern bool SYSINFO_DISP_STATE;
 extern bool RANDOM_SPEAK_STATE;
-extern String TTS_SPEAKER_NO;
-extern String TTS_SPEAKER;
-extern String TTS_PARMS;
+// extern String TTS_SPEAKER_NO;
+// extern String TTS_SPEAKER;
+// extern String TTS_PARMS;
+extern uint8_t TTS_vSpkNo;
+
 extern bool LED_OnOff_STATE;
 extern bool RANDOM_SPEAK_ON_GET;
 extern uint16_t TIMER_SEC_VALUE;

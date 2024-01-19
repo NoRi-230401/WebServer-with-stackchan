@@ -98,7 +98,8 @@ void TimerManage()
     { // 指定時間が経過したら終了
       timerEnd();
     }
-    else if (TIMER_STOP_GET && (SPEECH_TEXT_BUFFER == "") && (SPEECH_TEXT == ""))
+    // else if (TIMER_STOP_GET && (SPEECH_TEXT_BUFFER == "") && (SPEECH_TEXT == ""))
+    else if (TIMER_STOP_GET && !isTalking())
     { // ---Timer停止---
       timerStop();
     }
@@ -110,8 +111,9 @@ void TimerManage()
   }
   else
   {
-    if (TIMER_GO_GET && (SPEECH_TEXT_BUFFER == "") && (SPEECH_TEXT == ""))
-      timerStart();
+    // if (TIMER_GO_GET && (SPEECH_TEXT_BUFFER == "") && (SPEECH_TEXT == ""))
+    if (TIMER_GO_GET && !isTalking())
+          timerStart();
   }
 }
 

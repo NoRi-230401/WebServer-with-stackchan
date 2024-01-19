@@ -42,7 +42,8 @@ extern String webpage;
 extern String getDateTime();
 extern String SERVER_NAME;
 extern uint8_t VOLUME_VALUE;
-extern String TTS_SPEAKER_NO;
+extern uint8_t TTS_vSpkNo;
+// extern String TTS_SPEAKER_NO;
 extern int CHARA_NO;
 extern String getHeapFreeSize();
 // -----------------------------------

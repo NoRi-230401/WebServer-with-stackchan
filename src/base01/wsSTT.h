@@ -30,8 +30,8 @@ extern String STT_API_KEY;
 extern String OPENAI_API_KEY;
 extern bool RANDOM_SPEAK_STATE;
 // extern AudioGeneratorMP3 *mp3;
-extern String SPEECH_TEXT;
-extern String SPEECH_TEXT_BUFFER;
+// extern String SPEECH_TEXT;
+// extern String SPEECH_TEXT_BUFFER;
 extern const char* root_ca_openai;
 extern int SV_MD;
 extern bool SV_USE;
@@ -40,7 +40,7 @@ using namespace m5avatar;
 extern Avatar avatar;
 extern void randomSpeakStop2();
 extern void tone(int toneMode);
-
+extern bool isTalking();
 //--------------------------------------------
 String SpeechToText();
 void SST_ChatGPT();

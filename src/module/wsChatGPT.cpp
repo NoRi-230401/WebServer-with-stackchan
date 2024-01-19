@@ -1,6 +1,9 @@
 // ----------------------------<wsChatGPT.cpp>------------------------------------
 #include "wsChatGPT.h"
 
+// String SPEECH_TEXT = "";
+// String SPEECH_TEXT_BUFFER = "";
+
 const String json_ChatString =
     "{\"model\": \"gpt-3.5-turbo-0613\",\"max_tokens\":512,\"messages\": [{\"role\": \"user\", \"content\": \""
     "\"}]}";
@@ -107,7 +110,8 @@ void wsHandelChat(String textS, String voiceS)
     return;
 
   if (voiceS != "")
-    TTS_PARMS = TTS_SPEAKER + voiceS;
+    TTS_vSpkNo = (uint8_t)voiceS.toInt();
+    // TTS_PARMS = TTS_SPEAKER + voiceS;
 
   REQ_chatGPT_GET = true;
   REQ_MSG = textS;
@@ -217,12 +221,12 @@ void wsHandelChatGpt(String historyS, String charaS)
     CHARA_NO = charaS.toInt();
     JsonObject chara = jsonArray[CHARA_NO];
     String chara_name = chara["name"];
-    String chara_vSpeakerNoS = chara["vSpkNo"];
+    String chara_vSpkNoS = chara["vSpkNo"];
     String chara_role = chara["role"];
 
     Serial.println("charaNo = " + String(CHARA_NO, DEC));
     Serial.println("name = " + chara_name);
-    Serial.println("vSpeakerNo = " + chara_vSpeakerNoS);
+    Serial.println("vSpkNo = " + chara_vSpkNoS);
     Serial.println("role = " + chara_role);
 
     init_chat_doc(json_ChatString.c_str());
@@ -241,22 +245,23 @@ void wsHandelChatGpt(String historyS, String charaS)
 
     // ---- Speaker -------
     size_t speaker_no;
-    if (chara_vSpeakerNoS != "")
+    if (chara_vSpkNoS != "")
     {
       uint32_t nvs_handle;
 
-      speaker_no = chara_vSpeakerNoS.toInt();
+      speaker_no = chara_vSpkNoS.toInt();
       if (speaker_no > 66)
       {
         speaker_no = 3;
       }
-      TTS_SPEAKER_NO = String(speaker_no);
-      TTS_PARMS = TTS_SPEAKER + TTS_SPEAKER_NO;
+      // TTS_SPEAKER_NO = String(speaker_no);
+      // TTS_PARMS = TTS_SPEAKER + TTS_SPEAKER_NO;
+      TTS_vSpkNo = (uint8_t)speaker_no;
 
       if (ESP_OK == nvs_open(SETTING_NVS, NVS_READWRITE, &nvs_handle))
       {
-        nvs_set_u32(nvs_handle, "vSpeakerNo", speaker_no);
-        Serial.println("NVS Write : vSpeakerNo = " + String(speaker_no, DEC));
+        nvs_set_u32(nvs_handle, "vSpkNo", speaker_no);
+        Serial.println("NVS Write : vSpkNo = " + String(speaker_no, DEC));
       }
       nvs_close(nvs_handle);
     }
@@ -264,7 +269,7 @@ void wsHandelChatGpt(String historyS, String charaS)
     webpage = "character changed<br><br>";
     webpage += "character No. = " + String(CHARA_NO, DEC) + "<br>";
     webpage += "name = " + chara_name + "<br>";
-    webpage += "vSpeakerNo = " + chara_vSpeakerNoS + "<br>";
+    webpage += "vSpkNo = " + chara_vSpkNoS + "<br>";
     webpage += "role = " + chara_role + "<br><br>";
 
     if (chara_name != "")
@@ -407,8 +412,8 @@ void randomSpeak(bool mode)
   if (mode)
   {
     speakMsg = "独り言始めます。";
-    SPEECH_TEXT_BUFFER = "";
-    SPEECH_TEXT = "";
+    // SPEECH_TEXT_BUFFER = "";
+    // SPEECH_TEXT = "";
     RANDOM_TM_LAST = millis();
     RANDOM_TM = 1000 * ( 40 + random(0,30));
     RANDOM_SPEAK_STATE = true;
@@ -416,7 +421,7 @@ void randomSpeak(bool mode)
   else
   {
     speakMsg = "独り言やめます。";
-    SPEECH_TEXT_BUFFER = "";
+    // SPEECH_TEXT_BUFFER = "";
     // RANDOM_TM = -1;
     RANDOM_SPEAK_STATE = false;
   }
@@ -655,18 +660,22 @@ void exec_chatGPT(String toChatGptText)
 
   String chatDocJson;
   serializeJson(CHAT_DOC, chatDocJson);
-  if (SPEECH_TEXT == "" && SPEECH_TEXT_BUFFER == "")
+  // if (SPEECH_TEXT == "" && SPEECH_TEXT_BUFFER == "")
+  if (!isTalking())
   {
     chatResponse = chatGpt(chatDocJson);
-    SPEECH_TEXT = chatResponse;
+    // SPEECH_TEXT = chatResponse;
+
     // 返答をチャット履歴に追加
     chatHistory.push_back(chatResponse);
 
     // REQUEST SPEAK
     avatar.setExpression(Expression::Happy);
-    SPEECH_TEXT_BUFFER = SPEECH_TEXT;
-    SPEECH_TEXT = "";
-    sendReq(REQ_SPEAK, SPEECH_TEXT_BUFFER);
+    // SPEECH_TEXT_BUFFER = SPEECH_TEXT;
+    // SPEECH_TEXT = "";
+    // sendReq(REQ_SPEAK, SPEECH_TEXT_BUFFER);
+    REQ_MSG = chatResponse;
+    sendReq(REQ_SPEAK, REQ_MSG);
   }
   else
   {

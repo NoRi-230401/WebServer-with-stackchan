@@ -29,7 +29,7 @@
 #define REQ_SV_MD_ADJUST 9
 // -------------------------
 
-extern String TTS_PARMS;
+// extern String TTS_PARMS;
 using namespace m5avatar;
 extern Avatar avatar;
 extern const Expression expressions_table[];
@@ -43,7 +43,8 @@ extern void REBOOT();
 extern void POWER_OFF();
 extern bool isTalking();
 extern String SPEECH_TEXT;
-extern String SPEECH_TEXT_BUFFER;
+
+// extern String SPEECH_TEXT_BUFFER;
 
 // ---------------------------------------------------------------------
 void sendReq(int reqNo,String msg);

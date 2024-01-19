@@ -7,7 +7,7 @@ const String APIKEY_TXT_SD = "/apikey.txt";
 const String STARTUP_SPIFFS = "/wsStartup.json";
 const String OffOn[] = {"off", "on"};
 const String jsonAPIKEY = "{\"apikey\":[{\"openAiApiKey\":\"***\",\"voicevoxApiKey\":\"***\"}]}";
-const String jsonSTARTUP = "{\"startup\":[{\"serverName\":\"stackchan\",\"vSpeakerNo\":\"3\",\"volume\":\"200\",\"led\":\"on\",\"randomSpeak\":\"off\",\"toneMode\":\"1\",\"mute\":\"off\",\"keyLock\":\"off\",\"timer\":\"180\"}]}";
+const String jsonSTARTUP = "{\"startup\":[{\"serverName\":\"stackchan\",\"vSpkNo\":\"3\",\"volume\":\"200\",\"led\":\"on\",\"randomSpeak\":\"off\",\"toneMode\":\"1\",\"mute\":\"off\",\"keyLock\":\"off\",\"timer\":\"180\"}]}";
 
 String SYSINFO_MSG = "";
 String IP_ADDR = "";
@@ -30,7 +30,7 @@ void apikeySetting()
     apiKeyTxtRead();
 }
 
-void wsHandleSetting(String volumeS, String volumeDS, String vSpeakerNoS,
+void wsHandleSetting(String volumeS, String volumeDS, String vSpkNoS,
                      String ledS, String muteS, String keyLockS, String toneModeS)
 {
   uint32_t nvs_handle;
@@ -196,29 +196,30 @@ void wsHandleSetting(String volumeS, String volumeDS, String vSpeakerNoS,
 
   // ---- Speaker -------
   size_t speaker_no;
-  if (vSpeakerNoS != "")
+  if (vSpkNoS != "")
   {
-    speaker_no = vSpeakerNoS.toInt();
+    speaker_no = vSpkNoS.toInt();
     if (speaker_no > 66)
     {
       speaker_no = 3;
     }
-    TTS_SPEAKER_NO = String(speaker_no);
-    TTS_PARMS = TTS_SPEAKER + TTS_SPEAKER_NO;
+    // TTS_SPEAKER_NO = String(speaker_no);
+    // TTS_PARMS = TTS_SPEAKER + TTS_SPEAKER_NO;
+    TTS_vSpkNo = (uint8_t)speaker_no;
 
     if (ESP_OK == nvs_open(SETTING_NVS, NVS_READWRITE, &nvs_handle))
     {
-      nvs_set_u32(nvs_handle, "vSpeakerNo", speaker_no);
-      Serial.println("NVS Write : vSpeakerNo = " + String(speaker_no, DEC));
+      nvs_set_u32(nvs_handle, "vSpkNo", speaker_no);
+      Serial.println("NVS Write : vSpkNo = " + String(speaker_no, DEC));
     }
     nvs_close(nvs_handle);
-    webpage = "vSpeakerNo = " + String(speaker_no, DEC);
+    webpage = "vSpkNo = " + String(speaker_no, DEC);
   }
   Serial.println(webpage);
 }
 
 void wsHandleStartup(String serverNameS, String volumeS, String ledS, String toneModeS,
-                     String muteS, String keyLockS, String vSpeakerNoS, String randomSpeakS,
+                     String muteS, String keyLockS, String vSpkNoS, String randomSpeakS,
                      String timerS, String txS)
 {
   DynamicJsonDocument startupJson(STARTUPJSON_SIZE);
@@ -275,10 +276,10 @@ void wsHandleStartup(String serverNameS, String volumeS, String ledS, String ton
   }
 
   // ---------------------------------------------------------
-  if (vSpeakerNoS != "")
+  if (vSpkNoS != "")
   {
-    if (setStartup("vSpeakerNo", vSpeakerNoS, startupJson))
-      webpage = "wsSetting.Json : vSpeakerNo = " + vSpeakerNoS;
+    if (setStartup("vSpkNo", vSpkNoS, startupJson))
+      webpage = "wsSetting.Json : vSpkNo = " + vSpkNoS;
     return;
   }
 
@@ -527,7 +528,8 @@ void nvsSaveAll()
   size_t volume = (size_t)VOLUME_VALUE;
   size_t timer_value = (size_t)TIMER_SEC_VALUE;
   size_t tone_mode = (size_t)TONE_MODE;
-  size_t speaker_no = (size_t)TTS_SPEAKER_NO.toInt();
+  // size_t speaker_no = (size_t)TTS_SPEAKER_NO.toInt();
+  size_t speaker_no = (size_t)TTS_vSpkNo;
 
   uint8_t led_onoff = 0;
   if (LED_OnOff_STATE)
@@ -551,7 +553,7 @@ void nvsSaveAll()
     nvs_set_u32(nvs_handle, "volume", volume);
     nvs_set_u32(nvs_handle, "timer", timer_value);
     nvs_set_u32(nvs_handle, "toneMode", tone_mode);
-    nvs_set_u32(nvs_handle, "vSpeakerNo", speaker_no);
+    nvs_set_u32(nvs_handle, "vSpkNo", speaker_no);
 
     nvs_set_u8(nvs_handle, "led", led_onoff);
     nvs_set_u8(nvs_handle, "mute", mute_onoff);
@@ -565,7 +567,8 @@ bool startupFileRead()
 {
   // ****** 初期値設定　**********
   SERVER_NAME = "stackchan";
-  TTS_SPEAKER_NO = "3";
+  // TTS_SPEAKER_NO = "3";
+  TTS_vSpkNo = 3;
   VOLUME_VALUE = 200;
   LED_OnOff_STATE = true;
   RANDOM_SPEAK_ON_GET = false;
@@ -748,11 +751,14 @@ bool startupFileRead()
   // --------------------------------------------------------------------------
 
   // --- SPEAKER ---
-  String getStr1 = object["vSpeakerNo"];
+  String getStr1 = object["vSpkNo"];
   if ((getStr1 != "") && (getStr1 != "***") && (getStr1 != "-1") && (getStr1 != "null"))
   {
-    TTS_SPEAKER_NO = getStr1;
-    Serial.println("Startup : vSpeakerNo = " + TTS_SPEAKER_NO);
+    // TTS_SPEAKER_NO = getStr1;
+    TTS_vSpkNo = (uint8_t)getStr1.toInt();
+
+    // Serial.println("Startup : vSpkNo = " + TTS_SPEAKER_NO);
+    Serial.println("Startup : vSpkNo = " + String(TTS_vSpkNo,DEC) );
     cnt++;
   }
   else
@@ -761,16 +767,20 @@ bool startupFileRead()
     if (ESP_OK == nvs_open("setting", NVS_READONLY, &nvs_handle))
     {
       size_t speaker_no;
-      nvs_get_u32(nvs_handle, "vSpeakerNo", &speaker_no);
+      nvs_get_u32(nvs_handle, "vSpkNo", &speaker_no);
       if (speaker_no > 66)
         speaker_no = 3;
-      TTS_SPEAKER_NO = String(speaker_no);
+      // TTS_SPEAKER_NO = String(speaker_no);
+      TTS_vSpkNo = (uint8_t)speaker_no;
       nvs_close(nvs_handle);
     }
-    Serial.println("Startup : NVS vSpeakerNo = " + TTS_SPEAKER_NO);
+    // Serial.println("Startup : NVS vSpkNo = " + TTS_SPEAKER_NO);
+    Serial.println("Startup : NVS vSpkNo = " + String(TTS_vSpkNo,DEC));
     cnt++;
   }
-  TTS_PARMS = TTS_SPEAKER + TTS_SPEAKER_NO;
+
+  // TTS_PARMS = TTS_SPEAKER + TTS_SPEAKER_NO;
+
 
   // randomSpeak
   String getStr5 = object["randomSpeak"];

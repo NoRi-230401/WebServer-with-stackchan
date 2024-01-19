@@ -1,15 +1,18 @@
 // ---------------------------< wsTTS.cpp >------------------------------------
 #include "wsTTS.h"
 
+uint8_t TTS_vSpkNo = 3;
+VoiceVox *tts = new VoiceVox();
 String SPEECH_TEXT = "";
-String SPEECH_TEXT_BUFFER = "";
 
-// -- TTS (VOICEVOX)　---
-String TTS_SPEAKER_NO = "";
-extern const String TTS_SPEAKER;
-const String TTS_SPEAKER = "&speaker=";
-String TTS_PARMS = TTS_SPEAKER + TTS_SPEAKER_NO;
+void ttsDo(const String &speechText)
+{
+  Serial.println("~~~~~~~ [ speak to you ] ~~~~~~~");
+  Serial.println(speechText);
 
+  String return_string = execute_voicevox(speechText, TTS_vSpkNo);
+  execute_talk(return_string);
+}
 
 void wsHandleSpeech(String sayS, String expressionS, String voiceS)
 {
@@ -31,44 +34,26 @@ void wsHandleSpeech(String sayS, String expressionS, String voiceS)
 
   if (voiceS != "")
   {
-    TTS_PARMS = TTS_SPEAKER + voiceS;
-    webpage += "\nspeech : voice = " + voiceS;
+    // TTS_PARMS = TTS_SPEAKER + voiceS;
+    TTS_vSpkNo = (uint8_t)voiceS.toInt();
+    webpage += "speech : voice = " + voiceS;
   }
 
   sendReq(REQ_SPEAK,sayS);
-
   REQ_SPK_EXPR = expr;
   webpage += "\nspeech : say = " + sayS;
 }
 
 
-VoiceVox *tts = new VoiceVox();
-// uint8_t config_speaker;           // 声
-uint16_t https_timeout = 60000;   // HTTPタイムアウト時間
-
-void ttsDo(const String &speechText)
-{
-  Serial.println("~~~~~~~ [ speak to you ] ~~~~~~~");
-  Serial.println(speechText);
-
-  String return_string = execute_voicevox(speechText, (uint8_t)TTS_SPEAKER_NO.toInt());
-  SPEECH_TEXT_BUFFER="";
-  execute_talk(return_string);
-}
-
-
-
 bool isTalking()
 {
-  return( (tts->is_talking) && (SPEECH_TEXT_BUFFER=="") && (SPEECH_TEXT==""));
+  return( (tts->is_talking) || (SPEECH_TEXT !=""));
 }
 
 void setSpeaker(uint8_t spk_no)
 {
   tts ->setSpkNo(spk_no);
 }
-
-
 
 String execute_voicevox(const String &speechText, uint8_t spk_no)
 {
@@ -85,10 +70,7 @@ String execute_voicevox(const String &speechText, uint8_t spk_no)
 
 void execute_talk(String url)
 {
-  if (url == "")
-  {
-    return;
-  }
-  tts->talk_https(url);
+  if (url != "")
+    tts->talk_https(url);
 }
 

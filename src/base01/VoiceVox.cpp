@@ -1,5 +1,7 @@
 #include "VoiceVox.h"
 
+uint16_t https_timeout = 60000;   // HTTPタイムアウト時間
+
 TaskHandle_t voicevox_task_handle;
 
 void voicevox_task_loop(void *args)

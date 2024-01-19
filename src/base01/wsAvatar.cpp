@@ -29,8 +29,6 @@ int StatusLineMode;
 
 constexpr int duration_1013 = 1 * 1013; // 1.013秒: statusLineCheck_time
 uint32_t statusLineCheck_time = 0;
-// constexpr int duration_10000 = 10 * 1000; // 10秒    : statusLineOne_time
-// uint32_t statusLineOne_time = 0;
 
 void avatarSTART()
 {
@@ -175,7 +173,7 @@ void statusLineCheckManage()
       break;
 
     case STATUS_MD_VOL:
-      sprintf(s, "Vol=%3d vSpk=%2d Chara=%d", VOLUME_VALUE, TTS_SPEAKER_NO.toInt(), CHARA_NO);
+      sprintf(s, "Vol=%3d vSpk=%2d Chara=%d", VOLUME_VALUE, TTS_vSpkNo, CHARA_NO);
       statusLineMsg = String(s);
       break;
 
@@ -197,20 +195,18 @@ void statusLineCheckManage()
 void StatusLineManage()
 {
   statusLineCheckManage();
-  // statusLineOneManage();
 }
 
-uint8_t config_color1_red = 0;     // 背景の色
-uint8_t config_color1_green = 0;   // 背景の色
-uint8_t config_color1_blue = 0;    // 背景の色
-uint8_t config_color2_red = 255;   // 目口の色
-uint8_t config_color2_green = 255; // 目口の色
-uint8_t config_color2_blue = 255;  // 目口の色
-uint8_t config_color3_red = 248;   // ほっぺの色
-uint8_t config_color3_green = 171; // ほっぺの色
-uint8_t config_color3_blue = 166;  // ほっぺの色
-
 // アバターの色
+#define config_color1_red   0      // 背景の色
+#define config_color1_green 0      // 背景の色
+#define config_color1_blue  0      // 背景の色
+#define config_color2_red   255    // 目口の色
+#define config_color2_green 255    // 目口の色
+#define config_color2_blue  255    // 目口の色
+#define config_color3_red   248    // ほっぺの色
+#define config_color3_green 171    // ほっぺの色
+#define config_color3_blue  166    // ほっぺの色
 void set_avatar_color()
 {
   ColorPalette cp;

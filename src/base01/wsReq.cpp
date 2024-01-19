@@ -5,7 +5,6 @@ int REQUEST_GET = 0; // 0 : no request
 String REQ_MSG = "";
 bool REQ_chatGPT_GET = false;
 int REQ_SHUTDOWN_REBOOT = 0;
-// int REQ_SPK_PARMS_NO;
 int REQ_SPK_EXPR;
 
 void sendReq(int reqNo, String msg)
@@ -23,30 +22,33 @@ void RequestManage()
 
     switch (req)
     {
-    case REQ_SPEAK_ADJUST:
-      REQUEST_GET = 0;
-      Req_SpkDo_adjust();
+    case REQ_SPEAK:
+      if (!isTalking())
+      {
+        REQUEST_GET = 0;
+        Req_SpkDo();
+      }
       break;
 
-    case REQ_BALOON_ADJUST:
-      REQUEST_GET = 0;
-      Req_BaloonDo_adjust();
+    case REQ_SPEAK_ADJUST:
+      if (!isTalking())
+      {
+        REQUEST_GET = 0;
+        Req_SpkDo_adjust();
+      }
       break;
 
     case REQ_SPEAK_BALOON_ADJUST:
-      if (!isTalking() )
+      if (!isTalking())
       {
         REQUEST_GET = 0;
         Req_SpkBaloonDo_adjust();
       }
       break;
 
-    case REQ_SPEAK:
-      if (!isTalking() )
-      {
-        REQUEST_GET = 0;
-        Req_SpkDo();
-      }
+    case REQ_BALOON_ADJUST:
+      REQUEST_GET = 0;
+      Req_BaloonDo_adjust();
       break;
 
     case REQ_BALOON:
@@ -81,24 +83,6 @@ void RequestManage()
   }
 }
 
-// void ReqSpkBaloon_adjust(String spkMsg)
-// {
-//   REQ_MSG = spkMsg;
-//   REQUEST_GET = REQ_SPEAK_BALOON_ADJUST;
-// }
-
-// void ReqSpkOnly(String spkMsg)
-// {
-//   REQ_MSG = spkMsg;
-//   REQUEST_GET = REQ_SPEAK;
-// }
-
-// void ReqBaloonOnly(String msg)
-// {
-//   REQ_MSG = msg;
-//   REQUEST_GET = REQ_BALOON;
-// }
-
 void Req_BaloonDo()
 {
   avatar.setExpression(Expression::Happy);
@@ -109,7 +93,9 @@ void Req_BaloonDo()
 void Req_SpkDo()
 {
   avatar.setExpression(expressions_table[REQ_SPK_EXPR]);
-  ttsDo(REQ_MSG);
+  SPEECH_TEXT = REQ_MSG;
+  ttsDo(SPEECH_TEXT);
+  SPEECH_TEXT = "";
 }
 
 void Req_SpkBaloonDo_adjust()
@@ -119,7 +105,9 @@ void Req_SpkBaloonDo_adjust()
 
   avatar.setExpression(Expression::Happy);
   avatar.setSpeechText(REQ_MSG.c_str());
-  ttsDo(REQ_MSG);
+  SPEECH_TEXT = REQ_MSG;
+  ttsDo(SPEECH_TEXT);
+  SPEECH_TEXT = "";
   avatar.setExpression(Expression::Neutral);
 }
 
@@ -129,7 +117,9 @@ void Req_SpkDo_adjust()
     return;
 
   avatar.setExpression(Expression::Happy);
-  ttsDo(REQ_MSG);
+  SPEECH_TEXT = REQ_MSG;
+  ttsDo(SPEECH_TEXT);
+  SPEECH_TEXT = "";
   avatar.setExpression(Expression::Neutral);
 }
 
@@ -143,18 +133,7 @@ void Req_BaloonDo_adjust()
   avatar.setExpression(Expression::Neutral);
 }
 
-// void Req_Baloon_adjust()
-// {
-//   if (!SV_ADJUST_STATE)
-//     return;
-
-//   REQUEST_GET = REQ_BALOON_ADJUST;
-// }
-
 void BaloonClear()
 {
-  sendReq(REQ_BALOON,"");
-  // REQ_MSG = "";
-  // avatar.setSpeechText("");
-  // avatar.setExpression(Expression::Neutral);
+  sendReq(REQ_BALOON, "");
 }

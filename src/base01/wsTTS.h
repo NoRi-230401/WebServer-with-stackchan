@@ -45,6 +45,8 @@ extern int REQ_SHUTDOWN_REBOOT;
 extern int REQUEST_GET;
 extern String REQ_MSG;
 extern void log_free_size(const char *text);
+// extern String SPEECH_TEXT;
+// extern String SPEECH_TEXT_BUFFER;
 
 //------------------------------------------------------------
 void wsHandleSpeech(String sayS, String expressionS, String voiceS);

@@ -16,6 +16,7 @@ void setup()
   // ** initial Setting **
   M5StackConfig();
   log_free_size("初期化開始：");
+  M5SpeakerConfig();
 
   // ** Setting files **
   startupSetting();

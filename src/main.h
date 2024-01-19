@@ -6,6 +6,7 @@
 // extern void ReqSpkOnly(String spkMsg);
 extern const String WS_VERSION;
 extern void M5StackConfig();
+extern void M5SpeakerConfig();
 extern void startupSetting();
 extern void apikeySetting();
 extern void servoSetting();
@@ -19,7 +20,7 @@ extern void chatGptManage();
 extern void TimerManage();
 extern void ButtonManage();
 extern void RequestManage();
-extern void SpeechManage();
+// extern void SpeechManage();
 extern void StatusLineManage();
 extern void clockSetup();
 extern void WiFiInfo();

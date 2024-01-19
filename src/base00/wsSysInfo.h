@@ -29,7 +29,7 @@ extern String SERVER_NAME;
 extern int WK_LAST_ERR_NO;
 extern int WK_LAST_ERR_CODE;
 extern bool RANDOM_SPEAK_STATE;
-extern size_t VOLUME_VALUE;
+extern uint8_t VOLUME_VALUE;
 extern bool MUTE_ON_STATE;
 extern uint8_t TONE_MODE;
 extern String SYSINFO_MSG;

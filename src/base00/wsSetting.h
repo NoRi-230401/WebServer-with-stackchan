@@ -6,7 +6,7 @@
 #include <Arduino.h>
 #include <ArduinoJson.h>
 #include <SD.h>
-#include <Wire.h>
+// #include <Wire.h>
 #include <SPIFFS.h>
 #include <nvs.h>
 #include <M5Unified.h>
@@ -54,7 +54,24 @@ using namespace m5avatar;
 extern Avatar avatar;
 extern String webpage;
 extern int isSPIFFS;
-extern void blueLedOn();
+// extern void blueLedOn();
+extern uint8_t VOLUME_VALUE;
+
+// extern uint8_t m5spk_virtual_channel;
+#define TONE_MODE_INIT 4
+#define TONE_MODE_MAX 5
+extern uint8_t TONE_MODE;
+extern bool MUTE_ON_STATE;
+
+// extern void M5SpeakerConfig();
+extern uint8_t setVolumeVal(uint8_t volumeVal, int save_flag);
+extern void muteOn();
+extern void muteOff();
+
+#define VAL_NVS_NOSAVE 0
+#define VAL_NVS_SAVE 1
+// extern uint8_t setVolumeVal(uint8_t volumeVal, int save_flag);
+
 //-------------------------------------------------------------------------
 void startupSetting();
 void apikeySetting();
@@ -75,10 +92,8 @@ bool setApiKey(String item, String data, DynamicJsonDocument &apikeyJson);
 bool getApiKey(String item, String &data, DynamicJsonDocument &apikeyJson);
 bool setStartup(String item, String data, DynamicJsonDocument &startupJson);
 bool getStartup(String item, String &getData, DynamicJsonDocument &startupJson);
-void toneOn();
-void tone(int mode);
-void muteOn();
-void muteOff();
+
+
 //-------------------------------------------------------------------------
 
 #endif

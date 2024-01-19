@@ -41,7 +41,7 @@ extern void sv_setEaseToY(int y);
 extern String webpage;
 extern String getDateTime();
 extern String SERVER_NAME;
-extern size_t VOLUME_VALUE;
+extern uint8_t VOLUME_VALUE;
 extern String TTS_SPEAKER_NO;
 extern int CHARA_NO;
 extern String getHeapFreeSize();

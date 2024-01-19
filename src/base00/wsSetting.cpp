@@ -9,21 +9,12 @@ const String OffOn[] = {"off", "on"};
 const String jsonAPIKEY = "{\"apikey\":[{\"openAiApiKey\":\"***\",\"voicevoxApiKey\":\"***\"}]}";
 const String jsonSTARTUP = "{\"startup\":[{\"serverName\":\"stackchan\",\"vSpeakerNo\":\"3\",\"volume\":\"200\",\"led\":\"on\",\"randomSpeak\":\"off\",\"toneMode\":\"1\",\"mute\":\"off\",\"keyLock\":\"off\",\"timer\":\"180\"}]}";
 
-static constexpr uint8_t m5spk_virtual_channel = 0;
-size_t VOLUME_VALUE;
-bool MUTE_ON_STATE = false;
-
-#define TONE_MODE_INIT 4
-#define TONE_MODE_MAX 5
-uint8_t TONE_MODE = TONE_MODE_INIT; // 0:allOff(default) 1:buttonOn 2:extCommOn 3:allOn 4.LedOnly. 5.tone&LED
-
 String SYSINFO_MSG = "";
 String IP_ADDR = "";
 String SSID = "";
 String SSID_PASSWD = "";
 String OPENAI_API_KEY = "";
 String VOICEVOX_API_KEY = "";
-// String VOICETEXT_API_KEY = "";
 String STT_API_KEY = "";
 bool SD_ENABLE = false;
 
@@ -54,40 +45,29 @@ void wsHandleSetting(String volumeS, String volumeDS, String vSpeakerNoS,
     if (volumeVal <= 0)
       volumeVal = 0;
 
-    VOLUME_VALUE = volumeVal;
-    M5.Speaker.setVolume(VOLUME_VALUE);
-    M5.Speaker.setChannelVolume(m5spk_virtual_channel, VOLUME_VALUE);
-
-    if (ESP_OK == nvs_open(SETTING_NVS, NVS_READWRITE, &nvs_handle))
-      nvs_set_u32(nvs_handle, "volume", VOLUME_VALUE);
-    nvs_close(nvs_handle);
-
-    webpage = "volume = " + String(volumeVal, DEC);
+    VOLUME_VALUE = (uint8_t)volumeVal;
+    setVolumeVal(VOLUME_VALUE,VAL_NVS_SAVE);
+    String msg = "volume = " + String(VOLUME_VALUE, DEC);
+    // Serial.println(msg);
+    webpage = msg;
   }
 
-  // ---- volumeDelta -------
+  // ---- volume Delta -------
   if (volumeDS != "")
   {
     int volumeVal = volumeDS.toInt();
-    volumeVal += VOLUME_VALUE;
+    volumeVal += (int)VOLUME_VALUE;
     if (volumeVal > 255)
       volumeVal = 255;
     if (volumeVal <= 0)
       volumeVal = 0;
 
-    VOLUME_VALUE = volumeVal;
-    Serial.print("volume = ");
-    Serial.println(VOLUME_VALUE, DEC);
+    VOLUME_VALUE =(uint8_t)volumeVal;
 
-    M5.Speaker.setVolume(VOLUME_VALUE);
-    M5.Speaker.setChannelVolume(m5spk_virtual_channel, VOLUME_VALUE);
-    if (ESP_OK == nvs_open(SETTING_NVS, NVS_READWRITE, &nvs_handle))
-    {
-      nvs_set_u32(nvs_handle, "volume", VOLUME_VALUE);
-    }
-    nvs_close(nvs_handle);
-
-    webpage = "volume = " + String(volumeVal, DEC);
+    setVolumeVal(VOLUME_VALUE, VAL_NVS_SAVE);
+    String msg = "volume = " + String(VOLUME_VALUE, DEC);
+    Serial.println(msg);
+    webpage = msg;
   }
 
   // ---- led -------
@@ -127,7 +107,7 @@ void wsHandleSetting(String volumeS, String volumeDS, String vSpeakerNoS,
   {
     if (toneModeS == "next")
     {
-      Serial.println("toneMode=next preToneMode=" + String(TONE_MODE,DEC)  );
+      Serial.println("toneMode=next preToneMode=" + String(TONE_MODE, DEC));
       TONE_MODE++;
       TONE_MODE = TONE_MODE % (TONE_MODE_MAX + 1);
     }
@@ -145,7 +125,7 @@ void wsHandleSetting(String volumeS, String volumeDS, String vSpeakerNoS,
       nvs_set_u32(nvs_handle, "toneMode", tMode);
     nvs_close(nvs_handle);
 
-    Serial.println("toneMode=next nextToneMode=" + String(TONE_MODE,DEC)  );
+    Serial.println("toneMode=next nextToneMode=" + String(TONE_MODE, DEC));
     webpage = "toneMode = " + String(TONE_MODE, DEC);
   }
 
@@ -400,18 +380,9 @@ void M5StackConfig()
 {
   // ********** M5 config **************
   auto cfg = M5.config();
-  // cfg.external_spk = true; /// use external speaker (SPK HAT / ATOMIC SPK)
   M5.begin(cfg);
-  Wire.begin(M5.Ex_I2C.getSDA(), M5.Ex_I2C.getSCL());
-
-  auto spk_cfg = M5.Speaker.config();
-  // spk_cfg.sample_rate = 96000; // default:64000 (64kHz)  e.g. 48000 , 50000 , 80000 , 96000 , 100000 , 128000 , 144000 , 192000 , 200000
-  // spk_cfg.task_pinned_core = APP_CPU_NUM;
-  M5.Speaker.config(spk_cfg);
-  M5.Speaker.begin();
 
   M5.Display.setBrightness(config_brightness);
-
   M5.Lcd.setTextSize(2);
   led_allOff();
   BoxTouchSetup();
@@ -451,6 +422,7 @@ void M5StackConfig()
   else
     SD_ENABLE = true;
 }
+
 
 bool jsonAPIKEYinit(DynamicJsonDocument &jsonDoc)
 {
@@ -644,7 +616,7 @@ bool startupFileRead()
     if (getVal > 255)
       getVal = 255;
 
-    VOLUME_VALUE = (size_t)getVal;
+    VOLUME_VALUE = (uint8_t)getVal;
     Serial.println("Startup : volume = " + getStr3);
     cnt++;
   }
@@ -660,15 +632,14 @@ bool startupFileRead()
       if (volume < 0)
         volume = 0;
 
-      VOLUME_VALUE = volume;
+      VOLUME_VALUE = (uint8_t)volume;
       nvs_close(nvs_handle);
       Serial.println("Startup : NVS volume = " + String(volume, DEC));
       cnt++;
     }
   }
-  M5.Speaker.setVolume(VOLUME_VALUE);
-  M5.Speaker.setChannelVolume(m5spk_virtual_channel, VOLUME_VALUE);
-
+  setVolumeVal(VOLUME_VALUE,VAL_NVS_NOSAVE);
+  
   // led
   String getStr4 = object["led"];
   if (getStr4 != "" && (getStr4 != "***") && (getStr4 != "null"))
@@ -892,58 +863,3 @@ bool getStartup(String item, String &getData, DynamicJsonDocument &startupJson)
   return (getJsonItem(STARTUP_SPIFFS, item, getData, startupJson, "startup"));
 }
 
-void toneOn()
-{
-  M5.Speaker.tone(1000, 100);
-}
-
-void tone(int mode)
-{
-  switch (TONE_MODE)
-  {
-  case 0: // always toneOff
-    break;
-
-  case 1: // toneOn when buttons pressed
-    if (mode == TONE_MODE)
-      toneOn();
-    break;
-
-  case 2: // toneOn whenn external command rcv
-    if (mode == TONE_MODE)
-      toneOn();
-    break;
-
-  case 3: // toneOn every time
-    toneOn();
-    break;
-
-  case 4: // LED only 
-    // toneOn();
-    blueLedOn();
-    break;
-
-  case 5: // LED and Tone 
-    toneOn();
-    blueLedOn();
-    break;
-
-  default:
-    break;
-  }
-}
-
-
-void muteOn()
-{
-  M5.Speaker.setVolume(0);
-  M5.Speaker.setChannelVolume(m5spk_virtual_channel, 0);
-  MUTE_ON_STATE = true;
-}
-
-void muteOff()
-{
-  M5.Speaker.setVolume(VOLUME_VALUE);
-  M5.Speaker.setChannelVolume(m5spk_virtual_channel, VOLUME_VALUE);
-  MUTE_ON_STATE = false;
-}

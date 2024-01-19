@@ -12,7 +12,7 @@
 extern AsyncWebServer server;
 extern String IP_ADDR;
 extern String SERVER_NAME;
-extern size_t VOLUME_VALUE;
+extern uint8_t VOLUME_VALUE;
 extern const String WS_VERSION;
 extern String webpage;
 extern const String FLS_NAME[];

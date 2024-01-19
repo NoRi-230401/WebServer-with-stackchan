@@ -29,7 +29,6 @@
 #define REQ_SV_MD_ADJUST 9
 // -------------------------
 
-
 extern String TTS_PARMS;
 using namespace m5avatar;
 extern Avatar avatar;
@@ -51,14 +50,9 @@ void sendReq(int reqNo,String msg);
 void RequestManage();
 void Req_SpkDo();
 void Req_BaloonDo();
-// void ReqSpkMsg();
-// void ReqSpkBaloon_adjust(String spkMsg);
-// void ReqSpkOnly(String spkMsg);
-
 void Req_SpkBaloonDo_adjust(); 
 void Req_SpkDo_adjust();
 void Req_BaloonDo_adjust();
-// void Req_Baloon_adjust();
 void BaloonClear();
 // ---------------------------------------------------------------------
 #endif

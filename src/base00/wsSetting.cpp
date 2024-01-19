@@ -48,7 +48,6 @@ void wsHandleSetting(String volumeS, String volumeDS, String vSpeakerNoS,
     VOLUME_VALUE = (uint8_t)volumeVal;
     setVolumeVal(VOLUME_VALUE,VAL_NVS_SAVE);
     String msg = "volume = " + String(VOLUME_VALUE, DEC);
-    // Serial.println(msg);
     webpage = msg;
   }
 
@@ -66,7 +65,6 @@ void wsHandleSetting(String volumeS, String volumeDS, String vSpeakerNoS,
 
     setVolumeVal(VOLUME_VALUE, VAL_NVS_SAVE);
     String msg = "volume = " + String(VOLUME_VALUE, DEC);
-    Serial.println(msg);
     webpage = msg;
   }
 
@@ -567,12 +565,9 @@ bool startupFileRead()
 {
   // ****** 初期値設定　**********
   SERVER_NAME = "stackchan";
-  // TTS_TYPE = 2; // VOICEVOX
   TTS_SPEAKER_NO = "3";
-  // LANG_CODE = String(LANG_CODE_JP);
   VOLUME_VALUE = 200;
   LED_OnOff_STATE = true;
-  // RANDOM_TM = 0;
   RANDOM_SPEAK_ON_GET = false;
   RANDOM_SPEAK_STATE = false;
   TONE_MODE = TONE_MODE_INIT;

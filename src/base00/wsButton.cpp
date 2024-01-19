@@ -18,10 +18,6 @@ struct box_t
     this->y = y;
     this->w = w;
     this->h = h;
-    // Serial.println("x = " + String(x, DEC));
-    // Serial.println("y = " + String(y, DEC));
-    // Serial.println("wide = " + String(w, DEC));
-    // Serial.println("height = " + String(h, DEC) + "\n");
   }
 
   bool contain(int x, int y)
@@ -29,15 +25,72 @@ struct box_t
     return this->x <= x && x < (this->x + this->w) && this->y <= y && y < (this->y + this->h);
   }
 };
-
 static box_t BOX_STATUS_LINE_NEXT;
 static box_t BOX_STATUS_LINE_ONOFF;
 static box_t BOX_STATUS_LINE_PREV;
 static box_t BOX_SERVO;
 static box_t BOX_SYSINFO;
-// static box_t BOX_STT;
 
+void ButtonManage()
+{
+  BtnReqGet();
+  M5.update();
 
+// *** 画面タッチボタン ***
+#if defined(ARDUINO_M5STACK_Core2) || defined(ARDUINO_M5STACK_CORES3)
+  auto count = M5.Touch.getCount();
+  if (count)
+  {
+    if (!KEYLOCK_STATE)
+    {
+      auto t = M5.Touch.getDetail();
+      if (t.wasPressed())
+      {
+        if (BOX_STATUS_LINE_NEXT.contain(t.x, t.y) && statusLineOnOffState)
+          // StatusLineDoNext();
+          BtnUA_Do();
+
+        if (BOX_STATUS_LINE_ONOFF.contain(t.x, t.y))
+          // StatusLineDoOnOff();
+          BtnUB_Do();
+
+        if (BOX_STATUS_LINE_PREV.contain(t.x, t.y) && statusLineOnOffState)
+          // StatusLineDoPrev();
+          BtnUC_Do();
+
+        if (BOX_SERVO.contain(t.x, t.y))
+          // BoxServoDo();
+          BtnMA_Do();
+
+        if (BOX_SYSINFO.contain(t.x, t.y))
+          // sysInfoDispOnOff();
+          BtnMC_Do();
+      }
+    }
+  }
+#endif
+
+  // ** (BtnA) self-talk OnOff
+  if (M5.BtnA.wasPressed())
+  {
+    if (!KEYLOCK_STATE)
+      BtnA_Do();
+  }
+
+  // ** (BtnB) talk to chatGPT --STT
+  if (M5.BtnB.wasPressed())
+  {
+    if (!KEYLOCK_STATE)
+      BtnB_Do();
+  }
+
+  // ** (BtnC) Timer Start/Stop
+  if (M5.BtnC.wasPressed())
+  {
+    if (!KEYLOCK_STATE)
+      BtnC_Do();
+  }
+}
 
 void wsHandleBtn(String arg)
 {
@@ -52,7 +105,7 @@ void wsHandleBtn(String arg)
     BTN_REQ = BtnREQ_A;
     return;
   }
-  else if (arg_mode == "BTNB")
+  else if (arg_mode == "BTNB" || arg_mode == "BOX_STT")
   {
     webpage = "talk to chatGPT";
     BTN_REQ = BtnREQ_B;
@@ -82,7 +135,7 @@ void wsHandleBtn(String arg)
     BTN_REQ = BtnREQ_UB;
     return;
   }
-  else if (arg_mode == "BOX_SERVO" || arg_mode == "BTNMA" )
+  else if (arg_mode == "BOX_SERVO" || arg_mode == "BTNMA")
   {
     BTN_REQ = BtnREQ_MA;
     webpage = "BtnMA: BoxServo";
@@ -94,13 +147,6 @@ void wsHandleBtn(String arg)
     webpage = "BtnMC: SysInfo Disp";
     return;
   }
-
-  // else if (arg_mode == "BOX_STT")
-  // {
-  //   webpage = "talk-with-chatGpt Start";
-  //   BTN_REQ = BtnREQ_BOX_STT;
-  //   return;
-  // }
   else
   {
     BTN_REQ = 0;
@@ -157,82 +203,11 @@ void BtnReqGet()
     BtnMC_Do();
     break;
 
-    // case BtnREQ_BOX_STT:
-    //   BoxSttDo();
-    //   break;
-
   default:
     break;
   }
-
   return;
 }
-
-void ButtonManage()
-{
-  BtnReqGet();
-
-  M5.update();
-
-// *** 画面タッチボタン ***
-#if defined(ARDUINO_M5STACK_Core2) || defined(ARDUINO_M5STACK_CORES3)
-  auto count = M5.Touch.getCount();
-  if (count)
-  {
-    if (!KEYLOCK_STATE)
-    {
-      auto t = M5.Touch.getDetail();
-      if (t.wasPressed())
-      {
-        if (BOX_STATUS_LINE_NEXT.contain(t.x, t.y) && statusLineOnOffState)
-          // StatusLineDoNext();
-          BtnUA_Do();
-
-        if (BOX_STATUS_LINE_ONOFF.contain(t.x, t.y) )
-          // StatusLineDoOnOff();
-          BtnUB_Do();
-
-        if (BOX_STATUS_LINE_PREV.contain(t.x, t.y) && statusLineOnOffState)
-          // StatusLineDoPrev();
-          BtnUC_Do();
-
-        if (BOX_SERVO.contain(t.x, t.y))
-          // BoxServoDo();
-          BtnMA_Do();
-
-        if (BOX_SYSINFO.contain(t.x, t.y))
-          // sysInfoDispOnOff();
-          BtnMC_Do();
-
-      }
-    }
-  }
-#endif
-
-  // ** (BtnA) self-talk OnOff
-  if (M5.BtnA.wasPressed())
-  {
-    if (!KEYLOCK_STATE)
-      BtnA_Do();
-  }
-
-  // ** (BtnB) talk to chatGPT --STT
-  if (M5.BtnB.wasPressed())
-  {
-    if (!KEYLOCK_STATE)
-      BtnB_Do();
-  }
-
-  // ** (BtnC) Timer Start/Stop
-  if (M5.BtnC.wasPressed())
-  {
-    if (!KEYLOCK_STATE)
-      BtnC_Do();
-  }
-}
-
-
-
 
 void BtnA_Do()
 {
@@ -261,9 +236,9 @@ void BtnUB_Do()
   tone(1);
   if (SYSINFO_DISP_STATE)
     sysInfoDispEnd();
-  
+
   Serial.println("StatusLineOnOff");
-  statusLineOnOff();  
+  statusLineOnOff();
 }
 
 void BtnUC_Do()
@@ -279,15 +254,11 @@ void BtnUC_Do()
 void BtnMC_Do()
 {
   tone(1);
-
   if (SYSINFO_DISP_STATE)
     sysInfoDispEnd();
   else
     sysInfoDispStart(0);
-
-  // sysInfoDispOnOff();
 }
-
 
 void BtnMA_Do()
 {
@@ -297,16 +268,6 @@ void BtnMA_Do()
 
   BoxServoDo();
 }
-
-
-
-// void sysInfoDispOnOff()
-// {
-//   if (SYSINFO_DISP_STATE)
-//     sysInfoDispEnd();
-//   else
-//     sysInfoDispStart(0);
-// }
 
 void BtnC_Do()
 {
@@ -334,44 +295,7 @@ void BtnB_Do()
     sysInfoDispEnd();
 
   SST_ChatGPT();
-  // BoxSttDo();
 }
-
-// void BoxSttDo()
-// {
-//   SST_ChatGPT();
-// }
-//-----------------------------------------------
-
-// void StatusLineOnOff()
-// {
-//   // tone(1);
-//   if (SYSINFO_DISP_STATE)
-//     sysInfoDispEnd();
-
-//   Serial.println("StatusLineOnOff");
-//   statusLineOnOff();
-// }
-
-// void StatusLineNext()
-// {
-//   // tone(1);
-//   if (SYSINFO_DISP_STATE)
-//     sysInfoDispEnd();
-
-//   Serial.println("StatusLineNext");
-//   statusLineNext();
-// }
-
-// void StatusLinePrev()
-// {
-//   // tone(1);
-//   if (SYSINFO_DISP_STATE)
-//     sysInfoDispEnd();
-
-//   Serial.println("StatusLinePrev");
-//   statusLinePrev();
-// }
 
 void BoxTouchSetup()
 {
@@ -382,11 +306,10 @@ void BoxTouchSetup()
   int h50 = h100 / 2;
   int h25 = h100 / 4;
 
-  BOX_STATUS_LINE_NEXT.setupBox(0, 0, w25, h25);                    // 上左
-  BOX_STATUS_LINE_ONOFF.setupBox(w50 - w25 / 2 - 1, 0, w25, h25);   // 上中
-  BOX_STATUS_LINE_PREV.setupBox(w100 - w25 - 1, 0, w25, h25);       // 上右
+  BOX_STATUS_LINE_NEXT.setupBox(0, 0, w25, h25);                  // 上左
+  BOX_STATUS_LINE_ONOFF.setupBox(w50 - w25 / 2 - 1, 0, w25, h25); // 上中
+  BOX_STATUS_LINE_PREV.setupBox(w100 - w25 - 1, 0, w25, h25);     // 上右
 
-  // BOX_SERVO.setupBox(w50 - w25 - 1, h50 - (h25 / 2) - 1, w25, h25); // 中心
-  BOX_SERVO.setupBox(0, h50 - (h25 / 2) - 1, w25, h25);               // 中左
-  BOX_SYSINFO.setupBox(w100-w25-1, h50 - (h25 / 2) - 1 , w25, h25);   // 中右
+  BOX_SERVO.setupBox(0, h50 - (h25 / 2) - 1, w25, h25);                // 中左
+  BOX_SYSINFO.setupBox(w100 - w25 - 1, h50 - (h25 / 2) - 1, w25, h25); // 中右
 }

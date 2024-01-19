@@ -6,7 +6,6 @@
 #include <Arduino.h>
 #include <ArduinoJson.h>
 #include <SD.h>
-// #include <Wire.h>
 #include <SPIFFS.h>
 #include <nvs.h>
 #include <M5Unified.h>
@@ -31,8 +30,6 @@ extern String TTS_PARMS;
 extern bool LED_OnOff_STATE;
 extern bool RANDOM_SPEAK_ON_GET;
 extern uint16_t TIMER_SEC_VALUE;
-// extern uint8_t m5spk_virtual_channel;
-// extern uint32_t RANDOM_TM;
 extern bool TIMER_STARTED;
 extern void led_allOff();
 extern void timerStop2(); 
@@ -40,7 +37,6 @@ extern void randomSpeakStop2();
 extern void timerStart();
 extern void timerStop();
 extern void timerStop2(); 
-// extern void report_batt_level();
 extern void sysInfoDispStart(uint8_t mode_no);
 extern bool jsonSave(DynamicJsonDocument &jsonDoc, String saveFile);
 extern bool jsonRead(int flType, DynamicJsonDocument &jsonDoc, String readFile);
@@ -54,23 +50,17 @@ using namespace m5avatar;
 extern Avatar avatar;
 extern String webpage;
 extern int isSPIFFS;
-// extern void blueLedOn();
 extern uint8_t VOLUME_VALUE;
 
-// extern uint8_t m5spk_virtual_channel;
 #define TONE_MODE_INIT 4
 #define TONE_MODE_MAX 5
 extern uint8_t TONE_MODE;
 extern bool MUTE_ON_STATE;
-
-// extern void M5SpeakerConfig();
+#define VAL_NVS_NOSAVE 0
+#define VAL_NVS_SAVE 1
 extern uint8_t setVolumeVal(uint8_t volumeVal, int save_flag);
 extern void muteOn();
 extern void muteOff();
-
-#define VAL_NVS_NOSAVE 0
-#define VAL_NVS_SAVE 1
-// extern uint8_t setVolumeVal(uint8_t volumeVal, int save_flag);
 
 //-------------------------------------------------------------------------
 void startupSetting();
@@ -92,7 +82,6 @@ bool setApiKey(String item, String data, DynamicJsonDocument &apikeyJson);
 bool getApiKey(String item, String &data, DynamicJsonDocument &apikeyJson);
 bool setStartup(String item, String data, DynamicJsonDocument &startupJson);
 bool getStartup(String item, String &getData, DynamicJsonDocument &startupJson);
-
 
 //-------------------------------------------------------------------------
 

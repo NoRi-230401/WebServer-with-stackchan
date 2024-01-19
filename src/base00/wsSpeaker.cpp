@@ -3,7 +3,6 @@
 
 uint8_t m5spk_virtual_channel = 0;
 uint8_t VOLUME_VALUE;
-
 bool MUTE_ON_STATE = false;
 
 void M5SpeakerConfig()
@@ -22,12 +21,7 @@ void M5SpeakerConfig()
 
 uint8_t setVolumeVal(uint8_t volumeVal, int save_flag)
 {
-  // if (volumeVal > 255)
-  //   volumeVal = 255;
-  // if (volumeVal <= 0)
-  //   volumeVal = 0;
-
-  VOLUME_VALUE = volumeVal;
+  VOLUME_VALUE =(uint8_t)( 0x00ff & volumeVal );
   M5.Speaker.setVolume(VOLUME_VALUE);
   M5.Speaker.setChannelVolume(m5spk_virtual_channel, VOLUME_VALUE);
 
@@ -73,7 +67,6 @@ void tone(int mode)
     break;
 
   case 4: // LED only
-    // toneOn();
     blueLedOn();
     break;
 

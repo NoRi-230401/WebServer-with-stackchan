@@ -42,10 +42,10 @@ void setup()
 
 void loop()
 {
-  chatGptManage();
-  TimerManage();
   ButtonManage();
   RequestManage();
   StatusLineManage();
+  chatGptManage();
+  TimerManage();
 }
 

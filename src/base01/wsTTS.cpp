@@ -23,7 +23,7 @@ void wsHandleSpeech(String sayS, String expressionS, String voiceS)
 
   int expr = 0;
   if (expressionS != "")
-  {
+  { // Avatar の顔の表情
     expr = expressionS.toInt();
     if (expr < 0)
       expr = 0;
@@ -40,7 +40,8 @@ void wsHandleSpeech(String sayS, String expressionS, String voiceS)
   }
 
   sendReq(REQ_SPEAK,sayS);
-  REQ_SPK_EXPR = expr;
+  REQ_SPK_EXPR = expr;   // Avatar の顔の表情
+  
   webpage += "\nspeech : say = " + sayS;
 }
 

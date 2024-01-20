@@ -34,7 +34,7 @@ const String jsonSERVO = "{\"servo\":[{\"servo\":\"on\",\"servoPort\":\"portC\",
 
 bool jsonSERVOinit(DynamicJsonDocument &jsonDoc)
 {
-  return (jsonInitSave(jsonDoc, jsonSERVO, SERVO_SPIFFS));
+  return (jsonStrSave(jsonDoc, jsonSERVO, SERVO_SPIFFS));
 }
 
 void BoxServoDo()

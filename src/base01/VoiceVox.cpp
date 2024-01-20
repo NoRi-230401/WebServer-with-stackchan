@@ -1,6 +1,6 @@
 #include "VoiceVox.h"
 
-uint16_t https_timeout = 60000;   // HTTPタイムアウト時間
+#define HTTPS_TIMEOUT   60000U      // HTTPタイムアウト時間
 
 TaskHandle_t voicevox_task_handle;
 
@@ -13,15 +13,11 @@ void voicevox_task_loop(void *args)
         {
             float level = abs(*(ptr->out->getBuffer()));
             if (level < 100)
-            {
                 level = 0;
-            }
-            if (level > 15000)
-            {
+            else if (level > 15000)
                 level = 15000;
-            }
-            // if (ptr->talk_type == "URL") { avatar.setSpeechText(speaker_name.c_str()); }
             avatar.setMouthOpenRatio(level / 15000.0);
+
             if (!ptr->mp3->loop())
             {
                 ptr->is_talking = false;
@@ -37,15 +33,10 @@ void voicevox_task_loop(void *args)
                     delete ptr->buff;
                     ptr->buff = nullptr;
                 }
-                // if (ptr->talk_type == "FILE") {
-                //     delete ptr->file_sd; ptr->file_sd = nullptr;
-                // }
                 avatar.setMouthOpenRatio(0);
                 avatar.setSpeechText("");
-                // M5.Speaker.end();
-                // M5.Mic.begin();
-                // M5.Log.println("SPEAK：END");
-                M5.Log.printf("SPEAK：END(%.1fsec)\n", (millis() - ptr->getStartTime()) / 1000.0);
+                M5.Log.printf("VOICEVOX：speak_end(%.1fsec)\n", (millis() - ptr->getStartTime()) / 1000.0);
+                // showExeTime("VOICEVOX：elapsed time", true);
                 log_free_size("VOICEVOX：OUT");
             }
         }
@@ -70,7 +61,8 @@ String VoiceVox::synthesis(const String &speechText)
     M5.Log.println("VOICEVOX：START");
 
     HTTPClient https;
-    https.setTimeout(https_timeout);
+    // https.setTimeout(HTTPS_TIMEOUT);
+    https.setTimeout(UINT16_MAX);   // 最大値の約65秒にタイムアウトを設定
     if (!https.begin(url, root_ca_voicevox))
     {
         M5.Log.println("VOICEVOX：接続失敗");
@@ -84,7 +76,7 @@ String VoiceVox::synthesis(const String &speechText)
     if (!(http_code == HTTP_CODE_OK))
     {
         M5.Log.printf("VOICEVOX：HTTPSエラー(%d %s)\n", http_code, https.errorToString(http_code).c_str());
-        avatar.setSpeechText("たいむあうと");
+        avatar.setSpeechText("TimeOut Error");
         avatar.setExpression(m5avatar::Expression::Doubt);
         delay(2000);
         return "";
@@ -104,13 +96,15 @@ String VoiceVox::synthesis(const String &speechText)
     const String mp3_url = doc["mp3StreamingUrl"].as<String>();
     doc.clear();
 
-    M5.Log.printf("VOICEVOX：END(%.1fsec)\n", (millis() - getStartTime()) / 1000.0);
+    M5.Log.printf("VOICEVOX：mp3_URL_Get(%.1fsec)\n", (millis() - getStartTime()) / 1000.0);
     return mp3_url;
 }
 
 void VoiceVox::talk_https(String url)
 {
-    M5.Log.printf("SPEAK：START(%.1fsec)\n", (millis() - getStartTime()) / 1000.0);
+    M5.Log.printf("VOICEVOX：speak_start(%.1fsec)\n", (millis() - getStartTime()) / 1000.0);
+    // showExeTime("VOICEVOX：SpeakStart:elapsed time", false);
+
     if (is_talking)
     {
         M5.Log.println("SPEAK：スキップ");
@@ -119,9 +113,9 @@ void VoiceVox::talk_https(String url)
     mp3 = new AudioGeneratorMP3();
     out = new AudioOutputM5Speaker(&M5.Speaker);
     file_https = new AudioFileSourceHTTPSStream(url.c_str(), root_ca_voicevox);
-    // buff = new AudioFileSourceBuffer(file_https, 1024 * 10);
-    buff = new AudioFileSourceBuffer(file_https, 1024 * 30);
-    
+    buff = new AudioFileSourceBuffer(file_https, 1024 * 10);
+    // buff = new AudioFileSourceBuffer(file_https, 1024 * 20);
+
     // M5.Mic.end();
     // M5.Speaker.begin();
     is_talking = true;

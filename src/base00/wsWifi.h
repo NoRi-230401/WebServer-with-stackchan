@@ -28,10 +28,10 @@ extern String webpage;
 extern const String WIFI_SPIFFS;
 extern const String WIFI_SD;
 extern void REBOOT();
-extern bool jsonSave(DynamicJsonDocument &jsonDoc, String saveFile);
+extern bool jsonDocSave(DynamicJsonDocument &jsonDoc, String saveFile);
 extern bool jsonRead(int flType, DynamicJsonDocument &jsonDoc, String readFile);
 extern File fileOpen(int flType, const String path, const char *mode);
-extern bool jsonInitSave(DynamicJsonDocument &jsonDoc,const String inJson, const String saveFile);
+extern bool jsonStrSave(DynamicJsonDocument &jsonDoc,const String inJson, const String saveFile);
 extern String SERVER_NAME;
 extern String EncryptionType(wifi_auth_mode_t encryptionType);
 

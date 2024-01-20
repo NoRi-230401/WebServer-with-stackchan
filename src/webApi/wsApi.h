@@ -66,7 +66,7 @@
 #define BtnREQ_BOX_SERVO 4
 #define BtnREQ_BOX_STT 5
 
-extern const String json_ChatString;
+// extern const String chatStrIniData;
 extern bool REQ_chatGPT_GET;
 extern int SV_MD;
 extern int SV_HOME_X;
@@ -116,7 +116,7 @@ extern bool RANDOM_SPEAK_ON_GET;
 
 extern void wsHandleSpeech(String message, String expression, String speaker);
 extern void timerStop2();
-extern bool jsonSave(DynamicJsonDocument &jsonDoc, String saveFile);
+extern bool jsonDocSave(DynamicJsonDocument &jsonDoc, String saveFile);
 extern bool jsonRead(int flType, DynamicJsonDocument &jsonDoc, String readFile);
 extern bool getServo(String item, String &data, DynamicJsonDocument &servoJson);
 extern bool setServo(String item, String data, DynamicJsonDocument &servoJson);
@@ -156,9 +156,9 @@ extern bool TIMER_GO_GET;
 extern bool TIMER_STARTED;
 extern void randomSpeakStop2();
 extern void timerStart();
-extern String INIT_BUFFER;
-extern bool init_chat_doc(const char *data);
-extern bool save_json();
+// extern String CHATDOC_INIT_BUF;
+extern bool setChatDoc(const char *data);
+// extern bool save_json();
 extern void chatHistoryCls();
 extern void wsHandleWifiSetting(String initS, String ssidS, String passwdS,String removeS,
     String ipS, String gatewayS, String subnetS, String dnsS  );

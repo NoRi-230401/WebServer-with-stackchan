@@ -58,7 +58,7 @@ extern ServoEasing servo_x;
 extern ServoEasing servo_y;
 extern int REQUEST_GET;
 extern String REQ_MSG;
-extern bool jsonSave(DynamicJsonDocument &jsonDoc, String saveFile);
+extern bool jsonDocSave(DynamicJsonDocument &jsonDoc, String saveFile);
 extern bool jsonRead(int flType, DynamicJsonDocument &jsonDoc, String readFile);
 extern void Req_SpkBaloonDo_adjust(); 
 extern void Req_BaloonDo_adjust();
@@ -70,7 +70,7 @@ extern bool KEYLOCK_STATE;
 extern String webpage;
 extern void BaloonClear();
 extern void tone(int mode);
-extern bool jsonInitSave(DynamicJsonDocument &jsonDoc,const String inJson, const String saveFile);
+extern bool jsonStrSave(DynamicJsonDocument &jsonDoc,const String inJson, const String saveFile);
 extern void sysInfoDispEnd();
 extern bool SYSINFO_DISP_STATE;
 

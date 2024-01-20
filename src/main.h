@@ -25,6 +25,7 @@ extern void StatusLineManage();
 extern void clockSetup();
 extern void WiFiInfo();
 extern void log_free_size(const char *text);
+extern void showExeTime(String msg , bool resetTm );
 // ----------------------------------------------------------
 void setup();
 void loop();

@@ -64,8 +64,6 @@ void setupApiHandler()
             { handle_role_set(request);  serverSend(request); });
 
   // ##################### role_get ############################
-  // server.on("/role_get", HTTP_GET, [](AsyncWebServerRequest *request)
-  //           { handle_role_get(request);  request->send(200, "text/html", webpage); });
     server.on("/role_get", HTTP_GET, [](AsyncWebServerRequest *request)
             { handle_role_get(request);  serverSend(request); });
 

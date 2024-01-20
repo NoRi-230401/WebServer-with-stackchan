@@ -425,7 +425,7 @@ void M5StackConfig()
 
 bool jsonAPIKEYinit(DynamicJsonDocument &jsonDoc)
 {
-  return (jsonInitSave(jsonDoc, jsonAPIKEY, APIKEY_SPIFFS));
+  return (jsonStrSave(jsonDoc, jsonAPIKEY, APIKEY_SPIFFS));
 }
 
 bool apiKeyTxtRead()
@@ -520,7 +520,7 @@ bool apiKeyFileRead()
 
 bool jsonSTARTUPinit(DynamicJsonDocument &jsonDoc)
 {
-  return (jsonInitSave(jsonDoc, jsonSTARTUP, STARTUP_SPIFFS));
+  return (jsonStrSave(jsonDoc, jsonSTARTUP, STARTUP_SPIFFS));
 }
 
 void nvsSaveAll()

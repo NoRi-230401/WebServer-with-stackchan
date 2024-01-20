@@ -33,7 +33,7 @@
 #define FLTYPE_SPIFFS 1
 #define FLTYPE_SD 2
 extern bool jsonRead(int flType, DynamicJsonDocument &jsonDoc, String readFile);
-extern bool jsonSave(DynamicJsonDocument &jsonDoc, String saveFile);
+extern bool jsonDocSave(DynamicJsonDocument &jsonDoc, String saveFile);
 
 using namespace m5avatar;
 extern Avatar avatar;
@@ -60,7 +60,7 @@ extern void led_allOff();
 extern void timerStop2(); 
 extern void REBOOT();
 extern const String random_words[];
-extern const String json_ChatString;
+extern const String chatStrIData;
 extern const char *SETTING_NVS; // setting --NVS の設定用ファイル
 // extern void ttsDo( const String& text );
 extern String webpage;
@@ -70,7 +70,10 @@ extern void sysInfoDispEnd();
 // extern void ReqSpkOnly(String spkMsg);
 extern bool isTalking();
 extern void sendReq(int reqNo,String msg);
+extern void log_free_size(const char *text);
 // extern void SpeechText1st();
+extern uint32_t EXE_TIME;
+extern void showExeTime(String msg , bool resetTm );
 // -----------------------------------------------------------------------------
 void chatGptManage();
 void wsHandleRandomSpeak(String modeS);
@@ -83,11 +86,13 @@ void wsHandleRoleGet();
 bool chatDocInit();
 void randomSpeakStop2();
 void randomSpeak(bool mode);
-bool init_chat_doc(const char *data);
+// bool setChatDoc(const char *data);
+bool setChatDoc(const String& data);
+
 String https_post_json(const char *url, const char *json_string, const char *root_ca);
 String chatGpt(String json_string);
 void exec_chatGPT(String text);
-bool save_json();
+bool saveChatDoc();
 void chatGptSetup();
 void chatHistoryCls();
 // ---- -------------end of < WS_CHATGPT_H > --------------------------------------

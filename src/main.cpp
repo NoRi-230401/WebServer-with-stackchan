@@ -3,6 +3,7 @@
 // const String WS_VERSION = "WebServer-with-stackchan_V305-240201";
 const String WS_VERSION = "WSS-v305-240201";
 
+
 // ---------------------------------------------------------------------
 //  *** Extended from ***
 // AI_StackChan2                         : robo8080さん
@@ -37,8 +38,8 @@ void setup()
  //*** Wake UP! STACKCHAN ***
   avatarSTART();
   log_free_size("初期化終了：");
+  showExeTime("setup()-- End -- " , true );
 }
-
 
 void loop()
 {

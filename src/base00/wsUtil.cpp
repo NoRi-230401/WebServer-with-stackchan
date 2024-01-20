@@ -185,7 +185,7 @@ bool jsonRead(int flType, DynamicJsonDocument &jsonDoc, String filePath)
   return true;
 }
 
-bool jsonSave(DynamicJsonDocument &jsonDoc, const String filePath)
+bool jsonDocSave(DynamicJsonDocument &jsonDoc, const String filePath)
 {
   File file = SPIFFS.open(filePath.c_str(), "w");
   if (!file)
@@ -199,10 +199,10 @@ bool jsonSave(DynamicJsonDocument &jsonDoc, const String filePath)
   return true;
 }
 
-bool jsonInitSave(DynamicJsonDocument &jsonDoc, const String inJson, const String saveFile)
-{
-  bool success = jsonInit(jsonDoc, inJson);
-
+bool jsonStrSave(DynamicJsonDocument &jsonDoc, const String inJsonStr, const String saveFile)
+{// jsonStr を読み込み、ファイルに保存
+  
+  bool success = toJsonDoc(jsonDoc, inJsonStr);
   if (!success)
     return false;
 
@@ -212,7 +212,7 @@ bool jsonInitSave(DynamicJsonDocument &jsonDoc, const String inJson, const Strin
     Serial.println("Failed to open file for writing");
     return false;
   }
-  // JSONデータをシリアル化して書き込む
+  // JSONデータをシリアル化pritty形式で書き込む
   serializeJsonPretty(jsonDoc, fl_SPIFFS);
   // serializeJson(jsonDoc, fl_SPIFFS);
   fl_SPIFFS.close();
@@ -220,9 +220,9 @@ bool jsonInitSave(DynamicJsonDocument &jsonDoc, const String inJson, const Strin
   return true;
 }
 
-bool jsonInit(DynamicJsonDocument &jsonDoc, const String inJson)
-{
-  DeserializationError error = deserializeJson(jsonDoc, inJson.c_str());
+bool toJsonDoc(DynamicJsonDocument &jsonDoc, const String inJsonStr)
+{// JsonStrを JsonDocに変換
+  DeserializationError error = deserializeJson(jsonDoc, inJsonStr.c_str());
   if (error)
   {
     Serial.print(F("deserializeJson() failed: "));
@@ -230,9 +230,10 @@ bool jsonInit(DynamicJsonDocument &jsonDoc, const String inJson)
     return false;
   }
 
-  String json_str;
-  serializeJsonPretty(jsonDoc, json_str);
-  Serial.println(json_str);
+  String jsonStr;
+  // jsonDoc　を　txt 形式に変換
+  serializeJsonPretty(jsonDoc, jsonStr);
+  Serial.println(jsonStr);
 
   return true;
 }
@@ -249,7 +250,7 @@ bool setJsonItem(String flName, String item, String setData, DynamicJsonDocument
   JsonObject object = jsonArray[0];
   object[item] = setData;
 
-  bool success = jsonSave(jsonDoc, flName);
+  bool success = jsonDocSave(jsonDoc, flName);
   if (!success)
   {
     return false;
@@ -280,7 +281,7 @@ bool getJsonItem(String flName, String item, String &getData, DynamicJsonDocumen
 // 空きメモリをシリアル出力
 void log_free_size(const char *text)
 {
-  M5.Log.printf("%s ** free size of Memory (def-ps-dma:kB): %4d-%4d-%3d ** \n", text,
+  M5.Log.printf("%s * free size of Memory (def-ps-dma:kB): %4d-%4d-%3d *\n", text,
                 heap_caps_get_free_size(MALLOC_CAP_DEFAULT) / 1024,
                 heap_caps_get_free_size(MALLOC_CAP_SPIRAM) / 1024, 
                 heap_caps_get_free_size(MALLOC_CAP_DMA) / 1024
@@ -311,4 +312,15 @@ String getHeapFreeSize()
   sprintf(s,"Mem=%4dkB ps:%4d dma:%3d",mDEF,mPSRAM,mDMA);
 
   return String(s);
+}
+
+uint32_t EXE_TIME = 0;
+
+void showExeTime(String msg , bool resetTm)
+{
+  M5.Log.printf( "%s (%.1fsec)\n", msg.c_str(), (millis() - EXE_TIME) / 1000.0 );
+  
+  if(resetTm)
+    EXE_TIME = millis();
+
 }

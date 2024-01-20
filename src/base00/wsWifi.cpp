@@ -79,7 +79,7 @@ void wsHandleWifiSetting(String initS, String ssidS, String passwdS, String remo
     {
       jsonArray.remove(ap_no); // データ削除
 
-      if (!jsonSave(wifiJson, WIFI_SPIFFS))
+      if (!jsonDocSave(wifiJson, WIFI_SPIFFS))
       {
         Serial.println("faile to Save to SPIFFS");
         return;
@@ -109,7 +109,7 @@ void wsHandleWifiSetting(String initS, String ssidS, String passwdS, String remo
     new_ap["subnet"] = subnetS;
     new_ap["dns"] = dnsS;
 
-    if (!jsonSave(wifiJson, WIFI_SPIFFS))
+    if (!jsonDocSave(wifiJson, WIFI_SPIFFS))
     {
       Serial.println("faile to Save to SPIFFS");
       return;
@@ -174,7 +174,7 @@ void addSuccessAP()
   new_ap["subnet"] = "";
   new_ap["dns"] = "";
 
-  if (!jsonSave(wifiJson, WIFI_SPIFFS))
+  if (!jsonDocSave(wifiJson, WIFI_SPIFFS))
   {
     Serial.println("faile to Save to SPIFFS");
     return;
@@ -190,13 +190,13 @@ bool initWifiJson(DynamicJsonDocument &wifiJson)
     Serial.println("DeserializationError in initWiFiJson func");
     return false;
   }
-  jsonSave(wifiJson, WIFI_SPIFFS);
+  jsonDocSave(wifiJson, WIFI_SPIFFS);
   return true;
 }
 
 bool jsonInitSave_wifi(DynamicJsonDocument &jsonDoc)
 {
-  return (jsonInitSave(jsonDoc, wifiJsonInitStr, WIFI_SPIFFS));
+  return (jsonStrSave(jsonDoc, wifiJsonInitStr, WIFI_SPIFFS));
 }
 
 bool wifiSelect(int flType)

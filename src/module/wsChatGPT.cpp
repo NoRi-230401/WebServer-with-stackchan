@@ -437,7 +437,7 @@ void randomSpeak(bool mode)
   RANDOM_SPEAK_OFF_GET = false;
 
   sendReq(REQ_SPEAK, speakMsg);
-  EXE_TIME = millis();
+  // showExeTime("chatGPT Start",EXE_TM_MD2);
 }
 
 // bool setChatDoc(const String *data)
@@ -637,12 +637,12 @@ String chatGpt(String json_string)
 
 void exec_chatGPT(String toChatGptText)
 {
-  EXE_TIME = millis();
-
+  showExeTime("",EXE_TM_MD_START); // timer start
   log_free_size("\nchatGPT ：IN");
-  Serial.println("~~~~~~ [ talk to chatGPT ] ~~~~~");
+  Serial.println("----- [ talk to chatGPT ] -----");
   Serial.println(toChatGptText);
-
+  Serial.println("--------------------------------");
+  
   // ----   chatGPTに送るデータを作成　-----------------------------
   setChatDoc(CHATDOC_INIT_BUF);    // CHATDOC_INIT_BUF のデータをセットする。
   chatHistory.push_back(toChatGptText);
@@ -682,8 +682,7 @@ void exec_chatGPT(String toChatGptText)
     chatResponse = "busy";
   }
   
-  showExeTime("ChatGPT ：get chatResponse then move to VOICEVOX", false);
-  // M5.Log.printf("ChatGPT ：time = (%.1fsec)\n", (millis() - EXE_TIME ) / 1000.0);
+  showExeTime("ChatGPT ：get chatResponse then move to VOICEVOX");
   log_free_size("chatGPT ：OUT");
 }
 

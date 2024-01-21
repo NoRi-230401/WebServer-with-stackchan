@@ -19,6 +19,7 @@
 #define SV_MD_POINT 7
 #define SV_MD_DELTA 8
 #define SV_MD_NONE 99
+
 // -- Request ---------
 #define REQ_MSG_CLS 0
 #define REQ_SPEAK_ADJUST 1
@@ -43,8 +44,6 @@ extern void REBOOT();
 extern void POWER_OFF();
 extern bool isTalking();
 extern String SPEECH_TEXT;
-
-// extern String SPEECH_TEXT_BUFFER;
 
 // ---------------------------------------------------------------------
 void sendReq(int reqNo,String msg);

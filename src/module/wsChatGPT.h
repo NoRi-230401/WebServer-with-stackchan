@@ -62,18 +62,17 @@ extern void REBOOT();
 extern const String random_words[];
 extern const String chatStrIData;
 extern const char *SETTING_NVS; // setting --NVS の設定用ファイル
-// extern void ttsDo( const String& text );
 extern String webpage;
 extern int TTS_PARMS_NO;
 extern void sysInfoDispEnd();
-// extern void ReqSpkBaloon_adjust(String spkMsg);
-// extern void ReqSpkOnly(String spkMsg);
 extern bool isTalking();
 extern void sendReq(int reqNo,String msg);
 extern void log_free_size(const char *text);
-// extern void SpeechText1st();
-extern uint32_t EXE_TIME;
-extern void showExeTime(String msg , bool resetTm );
+#define EXE_TM_MD0 0 // (default) disp and timer reset
+#define EXE_TM_MD1 1 // disp and timer no reset
+#define EXE_TM_MD2 2 // no disp and timer reset
+#define EXE_TM_MD_START 3 // no disp and timer reset for START 
+extern void showExeTime(String msg, int mode = EXE_TM_MD0);
 // -----------------------------------------------------------------------------
 void chatGptManage();
 void wsHandleRandomSpeak(String modeS);
@@ -86,7 +85,6 @@ void wsHandleRoleGet();
 bool chatDocInit();
 void randomSpeakStop2();
 void randomSpeak(bool mode);
-// bool setChatDoc(const char *data);
 bool setChatDoc(const String& data);
 
 String https_post_json(const char *url, const char *json_string, const char *root_ca);

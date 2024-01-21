@@ -43,7 +43,6 @@ extern String getDateTime();
 extern String SERVER_NAME;
 extern uint8_t VOLUME_VALUE;
 extern uint8_t TTS_vSpkNo;
-// extern String TTS_SPEAKER_NO;
 extern int CHARA_NO;
 extern String getHeapFreeSize();
 // -----------------------------------
@@ -53,7 +52,6 @@ void statusLinePrev();
 void statusLineOnOff();
 void StatusLineManage();
 void statusLineCheckManage();
-// void statusLineOneManage();
 void setStatusLineMode(int mode);
 void set_avatar_color();
 void servo(void *args);

@@ -200,8 +200,8 @@ bool jsonDocSave(DynamicJsonDocument &jsonDoc, const String filePath)
 }
 
 bool jsonStrSave(DynamicJsonDocument &jsonDoc, const String inJsonStr, const String saveFile)
-{// jsonStr を読み込み、ファイルに保存
-  
+{ // jsonStr を読み込み、ファイルに保存
+
   bool success = toJsonDoc(jsonDoc, inJsonStr);
   if (!success)
     return false;
@@ -221,7 +221,7 @@ bool jsonStrSave(DynamicJsonDocument &jsonDoc, const String inJsonStr, const Str
 }
 
 bool toJsonDoc(DynamicJsonDocument &jsonDoc, const String inJsonStr)
-{// JsonStrを JsonDocに変換
+{ // JsonStrを JsonDocに変換
   DeserializationError error = deserializeJson(jsonDoc, inJsonStr.c_str());
   if (error)
   {
@@ -283,19 +283,17 @@ void log_free_size(const char *text)
 {
   M5.Log.printf("%s * free size of Memory (def-ps-dma:kB): %4d-%4d-%3d *\n", text,
                 heap_caps_get_free_size(MALLOC_CAP_DEFAULT) / 1024,
-                heap_caps_get_free_size(MALLOC_CAP_SPIRAM) / 1024, 
-                heap_caps_get_free_size(MALLOC_CAP_DMA) / 1024
-                );
+                heap_caps_get_free_size(MALLOC_CAP_SPIRAM) / 1024,
+                heap_caps_get_free_size(MALLOC_CAP_DMA) / 1024);
 
   // M5.Log.printf("%s メモリ残/最大ブロック残（DEFAULT->SPIRAM->DMA）：%4dKB/%4dKB %4dKB/%4dKB %3dKB/%3dKB\n", text,
-                // heap_caps_get_free_size(MALLOC_CAP_DEFAULT) / 1024, heap_caps_get_largest_free_block(MALLOC_CAP_DEFAULT) / 1024,
-                // heap_caps_get_free_size(MALLOC_CAP_SPIRAM) / 1024, heap_caps_get_largest_free_block(MALLOC_CAP_SPIRAM) / 1024,
-                // heap_caps_get_free_size(MALLOC_CAP_DMA) / 1024, heap_caps_get_largest_free_block(MALLOC_CAP_DMA) / 1024         );
+  // heap_caps_get_free_size(MALLOC_CAP_DEFAULT) / 1024, heap_caps_get_largest_free_block(MALLOC_CAP_DEFAULT) / 1024,
+  // heap_caps_get_free_size(MALLOC_CAP_SPIRAM) / 1024, heap_caps_get_largest_free_block(MALLOC_CAP_SPIRAM) / 1024,
+  // heap_caps_get_free_size(MALLOC_CAP_DMA) / 1024, heap_caps_get_largest_free_block(MALLOC_CAP_DMA) / 1024         );
 
-                // heap_caps_get_minimum_free_size(MALLOC_CAP_DEFAULT) / 1024, heap_caps_get_largest_free_block(MALLOC_CAP_DEFAULT) / 1024,
-                // heap_caps_get_minimum_free_size(MALLOC_CAP_DMA) / 1024, heap_caps_get_largest_free_block(MALLOC_CAP_DMA) / 1024,
-                // heap_caps_get_minimum_free_size(MALLOC_CAP_SPIRAM) / 1024, heap_caps_get_largest_free_block(MALLOC_CAP_SPIRAM) / 1024);
-                
+  // heap_caps_get_minimum_free_size(MALLOC_CAP_DEFAULT) / 1024, heap_caps_get_largest_free_block(MALLOC_CAP_DEFAULT) / 1024,
+  // heap_caps_get_minimum_free_size(MALLOC_CAP_DMA) / 1024, heap_caps_get_largest_free_block(MALLOC_CAP_DMA) / 1024,
+  // heap_caps_get_minimum_free_size(MALLOC_CAP_SPIRAM) / 1024, heap_caps_get_largest_free_block(MALLOC_CAP_SPIRAM) / 1024);
 }
 
 String getHeapFreeSize()
@@ -304,23 +302,37 @@ String getHeapFreeSize()
   // int minDEF = heap_caps_get_minimum_free_size(MALLOC_CAP_DEFAULT) / 1024;
   // int minPSRAM = heap_caps_get_minimum_free_size(MALLOC_CAP_SPIRAM) / 1024;
   // int minDMA = heap_caps_get_minimum_free_size(MALLOC_CAP_DMA) / 1024;
-  
+
   int mDEF = heap_caps_get_free_size(MALLOC_CAP_DEFAULT) / 1024;
   int mPSRAM = heap_caps_get_free_size(MALLOC_CAP_SPIRAM) / 1024;
   int mDMA = heap_caps_get_free_size(MALLOC_CAP_DMA) / 1024;
 
-  sprintf(s,"Mem=%4dkB ps:%4d dma:%3d",mDEF,mPSRAM,mDMA);
+  sprintf(s, "Mem=%4dkB ps:%4d dma:%3d", mDEF, mPSRAM, mDMA);
 
   return String(s);
 }
 
-uint32_t EXE_TIME = 0;
-
-void showExeTime(String msg , bool resetTm)
+uint32_t static exe_time = 0;
+//void showExeTime(String msg, int mode=EXE_TM_MD0)  // コンパイラが通らない
+void showExeTime(String msg, int mode)               // 関数宣言部分からデフォルト引数を削除する
 {
-  M5.Log.printf( "%s (%.1fsec)\n", msg.c_str(), (millis() - EXE_TIME) / 1000.0 );
-  
-  if(resetTm)
-    EXE_TIME = millis();
+  switch (mode)
+  {
+  case EXE_TM_MD0:
+    M5.Log.printf("%s (%.1fsec)\n", msg.c_str(), (millis() - exe_time) / 1000.0);
+    exe_time = millis();
+    break;
 
+  case EXE_TM_MD1:
+    M5.Log.printf("%s (%.1fsec)\n", msg.c_str(), (millis() - exe_time) / 1000.0);
+    break;
+
+  case EXE_TM_MD2:
+  case EXE_TM_MD_START:
+      exe_time = millis();
+    break;
+
+  default:
+    break;
+  }
 }

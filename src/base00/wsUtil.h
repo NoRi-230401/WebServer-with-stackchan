@@ -51,7 +51,11 @@ File SD_open(const String path, const char *mode);
 File fileOpen(int flType, const String path, const char *mode);
 void log_free_size(const char *text);
 String getHeapFreeSize();
-void showExeTime(String msg , bool resetTm);
+#define EXE_TM_MD0 0 // (default) disp and timer reset
+#define EXE_TM_MD1 1 // disp and timer no reset
+#define EXE_TM_MD2 2 // no disp and timer reset
+#define EXE_TM_MD_START 3 // no disp and timer reset for START 
+void showExeTime(String msg, int mode=EXE_TM_MD0);
 //------------------------------------------------------------
 
 #endif

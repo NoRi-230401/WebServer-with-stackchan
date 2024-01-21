@@ -1,8 +1,8 @@
 // ---- <main.cpp>-------------------------------------------------------
 #include "main.h"
-// const String WS_VERSION = "WebServer-with-stackchan_V305-240201";
-const String WS_VERSION = "WSS-v305-240201";
-
+const String WS_NAME = "WebServer-with-stackchan";
+const String WS_VER = "V305-240126";
+const String WS_VERSION = WS_NAME + " " + WS_VER;
 
 // ---------------------------------------------------------------------
 //  *** Extended from ***
@@ -23,22 +23,22 @@ void setup()
   startupSetting();
   apikeySetting();
   servoSetting();
-  
+
   // *** Network  ***
   wifiSetup();
   serverSetup();
   clockSetup();
   WiFiInfo();
-  
+
   // *** Servo, chatGpt ***
   servoSetup();
   chatGptSetup();
   delay(3000);
-    
- //*** Wake UP! STACKCHAN ***
+
+  //*** Wake UP! STACKCHAN ***
   avatarSTART();
   log_free_size("初期化終了：");
-  showExeTime("setup()  --- End --- " , true );
+  showExeTime("setup()  --- End --- ");
 }
 
 void loop()
@@ -49,4 +49,3 @@ void loop()
   chatGptManage();
   TimerManage();
 }
-

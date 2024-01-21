@@ -7,9 +7,10 @@ String SPEECH_TEXT = "";
 
 void ttsDo(const String &speechText)
 {
-  Serial.println("~~~~~~~ [ speak to you ] ~~~~~~~");
+  Serial.println("------- [ speak to you ] -------");
   Serial.println(speechText);
-
+  Serial.println("--------------------------------");
+  
   String return_string = execute_voicevox(speechText, TTS_vSpkNo);
   execute_talk(return_string);
 }

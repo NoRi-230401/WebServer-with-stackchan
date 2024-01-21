@@ -14,7 +14,11 @@
 extern m5avatar::Avatar avatar;
 extern String VOICEVOX_API_KEY;
 extern void log_free_size(const char *text);
-extern void showExeTime(String msg , bool resetTm );
+#define EXE_TM_MD0 0      // (default) disp and timer reset
+#define EXE_TM_MD1 1      // disp and timer no reset
+#define EXE_TM_MD2 2      // no disp and timer reset
+#define EXE_TM_MD_START 3 // no disp and timer reset for START 
+extern void showExeTime(String msg, int mode = EXE_TM_MD0);
 
 class VoiceVox {
 public:
@@ -28,14 +32,11 @@ public:
     AudioOutputM5Speaker *out;
     bool is_talking = false;
     String talk_type;
-    uint32_t getStartTime();
-    void setStartTime();
     uint8_t getSpkNo();
     void setSpkNo(uint8_t spk_no);
 
 private:
     const String url = "https://api.tts.quest/v3/voicevox/synthesis";
-    uint32_t voicevox_start_time = 0;
     uint8_t spkNo = 3;
 };
 

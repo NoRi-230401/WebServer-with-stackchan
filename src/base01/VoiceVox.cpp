@@ -1,7 +1,5 @@
 #include "VoiceVox.h"
 
-#define HTTPS_TIMEOUT   60000U      // HTTPタイムアウト時間
-
 TaskHandle_t voicevox_task_handle;
 
 void voicevox_task_loop(void *args)
@@ -35,8 +33,7 @@ void voicevox_task_loop(void *args)
                 }
                 avatar.setMouthOpenRatio(0);
                 avatar.setSpeechText("");
-                M5.Log.printf("VOICEVOX：end of speaking (%.1fsec)\n", (millis() - ptr->getStartTime()) / 1000.0);
-                // showExeTime("VOICEVOX：elapsed time", true);
+                showExeTime("VOICEVOX：end of speaking");
                 log_free_size("VOICEVOX：OUT");
             }
         }
@@ -57,11 +54,8 @@ VoiceVox::~VoiceVox()
 
 String VoiceVox::synthesis(const String &speechText)
 {
-    setStartTime();
-    // M5.Log.println("VOICEVOX：START");
-
+    showExeTime("",EXE_TM_MD_START);
     HTTPClient https;
-    // https.setTimeout(HTTPS_TIMEOUT);
     https.setTimeout(UINT16_MAX);   // 最大値の約65秒にタイムアウトを設定
     if (!https.begin(url, root_ca_voicevox))
     {
@@ -96,15 +90,12 @@ String VoiceVox::synthesis(const String &speechText)
     const String mp3_url = doc["mp3StreamingUrl"].as<String>();
     doc.clear();
 
-    M5.Log.printf("VOICEVOX：mp3Url get then start speaking (%.1fsec)\n", (millis() - getStartTime()) / 1000.0);
+    showExeTime("VOICEVOX：mp3Url get then start speaking");
     return mp3_url;
 }
 
 void VoiceVox::talk_https(String url)
 {
-    // M5.Log.printf("VOICEVOX：speak_start(%.1fsec)\n", (millis() - getStartTime()) / 1000.0);
-    // showExeTime("VOICEVOX：SpeakStart:elapsed time", false);
-
     if (is_talking)
     {
         M5.Log.println("SPEAK：スキップ");
@@ -131,14 +122,4 @@ uint8_t VoiceVox::getSpkNo()
 void VoiceVox::setSpkNo(uint8_t spk_no)
 {
     spkNo = spk_no;
-}
-
-uint32_t VoiceVox::getStartTime()
-{
-    return voicevox_start_time;
-}
-
-void VoiceVox::setStartTime()
-{
-    voicevox_start_time = millis();
 }

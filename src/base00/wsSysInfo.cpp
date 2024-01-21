@@ -67,24 +67,6 @@ void wsHandleSysInfo(String txS, String dispS, String modeS)
   return;
 }
 
-
-// void report_batt_level()
-// {
-//   // String buff="";
-//   // int level = M5.Power.getBatteryLevel();
-  
-//   // if (M5.Power.isCharging())
-//   //     buff = "充電中、バッテリーのレベルは" + String(level,DEC) + "％です。";
-//   // else
-//   //     buff = "バッテリーのレベルは" + String(level,DEC) + "％です。";
-
-//   // avatar.setExpression(Expression::Happy);
-//   // ttsDo(buff);
-  
-//   // avatar.setExpression(Expression::Neutral);
-//   // Serial.println("mp3 begin");
-// }
-
 bool sysInfoGet(String txArg, String &txData)
 {
   String msg = "";
@@ -115,7 +97,6 @@ bool sysInfoGet(String txArg, String &txData)
   }
   else if (txArg == "vSpeakerNo" || txArg =="vSpkNo")
   {
-    // sprintf(msg2, "vSpkNo = %s", TTS_SPEAKER_NO);
     sprintf(msg2, "vSpkNo = %d", TTS_vSpkNo);
     txData = msg2;
   }
@@ -248,8 +229,6 @@ void sysInfoDispStart(uint8_t mode_no)
 {
   if (!SYSINFO_DISP_STATE)
   {
-    // muteOn();
-    // avatar.stop();
     avatar.suspend();
     Serial.println("avatar suspended");
 

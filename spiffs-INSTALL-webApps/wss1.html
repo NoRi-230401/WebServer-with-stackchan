@@ -141,7 +141,7 @@
   「独り言」 ：　<a href="http://stackchan/randomSpeak?mode=on">開始</a>
   　　<a href="http://stackchan/randomSpeak?mode=off">停止</a>
   <br><br>
-  <form action="http://stackchan/setting?" method="get">vSpkNo:VOICEVOX話者番号(0-66)　<input type="text" name="vSpeakerNo"
+  <form action="http://stackchan/setting?" method="get">vSpkNo:VOICEVOX話者番号(0-66)　<input type="text" name="vSpkNo"
       value="3" size="2" maxlength="2" />　 <input type="submit" value="送信" />
   </form>
   <br>
@@ -196,7 +196,7 @@
     <p>
       <b>セリフ（発声）</b>： テキスト入力<br>
       <textarea rows="6" cols="40" name="say" wrap="soft"></textarea><br>
-      vSpeakerNo:話者番号:( 0-66 ) 　<input type="text" name="voice" value="" size="2" maxlength="2" /><br>
+      vSpkNo:話者番号:( 0-66 ) 　<input type="text" name="voice" value="" size="2" maxlength="2" /><br>
       表情(0-5)：<input type="text" name="expression" value="0" size="1" maxlength="1" />　上の「表情」番号を入力<br>
       <input type="submit" value="送信" />
     </p>
@@ -218,7 +218,7 @@
   <div>
     <form action="http://stackchan/chat" method="get">
       <textarea rows="6" cols="40" name="text" wrap="soft"> </textarea><br>
-      vSpeakerNo:話者番号(0-66)　　<input type="text" name="voice" value="1" size="2" maxlength="2" />
+      vSpkNo:話者番号(0-66)　　<input type="text" name="voice" value="1" size="2" maxlength="2" />
       <br>
       <input type="submit" value="送信" />
     </form>
@@ -252,11 +252,15 @@
 
 <b>キャラ番号</b>(characterNo. 0-8)ごとに、次の３項目をセットで保存します。<br>
 ・<b>名前</b>(name)：変更時に自分の名前を発声します。簡単な自己紹介。<br>
-・<b>話者番号</b>(vSpeakerNo)： VOICEVOXの話者の番号 0-66<br>
+・<b>話者番号</b>(vSpkNo)： VOICEVOXの話者の番号 0-66<br>
 ・<b>ロール</b>(role)：chatGPTに設定するroleデータ<br>
 <br>
-「Chat Remote Controller」リモコンを使用し、保存した０～８番のキャラクター（性格）をワンタッチで変更することができます。<br><br>
-
+下記および「Chat Remote Controller」リモコンを使用し、保存している０～８番のキャラクター（性格）を変更することができます。<br><br>
+<form action="http://stackchan/chatGpt" method="get">
+  キャラ番号( 0 - 8 )：<input type="text" name="chara" value="0" size="1" maxlength="1" />　<input type="submit"
+    value="送信" />
+</form>
+<br><br>
 <h3>キャラ修正方法１（推奨）</h3>
 spiffs領域の"wsCharacter.json"ファイルにデータが保存されています。<br><br>
 <a href="http://stackchan/" target="Home">（Home）に移動し、</a>　ＰＣに"wsCharacter.json"ファイルを　Download　します。<br>
@@ -272,7 +276,7 @@ spiffs領域の"wsCharacter.json"ファイルにデータが保存されてい�
   <form action="http://stackchan/chatChara" method="get">
     キャラ番号：characterNo.(0-8半角数字)　<input type="text" name="no" value="" size="1" maxlength="1" /><br><br>
     名前：name(全角20文字以内)　<input type="text" name="name" value="" size="20" maxlength="40"><br><br>
-    話者番号：vSpeakerNo(0-66半角数字)　<input type="text" name="voice" value="" size="2" maxlength="2" /><br><br>
+    話者番号：vSpkNo(0-66半角数字)　<input type="text" name="voice" value="" size="2" maxlength="2" /><br><br>
     
     <label for="textarea">ロール：role</label><br>
     <textarea id="role" name="role" rows="10" cols="40"></textarea><br><br>
@@ -345,13 +349,16 @@ spiffs領域の"wsCharacter.json"ファイルにデータが保存されてい�
   　　<a href="http://stackchan/startup?led=off">off</a>
   　　<a href="http://stackchan/startup?led=***">状態維持</a>
   <br><br>
-  toneMode(0-3):<br>
+  toneMode( -1 to 5):<br>
   　<a href="http://stackchan/startup?toneMode=0">0:無音</a>
   　　<a href="http://stackchan/startup?toneMode=1">1:ボタン押下</a>
-  　　<a href="http://stackchan/startup?toneMode=2">2:コマンド受信</a><br>
-  　<a href="http://stackchan/startup?toneMode=3">3:両方</a>
+  　　<a href="http://stackchan/startup?toneMode=2">2:コマンド受信</a>
+  　　<a href="http://stackchan/startup?toneMode=3">3:両方</a><br>
+  　<a href="http://stackchan/startup?toneMode=4">4:LED only</a>
+  　　<a href="http://stackchan/startup?toneMode=5">5:LED & tone</a>
   　　<a href="http://stackchan/startup?toneMode=-1">-1:状態維持</a>
   <br><br>
+
   mute：　<a href="http://stackchan/startup?mute=on">on</a>
   　　<a href="http://stackchan/startup?mute=off">off</a>
   <br><br>
@@ -359,8 +366,8 @@ spiffs領域の"wsCharacter.json"ファイルにデータが保存されてい�
   　　<a href="http://stackchan/startup?keyLock=off">off</a>
   <br><br>
   <form action="http://stackchan/startup" method="get">
-    vSpeakerNo : 話者番号( -1 to 66) -1は状態維持<br>
-    　<input type="text" name="vSpeakerNo" value="-1" size="2" maxlength="2" />　　<input type="submit" value="送信" />
+    vSpkNo : 話者番号( -1 to 66) -1は状態維持<br>
+    　<input type="text" name="vSpkNo" value="-1" size="2" maxlength="2" />　　<input type="submit" value="送信" />
   </form>
   <br>
   randomSpeak：　<a href="http://stackchan/startup?randomSpeak=on">on</a>

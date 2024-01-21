@@ -288,7 +288,7 @@ String HTML_Footer()
   page += "<br>";
   page += "<footer>";
   page += "<p class='medium'>" + SERVER_NAME + " is a super-kawaii robot.</p>";
-  page += "<p class='ps'><i> " + WS_VERSION + "</i></p>";
+  page += "<p class='ps'><i> " + WSS_VERSION + "</i></p>";
   page += "</footer>";
   page += "<br>";
   page += "</body>";

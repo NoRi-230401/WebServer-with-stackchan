@@ -1,8 +1,8 @@
 // ---- <main.cpp>-------------------------------------------------------
 #include "main.h"
-const String WS_NAME = "WebServer-with-stackchan";
-const String WS_VER = "V305-240126";
-const String WS_VERSION = WS_NAME + " " + WS_VER;
+const String WSS_NAME = "WebServer-with-stackchan";
+const String WSS_VER = "V305g-240122";
+const String WSS_VERSION = WSS_NAME + " " + WSS_VER;
 
 // ---------------------------------------------------------------------
 //  *** Extended from ***

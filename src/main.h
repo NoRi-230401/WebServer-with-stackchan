@@ -3,7 +3,7 @@
 #define WS_MAIN_H
 // -------------------------------------------------------
 #include <Arduino.h>
-extern const String WS_VERSION;
+extern const String WSS_VERSION;
 extern void M5StackConfig();
 extern void M5SpeakerConfig();
 extern void startupSetting();

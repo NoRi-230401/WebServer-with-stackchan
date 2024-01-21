@@ -1,5 +1,5 @@
-// ----------------------------<wsButton.cpp>------------------------------------
-#include "wsButton.h"
+// ----------------------------<wsBtnMng.cpp>------------------------------------
+#include "wsBtnMng.h"
 
 bool KEYLOCK_STATE = false;
 int BTN_REQ = 0;

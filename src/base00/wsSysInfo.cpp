@@ -74,7 +74,7 @@ bool sysInfoGet(String txArg, String &txData)
 
   if (txArg == "version")
   {
-    txData = WS_VERSION;
+    txData = WSS_VERSION;
   }
   else if (txArg == "IP_Addr")
   {
@@ -342,7 +342,7 @@ void sysInfo_m00_DispMake()
 
   // SYSINFO_MSG = "*** System Information ***\n";
   SYSINFO_MSG = "";
-  SYSINFO_MSG += WS_VERSION;
+  SYSINFO_MSG += WSS_VERSION;
   SYSINFO_MSG += "\nIP_Addr = " + IP_ADDR;
   SYSINFO_MSG += "\nSSID = " + SSID;
   SYSINFO_MSG += "\nserverName = " + SERVER_NAME ;

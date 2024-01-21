@@ -52,7 +52,7 @@ extern int SV_HOME_Y;
 extern String SV_PORT;
 extern const String SV_MD_NAME[];
 extern int SV_MD_NAME_NO;
-extern const String WS_VERSION;
+extern const String WSS_VERSION;
 
 //------------------------------------------------------------
 void wsHandleSysInfo(String txS, String dispS, String modeS);

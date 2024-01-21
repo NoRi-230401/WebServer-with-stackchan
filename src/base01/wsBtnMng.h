@@ -1,6 +1,6 @@
-// ----------------------------<wsButton.h>------------------------------------
-#ifndef WS_BUTTON_H
-#define WS_BUTTON_H
+// ----------------------------<wsBtnMng.h>------------------------------------
+#ifndef WS_BTNMNG_H
+#define WS_BTNMNG_H
 // ---------------------------
 #include <Arduino.h>
 #include <ArduinoJson.h>

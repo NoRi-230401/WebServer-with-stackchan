@@ -1,5 +1,5 @@
-// ---------------------------< wsReq.cpp >------------------------------------
-#include "wsReq.h"
+// ---------------------------< wsReqMng.cpp >------------------------------------
+#include "wsReqMng.h"
 
 int REQUEST_GET = 0; // 0 : no request
 String REQ_MSG = "";

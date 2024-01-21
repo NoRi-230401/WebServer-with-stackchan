@@ -91,17 +91,15 @@ void setTTSvSpkNo(int spkNo)
 uint8_t getTTSvSpkNofmNVS()
 {
   uint32_t nvs_handle;
-  size_t spkNo;
+  size_t spkNo = TTS_VSPKNO_INIT;
 
   if (ESP_OK == nvs_open(SETTING_NVS, NVS_READONLY, &nvs_handle))
   {
     nvs_get_u32(nvs_handle, "vSpkNo", &spkNo);
     if (spkNo > TTS_VSPKNO_MAX)
       spkNo = TTS_VSPKNO_INIT;
-
-    TTS_vSpkNo = (uint8_t)spkNo;
   }
   nvs_close(nvs_handle);
 
-  return TTS_vSpkNo;
+  return (uint8_t)spkNo;
 }

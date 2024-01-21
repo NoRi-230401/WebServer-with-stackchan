@@ -754,37 +754,31 @@ bool startupFileRead()
 
   // --------------------------------------------------------------------------
 
-  // --- SPEAKER ---
+  // --- TTS SPEAKER ---
   String getStr1 = object["vSpkNo"];
   if ((getStr1 != "") && (getStr1 != "***") && (getStr1 != "-1") && (getStr1 != "null"))
   {
-    // TTS_SPEAKER_NO = getStr1;
     TTS_vSpkNo = (uint8_t)getStr1.toInt();
-
-    // Serial.println("Startup : vSpkNo = " + TTS_SPEAKER_NO);
     Serial.println("Startup : vSpkNo = " + String(TTS_vSpkNo,DEC) );
     cnt++;
   }
   else
   {
-    uint32_t nvs_handle;
-    if (ESP_OK == nvs_open("setting", NVS_READONLY, &nvs_handle))
-    {
-      size_t speaker_no;
-      nvs_get_u32(nvs_handle, "vSpkNo", &speaker_no);
-      if (speaker_no > 66)
-        speaker_no = 3;
-      // TTS_SPEAKER_NO = String(speaker_no);
-      TTS_vSpkNo = (uint8_t)speaker_no;
-      nvs_close(nvs_handle);
-    }
-    // Serial.println("Startup : NVS vSpkNo = " + TTS_SPEAKER_NO);
+    // uint32_t nvs_handle;
+    // if (ESP_OK == nvs_open("setting", NVS_READONLY, &nvs_handle))
+    // {
+    //   size_t speaker_no;
+    //   nvs_get_u32(nvs_handle, "vSpkNo", &speaker_no);
+    //   if (speaker_no > 66)
+    //     speaker_no = 3;
+
+    //   TTS_vSpkNo = (uint8_t)speaker_no;
+    //   nvs_close(nvs_handle);
+    // }
+    TTS_vSpkNo = getTTSvSpkNofmNVS();
     Serial.println("Startup : NVS vSpkNo = " + String(TTS_vSpkNo,DEC));
     cnt++;
   }
-
-  // TTS_PARMS = TTS_SPEAKER + TTS_SPEAKER_NO;
-
 
   // randomSpeak
   String getStr5 = object["randomSpeak"];

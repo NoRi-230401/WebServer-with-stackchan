@@ -19,26 +19,56 @@ void M5SpeakerConfig()
   M5.Speaker.setChannelVolume(m5spk_virtual_channel, 0);
 }
 
-uint8_t setVolumeVal(uint8_t volumeVal, int save_flag)
+// uint8_t setVolumeVal(uint8_t volumeVal, int save_flag)
+// {
+//   VOLUME_VALUE = (uint8_t)(0x00ff & volumeVal);
+//   M5.Speaker.setVolume(VOLUME_VALUE);
+//   M5.Speaker.setChannelVolume(m5spk_virtual_channel, VOLUME_VALUE);
+
+//   if (save_flag == VAL_NVS_SAVE)
+//   {
+//     uint32_t nvs_handle;
+//     if (ESP_OK == nvs_open(SETTING_NVS, NVS_READWRITE, &nvs_handle))
+//       nvs_set_u32(nvs_handle, "volume", (uint32_t)VOLUME_VALUE);
+//     nvs_close(nvs_handle);
+//   }
+//   return (VOLUME_VALUE);
+// }
+
+void setVolume(int vol)
 {
-  VOLUME_VALUE =(uint8_t)( 0x00ff & volumeVal );
+  if ((vol < 0) || (vol > 255))
+    vol = 200;
+
+  VOLUME_VALUE = (uint8_t)vol;
+  
   M5.Speaker.setVolume(VOLUME_VALUE);
   M5.Speaker.setChannelVolume(m5spk_virtual_channel, VOLUME_VALUE);
 
-  if (save_flag == VAL_NVS_SAVE)
-  {
-    uint32_t nvs_handle;
-    if (ESP_OK == nvs_open(SETTING_NVS, NVS_READWRITE, &nvs_handle))
-      nvs_set_u32(nvs_handle, "volume", (uint32_t)VOLUME_VALUE);
-    nvs_close(nvs_handle);
-  }
-  return (VOLUME_VALUE);
+  uint32_t nvs_handle;
+  if (ESP_OK == nvs_open(SETTING_NVS, NVS_READWRITE, &nvs_handle))
+    nvs_set_u32(nvs_handle, "volume", (size_t)VOLUME_VALUE);
+  nvs_close(nvs_handle);
 }
-
 
 uint8_t getVolumeVal()
 {
   return (VOLUME_VALUE);
+}
+
+uint8_t getVolumeValfmNVM()
+{
+  uint32_t nvs_handle;
+  size_t getVol = 200;
+
+  if (ESP_OK == nvs_open(SETTING_NVS, NVS_READONLY, &nvs_handle))
+    nvs_get_u32(nvs_handle, "volume", &getVol);
+  nvs_close(nvs_handle);
+
+  if (getVol > 255)
+    getVol = 200;
+
+  return (uint8_t)getVol;
 }
 
 void toneOn()

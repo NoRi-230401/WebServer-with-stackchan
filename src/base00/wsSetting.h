@@ -60,7 +60,8 @@ extern uint8_t TONE_MODE;
 extern bool MUTE_ON_STATE;
 #define VAL_NVS_NOSAVE 0
 #define VAL_NVS_SAVE 1
-extern uint8_t setVolumeVal(uint8_t volumeVal, int save_flag);
+// extern uint8_t setVolumeVal(uint8_t volumeVal, int save_flag);
+extern void setVolume(int vol);
 extern void muteOn();
 extern void muteOff();
 #define TTS_VSPKNO_MAX 66
@@ -69,6 +70,7 @@ extern void setTTSvSpkNo(int spkNo);
 extern uint8_t getTTSvSpkNofmNVS();
 //-------------------------------------------------------------------------
 void startupSetting();
+void startupSetting00();
 void apikeySetting();
 void wsHandleSetting(String volumeS, String volumeDS, String speakerS,
     String ledS, String muteS, String keyLockS, String toneModeS);

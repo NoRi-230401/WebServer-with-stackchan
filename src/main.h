@@ -7,6 +7,7 @@ extern const String WS_VERSION;
 extern void M5StackConfig();
 extern void M5SpeakerConfig();
 extern void startupSetting();
+extern void startupSetting00();
 extern void apikeySetting();
 extern void servoSetting();
 extern void wifiSetup();

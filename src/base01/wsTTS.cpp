@@ -30,20 +30,20 @@ void wsHandleSpeech(String sayS, String expressionS, String voiceS)
       expr = 0;
     if (expr > 5)
       expr = 5;
-    webpage += "speech : expression = " + String(expr, DEC);
+    webpage += "speech : expression = " + String(expr, DEC) + "<br>";
   }
 
   if (voiceS != "")
   {
     // TTS_PARMS = TTS_SPEAKER + voiceS;
     TTS_vSpkNo = (uint8_t)voiceS.toInt();
-    webpage += "speech : voice = " + voiceS;
+    webpage += "speech : voice = " + voiceS + "<br>";
   }
 
   sendReq(REQ_SPEAK, sayS);
   REQ_SPK_EXPR = expr; // Avatar の顔の表情
 
-  webpage += "\nspeech : say = " + sayS;
+  webpage += "speech : say = " + sayS;
 }
 
 bool isTalking()

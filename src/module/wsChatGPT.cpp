@@ -110,13 +110,13 @@ void wsHandelChat(String textS, String voiceS)
 
   if (voiceS != "")
     TTS_vSpkNo = (uint8_t)voiceS.toInt();
-  // TTS_PARMS = TTS_SPEAKER + voiceS;
 
   REQ_chatGPT_GET = true;
   REQ_MSG = textS;
 
-  webpage = "chat : voice = " + voiceS;
-  webpage += "chat : text = " + textS;
+  webpage  = "chat : text  = " + textS + "<br>";
+  webpage += "chat : voice = " + String(TTS_vSpkNo,DEC);
+
 }
 
 void wsHandelChatCharacter(String ch_NoS, String ch_nameS, String ch_voiceS, String ch_roleS)

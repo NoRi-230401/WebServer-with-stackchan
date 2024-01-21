@@ -218,7 +218,7 @@
   <div>
     <form action="http://stackchan/chat" method="get">
       <textarea rows="6" cols="40" name="text" wrap="soft"> </textarea><br>
-      vSpkNo:話者番号(0-66)　　<input type="text" name="voice" value="1" size="2" maxlength="2" />
+      vSpkNo:話者番号(0-66)　　<input type="text" name="voice" value="" size="2" maxlength="2" />
       <br>
       <input type="submit" value="送信" />
     </form>
@@ -374,7 +374,7 @@ spiffs領域の"wsCharacter.json"ファイルにデータが保存されてい�
   　　<a href="http://stackchan/startup?randomSpeak=off">off</a>
   <br><br>
   <form action="http://stackchan/startup" method="get">
-    timer(30-3599Sec, -1)：<input type="text" name="timer" value="180" size="3" maxlength="3" />　　　　　<input type="submit"
+    timer(30-3599Sec, -1)：<input type="text" name="timer" value="-1" size="3" maxlength="3" />　　　　　<input type="submit"
       value="送信" /><br>
     　30秒～60分未満　-1:状態維持
   </form>

@@ -38,7 +38,7 @@ void setup()
  //*** Wake UP! STACKCHAN ***
   avatarSTART();
   log_free_size("初期化終了：");
-  showExeTime("setup()-- End -- " , true );
+  showExeTime("setup()  --- End --- " , true );
 }
 
 void loop()

@@ -682,7 +682,7 @@ void exec_chatGPT(String toChatGptText)
     chatResponse = "busy";
   }
   
-  showExeTime("ChatGPT ：elapsed time", false);
+  showExeTime("ChatGPT ：get chatResponse then move to VOICEVOX", false);
   // M5.Log.printf("ChatGPT ：time = (%.1fsec)\n", (millis() - EXE_TIME ) / 1000.0);
   log_free_size("chatGPT ：OUT");
 }

@@ -35,7 +35,7 @@ void voicevox_task_loop(void *args)
                 }
                 avatar.setMouthOpenRatio(0);
                 avatar.setSpeechText("");
-                M5.Log.printf("VOICEVOX：speak_end(%.1fsec)\n", (millis() - ptr->getStartTime()) / 1000.0);
+                M5.Log.printf("VOICEVOX：end of speaking (%.1fsec)\n", (millis() - ptr->getStartTime()) / 1000.0);
                 // showExeTime("VOICEVOX：elapsed time", true);
                 log_free_size("VOICEVOX：OUT");
             }
@@ -58,7 +58,7 @@ VoiceVox::~VoiceVox()
 String VoiceVox::synthesis(const String &speechText)
 {
     setStartTime();
-    M5.Log.println("VOICEVOX：START");
+    // M5.Log.println("VOICEVOX：START");
 
     HTTPClient https;
     // https.setTimeout(HTTPS_TIMEOUT);
@@ -96,13 +96,13 @@ String VoiceVox::synthesis(const String &speechText)
     const String mp3_url = doc["mp3StreamingUrl"].as<String>();
     doc.clear();
 
-    M5.Log.printf("VOICEVOX：mp3_URL_Get(%.1fsec)\n", (millis() - getStartTime()) / 1000.0);
+    M5.Log.printf("VOICEVOX：mp3Url get then start speaking (%.1fsec)\n", (millis() - getStartTime()) / 1000.0);
     return mp3_url;
 }
 
 void VoiceVox::talk_https(String url)
 {
-    M5.Log.printf("VOICEVOX：speak_start(%.1fsec)\n", (millis() - getStartTime()) / 1000.0);
+    // M5.Log.printf("VOICEVOX：speak_start(%.1fsec)\n", (millis() - getStartTime()) / 1000.0);
     // showExeTime("VOICEVOX：SpeakStart:elapsed time", false);
 
     if (is_talking)

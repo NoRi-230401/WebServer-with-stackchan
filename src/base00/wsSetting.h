@@ -63,7 +63,10 @@ extern bool MUTE_ON_STATE;
 extern uint8_t setVolumeVal(uint8_t volumeVal, int save_flag);
 extern void muteOn();
 extern void muteOff();
-
+#define TTS_VSPKNO_MAX 66
+#define TTS_VSPKNO_INIT 3
+extern void setTTSvSpkNo(uint8_t spkNo);
+extern uint8_t getTTSvSpkNofmNVS();
 //-------------------------------------------------------------------------
 void startupSetting();
 void apikeySetting();

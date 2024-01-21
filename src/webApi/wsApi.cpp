@@ -119,12 +119,12 @@ void handle_setting(AsyncWebServerRequest *request)
   webpage = "NG";
   String volumeS = request->arg("volume");
   String volumeDS = request->arg("volumeDelta");
-  String vSpeakerNoS = request->arg("vSpeakerNo");
+  String vSpkNoS = request->arg("vSpkNo");
   String ledS = request->arg("led");
   String muteS = request->arg("mute");
   String keyLockS = request->arg("keyLock");
   String toneModeS = request->arg("toneMode");
-  wsHandleSetting(volumeS, volumeDS, vSpeakerNoS, ledS, muteS, keyLockS, toneModeS);
+  wsHandleSetting(volumeS, volumeDS, vSpkNoS, ledS, muteS, keyLockS, toneModeS);
 }
 
 void handle_shutdown(AsyncWebServerRequest *request)
@@ -249,7 +249,7 @@ void handle_startupSetting(AsyncWebServerRequest *request)
   tone(2);
   webpage = "NG";
   String serverNameS = request->arg("serverName");
-  String vSpeakerNoS = request->arg("vSpeakerNo");
+  String vSpkNoS = request->arg("vSpkNo");
   String volumeS = request->arg("volume");
   String ledS = request->arg("led");
   String randomSpeakS = request->arg("randomSpeak");
@@ -259,7 +259,7 @@ void handle_startupSetting(AsyncWebServerRequest *request)
   String timerS = request->arg("timer");
   String txS = request->arg("tx");
   wsHandleStartup(serverNameS,volumeS, ledS, toneModeS,muteS,
-   keyLockS, vSpeakerNoS, randomSpeakS, timerS, txS );
+   keyLockS, vSpkNoS, randomSpeakS, timerS, txS );
 }
 
 void handle_servoSetting(AsyncWebServerRequest *request)

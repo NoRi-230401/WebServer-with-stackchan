@@ -3,6 +3,7 @@
 #define WS_TTS_H
 // --------------------------------------------------------------------------
 #include <Arduino.h>
+#include <nvs.h>
 #include <ArduinoJson.h>
 #include <Avatar.h>
 #include <AudioOutput.h>
@@ -27,6 +28,7 @@ using namespace m5avatar;
 #define REQ_BALOON 5
 #define REQ_SV_MD_ADJUST 9
 
+extern const char *SETTING_NVS;
 // -----------------------
 extern void sendReq(int reqNo,String msg);
 extern Avatar avatar;
@@ -48,6 +50,10 @@ void setSpeaker(uint8_t spkNo);
 bool isTalking();
 void execute_talk(String url);
 String execute_voicevox(const String &text, uint8_t spk_no);
+#define TTS_VSPKNO_MAX 66
+#define TTS_VSPKNO_INIT 3
+void setTTSvSpkNo(int spkNo);
+uint8_t getTTSvSpkNofmNVS();
 // --------------------------------------------------------------------------
 
 #endif

@@ -672,9 +672,12 @@ bool startupFileRead()
   if (getStr6 != "" && (getStr6 != "***") && (getStr6 != "-1") && (getStr6 != "null"))
   {
     int getVal = getStr6.toInt();
-    if (getVal < 0 || getVal > 3)
+
+    // if (getVal < 0 || getVal > 3)
+    if (getVal < 0 || getVal > TONE_MODE_MAX)
       getVal = TONE_MODE_INIT;
     TONE_MODE = getVal;
+
     Serial.println("Startup : toneMode = " + getStr6);
     cnt++;
   }
@@ -685,7 +688,8 @@ bool startupFileRead()
     {
       size_t mode;
       nvs_get_u32(nvs_handle, "toneMode", &mode);
-      if (mode < 0 || mode > 3)
+      // if (mode < 0 || mode > 3)
+      if (mode < 0 || mode > TONE_MODE_MAX)
         mode = TONE_MODE_INIT;
       TONE_MODE = mode;
       nvs_close(nvs_handle);

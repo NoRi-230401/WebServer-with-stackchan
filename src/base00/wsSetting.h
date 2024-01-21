@@ -65,7 +65,7 @@ extern void muteOn();
 extern void muteOff();
 #define TTS_VSPKNO_MAX 66
 #define TTS_VSPKNO_INIT 3
-extern void setTTSvSpkNo(uint8_t spkNo);
+extern void setTTSvSpkNo(int spkNo);
 extern uint8_t getTTSvSpkNofmNVS();
 //-------------------------------------------------------------------------
 void startupSetting();

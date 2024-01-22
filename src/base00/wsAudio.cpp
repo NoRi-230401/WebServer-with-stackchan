@@ -1,5 +1,5 @@
-// ---------------------------< wsSpeaker.cpp >------------------------------------
-#include "wsSpeaker.h"
+// ---------------------------< wsAudio.cpp >------------------------------------
+#include "wsAudio.h"
 
 uint8_t m5spk_virtual_channel = 0;
 uint8_t VOLUME_VALUE;
@@ -18,22 +18,6 @@ void M5SpeakerConfig()
   M5.Speaker.setVolume(0);
   M5.Speaker.setChannelVolume(m5spk_virtual_channel, 0);
 }
-
-// uint8_t setVolumeVal(uint8_t volumeVal, int save_flag)
-// {
-//   VOLUME_VALUE = (uint8_t)(0x00ff & volumeVal);
-//   M5.Speaker.setVolume(VOLUME_VALUE);
-//   M5.Speaker.setChannelVolume(m5spk_virtual_channel, VOLUME_VALUE);
-
-//   if (save_flag == VAL_NVS_SAVE)
-//   {
-//     uint32_t nvs_handle;
-//     if (ESP_OK == nvs_open(SETTING_NVS, NVS_READWRITE, &nvs_handle))
-//       nvs_set_u32(nvs_handle, "volume", (uint32_t)VOLUME_VALUE);
-//     nvs_close(nvs_handle);
-//   }
-//   return (VOLUME_VALUE);
-// }
 
 void setVolume(int vol)
 {

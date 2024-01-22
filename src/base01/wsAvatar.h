@@ -45,18 +45,28 @@ extern uint8_t VOLUME_VALUE;
 extern uint8_t TTS_vSpkNo;
 extern int CHARA_NO;
 extern String getHeapFreeSize();
+
+#define STATUS_MD_ICON 0
+#define STATUS_MD_NUM 1
+#define STATUS_MD_CLOCK 2
+#define STATUS_MD_RSSI 3
+#define STATUS_MD_VOL 4
+#define STATUS_MD_MEM 5
+#define STATUS_MD_IP 6
+#define STATUS_MD_MAX 7
+extern  bool statusLineOnOffState;
+extern int StatusLineMode;
+
 // -----------------------------------
 void wsHandleFace(String expression);
 void statusLineNext();
 void statusLinePrev();
 void statusLineOnOff();
 void StatusLineManage();
-void statusLineCheckManage();
 void setStatusLineMode(int mode);
 void set_avatar_color();
 void servo(void *args);
 bool setFace(int expr);
-void lipSync(void *args);
 void avatarSTART();
 // -----------------------------------
 #endif

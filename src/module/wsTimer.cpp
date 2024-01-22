@@ -140,8 +140,8 @@ void timerStart()
 
   led_clear();
   led_show();
-  led_setColor2(2, led_ColorLED3(0, 0, 255));
-  led_setColor2(7, led_ColorLED3(0, 0, 255));
+  setLedColor2(2, getLedColorNoRGB(0, 0, 255));
+  setLedColor2(7, getLedColorNoRGB(0, 0, 255));
 
   int timer_min = TIMER_SEC_VALUE / 60;
   int timer_sec = TIMER_SEC_VALUE % 60;
@@ -182,8 +182,8 @@ void timerStop()
   led_clear();
   led_show();
 
-  led_setColor2(2, led_ColorLED3(255, 0, 0));
-  led_setColor2(7, led_ColorLED3(255, 0, 0));
+  setLedColor2(2, getLedColorNoRGB(255, 0, 0));
+  setLedColor2(7, getLedColorNoRGB(255, 0, 0));
 
   char EX_TmrSTOP_TXT[] = "タイマーを停止します。";
   // ttsDo(String(EX_TmrSTOP_TXT));
@@ -219,8 +219,8 @@ void timerStarted()
   }
 
   led_clear();                         // すべてのLEDを消す
-  led_setColor4(ledIndex1, 0, 0, 255); // 現在のLEDを青色で点灯
-  led_setColor4(ledIndex2, 0, 0, 255); // 現在のLEDを青色で点灯
+  setLedColor4(ledIndex1, 0, 0, 255); // 現在のLEDを青色で点灯
+  setLedColor4(ledIndex2, 0, 0, 255); // 現在のLEDを青色で点灯
   led_show();                          // LEDの状態を更新
 
   // 10秒->20秒間隔で読み上げ
@@ -258,8 +258,8 @@ void timerEnd()
   // 全てのLEDを消す処理を追加
   led_clear();
   led_show();
-  led_setColor2(2, led_ColorLED3(0, 255, 0));
-  led_setColor2(7, led_ColorLED3(0, 255, 0));
+  setLedColor2(2, getLedColorNoRGB(0, 255, 0));
+  setLedColor2(7, getLedColorNoRGB(0, 255, 0));
   led_show();
 
   avatar.setExpression(Expression::Happy);

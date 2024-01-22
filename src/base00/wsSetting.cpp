@@ -403,7 +403,8 @@ void M5StackConfig()
 
   M5.Display.setBrightness(config_brightness);
   M5.Lcd.setTextSize(2);
-  led_allOff();
+  // led_allOff();
+  ledSetup();
   BoxTouchSetup();
 
   // --- SPIFFS begin ----

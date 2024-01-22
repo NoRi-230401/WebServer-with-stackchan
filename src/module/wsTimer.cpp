@@ -161,9 +161,7 @@ void timerStart()
   char EX_TmrSTART_TXT[] = "の、タイマーを開始します。";
   sprintf(timer_msg_str, "%s%s%s", timer_min_str, timer_sec_str, EX_TmrSTART_TXT);
   Serial.println(timer_msg_str);
-  // ttsDo(timer_msg_str, tts_parms2);
   sendReq(REQ_SPEAK,String(timer_msg_str));
-  // ttsDo(String(timer_msg_str));
 
   led_show();
 
@@ -226,7 +224,6 @@ void timerStarted()
   led_show();                          // LEDの状態を更新
 
   // 10秒->20秒間隔で読み上げ
-  // if ((TIMER_ELEAPSE_SEC % 10 == 0) && (TIMER_ELEAPSE_SEC < TIMER_SEC_VALUE))
   if ((TIMER_ELEAPSE_SEC % 20 == 0) && (TIMER_ELEAPSE_SEC < TIMER_SEC_VALUE))
   {
     char buffer[64];

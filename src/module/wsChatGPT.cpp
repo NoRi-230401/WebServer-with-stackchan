@@ -398,10 +398,6 @@ bool chatDocInit()
   }
 
   serializeJson(CHAT_DOC, CHATDOC_INIT_BUF);
-  // String json_str;
-  // serializeJsonPretty(CHAT_DOC, json_str); // 文字列をシリアルポートに出力する
-  // Serial.println(json_str);
-
   return true;
 }
 
@@ -419,8 +415,6 @@ void randomSpeak(bool mode)
   if (mode)
   {
     speakMsg = "独り言始めます。";
-    // SPEECH_TEXT_BUFFER = "";
-    // SPEECH_TEXT = "";
     RANDOM_TM_LAST = millis();
     RANDOM_TM = 1000 * (40 + random(0, 30));
     RANDOM_SPEAK_STATE = true;
@@ -428,19 +422,14 @@ void randomSpeak(bool mode)
   else
   {
     speakMsg = "独り言やめます。";
-    // SPEECH_TEXT_BUFFER = "";
-    // RANDOM_TM = -1;
     RANDOM_SPEAK_STATE = false;
   }
 
   RANDOM_SPEAK_ON_GET = false;
   RANDOM_SPEAK_OFF_GET = false;
-
   sendReq(REQ_SPEAK, speakMsg);
-  // showExeTime("chatGPT Start",EXE_TM_MD2);
 }
 
-// bool setChatDoc(const String *data)
 bool setChatDoc(const String& data)
 {
   DeserializationError error = deserializeJson(CHAT_DOC, data.c_str());
@@ -449,11 +438,6 @@ bool setChatDoc(const String& data)
     Serial.println("DeserializationError");
     return false;
   }
-
-  // String json_str;                         //= JSON.stringify(chat_doc);
-  // serializeJsonPretty(CHAT_DOC, json_str); // 文字列をシリアルポートに出力する
-  // Serial.println("## setChanDoc() ##");
-  // Serial.println(json_str);
   return true;
 }
 
@@ -482,8 +466,6 @@ String https_post_json(const char *url, const char *json_string, const char *roo
         int httpCode = https.POST((uint8_t *)json_string, strlen(json_string));
 
         WK_ERR_CODE = httpCode;
-        // Serial.print(" httpCode = ");
-        // Serial.println(httpCode, DEC);
 
         // httpCode will be negative on error
         if (httpCode > 0)
@@ -495,10 +477,6 @@ String https_post_json(const char *url, const char *json_string, const char *roo
           if (httpCode == HTTP_CODE_OK || httpCode == HTTP_CODE_MOVED_PERMANENTLY)
           {
             payload = https.getString();
-            // Serial.println("/////payload-start/////");
-            // Serial.print(payload);
-            // Serial.println("/////payload-end/////");
-
             if (payload == "")
             {
               Serial.println("CODE_OK or CODE_MOVED_PERMANENTLY and payload is void ");
@@ -542,7 +520,7 @@ String chatGpt(String json_string)
 
   avatar.setSpeechText("考え中…");
 
-  // LED 3番と7番を黄色に光らせる
+  // LED 2番と7番を白色に光らせる
   led_setColor4(2, 255, 255, 255); // 白色
   led_setColor4(7, 255, 255, 255); // 白色
   led_show();

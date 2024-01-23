@@ -39,9 +39,7 @@ extern String SSID_PASSWD;
 extern bool KEYLOCK_STATE;
 extern String VOICEVOX_API_KEY;
 extern String OPENAI_API_KEY;
-// extern void ttsDo( const String& text );
 extern String webpage;
-// extern String TTS_SPEAKER_NO;
 extern uint8_t TTS_vSpkNo;
 extern bool LED_OnOff_STATE;
 extern uint16_t TM_SEC_VAL;
@@ -57,7 +55,6 @@ extern const String WSS_VERSION;
 //------------------------------------------------------------
 void wsHandleSysInfo(String txS, String dispS, String modeS);
 bool SYSINFO_DISP_STATE;
-// void report_batt_level();
 bool sysInfoGet(String txArg, String &txData);
 void sysInfoDispStart(uint8_t mode_no);
 void sysInfoDispEnd();

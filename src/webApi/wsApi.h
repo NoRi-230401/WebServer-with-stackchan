@@ -150,14 +150,14 @@ extern void wsServoSetting(String txS,String servoS, String servoPortS,
 extern int BTN_REQ;
 using namespace m5avatar;
 extern Avatar avatar;
-extern uint16_t TM_SEC_VAL;
+// extern uint16_t TM_SEC_VAL;
 extern bool TM_STOP_GET;
 extern bool TM_GO_GET;
 extern bool TM_STARTED;
 extern void randomSpeakStop2();
 extern void timerStart();
 // extern String CHATDOC_INIT_BUF;
-extern bool setChatDoc(const char *data);
+// extern bool setChatDoc(const char *data);
 // extern bool save_json();
 extern void chatHistoryCls();
 extern void wsHandleWifiSetting(String initS, String ssidS, String passwdS,String removeS,

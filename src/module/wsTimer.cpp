@@ -98,7 +98,6 @@ void TimerManage()
     { // 指定時間が経過したら終了
       timerEnd();
     }
-    // else if (TM_STOP_GET && (SPEECH_TEXT_BUFFER == "") && (SPEECH_TEXT == ""))
     else if (TM_STOP_GET && !isTalking())
     { // ---Timer停止---
       timerStop();
@@ -111,7 +110,6 @@ void TimerManage()
   }
   else
   {
-    // if (TM_GO_GET && (SPEECH_TEXT_BUFFER == "") && (SPEECH_TEXT == ""))
     if (TM_GO_GET && !isTalking())
           timerStart();
   }
@@ -138,10 +136,10 @@ void timerStart()
   // Timer Start Go ----
   TM_START_MILLIS = millis();
 
-  ledClear();
-  ledShow();
-  ledSetColor2(2, ledGetColorNo(0, 0, 255));
-  ledSetColor2(7, ledGetColorNo(0, 0, 255));
+  // ledClear();
+  // ledShow();
+  // ledSetColor2(2, ledGetColorNo(0, 0, 255));
+  // ledSetColor2(7, ledGetColorNo(0, 0, 255));
 
   int timer_min = TM_SEC_VAL / 60;
   int timer_sec = TM_SEC_VAL % 60;
@@ -161,11 +159,11 @@ void timerStart()
   char EX_TmrSTART_TXT[] = "の、タイマーを開始します。";
   sprintf(timer_msg_str, "%s%s%s", timer_min_str, timer_sec_str, EX_TmrSTART_TXT);
   Serial.println(timer_msg_str);
+  avatar.setExpression(Expression::Happy);
   sendReq(REQ_SPEAK,String(timer_msg_str));
 
-  ledShow();
-
-  delay(3000); // 3秒待機
+  // ledShow();
+  // delay(3000); // 3秒待機
   TM_STARTED = true;
   TM_GO_GET = false;
   TM_STOP_GET = false;
@@ -179,23 +177,23 @@ void timerStop()
   TM_STOP_GET = false;
   TM_ELEAPSE_SEC = 0;
 
-  ledClear();
-  ledShow();
+  // ledClear();
+  // ledShow();
 
-  ledSetColor2(2, ledGetColorNo(255, 0, 0));
-  ledSetColor2(7, ledGetColorNo(255, 0, 0));
+  // ledSetColor2(2, ledGetColorNo(255, 0, 0));
+  // ledSetColor2(7, ledGetColorNo(255, 0, 0));
 
   char EX_TmrSTOP_TXT[] = "タイマーを停止します。";
-  // ttsDo(String(EX_TmrSTOP_TXT));
+  avatar.setExpression(Expression::Neutral);
   sendReq(REQ_SPEAK,String(EX_TmrSTOP_TXT));
 
-  ledShow();
-  delay(2000); // 2秒待機
+  // ledShow();
+  // delay(2000); // 2秒待機
 
-  // 全てのLEDを消灯
-  ledClear();
-  ledShow();
-  delay(500); // 0.5秒待機
+  // // 全てのLEDを消灯
+  // ledClear();
+  // ledShow();
+  // delay(500); // 0.5秒待機
 }
 
 void timerStarted()
@@ -218,10 +216,10 @@ void timerStarted()
     ledIndex2 = 5 + pos;
   }
 
-  ledClear();                         // すべてのLEDを消す
-  ledSetColor(ledIndex1, 0, 0, 255); // 現在のLEDを青色で点灯
-  ledSetColor(ledIndex2, 0, 0, 255); // 現在のLEDを青色で点灯
-  ledShow();                          // LEDの状態を更新
+  // ledClear();                         // すべてのLEDを消す
+  // ledSetColor(ledIndex1, 0, 0, 255); // 現在のLEDを青色で点灯
+  // ledSetColor(ledIndex2, 0, 0, 255); // 現在のLEDを青色で点灯
+  // ledShow();                          // LEDの状態を更新
 
   // 10秒->20秒間隔で読み上げ
   if ((TM_ELEAPSE_SEC % 20 == 0) && (TM_ELEAPSE_SEC < TM_SEC_VAL))
@@ -244,11 +242,9 @@ void timerStarted()
         sprintf(buffer, "%d分経過。", minutes);
       }
     }
-    avatar.setExpression(Expression::Happy);
-    // ttsDo(String(buffer));
+    // avatar.setExpression(Expression::Happy);
     sendReq(REQ_SPEAK,String(buffer));
-
-    avatar.setExpression(Expression::Neutral);
+    // avatar.setExpression(Expression::Neutral);
   }
 }
 
@@ -256,21 +252,19 @@ void timerEnd()
 {
   // 指定時間が経過したら終了
   // 全てのLEDを消す処理を追加
-  ledClear();
-  ledShow();
-  ledSetColor2(2, ledGetColorNo(0, 255, 0));
-  ledSetColor2(7, ledGetColorNo(0, 255, 0));
-  ledShow();
+  // ledClear();
+  // ledShow();
+  // ledSetColor2(2, ledGetColorNo(0, 255, 0));
+  // ledSetColor2(7, ledGetColorNo(0, 255, 0));
+  // ledShow();
 
-  avatar.setExpression(Expression::Happy);
-  // ttsDo(String("設定時間になりました。"));
+  // avatar.setExpression(Expression::Happy);
   sendReq(REQ_SPEAK,String("設定時間になりました。"));
-
   avatar.setExpression(Expression::Neutral);
 
   // 全てのLEDを消す処理を追加
-  ledClear();
-  ledShow(); // LEDの状態を更新
+  // ledClear();
+  // ledShow(); // LEDの状態を更新
 
   // カウントダウンをリセット
   TM_STARTED = false;

@@ -24,24 +24,19 @@
 extern void sendReq(int reqNo,String msg);
 // -----------------------
 
-
-// extern String TTS_PARMS;
-// extern const char tts_parms2[];
-// extern const char tts_parms6[];
 using namespace m5avatar;
 extern Avatar avatar;
 extern bool SYSINFO_DISP_STATE;
 extern void sysInfoDispEnd();
-extern void ledSetColor2(uint16_t n, uint32_t c);
-extern void ledSetColor(uint16_t n, uint8_t r, uint8_t g, uint8_t b);
-extern uint32_t ledGetColorNo(uint8_t r, uint8_t g, uint8_t b);
-extern void ledShow();
-extern void ledClear();
-// void ttsDo( const String& text );
+
+// extern void ledSetColor2(uint16_t n, uint32_t c);
+// extern void ledSetColor(uint16_t n, uint8_t r, uint8_t g, uint8_t b);
+// extern uint32_t ledGetColorNo(uint8_t r, uint8_t g, uint8_t b);
+// extern void ledShow();
+// extern void ledClear();
+
 extern String webpage;
 extern void randomSpeakStop2();
-// extern String SPEECH_TEXT;
-// extern String SPEECH_TEXT_BUFFER;
 extern bool isTalking();
 // ---------------------------------------------------------------------------
 void wsHandleTimer(String TmSecS, String TmMinS, String timerModeS);

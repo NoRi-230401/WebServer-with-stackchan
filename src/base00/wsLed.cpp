@@ -19,38 +19,26 @@ void ledSetup()
   pixels.show();
 }
 
-void led_allOff()
+void ledClearAll()
 { // 全てのLEDを消灯
   pixels.clear();
   pixels.show();
-
-  // 一時的にLEDを制御できるようにする。
-  // bool tmpState = LED_OnOff_STATE;
-  // LED_OnOff_STATE = true;
-
-  // for (int i = 0; i < NUM_LEDS; i++)
-  // {
-  //   setLedColor2(i, getLedColorNoRGB(0, 0, 0));
-  // }
-  // led_show();
-
-  // LED_OnOff_STATE = tmpState;
 }
 
 // ----- LED表示用ラッパー関数　-----------
-void setLedColor2(uint16_t n, uint32_t c)
+void ledSetColor2(uint16_t n, uint32_t c)
 {
   if (LED_OnOff_STATE)
     pixels.setPixelColor(n, c);
 }
 
-void setLedColor4(uint16_t n, uint8_t r, uint8_t g, uint8_t b)
+void ledSetColor(uint16_t n, uint8_t r, uint8_t g, uint8_t b)
 {
   if (LED_OnOff_STATE)
     pixels.setPixelColor(n, r, g, b);
 }
 
-uint32_t getLedColorNoRGB(uint8_t r, uint8_t g, uint8_t b)
+uint32_t ledGetColorNo(uint8_t r, uint8_t g, uint8_t b)
 {
   if (LED_OnOff_STATE)
     return (pixels.Color(r, g, b));
@@ -58,13 +46,13 @@ uint32_t getLedColorNoRGB(uint8_t r, uint8_t g, uint8_t b)
     return 0;
 }
 
-void led_show()
+void ledShow()
 {
   if (LED_OnOff_STATE)
     pixels.show();
 }
 
-void led_clear()
+void ledClear()
 {
   if (LED_OnOff_STATE)
     pixels.clear();
@@ -79,62 +67,62 @@ void ledRolling(int num)
   {
   case 0:
   case 5:
-    led_clear();
-    led_show();
+    ledClear();
+    ledShow();
     break;
 
   case 1:
     // led_clear();
-    setLedColor4(rLED[0], LED_BRIGHT, 0, 0);
-    led_show();
+    ledSetColor(rLED[0], LED_BRIGHT, 0, 0);
+    ledShow();
     break;
 
   case 2:
     // led_clear();
-    setLedColor4(rLED[0], 0, 0, 0);
-    setLedColor4(rLED[1], 0, LED_BRIGHT, 0);
-    led_show();
+    ledSetColor(rLED[0], 0, 0, 0);
+    ledSetColor(rLED[1], 0, LED_BRIGHT, 0);
+    ledShow();
     break;
 
   case 3:
     // led_clear();
-    setLedColor4(rLED[1], 0, 0, 0);
-    setLedColor4(rLED[2], 0, 0, LED_BRIGHT);
-    led_show();
+    ledSetColor(rLED[1], 0, 0, 0);
+    ledSetColor(rLED[2], 0, 0, LED_BRIGHT);
+    ledShow();
     break;
 
   case 4:
     // led_clear();
-    setLedColor4(rLED[2], 0, 0, 0);
-    setLedColor4(rLED[3], LED_BRIGHT, LED_BRIGHT, LED_BRIGHT);
-    led_show();
+    ledSetColor(rLED[2], 0, 0, 0);
+    ledSetColor(rLED[3], LED_BRIGHT, LED_BRIGHT, LED_BRIGHT);
+    ledShow();
     break;
 
   case 6:
     // led_clear();
-    setLedColor4(lLED[3], LED_BRIGHT, 0, 0);
-    led_show();
+    ledSetColor(lLED[3], LED_BRIGHT, 0, 0);
+    ledShow();
     break;
 
   case 7:
     // led_clear();
-    setLedColor4(lLED[3], 0, 0, 0);
-    setLedColor4(lLED[2], 0, LED_BRIGHT, 0);
-    led_show();
+    ledSetColor(lLED[3], 0, 0, 0);
+    ledSetColor(lLED[2], 0, LED_BRIGHT, 0);
+    ledShow();
     break;
 
   case 8:
     // led_clear();
-    setLedColor4(lLED[2], 0, 0, 0);
-    setLedColor4(lLED[1], 0, 0, LED_BRIGHT);
-    led_show();
+    ledSetColor(lLED[2], 0, 0, 0);
+    ledSetColor(lLED[1], 0, 0, LED_BRIGHT);
+    ledShow();
     break;
 
   case 9:
     // led_clear();
-    setLedColor4(lLED[1], 0, 0, 0);
-    setLedColor4(lLED[0], LED_BRIGHT, LED_BRIGHT, LED_BRIGHT);
-    led_show();
+    ledSetColor(lLED[1], 0, 0, 0);
+    ledSetColor(lLED[0], LED_BRIGHT, LED_BRIGHT, LED_BRIGHT);
+    ledShow();
     break;
   }
 
@@ -142,22 +130,22 @@ void ledRolling(int num)
 
 void blueAndRedLedOn()
 {
-  led_clear();
-  led_show();
+  ledClear();
+  ledShow();
 
-  // setLedColor2(2, getLedColorNoRGB(0, 0, 255));
-  // setLedColor2(7, getLedColorNoRGB(0, 0, 255));
+  // ledSetColor2(2, ledGetColorNo(0, 0, 255));
+  // ledSetColor2(7, ledGetColorNo(0, 0, 255));
 
   // --- right blue
-  setLedColor4(rLED[0], 0, 0, 155);
-  setLedColor4(rLED[3], 0, 0, 155);
+  ledSetColor(rLED[0], 0, 0, 155);
+  ledSetColor(rLED[3], 0, 0, 155);
 
   // --- left red
-  setLedColor4(lLED[0], 155, 0, 0);
-  setLedColor4(lLED[3], 155, 0, 0);
+  ledSetColor(lLED[0], 155, 0, 0);
+  ledSetColor(lLED[3], 155, 0, 0);
 
-  led_show();
+  ledShow();
   delay(1000);
-  led_clear();
-  led_show();
+  ledClear();
+  ledShow();
 }

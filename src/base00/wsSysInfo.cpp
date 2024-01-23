@@ -102,7 +102,7 @@ bool sysInfoGet(String txArg, String &txData)
   }
   else if (txArg == "timer")
   {
-    sprintf(msg2, "timer = %d sec", TIMER_SEC_VALUE);
+    sprintf(msg2, "timer = %d sec", TM_SEC_VAL);
     txData = msg2;
   }
   else if (txArg == "mute")
@@ -309,7 +309,7 @@ void sysInfo_m01_DispMake()
   // SYSINFO_MSG += "\nvoiceTextApiKey = " + VOICETEXT_API_KEY;
   SYSINFO_MSG += "\nvoicevoxApiKey = " + VOICEVOX_API_KEY;
   // SYSINFO_MSG += "\nsttApiKey = " + STT_API_KEY;
-  SYSINFO_MSG += "\ntimer = " + String(TIMER_SEC_VALUE,DEC) + "sec";
+  SYSINFO_MSG += "\ntimer = " + String(TM_SEC_VAL,DEC) + "sec";
 
   if (MUTE_ON_STATE)
     SYSINFO_MSG += "\nmute = on";

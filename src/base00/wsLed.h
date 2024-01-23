@@ -10,12 +10,12 @@
 
 // ---------------------------------------------------------------------
 void ledSetup();
-void led_allOff();
-void setLedColor2(uint16_t n, uint32_t c);
-void setLedColor4(uint16_t n, uint8_t r, uint8_t g, uint8_t b);
-uint32_t getLedColorNoRGB(uint8_t r, uint8_t g, uint8_t b);
-void led_show();
-void led_clear();
+void ledClearAll();
+void ledSetColor2(uint16_t n, uint32_t c);
+void ledSetColor(uint16_t n, uint8_t r, uint8_t g, uint8_t b);
+uint32_t ledGetColorNo(uint8_t r, uint8_t g, uint8_t b);
+void ledShow();
+void ledClear();
 void blueAndRedLedOn();
 void ledRolling(int num);
 // ---------------------------------------------------------------------

@@ -25,7 +25,7 @@
 #define SV_MD_NONE 9
 
 extern int SV_MD;
-extern void led_allOff();
+extern void ledClearAll();
 extern int REQUEST_GET;
 extern String REQ_MSG;
 extern String webpage;

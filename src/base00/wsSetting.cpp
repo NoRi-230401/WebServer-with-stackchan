@@ -37,7 +37,7 @@ void startupSetting00()
   TTS_vSpkNo = TTS_VSPKNO_INIT;
   RANDOM_SPEAK_ON_GET = false;
   RANDOM_SPEAK_STATE = false;
-  TIMER_SEC_VALUE = 180;
+  TM_SEC_VAL = 180;
 }
 
 
@@ -102,7 +102,7 @@ void wsHandleSetting(String volumeS, String volumeDS, String vSpkNoS,
 
     if (ledStr == "off")
     {
-      led_allOff();
+      ledClearAll();
       LED_OnOff_STATE = false;
     }
     else if (ledStr == "on")
@@ -403,7 +403,7 @@ void M5StackConfig()
 
   M5.Display.setBrightness(config_brightness);
   M5.Lcd.setTextSize(2);
-  // led_allOff();
+  // ledClearAll();
   ledSetup();
   BoxTouchSetup();
 
@@ -547,7 +547,7 @@ bool jsonSTARTUPinit(DynamicJsonDocument &jsonDoc)
 void nvsSaveAll()
 {
   size_t volume = (size_t)VOLUME_VALUE;
-  size_t timer_value = (size_t)TIMER_SEC_VALUE;
+  size_t timer_value = (size_t)TM_SEC_VAL;
   size_t tone_mode = (size_t)TONE_MODE;
   size_t spk_no = (size_t)TTS_vSpkNo;
 
@@ -804,7 +804,7 @@ bool startupFileRead()
     if (getVal >= 3599)
       getVal = 180;
 
-    TIMER_SEC_VALUE = getVal;
+    TM_SEC_VAL = getVal;
     Serial.println("Startup : timer = " + getStr9);
     cnt++;
   }
@@ -820,7 +820,7 @@ bool startupFileRead()
       if (timer >= 3599)
         timer = 180;
 
-      TIMER_SEC_VALUE = timer;
+      TM_SEC_VAL = timer;
       nvs_close(nvs_handle);
       Serial.println("Startup : NVS timer = " + String(timer, DEC));
       cnt++;

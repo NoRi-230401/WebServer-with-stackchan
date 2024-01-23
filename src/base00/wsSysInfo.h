@@ -44,7 +44,7 @@ extern String webpage;
 // extern String TTS_SPEAKER_NO;
 extern uint8_t TTS_vSpkNo;
 extern bool LED_OnOff_STATE;
-extern uint16_t TIMER_SEC_VALUE;
+extern uint16_t TM_SEC_VAL;
 extern void timerStop2(); 
 extern bool SV_USE;
 extern int SV_HOME_X;

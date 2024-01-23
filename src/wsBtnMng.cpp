@@ -275,16 +275,16 @@ void BtnC_Do()
   if (SYSINFO_DISP_STATE)
     sysInfoDispEnd();
 
-  if (!TIMER_STARTED)
+  if (!TM_STARTED)
   { // ---- Timer 開始 ------
     randomSpeakStop2();
-    TIMER_GO_GET = true;
-    TIMER_STOP_GET = false;
+    TM_GO_GET = true;
+    TM_STOP_GET = false;
   }
   else
   { // --- Timer 停止 ------
-    TIMER_STOP_GET = true;
-    TIMER_GO_GET = false;
+    TM_STOP_GET = true;
+    TM_GO_GET = false;
   }
 }
 

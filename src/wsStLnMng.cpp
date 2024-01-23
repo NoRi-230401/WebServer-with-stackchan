@@ -131,30 +131,30 @@ void StatusLineManage()
         {
         case 0:
         case 30:
-          led_clear();
-          led_show();
+          ledClear();
+          ledShow();
           break;
 
         case 10:
-          setLedColor4(rLED[0], 0, 155, 0);
-          led_show();
+          ledSetColor(rLED[0], 0, 155, 0);
+          ledShow();
           break;
 
         case 20:
-          setLedColor4(rLED[0], 0, 0, 0);
-          setLedColor4(rLED[3], 0, 155, 0);
-          led_show();
+          ledSetColor(rLED[0], 0, 0, 0);
+          ledSetColor(rLED[3], 0, 155, 0);
+          ledShow();
           break;
 
         case 40:
-          setLedColor4(lLED[3], 0, 155, 0);
-          led_show();
+          ledSetColor(lLED[3], 0, 155, 0);
+          ledShow();
           break;
 
         case 50:
-          setLedColor4(lLED[3], 0, 0, 0);
-          setLedColor4(lLED[0], 0, 155, 0);
-          led_show();
+          ledSetColor(lLED[3], 0, 0, 0);
+          ledSetColor(lLED[0], 0, 155, 0);
+          ledShow();
           break;
         }
         break;

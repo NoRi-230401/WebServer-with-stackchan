@@ -31,9 +31,9 @@ extern uint8_t TTS_vSpkNo;
 
 extern bool LED_OnOff_STATE;
 extern bool RANDOM_SPEAK_ON_GET;
-extern uint16_t TIMER_SEC_VALUE;
-extern bool TIMER_STARTED;
-extern void led_allOff();
+extern uint16_t TM_SEC_VAL;
+extern bool TM_STARTED;
+extern void ledClearAll();
 extern void timerStop2(); 
 extern void randomSpeakStop2();
 extern void timerStart();

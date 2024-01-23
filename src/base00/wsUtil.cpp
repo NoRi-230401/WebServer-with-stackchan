@@ -43,7 +43,7 @@ void errSTOP()
   Serial.println("Stop : Fatal Error Occurred!");
   SD.end();
   SPIFFS.end();
-  led_allOff();
+  ledClearAll();
   delay(5000);
 
   for (;;)
@@ -57,7 +57,7 @@ void REBOOT()
   Serial.println(" *** Reboot ***");
   SD.end();
   SPIFFS.end();
-  led_allOff();
+  ledClearAll();
   delay(5000);
   ESP.restart();
 
@@ -73,7 +73,7 @@ void POWER_OFF()
 
   SD.end();
   SPIFFS.end();
-  led_allOff();
+  ledClearAll();
   delay(5000);
   M5.Power.powerOff();
 

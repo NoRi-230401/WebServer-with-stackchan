@@ -9,9 +9,9 @@
 #include <nvs.h>
 
 #define NUM_LEDS 10             // LEDの数を指定する
-#define TIMER_INIT 180          // タイマー初期値：３分
-#define TIMER_MIN 30            // 最小タイマー設定値：３０秒
-#define TIMER_MAX (60 * 60 - 1) // 最大タイマー設定値：６０分未満 (59分59秒)
+#define TM_INIT 180          // タイマー初期値：３分
+#define TM_MIN 30            // 最小タイマー設定値：３０秒
+#define TM_MAX (60 * 60 - 1) // 最大タイマー設定値：６０分未満 (59分59秒)
 
 // -- Request ---------
 #define REQ_MSG_CLS 0
@@ -32,11 +32,11 @@ using namespace m5avatar;
 extern Avatar avatar;
 extern bool SYSINFO_DISP_STATE;
 extern void sysInfoDispEnd();
-extern void setLedColor2(uint16_t n, uint32_t c);
-extern void setLedColor4(uint16_t n, uint8_t r, uint8_t g, uint8_t b);
-extern uint32_t getLedColorNoRGB(uint8_t r, uint8_t g, uint8_t b);
-extern void led_show();
-extern void led_clear();
+extern void ledSetColor2(uint16_t n, uint32_t c);
+extern void ledSetColor(uint16_t n, uint8_t r, uint8_t g, uint8_t b);
+extern uint32_t ledGetColorNo(uint8_t r, uint8_t g, uint8_t b);
+extern void ledShow();
+extern void ledClear();
 // void ttsDo( const String& text );
 extern String webpage;
 extern void randomSpeakStop2();

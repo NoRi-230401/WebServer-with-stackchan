@@ -521,9 +521,9 @@ String chatGpt(String json_string)
   avatar.setSpeechText("考え中…");
 
   // LED 2番と7番を白色に光らせる
-  setLedColor4(2, 255, 255, 255); // 白色
-  setLedColor4(7, 255, 255, 255); // 白色
-  led_show();
+  ledSetColor(2, 255, 255, 255); // 白色
+  ledSetColor(7, 255, 255, 255); // 白色
+  ledShow();
 
   String ret = https_post_json("https://api.openai.com/v1/chat/completions", json_string.c_str(), root_ca_openai);
   avatar.setExpression(Expression::Neutral);
@@ -531,9 +531,9 @@ String chatGpt(String json_string)
   // Serial.println(ret);
 
   // 音声が再生された後にLEDを消灯
-  setLedColor4(2, 0, 0, 0); // 黒（消灯）
-  setLedColor4(7, 0, 0, 0); // 黒（消灯）
-  led_show();
+  ledSetColor(2, 0, 0, 0); // 黒（消灯）
+  ledSetColor(7, 0, 0, 0); // 黒（消灯）
+  ledShow();
 
   if (ret != "")
   {
@@ -565,9 +565,9 @@ String chatGpt(String json_string)
   else
   {
     // 音声が再生された後にLEDを消灯
-    setLedColor4(2, 0, 0, 0); // 黒（消灯）
-    setLedColor4(7, 0, 0, 0); // 黒（消灯）
-    led_show();
+    ledSetColor(2, 0, 0, 0); // 黒（消灯）
+    ledSetColor(7, 0, 0, 0); // 黒（消灯）
+    ledShow();
 
     // ---「わかりません」エラー番号とコード情報の発声 ---
     char msg1[200];
@@ -606,9 +606,9 @@ String chatGpt(String json_string)
     avatar.setExpression(Expression::Neutral);
 
     // 音声が再生された後にLEDを消灯
-    setLedColor4(2, 0, 0, 0); // 黒（消灯）
-    setLedColor4(7, 0, 0, 0); // 黒（消灯）
-    led_show();
+    ledSetColor(2, 0, 0, 0); // 黒（消灯）
+    ledSetColor(7, 0, 0, 0); // 黒（消灯）
+    ledShow();
   }
   return response;
 }

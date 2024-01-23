@@ -6,7 +6,7 @@
 #include <nvs.h>
 #include <M5Unified.h>
 
-extern void blueLedOn();
+extern void blueAndRedLedOn();
 extern const char *SETTING_NVS;
 
 //-------------------------------------------------------------------------

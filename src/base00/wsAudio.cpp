@@ -82,12 +82,12 @@ void tone(int mode)
     break;
 
   case 4: // LED only
-    blueLedOn();
+    blueAndRedLedOn();
     break;
 
   case 5: // LED and Tone
     toneOn();
-    blueLedOn();
+    blueAndRedLedOn();
     break;
 
   default:

@@ -4,13 +4,13 @@
 bool LED_OnOff_STATE = true;
 Adafruit_NeoPixel pixels(NUM_LEDS, LED_PIN, NEO_GRB + NEO_KHZ800); // 800kHzでNeoPixelを駆動 おまじない行
 
-// M5Stack Core2 AWS 
+// M5Stack Core2 AWS
 #define rLED_LEN 4
 #define lLED_LEN 4
 #define LED_LEN (rLED_LEN + lLED_LEN)
-const uint16_t rLED[rLED_LEN] ={0,1,2,3};
-const uint16_t lLED[lLED_LEN] ={8,7,6,5};
-const uint16_t LED_ROLL[LED_LEN] ={0,1,2,3,5,6,7,8 };
+extern const uint16_t rLED[rLED_LEN] = {0, 1, 2, 3};
+extern const uint16_t lLED[lLED_LEN] = {8, 7, 6, 5};
+extern const uint16_t LED_ROLL[LED_LEN] = {0, 1, 2, 3, 5, 6, 7, 8};
 
 void ledSetup()
 {
@@ -70,7 +70,77 @@ void led_clear()
     pixels.clear();
 }
 
-void blueLedOn()
+#define LED_BRIGHT 155
+void ledRolling(int num)
+{
+  int val = num % 10;
+  
+  switch (val)
+  {
+  case 0:
+  case 5:
+    led_clear();
+    led_show();
+    break;
+
+  case 1:
+    // led_clear();
+    setLedColor4(rLED[0], LED_BRIGHT, 0, 0);
+    led_show();
+    break;
+
+  case 2:
+    // led_clear();
+    setLedColor4(rLED[0], 0, 0, 0);
+    setLedColor4(rLED[1], 0, LED_BRIGHT, 0);
+    led_show();
+    break;
+
+  case 3:
+    // led_clear();
+    setLedColor4(rLED[1], 0, 0, 0);
+    setLedColor4(rLED[2], 0, 0, LED_BRIGHT);
+    led_show();
+    break;
+
+  case 4:
+    // led_clear();
+    setLedColor4(rLED[2], 0, 0, 0);
+    setLedColor4(rLED[3], LED_BRIGHT, LED_BRIGHT, LED_BRIGHT);
+    led_show();
+    break;
+
+  case 6:
+    // led_clear();
+    setLedColor4(lLED[3], LED_BRIGHT, 0, 0);
+    led_show();
+    break;
+
+  case 7:
+    // led_clear();
+    setLedColor4(lLED[3], 0, 0, 0);
+    setLedColor4(lLED[2], 0, LED_BRIGHT, 0);
+    led_show();
+    break;
+
+  case 8:
+    // led_clear();
+    setLedColor4(lLED[2], 0, 0, 0);
+    setLedColor4(lLED[1], 0, 0, LED_BRIGHT);
+    led_show();
+    break;
+
+  case 9:
+    // led_clear();
+    setLedColor4(lLED[1], 0, 0, 0);
+    setLedColor4(lLED[0], LED_BRIGHT, LED_BRIGHT, LED_BRIGHT);
+    led_show();
+    break;
+  }
+
+}
+
+void blueAndRedLedOn()
 {
   led_clear();
   led_show();
@@ -78,11 +148,11 @@ void blueLedOn()
   // setLedColor2(2, getLedColorNoRGB(0, 0, 255));
   // setLedColor2(7, getLedColorNoRGB(0, 0, 255));
 
-  // --- right blue 
+  // --- right blue
   setLedColor4(rLED[0], 0, 0, 155);
   setLedColor4(rLED[3], 0, 0, 155);
-  
-  // --- left red 
+
+  // --- left red
   setLedColor4(lLED[0], 155, 0, 0);
   setLedColor4(lLED[3], 155, 0, 0);
 
@@ -91,4 +161,3 @@ void blueLedOn()
   led_clear();
   led_show();
 }
-

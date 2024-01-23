@@ -16,6 +16,7 @@ void setLedColor4(uint16_t n, uint8_t r, uint8_t g, uint8_t b);
 uint32_t getLedColorNoRGB(uint8_t r, uint8_t g, uint8_t b);
 void led_show();
 void led_clear();
-void blueLedOn();
+void blueAndRedLedOn();
+void ledRolling(int num);
 // ---------------------------------------------------------------------
 #endif

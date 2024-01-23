@@ -18,12 +18,18 @@
 // #include "lib/AudioOutputM5Speaker.h"
 using namespace m5avatar;
 extern Avatar avatar;
-extern String getDateTime();
+extern String getDateTime(int &tmSec);
 extern String SERVER_NAME;
 extern uint8_t VOLUME_VALUE;
 extern uint8_t TTS_vSpkNo;
 extern int CHARA_NO;
 extern String getHeapFreeSize();
+extern const uint16_t rLED[];
+extern const uint16_t lLED[];
+
+extern void setLedColor4(uint16_t n, uint8_t r, uint8_t g, uint8_t b);
+extern void led_show();
+extern void led_clear();
 
 // -----------------------------------
 void statusLineNext();

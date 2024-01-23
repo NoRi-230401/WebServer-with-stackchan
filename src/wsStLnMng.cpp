@@ -11,7 +11,7 @@ bool statusLineOnOffState = true;
 #define STATUS_MD_IP 6
 #define STATUS_MD_MAX 7
 int StatusLineMode;
-#define DURATION_1013  1013UL         // 1.013秒: statusLineCheck_time
+#define DURATION_1013 1013UL // 1.013秒: statusLineCheck_time
 uint32_t statusLineCheck_time = 0;
 
 void statusLinePrev()
@@ -28,7 +28,6 @@ void statusLinePrev()
   setStatusLineMode(StatusLineMode);
 }
 
-
 void statusLineNext()
 {
   if (!statusLineOnOffState)
@@ -39,7 +38,6 @@ void statusLineNext()
 
   setStatusLineMode(StatusLineMode);
 }
-
 
 void setStatusLineMode(int mode)
 {
@@ -72,7 +70,6 @@ void setStatusLineMode(int mode)
     break;
   }
 }
-
 
 void statusLineOnOff()
 {
@@ -110,7 +107,7 @@ void statusLineOnOff()
 
 void StatusLineManage()
 {
-  if( ( millis() - statusLineCheck_time) >= DURATION_1013 )
+  if ((millis() - statusLineCheck_time) >= DURATION_1013)
   {
     String statusLineMsg = "";
     char s[40];
@@ -124,7 +121,44 @@ void StatusLineManage()
       return;
 
     case STATUS_MD_CLOCK:
-      statusLineMsg = getDateTime();
+      int tmSec;
+      statusLineMsg = getDateTime(tmSec);
+
+      if ((tmSec % 10) == 0)
+      {
+        // Serial.println("tmSec = " + String(tmSec, DEC));
+        switch (tmSec)
+        {
+        case 0:
+        case 30:
+          led_clear();
+          led_show();
+          break;
+
+        case 10:
+          setLedColor4(rLED[0], 0, 155, 0);
+          led_show();
+          break;
+
+        case 20:
+          setLedColor4(rLED[0], 0, 0, 0);
+          setLedColor4(rLED[3], 0, 155, 0);
+          led_show();
+          break;
+
+        case 40:
+          setLedColor4(lLED[3], 0, 155, 0);
+          led_show();
+          break;
+
+        case 50:
+          setLedColor4(lLED[3], 0, 0, 0);
+          setLedColor4(lLED[0], 0, 155, 0);
+          led_show();
+          break;
+        }
+        break;
+      }
       break;
 
     case STATUS_MD_RSSI:
@@ -150,4 +184,3 @@ void StatusLineManage()
     avatar.setStatusLineText(statusLineMsg);
   }
 }
-

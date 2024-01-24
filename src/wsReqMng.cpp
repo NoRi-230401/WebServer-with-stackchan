@@ -92,7 +92,7 @@ void Req_BaloonDo()
 
 void Req_SpkDo()
 {
-  avatar.setExpression(expressions_table[REQ_SPK_EXPR]);
+  avatar.setExpression(expr_table[REQ_SPK_EXPR]);
   SPEECH_TEXT = REQ_MSG;
   ttsDo(SPEECH_TEXT);
   SPEECH_TEXT = "";

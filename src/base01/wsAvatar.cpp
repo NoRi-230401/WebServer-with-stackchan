@@ -4,9 +4,9 @@
 using namespace m5avatar;
 Avatar avatar;
 
-const String EXPRESSION_STRING[] = {"Neutral", "Happy", "Sleepy", "Doubt", "Sad", "Angry", ""};
-extern const Expression expressions_table[];
-const Expression expressions_table[] = {
+const String EXPR_STR[] = {"Neutral", "Happy", "Sleepy", "Doubt", "Sad", "Angry", ""};
+extern const Expression expr_table[];
+const Expression expr_table[] = {
     Expression::Neutral,
     Expression::Happy,
     Expression::Sleepy,
@@ -18,7 +18,7 @@ const Expression expressions_table[] = {
 void avatarSTART()
 {
   avatar.init(8);
-  set_avatar_color();
+  setAvatarcolor();
   avatar.setSpeechFont(&fonts::efontJA_16);
   avatar.addTask(servo, "servo");
 
@@ -46,7 +46,7 @@ void avatarSTART()
 #define config_color3_red   248    // ほっぺの色
 #define config_color3_green 171    // ほっぺの色
 #define config_color3_blue  166    // ほっぺの色
-void set_avatar_color()
+void setAvatarcolor()
 {
   ColorPalette cp;
   cp.set(COLOR_BACKGROUND, M5.Lcd.color565(config_color1_red, config_color1_green, config_color1_blue));
@@ -61,37 +61,42 @@ void wsHandleFace(String expression)
 {
   int expr = expression.toInt();
 
-  if (setFace(expr))
-    webpage = "face No. =  " + String(expr, DEC) + " : " + EXPRESSION_STRING[expr];
+  if (setAvatarExpr(expr))
+    webpage = "face No. =  " + String(expr, DEC) + " : " + EXPR_STR[expr];
 }
 
-bool setFace(int expr)
+bool setAvatarExpr(int expr)
 {
-  if (expr > 5)
-    return false;
+  if ( expr < 0 || expr > 5)
+      return false;
 
-  switch (expr)
-  {
-  case 0:
-    avatar.setExpression(Expression::Neutral);
-    break;
-  case 1:
-    avatar.setExpression(Expression::Happy);
-    break;
-  case 2:
-    avatar.setExpression(Expression::Sleepy);
-    break;
-  case 3:
-    avatar.setExpression(Expression::Doubt);
-    break;
-  case 4:
-    avatar.setExpression(Expression::Sad);
-    break;
-  case 5:
-    avatar.setExpression(Expression::Angry);
-    break;
-  }
+  avatar.setExpression(expr_table[expr]);
   return true;
+
+  // if (expr > 5)
+  //   return false;
+  // switch (expr)
+  // {
+  // case 0:
+  //   avatar.setExpression(Expression::Neutral);
+  //   break;
+  // case 1:
+  //   avatar.setExpression(Expression::Happy);
+  //   break;
+  // case 2:
+  //   avatar.setExpression(Expression::Sleepy);
+  //   break;
+  // case 3:
+  //   avatar.setExpression(Expression::Doubt);
+  //   break;
+  // case 4:
+  //   avatar.setExpression(Expression::Sad);
+  //   break;
+  // case 5:
+  //   avatar.setExpression(Expression::Angry);
+  //   break;
+  // }
+  // return true;
 }
 
 void servo(void *args)

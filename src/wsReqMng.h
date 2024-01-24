@@ -33,7 +33,8 @@
 // extern String TTS_PARMS;
 using namespace m5avatar;
 extern Avatar avatar;
-extern const Expression expressions_table[];
+// extern const Expression expr_table[];
+extern const Expression expr_table[];
 extern char *tts_parms_table[];
 extern char tts_parms2[];
 extern void ttsDo( const String& text );

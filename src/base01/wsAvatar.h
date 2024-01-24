@@ -29,7 +29,7 @@
 #define SV_MD_DELTA 8
 #define SV_MD_NONE 99
 
-extern const String EXPRESSION_STRING[];
+extern const String EXPR_STR[];
 extern AudioOutputM5Speaker out;
 extern bool SV_USE;
 extern int SV_MD;
@@ -57,6 +57,13 @@ extern String getHeapFreeSize();
 extern  bool statusLineOnOffState;
 extern int StatusLineMode;
 
+#define EXPR_NEUTRAL 0
+#define EXPR_HAPPY 1
+#define EXPR_SLEEPY 2
+#define EXPR_DOUBT 3
+#define EXPR_SAD 4
+#define EXPR_ANGRY 5
+
 // -----------------------------------
 void wsHandleFace(String expression);
 void statusLineNext();
@@ -64,9 +71,9 @@ void statusLinePrev();
 void statusLineOnOff();
 void StatusLineManage();
 void setStatusLineMode(int mode);
-void set_avatar_color();
+void setAvatarcolor();
 void servo(void *args);
-bool setFace(int expr);
+bool setAvatarExpr(int expr);
 void avatarSTART();
 // -----------------------------------
 #endif

@@ -34,7 +34,7 @@ extern void sendReq(int reqNo,String msg);
 extern Avatar avatar;
 extern HTTPClient http;
 extern WiFiClient client;
-extern const Expression expressions_table[];
+extern const Expression expr_table[];
 extern void errSTOP();
 extern String webpage;
 extern int REQ_SPK_EXPR;

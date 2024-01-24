@@ -37,7 +37,7 @@ extern bool jsonDocSave(DynamicJsonDocument &jsonDoc, String saveFile);
 
 using namespace m5avatar;
 extern Avatar avatar;
-extern const Expression expressions_table[];
+extern const Expression expr_table[];
 extern bool REQ_chatGPT_GET;
 extern String REQ_MSG;
 extern bool SYSINFO_DISP_STATE;

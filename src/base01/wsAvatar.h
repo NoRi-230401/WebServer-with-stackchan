@@ -39,7 +39,7 @@ extern void servo2(int mode);
 extern void sv_setEaseToX(int x);
 extern void sv_setEaseToY(int y);
 extern String webpage;
-extern String getDateTime();
+// extern String getDateTime();
 extern String SERVER_NAME;
 extern uint8_t VOLUME_VALUE;
 extern uint8_t TTS_vSpkNo;
@@ -67,6 +67,7 @@ extern int StatusLineMode;
 // -----------------------------------
 void wsHandleFace(String expression);
 void wsHandleBalloon(String text);
+bool setAvatarExpr(int expr);
 void setAvatarBalloon(String msg);
 void clearAvatarBalloon();
 void statusLineNext();
@@ -76,7 +77,7 @@ void StatusLineManage();
 void setStatusLineMode(int mode);
 void setAvatarcolor();
 void servo(void *args);
-bool setAvatarExpr(int expr);
+
 void avatarSTART();
 // -----------------------------------
 #endif

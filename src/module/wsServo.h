@@ -56,7 +56,7 @@ extern bool setJsonItem(String flName, String item, String setData, DynamicJsonD
 extern bool getJsonItem(String flName, String item, String& getData, DynamicJsonDocument &jsonDoc, String arrayName);
 extern ServoEasing servo_x;
 extern ServoEasing servo_y;
-extern int REQUEST_GET;
+extern int REQ_NO_GET;
 extern String REQ_MSG;
 extern bool jsonDocSave(DynamicJsonDocument &jsonDoc, String saveFile);
 extern bool jsonRead(int flType, DynamicJsonDocument &jsonDoc, String readFile);

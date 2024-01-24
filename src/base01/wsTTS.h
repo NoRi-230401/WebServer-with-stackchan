@@ -37,9 +37,9 @@ extern WiFiClient client;
 extern const Expression expr_table[];
 extern void errSTOP();
 extern String webpage;
-extern int REQ_SPK_EXPR;
+extern int REQ_AVATAR_EXPR;
 extern int REQ_SHUTDOWN_REBOOT;
-extern int REQUEST_GET;
+extern int REQ_NO_GET;
 extern String REQ_MSG;
 extern void log_free_size(const char *text);
 

@@ -41,7 +41,7 @@ void wsHandleSpeech(String sayS, String expressionS, String voiceS)
   }
 
   sendReq(REQ_SPEAK, sayS);
-  REQ_SPK_EXPR = expr; // Avatar の顔の表情
+  REQ_AVATAR_EXPR = expr; // Avatar の顔の表情
 
   webpage += "speech : say = " + sayS;
 }

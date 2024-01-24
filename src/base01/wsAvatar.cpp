@@ -60,6 +60,8 @@ void setAvatarcolor()
 void wsHandleFace(String expression)
 {
   int expr = expression.toInt();
+  if ( expr < 0 || expr > 5)
+    return;
 
   if (setAvatarExpr(expr))
     webpage = "face No. =  " + String(expr, DEC) + " : " + EXPR_STR[expr];
@@ -77,8 +79,16 @@ bool setAvatarExpr(int expr)
 
 void wsHandleBalloon(String text)
 {
-  setAvatarBalloon(text);
-  webpage = "balloon message = " + text;
+  if(text=="" || text=="void")
+  {
+    clearAvatarBalloon();
+    webpage = "Speech balloon is void";
+  }
+  else
+  {
+    setAvatarBalloon(text);
+    webpage = "Speech balloon text = " + text;
+  }
 }
 
 void setAvatarBalloon(String msg)

@@ -140,6 +140,7 @@ extern void wsHandleServo(String swingXYS,String swingXS, String swingYS,
   String txS, String modeS);
 extern void wsHandleRoleGet();
 extern void wsHandleFace(String expression);
+extern void wsHandleBalloon(String text);
 extern void wsHandelChat(String textS, String voiceS);
 extern void wsHandelChatCharacter(String ch_NoS,String ch_nameS, String ch_voiceS,String ch_rollS);
 extern void wsHandelChatGpt(String historyS,String charaS);
@@ -182,6 +183,7 @@ void handle_shutdown(AsyncWebServerRequest *request);
 void handle_timer(AsyncWebServerRequest *request);
 void handle_speech(AsyncWebServerRequest *request);
 void handle_face(AsyncWebServerRequest *request);
+void handle_balloon(AsyncWebServerRequest *request);
 void handle_chat(AsyncWebServerRequest *request);
 void handle_chatCharacter(AsyncWebServerRequest *request);
 void handle_chatGpt(AsyncWebServerRequest *request);

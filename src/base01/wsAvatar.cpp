@@ -73,30 +73,22 @@ bool setAvatarExpr(int expr)
   avatar.setExpression(expr_table[expr]);
   return true;
 
-  // if (expr > 5)
-  //   return false;
-  // switch (expr)
-  // {
-  // case 0:
-  //   avatar.setExpression(Expression::Neutral);
-  //   break;
-  // case 1:
-  //   avatar.setExpression(Expression::Happy);
-  //   break;
-  // case 2:
-  //   avatar.setExpression(Expression::Sleepy);
-  //   break;
-  // case 3:
-  //   avatar.setExpression(Expression::Doubt);
-  //   break;
-  // case 4:
-  //   avatar.setExpression(Expression::Sad);
-  //   break;
-  // case 5:
-  //   avatar.setExpression(Expression::Angry);
-  //   break;
-  // }
-  // return true;
+}
+
+void wsHandleBalloon(String text)
+{
+  setAvatarBalloon(text);
+  webpage = "balloon message = " + text;
+}
+
+void setAvatarBalloon(String msg)
+{
+  avatar.setSpeechText(msg.c_str());
+}
+
+void clearAvatarBalloon()
+{
+  avatar.setSpeechText("");
 }
 
 void servo(void *args)

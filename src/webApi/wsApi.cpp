@@ -47,6 +47,10 @@ void setupApiHandler()
   server.on("/face", HTTP_GET, [](AsyncWebServerRequest *request)
             {    handle_face(request); serverSend(request); });
 
+  // ##################### face ############################
+  server.on("/balloon", HTTP_GET, [](AsyncWebServerRequest *request)
+            {    handle_balloon(request); serverSend(request); });
+
   // ##################### chatGpt ############################
   server.on("/chatGpt", HTTP_GET, [](AsyncWebServerRequest *request)
             { handle_chatGpt(request); serverSend3(request); });
@@ -152,6 +156,14 @@ void handle_face(AsyncWebServerRequest *request)
   webpage = "NG";
   String expression = request->arg("expression");
   wsHandleFace(expression);
+}
+
+void handle_balloon(AsyncWebServerRequest *request)
+{
+  tone(2);
+  webpage = "NG";
+  String text = request->arg("text");
+  wsHandleBalloon(text);
 }
 
 void handle_speech(AsyncWebServerRequest *request)

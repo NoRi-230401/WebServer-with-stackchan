@@ -66,6 +66,9 @@ extern int StatusLineMode;
 
 // -----------------------------------
 void wsHandleFace(String expression);
+void wsHandleBalloon(String text);
+void setAvatarBalloon(String msg);
+void clearAvatarBalloon();
 void statusLineNext();
 void statusLinePrev();
 void statusLineOnOff();

@@ -64,6 +64,7 @@ extern int StatusLineMode;
 #define EXPR_SAD 4
 #define EXPR_ANGRY 5
 
+extern void stackchan(const String& speakStr, int expr=-1, const String balloonStr="$$SKIP$$");
 // -----------------------------------
 void wsHandleFace(String expression);
 void wsHandleBalloon(String text);

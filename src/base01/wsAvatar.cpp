@@ -79,16 +79,19 @@ bool setAvatarExpr(int expr)
 
 void wsHandleBalloon(String text)
 {
+  stackchan("",-1, text);
+
   if(text=="" || text=="void")
   {
-    clearAvatarBalloon();
-    webpage = "Speech balloon is void";
+    // clearAvatarBalloon();
+    webpage = "clear speech balloon";
   }
   else
   {
-    setAvatarBalloon(text);
-    webpage = "Speech balloon text = " + text;
+    // setAvatarBalloon(text);
+    webpage = "speech balloon text = " + text;
   }
+
 }
 
 void setAvatarBalloon(String msg)

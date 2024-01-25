@@ -28,6 +28,8 @@
 #define REQ_SPEAK 4
 #define REQ_BALOON 5
 #define REQ_SV_MD_ADJUST 9
+
+#define REQ_STACKCHAN 10
 // -------------------------
 
 // extern String TTS_PARMS;
@@ -45,7 +47,16 @@ extern void REBOOT();
 extern void POWER_OFF();
 extern bool isTalking();
 extern String SPEECH_TEXT;
+extern bool setAvatarExpr(int expr);
+extern void setAvatarBalloon(String msg);
+extern void clearAvatarBalloon();
 
+// ---------------------------------------------------------------------
+// void sendReq(int reqNo,String msg);
+extern void sendReq2(int reqNo, const String& speakStr="", int expr=-1, const String balloonStr="$$SKIP$$");
+void sendReq2(int reqNo, const String& speakStr, int expr, const String balloonStr);
+extern void stackchan(const String& speakStr, int expr=-1, const String balloonStr="$$SKIP$$");
+void stackchan(const String& speakStr,int expr, const String balloonStr );
 // ---------------------------------------------------------------------
 void sendReq(int reqNo,String msg);
 void RequestManage();

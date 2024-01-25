@@ -1,11 +1,50 @@
 // ---------------------------< wsReqMng.cpp >------------------------------------
 #include "wsReqMng.h"
 
+int REQUEST_NO2 = 0; // 0 : no request
+String REQ_SPEAK_STR = "";
+int REQ_EXPR = -1;
+String REQ_BALOON_STR = "";
+
 int REQUEST_NO = 0; // 0 : no request
 String REQ_MSG = "";
 bool REQ_chatGPT_GET = false;
 int REQ_SHUTDOWN_REBOOT = 0;
 int REQ_AVATAR_EXPR;
+
+void sendReq2(int reqNo, const String &speakStr, int expr, const String balloonStr)
+{
+  REQ_SPEAK_STR = speakStr;
+  REQ_EXPR = expr;
+  REQ_BALOON_STR = balloonStr;
+  REQUEST_NO2 = reqNo;
+}
+
+void stackchan(const String &speakStr, int expr, const String balloonStr)
+{
+  sendReq2(REQ_STACKCHAN, speakStr, expr, balloonStr);
+}
+
+void Req_stackchanDo()
+{
+  if (REQ_EXPR >= 0 && REQ_EXPR <= 5)
+    setAvatarExpr(REQ_EXPR);
+
+  if (REQ_BALOON_STR != "$$SKIP$$")
+  {
+    if (REQ_BALOON_STR == "" || REQ_BALOON_STR == "void")
+      clearAvatarBalloon();
+    else
+      setAvatarBalloon(REQ_BALOON_STR);
+  }
+
+  if (REQ_SPEAK_STR != "" && REQ_SPEAK_STR != "$$SKIP$$")
+  {
+    SPEECH_TEXT = REQ_SPEAK_STR;
+    ttsDo(SPEECH_TEXT);
+    SPEECH_TEXT = "";
+  }
+}
 
 void sendReq(int reqNo, String msg)
 {
@@ -15,6 +54,14 @@ void sendReq(int reqNo, String msg)
 
 void RequestManage()
 {
+  if (REQUEST_NO2 != 0 )
+  {
+    if( (REQUEST_NO2==REQ_STACKCHAN) && !isTalking() )
+    {
+      REQUEST_NO2 = 0;
+      Req_stackchanDo();
+    }
+  }
 
   if (REQUEST_NO != 0)
   {

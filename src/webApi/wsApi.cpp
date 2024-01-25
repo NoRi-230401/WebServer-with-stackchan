@@ -174,7 +174,8 @@ void handle_speech(AsyncWebServerRequest *request)
   String expressionS = request->arg("expression");
   String balloonS = request->arg("balloon");
   String voiceS = request->arg("voice");
-  wsHandleSpeech(sayS, expressionS, balloonS, voiceS);
+  String afterExpS = request->arg("afterExp");
+  wsHandleSpeech(sayS, expressionS, balloonS, voiceS, afterExpS);
 }
 
 // chatHistory etc, utility for chatGpt -----------

@@ -11,20 +11,18 @@ void ttsDo(const String &speechText)
   Serial.println(speechText);
   Serial.println("--------------------------------");
 
-  String return_string = execute_voicevox(speechText, TTS_vSpkNo);
+  String return_string = execute_voicevox(speechText, TTS_vSpkNo,REQ_AVATAR_EXPR);
   execute_talk(return_string);
 }
 
-void wsHandleSpeech(String sayS, String expressionS, String balloonS, String voiceS)
+void wsHandleSpeech(String sayS, String expressionS, String balloonS, String voiceS, String afterExpS )
 {
   String speakTxt = "";
   int expr = -1;
+  int afterExpr = -1;
   String balloonStr = "$$SKIP$$";
-  webpage = "";
 
-  // if (sayS == "")
-  //   return;
-  // else
+  webpage = "";
 
   speakTxt = sayS;
 
@@ -36,6 +34,16 @@ void wsHandleSpeech(String sayS, String expressionS, String balloonS, String voi
 
     webpage += "speech : expression = " + EXPR_STR[expr] ;
     webpage += "　expr = " + String(expr,DEC) + "<br>";
+  }
+
+  if (afterExpS != "")
+  { // After Avatar の顔の表情
+    int tmp_expr = afterExpS.toInt();
+    if (tmp_expr >= 0 && tmp_expr <= 5)
+      afterExpr = tmp_expr;
+
+    webpage += "speech : afterExpr = " + EXPR_STR[afterExpr] ;
+    webpage += "　expr = " + String(afterExpr,DEC) + "<br>";
   }
 
   if ( balloonS != "$$SKIP$$")
@@ -56,7 +64,7 @@ void wsHandleSpeech(String sayS, String expressionS, String balloonS, String voi
   // sendReq(REQ_SPEAK, sayS);
   // REQ_AVATAR_EXPR = expr; // Avatar の顔の表情
 
-  stackchan(speakTxt, expr, balloonStr);
+  stackchan(speakTxt, expr, balloonStr, afterExpr);
   webpage += "speech : say = " + sayS;
 }
 
@@ -65,12 +73,17 @@ bool isTalking()
   return ((tts->is_talking) || (SPEECH_TEXT != ""));
 }
 
-void setSpeaker(uint8_t spk_no)
-{
-  tts->setSpkNo(spk_no);
-}
+// void setSpeaker(uint8_t spk_no)
+// {
+//   tts->setSpkNo(spk_no);
+// }
 
-String execute_voicevox(const String &speechText, uint8_t spk_no)
+// void setAfterExpr(int expr)
+// {
+//   tts->setAfterExpr(expr);
+// }
+
+String execute_voicevox(const String &speechText, uint8_t spk_no, int expr)
 {
   if (speechText == "")
   {
@@ -78,6 +91,7 @@ String execute_voicevox(const String &speechText, uint8_t spk_no)
   }
   log_free_size("VOICEVOX：IN");
 
+  // tts->setAfterExpr(expr); 
   tts->setSpkNo(spk_no);
   String return_string = tts->synthesis(speechText);
   return return_string;

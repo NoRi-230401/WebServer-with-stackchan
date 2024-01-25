@@ -66,7 +66,6 @@
 #define BtnREQ_BOX_SERVO 4
 #define BtnREQ_BOX_STT 5
 
-// extern const String chatStrIniData;
 extern bool REQ_chatGPT_GET;
 extern int SV_MD;
 extern int SV_HOME_X;
@@ -83,7 +82,6 @@ extern int SV_SWING_AXIS;
 extern int SV_SWING_LEN;
 extern String REQ_MSG;
 extern char *SETTING_NVS;
-// extern uint8_t m5spk_virtual_channel;
 extern String IP_ADDR;
 extern uint8_t VOLUME_VALUE;
 extern bool MUTE_ON_STATE;
@@ -93,7 +91,6 @@ extern String HTML_Footer();
 extern String HTML_Header3();
 extern String HTML_Footer3();
 extern AsyncWebServer server;
-// extern void Req_MsgCls();
 extern void servoSetup2();
 extern void muteOff();
 extern void muteOn();
@@ -101,9 +98,6 @@ extern bool SYSINFO_DISP_STATE;
 extern bool KEYLOCK_STATE;
 extern uint8_t TONE_MODE;
 extern bool LED_OnOff_STATE;
-// extern String TTS_SPEAKER_NO;
-// extern String TTS_PARMS;
-// extern String TTS_SPEAKER;
 extern void ledClearAll();
 extern void tone(int);
 extern bool sysInfoGet(String txArg, String &txData);
@@ -114,8 +108,7 @@ extern void sysInfoDispStart(uint8_t mode_no);
 extern bool RANDOM_SPEAK_STATE;
 extern bool RANDOM_SPEAK_ON_GET;
 
-// extern void wsHandleSpeech(String message, String expression, String speaker);
-extern void wsHandleSpeech(String sayS, String expressionS, String balloonS, String voiceS);
+extern void wsHandleSpeech(String sayS, String expressionS, String balloonS, String voiceS, String afterExpS);
 extern void timerStop2();
 extern bool jsonDocSave(DynamicJsonDocument &jsonDoc, String saveFile);
 extern bool jsonRead(int flType, DynamicJsonDocument &jsonDoc, String readFile);
@@ -152,15 +145,11 @@ extern void wsServoSetting(String txS,String servoS, String servoPortS,
 extern int BTN_REQ;
 using namespace m5avatar;
 extern Avatar avatar;
-// extern uint16_t TM_SEC_VAL;
 extern bool TM_STOP_GET;
 extern bool TM_GO_GET;
 extern bool TM_STARTED;
 extern void randomSpeakStop2();
 extern void timerStart();
-// extern String CHATDOC_INIT_BUF;
-// extern bool setChatDoc(const char *data);
-// extern bool save_json();
 extern void chatHistoryCls();
 extern void wsHandleWifiSetting(String initS, String ssidS, String passwdS,String removeS,
     String ipS, String gatewayS, String subnetS, String dnsS  );

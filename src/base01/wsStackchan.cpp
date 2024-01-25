@@ -14,9 +14,9 @@ const Expression expr_table[] = {
     Expression::Sad,
     Expression::Angry};
 
-void stackchan(const String &speakStr, int expr, const String balloonStr)
+void stackchan(const String &speakStr, int expr, const String balloonStr, int afterExpr)
 {
-  sendReq2(REQ_STACKCHAN, speakStr, expr, balloonStr);
+  sendReq2(REQ_STACKCHAN, speakStr, expr, balloonStr, afterExpr);
 }
 
 void avatarSTART()

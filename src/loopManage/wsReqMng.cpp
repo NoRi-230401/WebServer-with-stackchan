@@ -4,6 +4,7 @@
 int REQUEST_NO2 = 0; // 0 : no request
 String REQ_SPEAK_STR = "";
 int REQ_EXPR = -1;
+int REQ_AFTER_EXPR = -1;
 String REQ_BALOON_STR = "";
 
 int REQUEST_NO = 0; // 0 : no request
@@ -12,10 +13,11 @@ bool REQ_chatGPT_GET = false;
 int REQ_SHUTDOWN_REBOOT = 0;
 int REQ_AVATAR_EXPR;
 
-void sendReq2(int reqNo, const String &speakStr, int expr, const String balloonStr)
+void sendReq2(int reqNo, const String& speakStr, int expr, const String balloonStr, int afterExpr)
 {
   REQ_SPEAK_STR = speakStr;
   REQ_EXPR = expr;
+  REQ_AFTER_EXPR = afterExpr;
   REQ_BALOON_STR = balloonStr;
   REQUEST_NO2 = reqNo;
 }

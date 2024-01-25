@@ -42,17 +42,19 @@ extern int REQ_SHUTDOWN_REBOOT;
 extern int REQUEST_NO;
 extern String REQ_MSG;
 extern void log_free_size(const char *text);
-extern void stackchan(const String& speakStr, int expr=-1, const String balloonStr="$$SKIP$$");
+// extern void stackchan(const String& speakStr, int expr=-1, const String balloonStr="$$SKIP$$");
+extern void stackchan(const String& speakStr, int expr=-1, const String balloonStr="$$SKIP$$", int afterExpr=-1 );
 extern const String EXPR_STR[];
 
 //------------------------------------------------------------
 // void wsHandleSpeech(String sayS, String expressionS, String voiceS);
-void wsHandleSpeech(String sayS, String expressionS, String balloonS, String voiceS);
+void wsHandleSpeech(String sayS, String expressionS, String balloonS, String voiceS, String afterExpS);
 void ttsDo( const String& speechText );
-void setSpeaker(uint8_t spkNo);
+// void setSpeaker(uint8_t spkNo);
+// void setAfterExpr(int expr);
 bool isTalking();
 void execute_talk(String url);
-String execute_voicevox(const String &text, uint8_t spk_no);
+String execute_voicevox(const String &text, uint8_t spk_no, int expr);
 #define TTS_VSPKNO_MAX 66
 #define TTS_VSPKNO_INIT 3
 void setTTSvSpkNo(int spkNo);

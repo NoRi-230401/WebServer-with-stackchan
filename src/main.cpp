@@ -12,8 +12,12 @@ const String WSS_VERSION = WSS_NAME + " " + WSS_VER;
 // M5Stack_Stack-chan_another_dimension  : つゆきぱぱさん
 // ----------------------------------------------------------------------
 
+uint16_t WSS_STATUS = 0;
+
+
 void setup()
 {
+  WSS_STATUS = 0x0000;
   // ** initial Setting **
   M5StackConfig();
   log_free_size("初期化開始：");
@@ -39,6 +43,25 @@ void setup()
   avatarSTART();
   log_free_size("初期化終了：");
   showExeTime("setup()  --- End --- ");
+  WSS_STATUS = 0x1000;
+}
+
+void StatusManage();
+void StatusManage()
+{
+  if(WSS_STATUS != 0x2000)
+  {
+    switch(WSS_STATUS)
+    {
+      case 0x1000:
+        WSS_STATUS = 0x2000;
+        break;
+
+      case 0x9000:
+        WSS_STATUS = 0x2000;
+        break;  
+    }
+  }
 }
 
 void loop()
@@ -48,4 +71,6 @@ void loop()
   StatusLineManage();
   chatGptManage();
   TimerManage();
+  StatusManage();
 }
+

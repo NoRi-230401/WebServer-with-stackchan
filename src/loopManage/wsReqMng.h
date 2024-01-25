@@ -19,7 +19,6 @@
 #define SV_MD_POINT 7
 #define SV_MD_DELTA 8
 #define SV_MD_NONE 99
-
 // -- Request ---------
 #define REQ_MSG_CLS 0
 #define REQ_SPEAK_ADJUST 1
@@ -28,14 +27,11 @@
 #define REQ_SPEAK 4
 #define REQ_BALOON 5
 #define REQ_SV_MD_ADJUST 9
-
 #define REQ_STACKCHAN 10
 // -------------------------
 
-// extern String TTS_PARMS;
 using namespace m5avatar;
 extern Avatar avatar;
-// extern const Expression expr_table[];
 extern const Expression expr_table[];
 extern char *tts_parms_table[];
 extern char tts_parms2[];
@@ -50,14 +46,11 @@ extern String SPEECH_TEXT;
 extern bool setAvatarExpr(int expr);
 extern void setAvatarBalloon(String msg);
 extern void clearAvatarBalloon();
+extern void stackchan(const String& speakStr, int expr=-1, const String balloonStr="$$SKIP$$");
 
 // ---------------------------------------------------------------------
-// void sendReq(int reqNo,String msg);
 extern void sendReq2(int reqNo, const String& speakStr="", int expr=-1, const String balloonStr="$$SKIP$$");
 void sendReq2(int reqNo, const String& speakStr, int expr, const String balloonStr);
-extern void stackchan(const String& speakStr, int expr=-1, const String balloonStr="$$SKIP$$");
-void stackchan(const String& speakStr,int expr, const String balloonStr );
-// ---------------------------------------------------------------------
 void sendReq(int reqNo,String msg);
 void RequestManage();
 void Req_SpkDo();

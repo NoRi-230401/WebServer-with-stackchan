@@ -1,5 +1,5 @@
-// ----------------------------<wsAvatar.cpp>------------------------------------
-#include "wsAvatar.h"
+// ----------------------------<wsStackchan.cpp>------------------------------------
+#include "wsStackchan.h"
 
 using namespace m5avatar;
 Avatar avatar;
@@ -13,6 +13,11 @@ const Expression expr_table[] = {
     Expression::Doubt,
     Expression::Sad,
     Expression::Angry};
+
+void stackchan(const String &speakStr, int expr, const String balloonStr)
+{
+  sendReq2(REQ_STACKCHAN, speakStr, expr, balloonStr);
+}
 
 void avatarSTART()
 {

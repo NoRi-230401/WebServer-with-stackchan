@@ -20,11 +20,6 @@ void sendReq2(int reqNo, const String &speakStr, int expr, const String balloonS
   REQUEST_NO2 = reqNo;
 }
 
-void stackchan(const String &speakStr, int expr, const String balloonStr)
-{
-  sendReq2(REQ_STACKCHAN, speakStr, expr, balloonStr);
-}
-
 void Req_stackchanDo()
 {
   if (REQ_EXPR >= 0 && REQ_EXPR <= 5)

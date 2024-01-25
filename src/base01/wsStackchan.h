@@ -1,6 +1,6 @@
-// ----------------------------<wsAvatar.cpp>------------------------------------
-#ifndef WS_AVATAR_H
-#define WS_AVATAR_H
+// ----------------------------<wsStackchan.h>------------------------------------
+#ifndef WS_STACKCHAN_H
+#define WS_STACKCHAN_H
 // ---------------------------
 #include <WiFi.h>  
 #include <Arduino.h>
@@ -64,7 +64,25 @@ extern int StatusLineMode;
 #define EXPR_SAD 4
 #define EXPR_ANGRY 5
 
+// -- Request ---------
+#define REQ_MSG_CLS 0
+#define REQ_SPEAK_ADJUST 1
+#define REQ_BALOON_ADJUST 2
+#define REQ_SPEAK_BALOON_ADJUST 3
+#define REQ_SPEAK 4
+#define REQ_BALOON 5
+#define REQ_SV_MD_ADJUST 9
+#define REQ_STACKCHAN 10
+// -------------------------
+
+
+extern void sendReq2(int reqNo, const String& speakStr="", int expr=-1, const String balloonStr="$$SKIP$$");
+void sendReq2(int reqNo, const String& speakStr, int expr, const String balloonStr);
+
 extern void stackchan(const String& speakStr, int expr=-1, const String balloonStr="$$SKIP$$");
+void stackchan(const String& speakStr,int expr, const String balloonStr );
+
+
 // -----------------------------------
 void wsHandleFace(String expression);
 void wsHandleBalloon(String text);

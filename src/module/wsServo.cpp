@@ -32,6 +32,11 @@ int SV_PIN_Y;
 
 const String jsonSERVO = "{\"servo\":[{\"servo\":\"on\",\"servoPort\":\"portC\",\"servoMode\":\"home\",\"servoHomeX\":\"90\",\"servoHomeY\":\"80\"}]}";
 
+
+
+
+
+
 bool jsonSERVOinit(DynamicJsonDocument &jsonDoc)
 {
   return (jsonStrSave(jsonDoc, jsonSERVO, SERVO_SPIFFS));

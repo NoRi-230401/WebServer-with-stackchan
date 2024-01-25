@@ -105,7 +105,7 @@ void statusLineOnOff()
   }
 }
 
-void StatusLineManage()
+void statusLineManage()
 {
   if ((millis() - statusLineCheck_time) >= DURATION_1013)
   {

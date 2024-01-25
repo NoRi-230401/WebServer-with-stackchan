@@ -92,7 +92,7 @@ void clearAvatarBalloon();
 void statusLineNext();
 void statusLinePrev();
 void statusLineOnOff();
-void StatusLineManage();
+void statusLineManage();
 void setStatusLineMode(int mode);
 void setAvatarcolor();
 void servo(void *args);

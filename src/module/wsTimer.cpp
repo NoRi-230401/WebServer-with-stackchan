@@ -84,7 +84,7 @@ void wsHandleTimer(String TmSecS, String TmMinS, String timerModeS)
   }
 }
 
-void TimerManage()
+void timerManage()
 {
   if (TM_STARTED)
   { // Timer 起動中

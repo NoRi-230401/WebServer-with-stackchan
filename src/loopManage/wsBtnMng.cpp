@@ -31,7 +31,7 @@ static box_t BOX_STATUS_LINE_PREV;
 static box_t BOX_SERVO;
 static box_t BOX_SYSINFO;
 
-void ButtonManage()
+void buttonManage()
 {
   BtnReqGet();
   M5.update();

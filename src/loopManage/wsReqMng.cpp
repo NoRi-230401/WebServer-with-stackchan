@@ -49,7 +49,7 @@ void sendReq(int reqNo, String msg)
   REQUEST_NO = reqNo;
 }
 
-void RequestManage()
+void requestManage()
 {
   if (REQUEST_NO2 != 0 )
   {

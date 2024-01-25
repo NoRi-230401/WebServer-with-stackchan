@@ -40,7 +40,7 @@ extern void randomSpeakStop2();
 extern bool isTalking();
 // ---------------------------------------------------------------------------
 void wsHandleTimer(String TmSecS, String TmMinS, String timerModeS);
-void TimerManage();
+void timerManage();
 void timerStop2(); 
 void timerStart();
 void timerStop();

@@ -48,7 +48,7 @@ extern bool statusLineOneState;
 // --------------------------------------------------------
 void wsHandleBtn(String arg);
 void BtnReqGet();
-void ButtonManage();
+void buttonManage();
 void BtnA_Do();
 void BtnB_Do();
 void BtnC_Do();

@@ -54,7 +54,7 @@ void sendReq2(int reqNo, const String& speakStr, int expr, const String balloonS
 
 // void sendReq2(int reqNo, const String& speakStr, int expr, const String balloonStr);
 void sendReq(int reqNo,String msg);
-void RequestManage();
+void requestManage();
 void Req_SpkDo();
 void Req_BaloonDo();
 void Req_SpkBaloonDo_adjust(); 

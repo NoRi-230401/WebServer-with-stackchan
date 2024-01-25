@@ -1,7 +1,7 @@
 // ---- <main.cpp>-------------------------------------------------------
 #include "main.h"
 const String WSS_NAME = "WebServer-with-stackchan";
-const String WSS_VER = "V305h-240124";
+const String WSS_VER = "V305i-240126";
 const String WSS_VERSION = WSS_NAME + " " + WSS_VER;
 
 // ---------------------------------------------------------------------
@@ -12,12 +12,21 @@ const String WSS_VERSION = WSS_NAME + " " + WSS_VER;
 // M5Stack_Stack-chan_another_dimension  : つゆきぱぱさん
 // ----------------------------------------------------------------------
 
-uint16_t WSS_STATUS = 0;
+// --- Wss StaTe (WST) define ------- 
+uint16_t WST = 0; 
+#define WST_setupStart   0x1000
+#define WST_setupDone    0x2000
+#define WST_loop         0x3000
+#define WST_stt          0x5000
+#define WST_chatGPT      0x6000
+#define WST_voicevox     0x7000
+#define WST_talkDone     0x9000
+void stateManage();
 
 
 void setup()
 {
-  WSS_STATUS = 0x0000;
+  WST = WST_setupStart;
   // ** initial Setting **
   M5StackConfig();
   log_free_size("初期化開始：");
@@ -43,22 +52,21 @@ void setup()
   avatarSTART();
   log_free_size("初期化終了：");
   showExeTime("setup()  --- End --- ");
-  WSS_STATUS = 0x1000;
+  WST = WST_setupDone;
 }
 
-void StatusManage();
-void StatusManage()
+void stateManage()
 {
-  if(WSS_STATUS != 0x2000)
+  if(WST != WST_loop)
   {
-    switch(WSS_STATUS)
+    switch(WST)
     {
-      case 0x1000:
-        WSS_STATUS = 0x2000;
+      case WST_setupDone:
+        WST = WST_loop;
         break;
 
-      case 0x9000:
-        WSS_STATUS = 0x2000;
+      case WST_talkDone:
+        WST = WST_loop;
         break;  
     }
   }
@@ -66,11 +74,11 @@ void StatusManage()
 
 void loop()
 {
-  ButtonManage();
-  RequestManage();
-  StatusLineManage();
+  buttonManage();
+  requestManage();
+  statusLineManage();
   chatGptManage();
-  TimerManage();
-  StatusManage();
+  timerManage();
+  stateManage();
 }
 

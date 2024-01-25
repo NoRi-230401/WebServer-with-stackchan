@@ -35,7 +35,7 @@ extern void ledClear();
 void statusLineNext();
 void statusLinePrev();
 void statusLineOnOff();
-void StatusLineManage();
+void statusLineManage();
 void setStatusLineMode(int mode);
 // ---------------------------------------------------------------------
 #endif

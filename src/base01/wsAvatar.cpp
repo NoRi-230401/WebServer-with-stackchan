@@ -14,7 +14,6 @@ const Expression expr_table[] = {
     Expression::Sad,
     Expression::Angry};
 
-
 void avatarSTART()
 {
   avatar.init(8);
@@ -37,15 +36,15 @@ void avatarSTART()
 }
 
 // アバターの色
-#define config_color1_red   0      // 背景の色
-#define config_color1_green 0      // 背景の色
-#define config_color1_blue  0      // 背景の色
-#define config_color2_red   255    // 目口の色
-#define config_color2_green 255    // 目口の色
-#define config_color2_blue  255    // 目口の色
-#define config_color3_red   248    // ほっぺの色
-#define config_color3_green 171    // ほっぺの色
-#define config_color3_blue  166    // ほっぺの色
+#define config_color1_red 0     // 背景の色
+#define config_color1_green 0   // 背景の色
+#define config_color1_blue 0    // 背景の色
+#define config_color2_red 255   // 目口の色
+#define config_color2_green 255 // 目口の色
+#define config_color2_blue 255  // 目口の色
+#define config_color3_red 248   // ほっぺの色
+#define config_color3_green 171 // ほっぺの色
+#define config_color3_blue 166  // ほっぺの色
 void setAvatarcolor()
 {
   ColorPalette cp;
@@ -60,28 +59,28 @@ void setAvatarcolor()
 void wsHandleFace(String expression)
 {
   int expr = expression.toInt();
-  if ( expr < 0 || expr > 5)
+  if (expr < 0 || expr > 5)
     return;
 
-  if (setAvatarExpr(expr))
-    webpage = "face No. =  " + String(expr, DEC) + " : " + EXPR_STR[expr];
+  stackchan("", expr);
+  webpage = "face No. =  " + String(expr, DEC) + " : " + EXPR_STR[expr];
 }
 
 bool setAvatarExpr(int expr)
 {
-  if ( expr < 0 || expr > 5)
-      return false;
+  if (expr < 0 || expr > 5)
+    return false;
 
+  // stackchan("", expr);
   avatar.setExpression(expr_table[expr]);
   return true;
-
 }
 
 void wsHandleBalloon(String text)
 {
-  stackchan("",-1, text);
+  stackchan("", -1, text);
 
-  if(text=="" || text=="void")
+  if (text == "" || text == "void")
   {
     // clearAvatarBalloon();
     webpage = "clear speech balloon";
@@ -91,7 +90,6 @@ void wsHandleBalloon(String text)
     // setAvatarBalloon(text);
     webpage = "speech balloon text = " + text;
   }
-
 }
 
 void setAvatarBalloon(String msg)

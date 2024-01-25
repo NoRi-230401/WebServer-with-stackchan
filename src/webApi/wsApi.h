@@ -114,7 +114,8 @@ extern void sysInfoDispStart(uint8_t mode_no);
 extern bool RANDOM_SPEAK_STATE;
 extern bool RANDOM_SPEAK_ON_GET;
 
-extern void wsHandleSpeech(String message, String expression, String speaker);
+// extern void wsHandleSpeech(String message, String expression, String speaker);
+extern void wsHandleSpeech(String sayS, String expressionS, String balloonS, String voiceS);
 extern void timerStop2();
 extern bool jsonDocSave(DynamicJsonDocument &jsonDoc, String saveFile);
 extern bool jsonRead(int flType, DynamicJsonDocument &jsonDoc, String readFile);

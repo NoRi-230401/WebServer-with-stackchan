@@ -15,34 +15,46 @@ void ttsDo(const String &speechText)
   execute_talk(return_string);
 }
 
-void wsHandleSpeech(String sayS, String expressionS, String voiceS)
+void wsHandleSpeech(String sayS, String expressionS, String balloonS, String voiceS)
 {
+  String speakTxt = "";
+  int expr = -1;
+  String balloonStr = "$$SKIP$$";
+
   if (sayS == "")
     return;
-
+  else
+    speakTxt = sayS;
+  
   webpage = "";
 
-  int expr = 0;
   if (expressionS != "")
   { // Avatar の顔の表情
-    expr = expressionS.toInt();
-    if (expr < 0)
-      expr = 0;
-    if (expr > 5)
-      expr = 5;
+    int tmp_expr = expressionS.toInt();
+    if (tmp_expr >= 0 && tmp_expr <= 5)
+      expr = tmp_expr;
     webpage += "speech : expression = " + String(expr, DEC) + "<br>";
+  }
+
+  if ( balloonS != "$$SKIP$$")
+  {
+    balloonStr = balloonS;
+    webpage += "speech : baloon = " + balloonS + "<br>";
   }
 
   if (voiceS != "")
   {
-    // TTS_PARMS = TTS_SPEAKER + voiceS;
-    TTS_vSpkNo = (uint8_t)voiceS.toInt();
+    int tmp_vNo = voiceS.toInt();
+    if( tmp_vNo>=0 && tmp_vNo<=66)
+        TTS_vSpkNo = (uint8_t)tmp_vNo;
+        
     webpage += "speech : voice = " + voiceS + "<br>";
   }
 
-  sendReq(REQ_SPEAK, sayS);
-  REQ_AVATAR_EXPR = expr; // Avatar の顔の表情
+  // sendReq(REQ_SPEAK, sayS);
+  // REQ_AVATAR_EXPR = expr; // Avatar の顔の表情
 
+  stackchan(speakTxt, expr, balloonStr);
   webpage += "speech : say = " + sayS;
 }
 

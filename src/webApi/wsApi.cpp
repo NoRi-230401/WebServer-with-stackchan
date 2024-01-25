@@ -172,8 +172,9 @@ void handle_speech(AsyncWebServerRequest *request)
   webpage = "NG";
   String sayS = request->arg("say");
   String expressionS = request->arg("expression");
+  String balloonS = request->arg("balloon");
   String voiceS = request->arg("voice");
-  wsHandleSpeech(sayS, expressionS, voiceS);
+  wsHandleSpeech(sayS, expressionS, balloonS, voiceS);
 }
 
 // chatHistory etc, utility for chatGpt -----------

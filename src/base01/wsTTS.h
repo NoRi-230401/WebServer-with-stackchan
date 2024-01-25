@@ -42,9 +42,11 @@ extern int REQ_SHUTDOWN_REBOOT;
 extern int REQUEST_NO;
 extern String REQ_MSG;
 extern void log_free_size(const char *text);
+extern void stackchan(const String& speakStr, int expr=-1, const String balloonStr="$$SKIP$$");
 
 //------------------------------------------------------------
-void wsHandleSpeech(String sayS, String expressionS, String voiceS);
+// void wsHandleSpeech(String sayS, String expressionS, String voiceS);
+void wsHandleSpeech(String sayS, String expressionS, String balloonS, String voiceS);
 void ttsDo( const String& speechText );
 void setSpeaker(uint8_t spkNo);
 bool isTalking();

@@ -641,7 +641,7 @@ bool servoFileRead()
   SV_PIN_Y = SV_PIN_Y_CORE2_PA;
   SV_MD = SV_MD_MOVING; // moving
   SV_ADJUST_STATE = false;
-  REQ_NO_GET = 0; // req none
+  REQUEST_NO = 0; // req none
   SV_MD_NAME_NO = SV_MD_MOVING;
   SV_HOME_X = 90;
   SV_HOME_Y = 80;
@@ -707,7 +707,7 @@ bool servoFileRead()
       SV_MD = SV_MD_NONE;
       SV_ADJUST_STATE = true;
       SV_MD_NAME_NO = SV_MD_ADJUST;
-      REQ_NO_GET = REQ_SV_MD_ADJUST;
+      REQUEST_NO = REQ_SV_MD_ADJUST;
     }
 
     Serial.println("Servo : " + SERVO_ITEM[2] + " = " + getStr12);

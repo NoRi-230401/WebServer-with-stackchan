@@ -26,7 +26,7 @@
 
 extern int SV_MD;
 extern void ledClearAll();
-extern int REQ_NO_GET;
+extern int REQUEST_NO;
 extern String REQ_MSG;
 extern String webpage;
 extern int REQ_SHUTDOWN_REBOOT;

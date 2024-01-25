@@ -39,7 +39,7 @@ extern void errSTOP();
 extern String webpage;
 extern int REQ_AVATAR_EXPR;
 extern int REQ_SHUTDOWN_REBOOT;
-extern int REQ_NO_GET;
+extern int REQUEST_NO;
 extern String REQ_MSG;
 extern void log_free_size(const char *text);
 

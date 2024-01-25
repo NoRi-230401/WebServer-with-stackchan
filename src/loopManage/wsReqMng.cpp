@@ -1,7 +1,7 @@
 // ---------------------------< wsReqMng.cpp >------------------------------------
 #include "wsReqMng.h"
 
-int REQ_NO_GET = 0; // 0 : no request
+int REQUEST_NO = 0; // 0 : no request
 String REQ_MSG = "";
 bool REQ_chatGPT_GET = false;
 int REQ_SHUTDOWN_REBOOT = 0;
@@ -10,22 +10,22 @@ int REQ_AVATAR_EXPR;
 void sendReq(int reqNo, String msg)
 {
   REQ_MSG = msg;
-  REQ_NO_GET = reqNo;
+  REQUEST_NO = reqNo;
 }
 
 void RequestManage()
 {
 
-  if (REQ_NO_GET != 0)
+  if (REQUEST_NO != 0)
   {
-    int req = REQ_NO_GET;
+    int req = REQUEST_NO;
 
     switch (req)
     {
     case REQ_SPEAK:
       if (!isTalking())
       {
-        REQ_NO_GET = 0;
+        REQUEST_NO = 0;
         Req_SpkDo();
       }
       break;
@@ -33,7 +33,7 @@ void RequestManage()
     case REQ_SPEAK_ADJUST:
       if (!isTalking())
       {
-        REQ_NO_GET = 0;
+        REQUEST_NO = 0;
         Req_SpkDo_adjust();
       }
       break;
@@ -41,28 +41,28 @@ void RequestManage()
     case REQ_SPEAK_BALOON_ADJUST:
       if (!isTalking())
       {
-        REQ_NO_GET = 0;
+        REQUEST_NO = 0;
         Req_SpkBaloonDo_adjust();
       }
       break;
 
     case REQ_BALOON_ADJUST:
-      REQ_NO_GET = 0;
+      REQUEST_NO = 0;
       Req_BaloonDo_adjust();
       break;
 
     case REQ_BALOON:
-      REQ_NO_GET = 0;
+      REQUEST_NO = 0;
       Req_BaloonDo();
       break;
 
     case REQ_SV_MD_ADJUST:
-      REQ_NO_GET = 0;
+      REQUEST_NO = 0;
       SV_MD = SV_MD_ADJUST;
       break;
 
     default:
-      REQ_NO_GET = 0;
+      REQUEST_NO = 0;
       break;
     }
   }

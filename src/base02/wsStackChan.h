@@ -24,11 +24,11 @@ extern void clearAvatarBalloon();
 #define REQ_BALOON 5
 #define REQ_SV_MD_ADJUST 9
 // -------------------------
-void sendReq(int reqNo,String msg);
+// void sendReq(int reqNo,String msg);
 
 
 // -----------------------------------
-void stackchan(String speakStr,int expr, String balloonStr );
+// void stackchan(String speakStr,int expr, String balloonStr );
 
 // -----------------------------------
 #endif

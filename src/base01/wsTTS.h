@@ -43,6 +43,7 @@ extern int REQUEST_NO;
 extern String REQ_MSG;
 extern void log_free_size(const char *text);
 extern void stackchan(const String& speakStr, int expr=-1, const String balloonStr="$$SKIP$$");
+extern const String EXPR_STR[];
 
 //------------------------------------------------------------
 // void wsHandleSpeech(String sayS, String expressionS, String voiceS);

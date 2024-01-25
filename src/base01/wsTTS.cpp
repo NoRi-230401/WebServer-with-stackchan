@@ -20,20 +20,22 @@ void wsHandleSpeech(String sayS, String expressionS, String balloonS, String voi
   String speakTxt = "";
   int expr = -1;
   String balloonStr = "$$SKIP$$";
-
-  if (sayS == "")
-    return;
-  else
-    speakTxt = sayS;
-  
   webpage = "";
+
+  // if (sayS == "")
+  //   return;
+  // else
+
+  speakTxt = sayS;
 
   if (expressionS != "")
   { // Avatar の顔の表情
     int tmp_expr = expressionS.toInt();
     if (tmp_expr >= 0 && tmp_expr <= 5)
       expr = tmp_expr;
-    webpage += "speech : expression = " + String(expr, DEC) + "<br>";
+
+    webpage += "speech : expression = " + EXPR_STR[expr] ;
+    webpage += "　expr = " + String(expr,DEC) + "<br>";
   }
 
   if ( balloonS != "$$SKIP$$")
@@ -47,7 +49,7 @@ void wsHandleSpeech(String sayS, String expressionS, String balloonS, String voi
     int tmp_vNo = voiceS.toInt();
     if( tmp_vNo>=0 && tmp_vNo<=66)
         TTS_vSpkNo = (uint8_t)tmp_vNo;
-        
+
     webpage += "speech : voice = " + voiceS + "<br>";
   }
 

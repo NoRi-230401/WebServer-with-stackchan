@@ -105,7 +105,8 @@
   <br>
   <a href="http://stackchan/" target="Home">０. Home</a><br>
   <br>
-  <a href="#kihon">１. 基本操作</a><br>
+  <a href="#kihon">１ａ. 基本設定・操作</a><br>
+  <a href="#kihon2B">１ｂ. スタックチャン動作</a><br>
   <a href="#chatgpt">２ａ. chatGPT 基本</a><br>
   <a href="#chatgpt2B">２ｂ. chatGPT キャラ変</a><br>
   <a href="#kantan">３. 簡単設定</a><br>
@@ -130,7 +131,7 @@
 
   <a name="kihon"></a>
   <br>
-  <h2>★１. 基本操作</h2>
+  <h2>★１ａ. 基本設定・操作</h2>
 
   <form action="http://stackchan/setting" method="get">
     音量( 0 - 255 )：<input type="text" name="volume" value="200" size="3" maxlength="3" />　<input type="submit"
@@ -194,20 +195,37 @@
   <br>
   <form action="http://stackchan/balloon" method="get">
     <p>
-      <b>吹き出し</b>： テキスト入力<br>
+      吹き出し： テキスト入力<br>
       <textarea rows="1" cols="30" name="text" wrap="soft"></textarea><br>
       <input type="submit" value="送信" />
     </p>
   </form>
   <br><br>
 
+  <a href="#top">トップ</a>
+  　<a href="http://stackchan/sysInfo">システム情報</a>
+  　<a href="http://stackchan/startup">wsStartup.json</a>
+  　<a href="http://stackchan/shutdown?reboot=on">再起動</a>
+  <br><br>
+  <hr>
+  
+  <a name="kihon2B"></a>
+  <br>
+  <h2>★１ｂ. 基本操作 スタックチャン動作</h2>
+
   <br>
   <form action="http://stackchan/speech" method="get">
     <p>
-      <b>セリフ（発声）</b>： テキスト入力<br>
-      <textarea rows="6" cols="40" name="say" wrap="soft"></textarea><br>
-      vSpkNo:話者番号:( 0-66 ) 　<input type="text" name="voice" value="" size="2" maxlength="2" /><br>
-      表情(0-5)：<input type="text" name="expression" value="0" size="1" maxlength="1" />　上の「表情」番号を入力<br>
+      <b>★発声・声質・表情・吹き出しをいっぺんに実施★</b><br>
+      <br>
+      セリフ： テキスト入力<br>
+      <textarea rows="6" cols="40" name="say" wrap="soft"></textarea><br><br>
+      vSpkNo:話者番号:( 0-66 ) 　<input type="text" name="voice" value="" size="2" maxlength="2" /><br><br>
+      表情(0-5)：<input type="text" name="expression" value="" size="1" maxlength="1" /><br>
+      　0:普通　1:楽しい　2:眠い　3:怪しい　4:悲しい　5:怒り<br><br>
+
+      吹き出し： テキスト入力<br>
+      <textarea rows="1" cols="30" name="balloon" wrap="soft"></textarea><br><br>
       <input type="submit" value="送信" />
     </p>
   </form>
@@ -235,10 +253,16 @@
   </div>
   <br>
 
-  <h4>ロール設定</h4>
-  chatGPTのロール設定の確認と変更ができます。<br><br>
   <p>
-    <a href="http://stackchan/role_get">ロールの確認</a>
+    <h4>チャット履歴</h4>
+    　<a href="http://stackchan/chatGpt?history=all">履歴</a>
+  </p>
+  <br>
+  
+  <h4>ロール設定</h4>
+    chatGPTのロール設定の確認と変更ができます。<br><br>
+    <p>
+    　<a href="http://stackchan/role_get">ロールの確認</a>
   </p>
   <br>
   <p>

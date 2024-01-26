@@ -11,7 +11,7 @@ void ttsDo(const String &speechText)
   Serial.println(speechText);
   Serial.println("--------------------------------");
 
-  String return_string = execute_voicevox(speechText, TTS_vSpkNo,REQ_AVATAR_EXPR);
+  String return_string = execute_voicevox(speechText, TTS_vSpkNo);
   execute_talk(return_string);
 }
 
@@ -83,7 +83,7 @@ bool isTalking()
 //   tts->setAfterExpr(expr);
 // }
 
-String execute_voicevox(const String &speechText, uint8_t spk_no, int expr)
+String execute_voicevox(const String &speechText, uint8_t spk_no)
 {
   if (speechText == "")
   {

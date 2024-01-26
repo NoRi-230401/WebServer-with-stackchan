@@ -43,7 +43,7 @@ extern void REBOOT();
 extern void POWER_OFF();
 extern bool isTalking();
 extern String SPEECH_TEXT;
-extern bool setAvatarExpr(int expr);
+extern void setAvatarExpr(int expr);
 extern void setAvatarBalloon(String msg);
 extern void clearAvatarBalloon();
 extern void stackchan(const String& speakStr, int expr=-1, const String balloonStr="$$SKIP$$");

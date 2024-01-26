@@ -71,14 +71,10 @@ void wsHandleFace(String expression)
   webpage = "face No. =  " + String(expr, DEC) + " : " + EXPR_STR[expr];
 }
 
-bool setAvatarExpr(int expr)
+void setAvatarExpr(int expr)
 {
-  if (expr < 0 || expr > 5)
-    return false;
-
-  // stackchan("", expr);
-  avatar.setExpression(expr_table[expr]);
-  return true;
+  if (expr >= 0 && expr <= 5)
+    avatar.setExpression(expr_table[expr]);
 }
 
 void wsHandleBalloon(String text)

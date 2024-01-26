@@ -37,7 +37,7 @@ extern WiFiClient client;
 extern const Expression expr_table[];
 extern void errSTOP();
 extern String webpage;
-extern int REQ_AVATAR_EXPR;
+// extern int REQ_AVATAR_EXPR;
 extern int REQ_SHUTDOWN_REBOOT;
 extern int REQUEST_NO;
 extern String REQ_MSG;
@@ -54,7 +54,7 @@ void ttsDo( const String& speechText );
 // void setAfterExpr(int expr);
 bool isTalking();
 void execute_talk(String url);
-String execute_voicevox(const String &text, uint8_t spk_no, int expr);
+String execute_voicevox(const String &text, uint8_t spk_no);
 #define TTS_VSPKNO_MAX 66
 #define TTS_VSPKNO_INIT 3
 void setTTSvSpkNo(int spkNo);

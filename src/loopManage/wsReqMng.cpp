@@ -4,20 +4,20 @@
 int REQUEST_NO2 = 0; // 0 : no request
 String REQ_SPEAK_STR = "";
 int REQ_EXPR = -1;
-int REQ_AFTER_EXPR = -1;
+int REQ_EXPR_AFTER = -1;
 String REQ_BALOON_STR = "";
 
 int REQUEST_NO = 0; // 0 : no request
 String REQ_MSG = "";
 bool REQ_chatGPT_GET = false;
 int REQ_SHUTDOWN_REBOOT = 0;
-int REQ_AVATAR_EXPR;
 
 void sendReq2(int reqNo, const String& speakStr, int expr, const String balloonStr, int afterExpr)
 {
   REQ_SPEAK_STR = speakStr;
   REQ_EXPR = expr;
-  REQ_AFTER_EXPR = afterExpr;
+  REQ_EXPR_AFTER = afterExpr;
+  Serial.println("REQ_EXPR_AFTER = " + String(REQ_EXPR_AFTER,DEC));
   REQ_BALOON_STR = balloonStr;
   REQUEST_NO2 = reqNo;
 }
@@ -136,7 +136,7 @@ void Req_BaloonDo()
 
 void Req_SpkDo()
 {
-  avatar.setExpression(expr_table[REQ_AVATAR_EXPR]);
+  avatar.setExpression(expr_table[REQ_EXPR]);
   SPEECH_TEXT = REQ_MSG;
   ttsDo(SPEECH_TEXT);
   SPEECH_TEXT = "";

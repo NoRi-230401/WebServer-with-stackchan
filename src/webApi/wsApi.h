@@ -122,7 +122,7 @@ extern bool initWifiJson(DynamicJsonDocument &wifiJson);
 extern void wsHandleStartup(String serverNameS, String volumeS, String ledS, String toneModeS,
    String muteS, String keyLockS, String vSpeakerNoS, String randomSpeakS,
    String timerS, String txS);
-extern bool setAvatarExpr(int expr);
+// extern void setAvatarExpr(int expr);
 extern void wsHandleApikeySetting(String openAiS, String voicevoxS,String txS);
 extern void wsHandleSetting(String volumeS, String volumeDS, String speakerS, String ledS, String muteS, String keyLockS, String toneModeS);
 extern void wsHandleBtn(String arg);

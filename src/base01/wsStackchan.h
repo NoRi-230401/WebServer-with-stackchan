@@ -86,7 +86,7 @@ void stackchan(const String& speakStr,int expr, const String balloonStr, int aft
 // -----------------------------------
 void wsHandleFace(String expression);
 void wsHandleBalloon(String text);
-bool setAvatarExpr(int expr);
+void setAvatarExpr(int expr);
 void setAvatarBalloon(String msg);
 void clearAvatarBalloon();
 void statusLineNext();

@@ -11,9 +11,21 @@ void ttsDo(const String &speechText)
   Serial.println(speechText);
   Serial.println("--------------------------------");
 
+  WST = WST_ttsStart;
   String return_string = execute_voicevox(speechText, TTS_vSpkNo);
-  execute_talk(return_string);
+  if(return_string=="")
+  {
+    Serial.println("voicevox Err");
+    WST = WST_ttsExit;
+    return;
+  }
+  else
+  {
+    WST = WST_mp3UrlGet;
+    execute_talk(return_string);
+  }
 }
+
 
 void wsHandleSpeech(String sayS, String expressionS, String balloonS, String voiceS, String afterExpS )
 {
@@ -61,8 +73,6 @@ void wsHandleSpeech(String sayS, String expressionS, String balloonS, String voi
     webpage += "speech : voice = " + voiceS + "<br>";
   }
 
-  // sendReq(REQ_SPEAK, sayS);
-  // REQ_AVATAR_EXPR = expr; // Avatar の顔の表情
 
   stackchan(speakTxt, expr, balloonStr, afterExpr);
   webpage += "speech : say = " + sayS;
@@ -73,16 +83,6 @@ bool isTalking()
   return ((tts->is_talking) || (SPEECH_TEXT != ""));
 }
 
-// void setSpeaker(uint8_t spk_no)
-// {
-//   tts->setSpkNo(spk_no);
-// }
-
-// void setAfterExpr(int expr)
-// {
-//   tts->setAfterExpr(expr);
-// }
-
 String execute_voicevox(const String &speechText, uint8_t spk_no)
 {
   if (speechText == "")
@@ -91,7 +91,6 @@ String execute_voicevox(const String &speechText, uint8_t spk_no)
   }
   log_free_size("VOICEVOX：IN");
 
-  // tts->setAfterExpr(expr); 
   tts->setSpkNo(spk_no);
   String return_string = tts->synthesis(speechText);
   return return_string;

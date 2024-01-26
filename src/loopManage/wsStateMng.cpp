@@ -17,19 +17,30 @@ void stateManage()
 
   else if (WST == WST_talkDone)
   {
+    avatar.setMouthOpenRatio(0);
+    avatar.setSpeechText("");
+
     if (REQ_EXPR_AFTER >= 0 && REQ_EXPR_AFTER <= 5)
     {
       avatar.setExpression(expr_table[REQ_EXPR_AFTER]);
-      // setAvatarExpr(REQ_AVATAR_EXPR);
-      Serial.println( "afterExpr = " + String(REQ_EXPR_AFTER,DEC) );
+      
+      // setAvatarExpr(REQ_EXPR_AFTER);  // なぜかこれをコメントアウトするとハングアップする
+      // Serial.println("exprAfter = " + String(REQ_EXPR_AFTER, DEC));
     }
     REQ_EXPR_AFTER = -1;
-    
+
     log_free_size("VOICEVOX：OUT");
     showExeTime("VOICEVOX：end of speaking");
     WST = WST_loop;
     return;
   }
+
+  else if (WST == WST_ttsExit)
+  {
+    WST = WST_loop;
+    return;
+  }
+
   return;
 
   // if (WST != WST_loop)

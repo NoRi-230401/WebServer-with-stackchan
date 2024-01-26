@@ -17,7 +17,7 @@ void sendReq2(int reqNo, const String& speakStr, int expr, const String balloonS
   REQ_SPEAK_STR = speakStr;
   REQ_EXPR = expr;
   REQ_EXPR_AFTER = afterExpr;
-  Serial.println("REQ_EXPR_AFTER = " + String(REQ_EXPR_AFTER,DEC));
+  // Serial.println("REQ_EXPR_AFTER = " + String(REQ_EXPR_AFTER,DEC));
   REQ_BALOON_STR = balloonStr;
   REQUEST_NO2 = reqNo;
 }

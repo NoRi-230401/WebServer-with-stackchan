@@ -46,6 +46,19 @@ extern void log_free_size(const char *text);
 extern void stackchan(const String& speakStr, int expr=-1, const String balloonStr="$$SKIP$$", int afterExpr=-1 );
 extern const String EXPR_STR[];
 
+// --- Wss StaTe (WST) define ------- 
+extern uint16_t WST ;
+#define WST_setupStart   0x1000
+#define WST_setupDone    0x1900
+#define WST_loop         0x2000
+#define WST_stt          0x3000
+#define WST_chatGPT      0x4000
+#define WST_ttsStart     0x5000
+#define WST_mp3UrlGet    0x5100
+#define WST_talkStart    0x5200
+#define WST_ttsExit      0x5800
+#define WST_talkDone     0x5900
+
 //------------------------------------------------------------
 // void wsHandleSpeech(String sayS, String expressionS, String voiceS);
 void wsHandleSpeech(String sayS, String expressionS, String balloonS, String voiceS, String afterExpS);

@@ -31,8 +31,8 @@ void voicevox_task_loop(void *args)
                     delete ptr->buff;
                     ptr->buff = nullptr;
                 }
-                avatar.setMouthOpenRatio(0);
-                avatar.setSpeechText("");
+                // avatar.setMouthOpenRatio(0);
+                // avatar.setSpeechText("");
                 WST = WST_talkDone;
                 // showExeTime("VOICEVOX：end of speaking");
                 // log_free_size("VOICEVOX：OUT");

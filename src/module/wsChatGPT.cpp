@@ -454,28 +454,19 @@ String https_post_json(const char *url, const char *json_string, const char *roo
   {
     client->setCACert(root_ca);
     {
-      // Add a scoping block for HTTPClient https to make sure it is destroyed before WiFiClientSecure *client is
       HTTPClient https;
       https.setTimeout(UINT16_MAX); // 最大値の約65秒にタイムアウトを設定
 
-      // Serial.print("[HTTPS] begin...\n");
       if (https.begin(*client, url))
-      { // HTTPS
-        // Serial.print("[HTTPS] POST...\n");
-        // start connection and send HTTP header
+      {
         https.addHeader("Content-Type", "application/json");
         https.addHeader("Authorization", String("Bearer ") + OPENAI_API_KEY);
         int httpCode = https.POST((uint8_t *)json_string, strlen(json_string));
 
         WK_ERR_CODE = httpCode;
 
-        // httpCode will be negative on error
         if (httpCode > 0)
         {
-          // HTTP header has been send and Server response header has been handled
-          // Serial.printf("[HTTPS] POST... code: %d\n", httpCode);
-
-          // file found at server
           if (httpCode == HTTP_CODE_OK || httpCode == HTTP_CODE_MOVED_PERMANENTLY)
           {
             payload = https.getString();
@@ -503,7 +494,6 @@ String https_post_json(const char *url, const char *json_string, const char *roo
         Serial.printf("[HTTPS] Unable to connect\n");
         WK_ERR_NO = 4;
       }
-      // End extra scoping block
     }
     delete client;
   }
@@ -529,7 +519,6 @@ String chatGpt(String json_string)
   String ret = https_post_json("https://api.openai.com/v1/chat/completions", json_string.c_str(), root_ca_openai);
   avatar.setExpression(Expression::Neutral);
   avatar.setSpeechText("");
-  // Serial.println(ret);
 
   // 音声が再生された後にLEDを消灯
   ledSetColor(2, 0, 0, 0); // 黒（消灯）
@@ -654,31 +643,30 @@ void exec_chatGPT(String toChatGptText)
   serializeJson(CHAT_DOC, chatDocJson);
   // -----------------------------------------------------------------
 
-  if (!isTalking())
+  if (isTalking())
+  {
+    Serial.println("chatGPT exit : 話し中");
+    WST = WST_chatGPT_exit;
+    return;
+  }
+  else
   {
     chatResponse = chatGpt(chatDocJson);
     if (chatResponse != "")
-    {// chatGPTの応答が正常な場合
+    { // chatGPT応答が正常な場合
       chatHistory.push_back(chatResponse);
-      
-      // avatar.setExpression(Expression::Happy);
-      // sendReq(REQ_SPEAK, chatResponse);
       stackchan(chatResponse, EXPR_HAPPY, "$$SKIP$$", EXPR_NEUTRAL);
-
       showExeTime("ChatGPT ：chatResponse get, then move to VOICEVOX");
       log_free_size("chatGPT ：OUT");
       WST = WST_chatGPT_done;
+      return;
     }
     else
     {
       Serial.println("chatGPT exit : エラー");
       WST = WST_chatGPT_exit;
+      return;
     }
-  }
-  else
-  {
-    Serial.println("chatGPT exit : 話し中");
-    WST = WST_chatGPT_exit;
   }
 }
 

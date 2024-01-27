@@ -7,14 +7,13 @@ String SPEECH_TEXT = "";
 
 void ttsDo(const String &speechText)
 {
+  WST = WST_TTS_start;
+  log_free_size("VOICEVOX：IN");
   Serial.println("------- [ speak to you ] -------");
   Serial.println(speechText);
   Serial.println("--------------------------------");
 
-  WST = WST_TTS_start;
-  log_free_size("VOICEVOX：IN");
   String return_string = execute_voicevox(speechText, TTS_vSpkNo);
-  
   if(return_string=="")
   {
     Serial.println("voicevox Err");

@@ -24,10 +24,23 @@
 extern void sendReq(int reqNo,String msg);
 // -----------------------
 
+
+
 using namespace m5avatar;
 extern Avatar avatar;
 extern bool SYSINFO_DISP_STATE;
 extern void sysInfoDispEnd();
+
+extern void stackchan(const String& speakStr, int expr=-1, const String balloonStr="$$SKIP$$", int afterExpr=-1 );
+//-- Avatar expressions --
+#define EXPR_NEUTRAL 0
+#define EXPR_HAPPY 1
+#define EXPR_SLEEPY 2
+#define EXPR_DOUBT 3
+#define EXPR_SAD 4
+#define EXPR_ANGRY 5
+
+
 
 // extern void ledSetColor2(uint16_t n, uint32_t c);
 // extern void ledSetColor(uint16_t n, uint8_t r, uint8_t g, uint8_t b);

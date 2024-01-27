@@ -27,11 +27,11 @@ void avatarSTART()
   avatar.addTask(servo, "servo");
 
   // -- batteryStatusLine setup ---
-  StatusLineMode = STATUS_MD_MEM;
-  statusLineOnOffState = true;
+  StatusLineMode = STATUS_MD_ICON;
+  statusLineOnOffState = false;
   avatar.setStatusLineText("");
   avatar.setStatusLineFont(&fonts::Font0);
-  avatar.setBatteryIcon(true, BATTERY_MD_LINE_DISP);
+  avatar.setBatteryIcon(true, BATTERY_MD_INVISIBLE);
   avatar.setBatteryStatus(M5.Power.isCharging(), M5.Power.getBatteryLevel());
 
   // 一度balloon表示しないとBatteryIconのフォント設定が反映されない？？ -- by NoRi 240101 --

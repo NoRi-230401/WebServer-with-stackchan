@@ -1,7 +1,7 @@
 // ----------------------------<wsStLnMng.cpp>------------------------------------
 #include "wsStLnMng.h"
 
-bool statusLineOnOffState = true;
+bool statusLineOnOffState = false;
 #define STATUS_MD_ICON 0
 #define STATUS_MD_NUM 1
 #define STATUS_MD_CLOCK 2

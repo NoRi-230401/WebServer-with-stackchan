@@ -33,7 +33,7 @@ void voicevox_task_loop(void *args)
                 }
                 // avatar.setMouthOpenRatio(0);
                 // avatar.setSpeechText("");
-                WST = WST_talkDone;
+                WST = WST_TTS_talkDone;
                 // showExeTime("VOICEVOX：end of speaking");
                 // log_free_size("VOICEVOX：OUT");
             }
@@ -55,7 +55,7 @@ VoiceVox::~VoiceVox()
 
 String VoiceVox::synthesis(const String &speechText)
 {
-    showExeTime("",EXE_TM_MD_START);
+    // showExeTime("",EXE_TM_MD_START);
     HTTPClient https;
     https.setTimeout(UINT16_MAX);   // 最大値の約65秒にタイムアウトを設定
     if (!https.begin(url, root_ca_voicevox))
@@ -91,7 +91,7 @@ String VoiceVox::synthesis(const String &speechText)
     const String mp3_url = doc["mp3StreamingUrl"].as<String>();
     doc.clear();
 
-    showExeTime("VOICEVOX：mp3Url get then start speaking");
+    // showExeTime("VOICEVOX：mp3Url get then start speaking");
     return mp3_url;
 }
 

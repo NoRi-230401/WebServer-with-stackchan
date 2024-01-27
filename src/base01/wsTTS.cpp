@@ -11,18 +11,21 @@ void ttsDo(const String &speechText)
   Serial.println(speechText);
   Serial.println("--------------------------------");
 
-  WST = WST_ttsStart;
+  WST = WST_TTS_start;
+  log_free_size("VOICEVOX：IN");
   String return_string = execute_voicevox(speechText, TTS_vSpkNo);
   if(return_string=="")
   {
     Serial.println("voicevox Err");
-    WST = WST_ttsExit;
+    WST = WST_TTS_exit;
     return;
   }
   else
   {
-    WST = WST_mp3UrlGet;
+    WST = WST_TTS_talkStart;
+    showExeTime("",EXE_TM_MD_START);
     execute_talk(return_string);
+    showExeTime("VOICEVOX：mp3Url get then start speaking");
   }
 }
 
@@ -89,7 +92,7 @@ String execute_voicevox(const String &speechText, uint8_t spk_no)
   {
     return "";
   }
-  log_free_size("VOICEVOX：IN");
+  // log_free_size("VOICEVOX：IN");
 
   tts->setSpkNo(spk_no);
   String return_string = tts->synthesis(speechText);
@@ -99,7 +102,10 @@ String execute_voicevox(const String &speechText, uint8_t spk_no)
 void execute_talk(String url)
 {
   if (url != "")
+  {
     tts->talk_https(url);
+  }
+
 }
 
 void setTTSvSpkNo(int spkNo)

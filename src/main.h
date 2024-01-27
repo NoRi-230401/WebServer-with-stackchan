@@ -29,16 +29,19 @@ extern void log_free_size(const char *text);
 #define EXE_TM_MD_START 3 // no disp and timer reset for START 
 extern void showExeTime(String msg, int mode = EXE_TM_MD0);
 
-
 // --- Wss StaTe (WST) define ------- 
 extern uint16_t WST ;
-#define WST_setupStart   0x1000
-#define WST_setupDone    0x1900
-#define WST_loop         0x2000
-#define WST_stt          0x3000
-#define WST_chatGPT      0x4000
-#define WST_voicevox     0x5000
-#define WST_talkDone     0x5900
+#define WST_INIT          0x0000
+#define WST_SETUP_start   0x1000
+#define WST_SETUP_done    0x1900
+#define WST_LOOP          0x2000
+#define WST_STT           0x3000
+#define WST_chatGPT       0x4000
+#define WST_TTS_start     0x5000
+#define WST_TTS_mp3urlGet 0x5100
+#define WST_TTS_talkStart 0x5200
+#define WST_TTS_ttsExit   0x5800
+#define WST_TTS_talkDone  0x5900
 extern void stateManage();
 
 // ----------------------------------------------------------

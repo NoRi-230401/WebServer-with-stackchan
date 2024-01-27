@@ -1,70 +1,52 @@
 // ----------------------------<wsStateMng.cpp>------------------------------------
 #include "wsStateMng.h"
-uint16_t WST = 0x0000;
+uint16_t WST = WST_INIT;
 
 void stateManage()
 {
-  if (WST == WST_loop)
+  if (WST == WST_LOOP || WST == WST_TTS_talking)
     return;
 
-  else if (WST == WST_setupDone)
+  switch (WST)
   {
+  case WST_SETUP_done:
     log_free_size("初期化終了：");
     showExeTime("setup()  --- End --- ");
-    WST = WST_loop;
+    WST = WST_LOOP;
     return;
-  }
 
-  else if (WST == WST_talkDone)
-  {
+  case WST_TTS_talkStart:
+    WST = WST_TTS_talking;
+    return;
+  
+  case WST_TTS_exit:
+    log_free_size("TTS exit：");
+    showExeTime("TTS exit ");
+    WST = WST_LOOP;
+    return;
+
+  case WST_TTS_talkDone:
     avatar.setMouthOpenRatio(0);
     avatar.setSpeechText("");
 
     if (REQ_EXPR_AFTER >= 0 && REQ_EXPR_AFTER <= 5)
     {
       avatar.setExpression(expr_table[REQ_EXPR_AFTER]);
-      
-      // setAvatarExpr(REQ_EXPR_AFTER);  // なぜかこれをコメントアウトするとハングアップする
+      // setAvatarExpr(REQ_EXPR_AFTER);  //コメントアウトするとハングアップする
       // Serial.println("exprAfter = " + String(REQ_EXPR_AFTER, DEC));
     }
     REQ_EXPR_AFTER = -1;
 
     log_free_size("VOICEVOX：OUT");
     showExeTime("VOICEVOX：end of speaking");
-    WST = WST_loop;
+    WST = WST_LOOP;
     return;
-  }
 
-  else if (WST == WST_ttsExit)
-  {
-    WST = WST_loop;
+  default:
+    Serial.println("WST state value get : WST = " + String(WST, HEX));
+    // WST = WST_LOOP;
     return;
   }
 
   return;
-
-  // if (WST != WST_loop)
-  // {
-  //   switch (WST)
-  //   {
-  //   case WST_setupDone:
-  //     // log_free_size("初期化終了：");
-  //     // showExeTime("setup()  --- End --- ");
-  //     WST = WST_loop;
-  //     break;
-
-  //   case WST_talkDone:
-  //     if (REQ_AVATAR_EXPR >= 0 && REQ_AVATAR_EXPR <= 5)
-  //       setAvatarExpr(REQ_AVATAR_EXPR);
-  //     REQ_AVATAR_EXPR = -1;
-
-  //     showExeTime("VOICEVOX：end of speaking");
-  //     log_free_size("VOICEVOX：OUT");
-  //     WST = WST_loop;
-  //     break;
-
-  //   default:
-  //     break;
-  //   }
-  // }
 }

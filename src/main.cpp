@@ -15,7 +15,7 @@ const String WSS_VERSION = WSS_NAME + " " + WSS_VER;
 
 void setup()
 {
-  WST = WST_setupStart;
+  WST = WST_SETUP_start;
   // ** initial Setting **
   M5StackConfig();
   log_free_size("初期化開始：");
@@ -39,20 +39,18 @@ void setup()
 
   //*** Wake UP! STACKCHAN ***
   avatarSTART();
-  WST = WST_setupDone;
+  WST = WST_SETUP_done;
 }
 
 
 void loop()
 {
-
+  stateManage();
   buttonManage();
   requestManage();
   statusLineManage();
+
   chatGptManage();
   timerManage();
-
-  stateManage();
-
 }
 

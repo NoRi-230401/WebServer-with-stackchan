@@ -1,5 +1,5 @@
 // ----------------------------<wsWifi.cpp>------------------------------------
-#include "wsWifi.h"
+#include "../h/wsWifi.h"
 
 const String WIFI_SPIFFS = "/wsWifi.json";
 const String WIFI_SD = "/wsWifi.json";

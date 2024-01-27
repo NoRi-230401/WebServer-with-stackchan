@@ -1,5 +1,5 @@
 // ----------------------------<wsStackchan.cpp>------------------------------------
-#include "wsStackchan.h"
+#include "../h/wsStackchan.h"
 
 using namespace m5avatar;
 Avatar avatar;

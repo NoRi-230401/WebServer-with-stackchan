@@ -1,5 +1,5 @@
 // ----------------------------<wsStLnMng.cpp>------------------------------------
-#include "wsStLnMng.h"
+#include "../h/wsStLnMng.h"
 
 bool statusLineOnOffState = false;
 #define STATUS_MD_ICON 0

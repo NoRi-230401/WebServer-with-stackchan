@@ -25,7 +25,7 @@
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
   See more at http://dsbird.org.uk
 */
-#include "wsServer.h"
+#include "../h/wsServer.h"
 
 AsyncWebServer server(80);
 typedef struct

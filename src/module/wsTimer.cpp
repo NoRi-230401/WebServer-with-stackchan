@@ -1,5 +1,5 @@
 // ----------------------------<wsTimer.cpp>------------------------------------
-#include "wsTimer.h"
+#include "../h/wsTimer.h"
 
 uint16_t TM_SEC_VAL = TM_INIT; // Timer時間設定(sec)
 bool TM_STARTED = false;

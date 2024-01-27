@@ -1,5 +1,5 @@
 // ---------------------------< wsTTS.cpp >------------------------------------
-#include "wsTTS.h"
+#include "../h/wsTTS.h"
 
 uint8_t TTS_vSpkNo = 3;
 VoiceVox *tts = new VoiceVox();

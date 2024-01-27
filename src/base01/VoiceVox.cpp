@@ -1,4 +1,4 @@
-#include "VoiceVox.h"
+#include "../h/VoiceVox.h"
 
 TaskHandle_t voicevox_task_handle;
 

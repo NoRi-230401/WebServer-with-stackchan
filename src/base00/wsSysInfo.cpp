@@ -1,5 +1,5 @@
 // ---------------------------< wsSysInfo.cpp >------------------------------------
-#include "wsSysInfo.h"
+#include "../h/wsSysInfo.h"
 
 using namespace m5avatar;
 extern Avatar avatar;

@@ -1,5 +1,5 @@
 // ----------------------------<wsLed.cpp>------------------------------------
-#include "wsLed.h"
+#include "../h/wsLed.h"
 
 bool LED_OnOff_STATE = true;
 Adafruit_NeoPixel pixels(NUM_LEDS, LED_PIN, NEO_GRB + NEO_KHZ800); // 800kHzでNeoPixelを駆動 おまじない行

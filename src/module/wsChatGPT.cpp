@@ -520,7 +520,6 @@ String chatGpt(String json_string)
 {
   String response = "";
   avatar.setExpression(Expression::Doubt);
-
   avatar.setSpeechText("考え中…");
 
   // LED 2番と7番を白色に光らせる
@@ -551,8 +550,10 @@ String chatGpt(String json_string)
       avatar.setExpression(Expression::Sad);
 
       avatar.setSpeechText("エラーです");
-      response = "エラーです";
-
+      // response = "エラーです";
+      Serial.println("chatGPT err : desirialization ");
+      response = "";
+ 
       delay(1000);
       avatar.setSpeechText("");
       avatar.setExpression(Expression::Neutral);
@@ -560,7 +561,6 @@ String chatGpt(String json_string)
     else
     {
       const char *data = doc["choices"][0]["message"]["content"];
-      // Serial.println(data);
       response = String(data);
       std::replace(response.begin(), response.end(), '\n', ' ');
     }
@@ -601,9 +601,11 @@ String chatGpt(String json_string)
     sprintf(msg, "%s %s", msg1, msg2);
     avatar.setExpression(Expression::Sad);
     avatar.setSpeechText(msg);
-    response = msg;
+
+    // response = msg;
+    response = "";
     Serial.println(msg);
-    // delay(1000);
+
     delay(2000); // *** [わかりません対策01] ***
     avatar.setSpeechText("");
     avatar.setExpression(Expression::Neutral);
@@ -616,10 +618,13 @@ String chatGpt(String json_string)
   return response;
 }
 
+
 void exec_chatGPT(String toChatGptText)
 {
   showExeTime("",EXE_TM_MD_START); // timer start
   log_free_size("\nchatGPT ：IN");
+  WST = WST_chatGPT_start;
+  
   Serial.println("----- [ talk to chatGPT ] -----");
   Serial.println(toChatGptText);
   Serial.println("--------------------------------");
@@ -663,8 +668,9 @@ void exec_chatGPT(String toChatGptText)
     chatResponse = "busy";
   }
   
-  showExeTime("ChatGPT ：get chatResponse then move to VOICEVOX");
+  showExeTime("ChatGPT ：chatResponse get, then move to VOICEVOX");
   log_free_size("chatGPT ：OUT");
+  WST = WST_chatGPT_done;
 }
 
 bool saveChatDoc()

@@ -14,6 +14,7 @@ void ttsDo(const String &speechText)
   WST = WST_TTS_start;
   log_free_size("VOICEVOX：IN");
   String return_string = execute_voicevox(speechText, TTS_vSpkNo);
+  
   if(return_string=="")
   {
     Serial.println("voicevox Err");
@@ -92,7 +93,6 @@ String execute_voicevox(const String &speechText, uint8_t spk_no)
   {
     return "";
   }
-  // log_free_size("VOICEVOX：IN");
 
   tts->setSpkNo(spk_no);
   String return_string = tts->synthesis(speechText);
@@ -105,7 +105,6 @@ void execute_talk(String url)
   {
     tts->talk_https(url);
   }
-
 }
 
 void setTTSvSpkNo(int spkNo)

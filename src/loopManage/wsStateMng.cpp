@@ -15,6 +15,9 @@ void stateManage()
     WST = WST_LOOP;
     return;
 
+  case WST_chatGPT_done:
+    return;
+
   case WST_TTS_talkStart:
     WST = WST_TTS_talking;
     return;

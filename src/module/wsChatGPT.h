@@ -67,7 +67,7 @@ extern String webpage;
 extern int TTS_PARMS_NO;
 extern void sysInfoDispEnd();
 extern bool isTalking();
-extern void sendReq(int reqNo,String msg);
+// extern void sendReq(int reqNo,String msg);
 extern void log_free_size(const char *text);
 
 // --- exe timer define ------- 

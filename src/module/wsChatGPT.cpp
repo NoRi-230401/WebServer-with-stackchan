@@ -278,7 +278,8 @@ void wsHandelChatGpt(String historyS, String charaS)
     {
       String spkMsg = chara_name + " です。";
       Serial.println(spkMsg);
-      sendReq(REQ_SPEAK, spkMsg);
+      // sendReq(REQ_SPEAK, spkMsg);
+      stackchan(spkMsg);
     }
     return;
   }
@@ -429,7 +430,8 @@ void randomSpeak(bool mode)
 
   RANDOM_SPEAK_ON_GET = false;
   RANDOM_SPEAK_OFF_GET = false;
-  sendReq(REQ_SPEAK, speakMsg);
+  // sendReq(REQ_SPEAK, speakMsg);
+  stackchan(speakMsg);
 }
 
 bool setChatDoc(const String &data)

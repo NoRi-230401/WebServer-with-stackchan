@@ -28,6 +28,8 @@ extern void log_free_size(const char *text);
 #define EXE_TM_MD2 2 // no disp and timer reset
 #define EXE_TM_MD_START 3 // no disp and timer reset for START 
 extern void showExeTime(String msg, int mode = EXE_TM_MD0);
+extern void setVolume(int vol);
+extern uint8_t getVolumeVal();
 
 // --- Wss StaTe (WST) define ------- 
 extern uint16_t WST ;

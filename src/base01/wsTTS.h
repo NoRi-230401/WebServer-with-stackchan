@@ -30,7 +30,7 @@ using namespace m5avatar;
 
 extern const char *SETTING_NVS;
 // -----------------------
-extern void sendReq(int reqNo,String msg);
+// extern void sendReq(int reqNo,String msg);
 extern Avatar avatar;
 extern HTTPClient http;
 extern WiFiClient client;

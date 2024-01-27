@@ -21,7 +21,7 @@
 #define REQ_SPEAK 4
 #define REQ_BALOON 5
 #define REQ_SV_MD_ADJUST 9
-extern void sendReq(int reqNo,String msg);
+// extern void sendReq(int reqNo,String msg);
 // -----------------------
 
 

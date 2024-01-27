@@ -76,6 +76,15 @@ extern void log_free_size(const char *text);
 #define EXE_TM_MD2 2 // no disp and timer reset
 #define EXE_TM_MD_START 3 // no disp and timer reset for START 
 extern void showExeTime(String msg, int mode = EXE_TM_MD0);
+extern void stackchan(const String& speakStr, int expr=-1, const String balloonStr="$$SKIP$$", int afterExpr=-1 );
+
+//-- Avatar expressions --
+#define EXPR_NEUTRAL 0
+#define EXPR_HAPPY 1
+#define EXPR_SLEEPY 2
+#define EXPR_DOUBT 3
+#define EXPR_SAD 4
+#define EXPR_ANGRY 5
 
 // --- Wss StaTe (WST) define ------- 
 extern uint16_t WST ;

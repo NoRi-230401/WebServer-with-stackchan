@@ -117,9 +117,8 @@ void wsHandelChat(String textS, String voiceS)
   REQ_chatGPT_GET = true;
   REQ_MSG = textS;
 
-  webpage  = "chat : text  = " + textS + "<br>";
-  webpage += "chat : voice = " + String(TTS_vSpkNo,DEC);
-
+  webpage = "chat : text  = " + textS + "<br>";
+  webpage += "chat : voice = " + String(TTS_vSpkNo, DEC);
 }
 
 void wsHandelChatCharacter(String ch_NoS, String ch_nameS, String ch_voiceS, String ch_roleS)
@@ -231,16 +230,16 @@ void wsHandelChatGpt(String historyS, String charaS)
     Serial.println("vSpkNo = " + chara_vSpkNoS);
     Serial.println("role = " + chara_role);
 
-    setChatDoc(chatStrIData);  // 初期データの登録
-    
+    setChatDoc(chatStrIData); // 初期データの登録
+
     JsonArray messages = CHAT_DOC["messages"];
     JsonObject systemMessage1 = messages.createNestedObject();
     systemMessage1["role"] = "system";
     systemMessage1["content"] = chara_role;
-    
-    chatHistory.clear();  // 会話履歴をクリア
+
+    chatHistory.clear(); // 会話履歴をクリア
     CHATDOC_INIT_BUF = "";
-    serializeJson(CHAT_DOC, CHATDOC_INIT_BUF); 
+    serializeJson(CHAT_DOC, CHATDOC_INIT_BUF);
 
     // Serial.println("CHATDOC_INIT_BUF = " + CHATDOC_INIT_BUF);
     // JSONデータをspiffsへ保存
@@ -310,7 +309,7 @@ void wsHandleRoleSet(String roleS)
   {
     // setChatDoc(chatStrIData.c_str());
     setChatDoc(chatStrIData);
-    
+
     JsonArray messages = CHAT_DOC["messages"];
     JsonObject systemMessage1 = messages.createNestedObject();
     systemMessage1["role"] = "system";
@@ -321,7 +320,7 @@ void wsHandleRoleSet(String roleS)
   {
     // setChatDoc(chatStrIData.c_str());
     setChatDoc(chatStrIData);
-    
+
     webpage = "chatGPT : clear role data ";
   }
   // 会話履歴をクリア
@@ -359,7 +358,7 @@ bool chatDocInit()
 
     // setChatDoc(chatStrIData.c_str());
     setChatDoc(chatStrIData);
-    
+
     return false;
   }
 
@@ -433,7 +432,7 @@ void randomSpeak(bool mode)
   sendReq(REQ_SPEAK, speakMsg);
 }
 
-bool setChatDoc(const String& data)
+bool setChatDoc(const String &data)
 {
   DeserializationError error = deserializeJson(CHAT_DOC, data.c_str());
   if (error)
@@ -553,7 +552,7 @@ String chatGpt(String json_string)
       // response = "エラーです";
       Serial.println("chatGPT err : desirialization ");
       response = "";
- 
+
       delay(1000);
       avatar.setSpeechText("");
       avatar.setExpression(Expression::Neutral);
@@ -618,19 +617,18 @@ String chatGpt(String json_string)
   return response;
 }
 
-
 void exec_chatGPT(String toChatGptText)
 {
-  showExeTime("",EXE_TM_MD_START); // timer start
+  showExeTime("", EXE_TM_MD_START); // timer start
   log_free_size("\nchatGPT ：IN");
   WST = WST_chatGPT_start;
-  
+
   Serial.println("----- [ talk to chatGPT ] -----");
   Serial.println(toChatGptText);
   Serial.println("--------------------------------");
-  
+
   // ----   chatGPTに送るデータを作成　-----------------------------
-  setChatDoc(CHATDOC_INIT_BUF);    // CHATDOC_INIT_BUF のデータをセットする。
+  setChatDoc(CHATDOC_INIT_BUF); // CHATDOC_INIT_BUF のデータをセットする。
   chatHistory.push_back(toChatGptText);
   if (chatHistory.size() > MAX_HISTORY * 2)
   {
@@ -653,24 +651,35 @@ void exec_chatGPT(String toChatGptText)
   }
   String chatDocJson;
   String chatResponse = "";
-  serializeJson(CHAT_DOC, chatDocJson);  
+  serializeJson(CHAT_DOC, chatDocJson);
   // -----------------------------------------------------------------
 
   if (!isTalking())
   {
     chatResponse = chatGpt(chatDocJson);
-    chatHistory.push_back(chatResponse);
-    avatar.setExpression(Expression::Happy);
-    sendReq(REQ_SPEAK, chatResponse);
+    if (chatResponse != "")
+    {// chatGPTの応答が正常な場合
+      chatHistory.push_back(chatResponse);
+      
+      // avatar.setExpression(Expression::Happy);
+      // sendReq(REQ_SPEAK, chatResponse);
+      stackchan(chatResponse, EXPR_HAPPY, "$$SKIP$$", EXPR_NEUTRAL);
+
+      showExeTime("ChatGPT ：chatResponse get, then move to VOICEVOX");
+      log_free_size("chatGPT ：OUT");
+      WST = WST_chatGPT_done;
+    }
+    else
+    {
+      Serial.println("chatGPT exit : エラー");
+      WST = WST_chatGPT_exit;
+    }
   }
   else
   {
-    chatResponse = "busy";
+    Serial.println("chatGPT exit : 話し中");
+    WST = WST_chatGPT_exit;
   }
-  
-  showExeTime("ChatGPT ：chatResponse get, then move to VOICEVOX");
-  log_free_size("chatGPT ：OUT");
-  WST = WST_chatGPT_done;
 }
 
 bool saveChatDoc()

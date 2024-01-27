@@ -57,6 +57,7 @@ extern String getHeapFreeSize();
 extern  bool statusLineOnOffState;
 extern int StatusLineMode;
 
+//-- Avatar expressions --
 #define EXPR_NEUTRAL 0
 #define EXPR_HAPPY 1
 #define EXPR_SLEEPY 2

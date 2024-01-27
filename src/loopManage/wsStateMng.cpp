@@ -15,6 +15,12 @@ void stateManage()
     WST = WST_LOOP;
     return;
 
+  case WST_chatGPT_exit:
+    log_free_size("chatGPT Exit：");
+    showExeTime("chatGPT Exit ");
+    WST = WST_LOOP;
+    return;
+
   case WST_chatGPT_done:
     return;
 

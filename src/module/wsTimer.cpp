@@ -156,7 +156,7 @@ void timerStart()
     sprintf(timer_sec_str, "%d秒", timer_sec);
   }
 
-  char EX_TmrSTART_TXT[] = "の、タイマーを開始します。";
+  char EX_TmrSTART_TXT[] = "の、タイマーを開始します";
   sprintf(timer_msg_str, "%s%s%s", timer_min_str, timer_sec_str, EX_TmrSTART_TXT);
   Serial.println(timer_msg_str);
   // avatar.setExpression(Expression::Happy);
@@ -184,7 +184,7 @@ void timerStop()
   // ledSetColor2(2, ledGetColorNo(255, 0, 0));
   // ledSetColor2(7, ledGetColorNo(255, 0, 0));
 
-  char EX_TmrSTOP_TXT[] = "タイマーを停止します。";
+  char EX_TmrSTOP_TXT[] = "タイマーを停止します";
   // avatar.setExpression(Expression::Neutral);
   // sendReq(REQ_SPEAK,String(EX_TmrSTOP_TXT));
   stackchan(String(EX_TmrSTOP_TXT),EXPR_SAD,"",EXPR_NEUTRAL);
@@ -229,7 +229,7 @@ void timerStarted()
     char buffer[64];
     if (TM_ELEAPSE_SEC < 60)
     {
-      sprintf(buffer, "%d秒。", TM_ELEAPSE_SEC);
+      sprintf(buffer, "%d秒", TM_ELEAPSE_SEC);
     }
     else
     {
@@ -237,11 +237,11 @@ void timerStarted()
       int seconds = TM_ELEAPSE_SEC % 60;
       if (seconds != 0)
       {
-        sprintf(buffer, "%d分%d秒。", minutes, seconds);
+        sprintf(buffer, "%d分%d秒", minutes, seconds);
       }
       else
       {
-        sprintf(buffer, "%d分経過。", minutes);
+        sprintf(buffer, "%d分経過", minutes);
       }
     }
     // avatar.setExpression(Expression::Happy);
@@ -265,7 +265,7 @@ void timerEnd()
   // avatar.setExpression(Expression::Happy);
   // sendReq(REQ_SPEAK,String("設定時間になりました。"));
   // avatar.setExpression(Expression::Neutral);
-  stackchan(String("設定時間になりました。"),EXPR_HAPPY,"",EXPR_NEUTRAL);
+  stackchan(String("設定時間になりました"),EXPR_HAPPY,"",EXPR_NEUTRAL);
 
   // 全てのLEDを消す処理を追加
   // ledClear();

@@ -1,3 +1,7 @@
+// --------------- VoiceVox.cpp ----------------------------------
+// M5Stack_Stack-chan_another_dimension  : つゆきぱぱさん
+// のソフトを基にしてNoRiが変更をかけました。 2024-01-28
+// ---------------------------------------------------------------
 #include "../h/VoiceVox.h"
 
 TaskHandle_t voicevox_task_handle;
@@ -31,11 +35,7 @@ void voicevox_task_loop(void *args)
                     delete ptr->buff;
                     ptr->buff = nullptr;
                 }
-                // avatar.setMouthOpenRatio(0);
-                // avatar.setSpeechText("");
                 WST = WST_TTS_talkDone;
-                // showExeTime("VOICEVOX：end of speaking");
-                // log_free_size("VOICEVOX：OUT");
             }
         }
         vTaskDelay(1);
@@ -55,9 +55,8 @@ VoiceVox::~VoiceVox()
 
 String VoiceVox::synthesis(const String &speechText)
 {
-    // showExeTime("",EXE_TM_MD_START);
     HTTPClient https;
-    https.setTimeout(UINT16_MAX);   // 最大値の約65秒にタイムアウトを設定
+    https.setTimeout(UINT16_MAX); // 最大値の約65秒にタイムアウトを設定
     if (!https.begin(url, root_ca_voicevox))
     {
         M5.Log.println("VOICEVOX：接続失敗");
@@ -90,8 +89,6 @@ String VoiceVox::synthesis(const String &speechText)
 
     const String mp3_url = doc["mp3StreamingUrl"].as<String>();
     doc.clear();
-
-    // showExeTime("VOICEVOX：mp3Url get then start speaking");
     return mp3_url;
 }
 
@@ -105,11 +102,13 @@ void VoiceVox::talk_https(String url)
     mp3 = new AudioGeneratorMP3();
     out = new AudioOutputM5Speaker(&M5.Speaker);
     file_https = new AudioFileSourceHTTPSStream(url.c_str(), root_ca_voicevox);
+    
     buff = new AudioFileSourceBuffer(file_https, 1024 * 10);
     // buff = new AudioFileSourceBuffer(file_https, 1024 * 20);
 
     // M5.Mic.end();
     // M5.Speaker.begin();
+
     is_talking = true;
     talk_type = "URL";
     mp3->begin(buff, out);

@@ -39,7 +39,8 @@ void setup()
 
   //*** Wake UP! STACKCHAN ***
   avatarSTART();
-  volumeReset();
+
+  muteOff();
   WST = WST_SETUP_done;
 }
 

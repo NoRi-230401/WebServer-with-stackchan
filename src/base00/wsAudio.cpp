@@ -35,6 +35,12 @@ void setVolume(int vol)
   nvs_close(nvs_handle);
 }
 
+void volumeReset()
+{
+  M5.Speaker.setVolume(VOLUME_VALUE);
+  M5.Speaker.setChannelVolume(m5spk_virtual_channel, VOLUME_VALUE);
+}
+
 uint8_t getVolumeVal()
 {
   return (VOLUME_VALUE);

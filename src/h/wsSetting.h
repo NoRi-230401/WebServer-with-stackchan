@@ -81,8 +81,8 @@ void wsHandleStartup(String serverNameS, String volumeS, String ledS,
 void wsHandleApikeySetting(String openAiS, String voicevoxS, String txS);
 void M5StackConfig();
 bool jsonAPIKEYinit(DynamicJsonDocument &jsonDoc);
-bool apiKeyTxtRead();
-bool apiKeyFileRead();
+bool apiKeySDRead();
+bool apiKeySpiffsRead();
 bool jsonSTARTUPinit(DynamicJsonDocument &jsonDoc);
 void nvsSaveAll();
 bool startupFileRead();

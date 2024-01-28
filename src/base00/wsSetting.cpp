@@ -44,8 +44,10 @@ void startupSetting00()
 
 void apikeySetting()
 {
-  if (!apiKeyFileRead())
-    apiKeyTxtRead();
+  // if (!apiKeyFileRead())
+  //   apiKeyTxtRead();
+  if (!apiKeySDRead())
+    apiKeySpiffsRead();
 }
 
 void wsHandleSetting(String volumeS, String volumeDS, String vSpkNoS,
@@ -449,7 +451,7 @@ bool jsonAPIKEYinit(DynamicJsonDocument &jsonDoc)
   return (jsonStrSave(jsonDoc, jsonAPIKEY, APIKEY_SPIFFS));
 }
 
-bool apiKeyTxtRead()
+bool apiKeySDRead()
 {
   if (!SD_ENABLE)
     return false;
@@ -485,15 +487,15 @@ bool apiKeyTxtRead()
   STT_API_KEY = OPENAI_API_KEY;
   Serial.println("** Read data from apikey.txt in SD **");
 
-  DynamicJsonDocument apikeyJson(APIKEYJSON_SIZE);
-  setApiKey("openAiApiKey", OPENAI_API_KEY, apikeyJson);
-  setApiKey("voicevoxApiKey", VOICEVOX_API_KEY, apikeyJson);
-  Serial.println("** and Save to wsApikey.json in SPISS  **");
+  // DynamicJsonDocument apikeyJson(APIKEYJSON_SIZE);
+  // setApiKey("openAiApiKey", OPENAI_API_KEY, apikeyJson);
+  // setApiKey("voicevoxApiKey", VOICEVOX_API_KEY, apikeyJson);
+  // Serial.println("** and Save to wsApikey.json in SPISS  **");
 
   return true;
 }
 
-bool apiKeyFileRead()
+bool apiKeySpiffsRead()
 {
   // ****** 初期値設定　**********
   OPENAI_API_KEY = "***";

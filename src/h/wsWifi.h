@@ -45,8 +45,8 @@ bool wifiSmartConfigConnect();
 void addSuccessAP();
 int wifiConnect2();
 bool wifiSelect(int flType);
-bool wifiTxtRead();
-bool wifiTxtConnect();
+bool wifiTxtSDRead();
+bool wifiTxtSDConnect();
 bool IPstrToIntArray(String strIPaddr, int *iAddr);
 //----------------------------------------------
 #endif

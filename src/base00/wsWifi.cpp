@@ -139,47 +139,42 @@ void wifiSetup()
   IP_ADDR = String(WiFi.localIP().toString());
   SSID = String(WiFi.SSID());
 
-  // Serial.println("IP_ADDR = " + IP_ADDR);
-  // Serial.println("SSID = " + SSID);
-  // Serial.println("Go to http://" + IP_ADDR);
-
   M5.Lcd.println("\nConnected");
   M5.Lcd.print("Go to http://");
   M5.Lcd.println(IP_ADDR);
 
-  if (cnNo != 1)
-  {
-    addSuccessAP();
-  }
+  // if (cnNo != 1)
+  // {
+  //   addSuccessAP();
+  // }
 
-  // wifiNetworkInformation();
 }
 
-void addSuccessAP()
-{
-  DynamicJsonDocument wifiJson(WIFIJSON_SIZE);
+// void addSuccessAP()
+// {
+//   DynamicJsonDocument wifiJson(WIFIJSON_SIZE);
 
-  if (!jsonRead(FLTYPE_SPIFFS, wifiJson, WIFI_SPIFFS))
-  {
-    Serial.println("faile to Read from SPIFFS");
-    return;
-  }
+//   if (!jsonRead(FLTYPE_SPIFFS, wifiJson, WIFI_SPIFFS))
+//   {
+//     Serial.println("faile to Read from SPIFFS");
+//     return;
+//   }
 
-  JsonArray jsonArray = wifiJson["accesspoint"];
-  JsonObject new_ap = jsonArray.createNestedObject();
-  new_ap["ssid"] = SSID;
-  new_ap["passwd"] = SSID_PASSWD;
-  new_ap["ip"] = "";
-  new_ap["gateway"] = "";
-  new_ap["subnet"] = "";
-  new_ap["dns"] = "";
+//   JsonArray jsonArray = wifiJson["accesspoint"];
+//   JsonObject new_ap = jsonArray.createNestedObject();
+//   new_ap["ssid"] = SSID;
+//   new_ap["passwd"] = SSID_PASSWD;
+//   new_ap["ip"] = "";
+//   new_ap["gateway"] = "";
+//   new_ap["subnet"] = "";
+//   new_ap["dns"] = "";
 
-  if (!jsonDocSave(wifiJson, WIFI_SPIFFS))
-  {
-    Serial.println("faile to Save to SPIFFS");
-    return;
-  }
-}
+//   if (!jsonDocSave(wifiJson, WIFI_SPIFFS))
+//   {
+//     Serial.println("faile to Save to SPIFFS");
+//     return;
+//   }
+// }
 
 const String wifiJsonInitStr = " { \"timeout\": 10, \"accesspoint\": [ ] }";
 bool initWifiJson(DynamicJsonDocument &wifiJson)
@@ -390,17 +385,6 @@ int wifiConnect2()
   WiFi.mode(WIFI_STA);
   M5.Lcd.print("Connecting");
 
-  Serial.println("## " + String(++cnNo, DEC) + ".  CONNECTING : wsWifi.json in SPIFFS");
-  // --- Force SD SETTING ----------------- 
-  #ifndef FORCE_SD_SETTING
-  if (wifiSelect(FLTYPE_SPIFFS))
-  {
-    Serial.println("\nCONNECTED : wsWifi.json in SPIFFS");
-    return cnNo;
-  }
-  #endif
-  // --------------------------------------
-
   if (SD_ENABLE)
   {
     Serial.println("## " + String(++cnNo, DEC) + ".  CONNECTING : wsWifi.json in SD ");
@@ -412,12 +396,23 @@ int wifiConnect2()
 
     Serial.println("##  " + String(++cnNo, DEC) + ".  CONNECTING : wifi.txt in SD");
     // "wifi.txt" の接続
-    if (wifiTxtConnect())
+    if (wifiTxtSDConnect())
     {
       Serial.println("\nCONNECTED : wifi.txt in SD");
       return cnNo;
     }
   }
+
+  Serial.println("## " + String(++cnNo, DEC) + ".  CONNECTING : wsWifi.json in SPIFFS");
+  // --- Force SD SETTING ----------------- 
+  #ifndef FORCE_SD_SETTING
+  if (wifiSelect(FLTYPE_SPIFFS))
+  {
+    Serial.println("\nCONNECTED : wsWifi.json in SPIFFS");
+    return cnNo;
+  }
+  #endif
+  // --------------------------------------
 
   Serial.println("##  " + String(++cnNo, DEC) + ".  CONNECTING : privious wifi settings");
   // 前回接続情報での接続
@@ -441,45 +436,8 @@ int wifiConnect2()
   return cnNo;
 }
 
-// bool apiKeyTxtRead()
-// {
-//   File file = fileOpen(FLTYPE_SD, WIFITXT_SD, "r");
-//   if (!file)
-//   {
-//     // SD.end();
-//     Serial.println("Fail : wifi.txt not open ");
-//     return false;
-//   }
 
-//   size_t sz = file.size();
-//   char buf[sz + 1];
-//   file.read((uint8_t *)buf, sz);
-//   buf[sz] = 0;
-//   file.close();
-//   // SD.end();
-
-//   int y = 0;
-//   for (int x = 0; x < sz; x++)
-//   {
-//     if (buf[x] == 0x0a || buf[x] == 0x0d)
-//       buf[x] = 0;
-//     else if (!y && x > 0 && !buf[x - 1] && buf[x])
-//       y = x;
-//   }
-
-//   SSID = buf;
-//   SSID_PASSWD = &buf[y];
-
-//   if ((SSID == "") || (SSID_PASSWD == ""))
-//   {
-//     Serial.println("Fail : ssid or passwd is void ");
-//     return false;
-//   }
-
-//   return true;
-// }
-
-bool wifiTxtRead()
+bool wifiTxtSDRead()
 {
   File file = fileOpen(FLTYPE_SD, WIFITXT_SD, "r");
   if (!file)
@@ -517,12 +475,12 @@ bool wifiTxtRead()
   return true;
 }
 
-bool wifiTxtConnect()
+bool wifiTxtSDConnect()
 {
   Serial.println("connecting wifi.txt");
 
   // "wifi.txt"ファイル
-  if (!wifiTxtRead())
+  if (!wifiTxtSDRead())
   {
     Serial.println("Fail : reading wifi.txt in SD");
     return false;

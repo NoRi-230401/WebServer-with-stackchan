@@ -2,7 +2,6 @@
 #ifndef WS_WIFI_H
 #define WS_WIFI_H
 // ---------------------------
-// #include "wsServer.h"
 #include <WiFi.h>  
 #include <Arduino.h>
 #include <ArduinoJson.h>
@@ -42,7 +41,6 @@ bool initWifiJson(DynamicJsonDocument &wifiJson);
 bool jsonInitSave_wifi(DynamicJsonDocument &jsonDoc);
 bool wifiNoSetupFileConnect();
 bool wifiSmartConfigConnect();
-void addSuccessAP();
 int wifiConnect2();
 bool wifiSelect(int flType);
 bool wifiTxtSDRead();

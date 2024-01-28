@@ -143,40 +143,10 @@ void wifiSetup()
   M5.Lcd.print("Go to http://");
   M5.Lcd.println(IP_ADDR);
 
-  // if (cnNo != 1)
-  // {
-  //   addSuccessAP();
-  // }
-
 }
 
-// void addSuccessAP()
-// {
-//   DynamicJsonDocument wifiJson(WIFIJSON_SIZE);
 
-//   if (!jsonRead(FLTYPE_SPIFFS, wifiJson, WIFI_SPIFFS))
-//   {
-//     Serial.println("faile to Read from SPIFFS");
-//     return;
-//   }
-
-//   JsonArray jsonArray = wifiJson["accesspoint"];
-//   JsonObject new_ap = jsonArray.createNestedObject();
-//   new_ap["ssid"] = SSID;
-//   new_ap["passwd"] = SSID_PASSWD;
-//   new_ap["ip"] = "";
-//   new_ap["gateway"] = "";
-//   new_ap["subnet"] = "";
-//   new_ap["dns"] = "";
-
-//   if (!jsonDocSave(wifiJson, WIFI_SPIFFS))
-//   {
-//     Serial.println("faile to Save to SPIFFS");
-//     return;
-//   }
-// }
-
-const String wifiJsonInitStr = " { \"timeout\": 10, \"accesspoint\": [ ] }";
+const String wifiJsonInitStr = " { \"timeout\": 20, \"accesspoint\": [ ] }";
 bool initWifiJson(DynamicJsonDocument &wifiJson)
 {
   DeserializationError error = deserializeJson(wifiJson, wifiJsonInitStr);
@@ -375,7 +345,6 @@ bool wifiSmartConfigConnect()
   return true;
 }
 
-// #define FORCE_SD_SETTING
 int wifiConnect2()
 {
   int cnNo = 0;
@@ -404,16 +373,12 @@ int wifiConnect2()
   }
 
   Serial.println("## " + String(++cnNo, DEC) + ".  CONNECTING : wsWifi.json in SPIFFS");
-  // --- Force SD SETTING ----------------- 
-  #ifndef FORCE_SD_SETTING
   if (wifiSelect(FLTYPE_SPIFFS))
   {
     Serial.println("\nCONNECTED : wsWifi.json in SPIFFS");
     return cnNo;
   }
-  #endif
-  // --------------------------------------
-
+  
   Serial.println("##  " + String(++cnNo, DEC) + ".  CONNECTING : privious wifi settings");
   // 前回接続情報での接続
   if (wifiNoSetupFileConnect())
@@ -490,14 +455,15 @@ bool wifiTxtSDConnect()
   WiFi.begin(SSID.c_str(), SSID_PASSWD.c_str());
 
   // 待機
-  int loopCount10sec = 0;
+  int loopCount20sec = 0;
   while (WiFi.status() != WL_CONNECTED)
   {
     M5.Display.print(".");
     Serial.print(".");
     delay(500);
-    // 10秒以上接続できなかったら false
-    if (loopCount10sec++ > 10 * 2)
+    // 10秒以上接続できなかったら false --> 20Secに変更
+    // if (loopCount10sec++ > 10 * 2)
+    if (loopCount20sec++ > (20 * 2))
     {
       Serial.println(" faile to connect  wifi.txt");
       return false;

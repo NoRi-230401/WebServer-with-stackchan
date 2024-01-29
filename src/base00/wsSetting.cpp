@@ -40,14 +40,22 @@ void startupSetting00()
   TM_SEC_VAL = 180;
 }
 
-
-
 void apikeySetting()
 {
-  // if (!apiKeyFileRead())
-  //   apiKeyTxtRead();
-  if (!apiKeySDRead())
-    apiKeySpiffsRead();
+  // ****** 初期値設定　**********
+  OPENAI_API_KEY = "***";
+  VOICEVOX_API_KEY = "***";
+  STT_API_KEY = "***";
+  // VOICETEXT_API_KEY = "***";
+  //------------------------------
+
+  if (apiKeyJsonSDRead())
+    return;
+
+  if (apiKeyTxtSDRead())
+    return;
+    
+  apiKeyJsonSpiffsRead();
 }
 
 void wsHandleSetting(String volumeS, String volumeDS, String vSpkNoS,
@@ -68,7 +76,7 @@ void wsHandleSetting(String volumeS, String volumeDS, String vSpkNoS,
     // VOLUME_VALUE = (uint8_t)volumeVal;
     // setVolumeVal(VOLUME_VALUE,VAL_NVS_SAVE);
     setVolume(volumeVal);
-    
+
     String msg = "volume = " + String(VOLUME_VALUE, DEC);
     webpage = msg;
   }
@@ -445,13 +453,12 @@ void M5StackConfig()
     SD_ENABLE = true;
 }
 
-
 bool jsonAPIKEYinit(DynamicJsonDocument &jsonDoc)
 {
   return (jsonStrSave(jsonDoc, jsonAPIKEY, APIKEY_SPIFFS));
 }
 
-bool apiKeySDRead()
+bool apiKeyTxtSDRead()
 {
   if (!SD_ENABLE)
     return false;
@@ -487,6 +494,7 @@ bool apiKeySDRead()
   STT_API_KEY = OPENAI_API_KEY;
   Serial.println("** Read data from apikey.txt in SD **");
 
+  // *** SPIFFS に書き組むのはセキュリティの関係で止めた 240128 *****
   // DynamicJsonDocument apikeyJson(APIKEYJSON_SIZE);
   // setApiKey("openAiApiKey", OPENAI_API_KEY, apikeyJson);
   // setApiKey("voicevoxApiKey", VOICEVOX_API_KEY, apikeyJson);
@@ -495,20 +503,54 @@ bool apiKeySDRead()
   return true;
 }
 
-bool apiKeySpiffsRead()
+bool apiKeyJsonSpiffsRead()
 {
-  // ****** 初期値設定　**********
-  OPENAI_API_KEY = "***";
-  VOICEVOX_API_KEY = "***";
-  STT_API_KEY = "***";
-  // VOICETEXT_API_KEY = "***";
-  //----------------------------------
   DynamicJsonDocument apikeyJson(APIKEYJSON_SIZE);
 
   if (!jsonRead(FLTYPE_SPIFFS, apikeyJson, APIKEY_SPIFFS))
   {
     Serial.println("initialize wsApiKey.json in SPIFFS");
     jsonAPIKEYinit(apikeyJson);
+    return false;
+  }
+
+  JsonArray jsonArray = apikeyJson["apikey"];
+  JsonObject object = jsonArray[0];
+
+  int cnt = 0;
+  // String getStr;
+
+  // openAiApiKey
+  String getStr0 = object["openAiApiKey"];
+  if (getStr0 != "" && (getStr0 != "null"))
+  {
+    OPENAI_API_KEY = getStr0;
+    STT_API_KEY = getStr0;
+    Serial.println("ApiKey : openAiApiKey = " + getStr0);
+    cnt++;
+  }
+
+  // voicevoxApiKey
+  String getStr2 = object["voicevoxApiKey"];
+  if (getStr2 != "" && (getStr2 != "null"))
+  {
+    VOICEVOX_API_KEY = getStr2;
+    Serial.println("ApiKey : voicevoxApiKey = " + getStr2);
+    cnt++;
+  }
+
+  Serial.println("** wsApiKey.json total " + String(cnt, DEC) + " item read **");
+  return true;
+}
+
+bool apiKeyJsonSDRead()
+{
+  DynamicJsonDocument apikeyJson(APIKEYJSON_SIZE);
+
+  if (!jsonRead(FLTYPE_SD, apikeyJson, APIKEY_SPIFFS))
+  {
+    Serial.println("fail wsApiKey.json in SD");
+    // jsonAPIKEYinit(apikeyJson);
     return false;
   }
 
@@ -554,16 +596,20 @@ void nvsSaveAll()
   size_t spk_no = (size_t)TTS_vSpkNo;
 
   uint8_t led_onoff = 0;
-  if (LED_OnOff_STATE)    led_onoff = 1;
+  if (LED_OnOff_STATE)
+    led_onoff = 1;
 
   uint8_t mute_onoff = 0;
-  if (MUTE_ON_STATE)    mute_onoff = 1;
+  if (MUTE_ON_STATE)
+    mute_onoff = 1;
 
   uint8_t keylock_onoff = 0;
-  if (KEYLOCK_STATE)    keylock_onoff = 1;
+  if (KEYLOCK_STATE)
+    keylock_onoff = 1;
 
   uint8_t randomSpeak_onoff = 0;
-  if (RANDOM_SPEAK_STATE)    randomSpeak_onoff = 1;
+  if (RANDOM_SPEAK_STATE)
+    randomSpeak_onoff = 1;
 
   uint32_t nvs_handle;
   if (ESP_OK == nvs_open("setting", NVS_READWRITE, &nvs_handle))
@@ -640,7 +686,7 @@ bool startupFileRead()
       cnt++;
     }
   }
-    
+
   // led
   String getStr4 = object["led"];
   if (getStr4 != "" && (getStr4 != "***") && (getStr4 != "null"))
@@ -758,13 +804,13 @@ bool startupFileRead()
   if ((getStr1 != "") && (getStr1 != "***") && (getStr1 != "-1") && (getStr1 != "null"))
   {
     TTS_vSpkNo = (uint8_t)getStr1.toInt();
-    Serial.println("Startup : vSpkNo = " + String(TTS_vSpkNo,DEC) );
+    Serial.println("Startup : vSpkNo = " + String(TTS_vSpkNo, DEC));
     cnt++;
   }
   else
   {
     TTS_vSpkNo = getTTSvSpkNofmNVS();
-    Serial.println("Startup : NVS vSpkNo = " + String(TTS_vSpkNo,DEC));
+    Serial.println("Startup : NVS vSpkNo = " + String(TTS_vSpkNo, DEC));
     cnt++;
   }
 
@@ -834,7 +880,6 @@ bool startupFileRead()
   return true;
 }
 
-
 bool setApiKey(String item, String setData, DynamicJsonDocument &apikeyJson)
 {
   return (setJsonItem(APIKEY_SPIFFS, item, setData, apikeyJson, "apikey"));
@@ -854,4 +899,3 @@ bool getStartup(String item, String &getData, DynamicJsonDocument &startupJson)
 {
   return (getJsonItem(STARTUP_SPIFFS, item, getData, startupJson, "startup"));
 }
-

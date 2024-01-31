@@ -6,7 +6,14 @@
 // #include <Arduino.h>
 
 #define LED_PIN 25         // GPIO25でLEDを使用する
-#define NUM_LEDS 10        // LEDの数を指定する
+// #define NUM_LEDS 10        // LEDの数を指定する
+#define NUM_LEDS 9        // LEDの数を指定する
+#define rLED_LEN 4
+#define lLED_LEN 4
+#define LED_LEN (rLED_LEN + lLED_LEN)
+extern const uint16_t rLED[rLED_LEN];
+extern const uint16_t lLED[lLED_LEN];
+extern const uint16_t LED_ROLL[LED_LEN];
 
 // ---------------------------------------------------------------------
 void ledSetup();
@@ -17,6 +24,6 @@ uint32_t ledGetColorNo(uint8_t r, uint8_t g, uint8_t b);
 void ledShow();
 void ledClear();
 void blueAndRedLedOn();
-void ledRolling(int num);
+void ledMoveSec(uint16_t num);
 // ---------------------------------------------------------------------
 #endif

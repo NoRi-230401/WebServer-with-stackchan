@@ -4,7 +4,6 @@
 // ---------------------------------------------------------------------------
 #include <M5Unified.h>
 
-extern void ledRolling(int num);
 // ---------------------------------------------------------------------------
 void clockSetup();
 String getDateTime(int &tmSEC);

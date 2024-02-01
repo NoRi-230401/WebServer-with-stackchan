@@ -13,7 +13,7 @@
 
 extern bool SYSINFO_DISP_STATE;
 extern void sysInfoDispEnd();
-extern void stackchan(const String& speakStr, int expr=-1, const String balloonStr="$$SKIP$$", int afterExpr=-1 );
+extern void stackchanReq(const String& speakStr, int expr=-1, const String balloonStr="$$SKIP$$", int afterExpr=-1 );
 //-- Avatar expressions --
 #define EXPR_NEUTRAL 0
 #define EXPR_HAPPY 1

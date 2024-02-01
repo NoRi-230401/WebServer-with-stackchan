@@ -155,7 +155,7 @@ void timerStart()
   String msg1 = msg + String("の、タイマーを開始します");
   String msg2 = msg + String("タイマー"); 
   Serial.println(msg1);
-  stackchan(msg1, EXPR_HAPPY, msg2);
+  stackchanReq(msg1, EXPR_HAPPY, msg2);
 
   TM_STARTED = true;
   TM_GO_GET = false;
@@ -173,7 +173,7 @@ void timerStop()
   String msg1 = String("タイマーを停止します");
   String msg2 = String("タイマー停止");
   Serial.println(msg1);
-  stackchan(msg1, EXPR_SAD, msg2, EXPR_NEUTRAL);
+  stackchanReq(msg1, EXPR_SAD, msg2, EXPR_NEUTRAL);
 
   ledClearAll();
 }
@@ -198,7 +198,7 @@ void timerStarted()
       else
         msg = String(minutes,DEC) + "分経過" ;
     }
-    stackchan(msg, EXPR_HAPPY, msg, EXPR_NEUTRAL);
+    stackchanReq(msg, EXPR_HAPPY, msg, EXPR_NEUTRAL);
   }
 }
 
@@ -212,7 +212,7 @@ void timerEnd()
   String msg1 = String("設定時間になりました");
   Serial.println(msg1);
   String msg2 = String("設定時間");
-  stackchan(msg1, EXPR_HAPPY, msg2, EXPR_NEUTRAL);
+  stackchanReq(msg1, EXPR_HAPPY, msg2, EXPR_NEUTRAL);
 
   ledClearAll();
 }

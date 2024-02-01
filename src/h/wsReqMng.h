@@ -46,7 +46,7 @@ extern String SPEECH_TEXT;
 extern void setAvatarExpr(int expr);
 extern void setAvatarBalloon(String msg);
 extern void clearAvatarBalloon();
-extern void stackchan(const String& speakStr, int expr=-1, const String balloonStr="$$SKIP$$");
+extern void stackchanReq(const String& speakStr, int expr=-1, const String balloonStr="$$SKIP$$");
 
 // ---------------------------------------------------------------------
 extern void sendReq2(int reqNo, const String& speakStr="", int expr=-1, const String balloonStr="$$SKIP$$", int afterExpr=-1);

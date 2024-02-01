@@ -14,10 +14,22 @@ const Expression expr_table[] = {
     Expression::Sad,
     Expression::Angry};
 
-void stackchan(const String &speakStr, int expr, const String balloonStr, int afterExpr)
+void stackchanReq(const String &speakStr, int expr, const String balloonStr, int afterExpr)
 {
   sendReq2(REQ_STACKCHAN, speakStr, expr, balloonStr, afterExpr);
 }
+
+
+
+void stackchanNow( int expr, const String balloonStr)
+{
+  if(balloonStr != "$$SKIP$$")
+    avatar.setSpeechText(balloonStr.c_str());
+
+  if (expr >= 0 && expr <= 5)
+    avatar.setExpression(expr_table[expr]);
+}
+
 
 void avatarSTART()
 {
@@ -67,7 +79,7 @@ void wsHandleFace(String expression)
   if (expr < 0 || expr > 5)
     return;
 
-  stackchan("", expr);
+  stackchanReq("", expr);
   webpage = "face No. =  " + String(expr, DEC) + " : " + EXPR_STR[expr];
 }
 
@@ -79,7 +91,7 @@ void setAvatarExpr(int expr)
 
 void wsHandleBalloon(String text)
 {
-  stackchan("", -1, text);
+  stackchanReq("", -1, text);
 
   if (text == "" || text == "void")
   {

@@ -4,7 +4,7 @@
 // ---------------------------------------------------------------------
 #include <Arduino.h>
 #include <ArduinoJson.h>
-#include <Avatar.h>
+// #include <Avatar.h>
 // #include <AudioGeneratorMP3.h>
 // #include <AudioOutput.h>
 #include <deque>
@@ -18,13 +18,13 @@
 #include "../lib/rootCACertificate.h"
 
 // -- Request ---------
-#define REQ_MSG_CLS 0
-#define REQ_SPEAK_ADJUST 1
-#define REQ_BALOON_ADJUST 2
-#define REQ_SPEAK_BALOON_ADJUST 3
-#define REQ_SPEAK 4
-#define REQ_BALOON 5
-#define REQ_SV_MD_ADJUST 9
+// #define REQ_MSG_CLS 0
+// #define REQ_SPEAK_ADJUST 1
+// #define REQ_BALOON_ADJUST 2
+// #define REQ_SPEAK_BALOON_ADJUST 3
+// #define REQ_SPEAK 4
+// #define REQ_BALOON 5
+// #define REQ_SV_MD_ADJUST 9
 // -----------------------
 
 #define DOC_SIZE 1024 * 4
@@ -36,9 +36,9 @@
 extern bool jsonRead(int flType, DynamicJsonDocument &jsonDoc, String readFile);
 extern bool jsonDocSave(DynamicJsonDocument &jsonDoc, String saveFile);
 
-using namespace m5avatar;
-extern Avatar avatar;
-extern const Expression expr_table[];
+// using namespace m5avatar;
+// extern Avatar avatar;
+// extern const Expression expr_table[];
 extern bool REQ_chatGPT_GET;
 extern String REQ_MSG;
 extern bool SYSINFO_DISP_STATE;
@@ -76,7 +76,8 @@ extern void log_free_size(const char *text);
 #define EXE_TM_MD2 2 // no disp and timer reset
 #define EXE_TM_MD_START 3 // no disp and timer reset for START 
 extern void showExeTime(String msg, int mode = EXE_TM_MD0);
-extern void stackchan(const String& speakStr, int expr=-1, const String balloonStr="$$SKIP$$", int afterExpr=-1 );
+extern void stackchanReq(const String& speakStr, int expr=-1, const String balloonStr="$$SKIP$$", int afterExpr=-1 );
+extern void stackchanNow( int expr = -1, const String balloonStr = "$$SKIP$$");
 
 //-- Avatar expressions --
 #define EXPR_NEUTRAL 0

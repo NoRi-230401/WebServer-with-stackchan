@@ -78,11 +78,12 @@ extern int StatusLineMode;
 
 
 extern void sendReq2(int reqNo, const String& speakStr="", int expr=-1, const String balloonStr="$$SKIP$$", int afterExpr=-1);
-// void sendReq2(int reqNo, const String& speakStr, int expr, const String balloonStr, int afterExpr);
 
-extern void stackchan(const String& speakStr, int expr=-1, const String balloonStr="$$SKIP$$", int afterExpr=-1 );
-void stackchan(const String& speakStr,int expr, const String balloonStr, int afterExpr);
+extern void stackchanReq(const String& speakStr, int expr=-1, const String balloonStr="$$SKIP$$", int afterExpr=-1 );
+void stackchanReq(const String& speakStr,int expr, const String balloonStr, int afterExpr);
 
+extern void stackchanNow( int expr = -1, const String balloonStr = "$$SKIP$$");
+void stackchanNow( int expr, const String balloonStr);
 
 // -----------------------------------
 void wsHandleFace(String expression);

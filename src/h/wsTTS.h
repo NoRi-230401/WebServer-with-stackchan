@@ -43,7 +43,7 @@ extern int REQUEST_NO;
 extern String REQ_MSG;
 extern void log_free_size(const char *text);
 // extern void stackchan(const String& speakStr, int expr=-1, const String balloonStr="$$SKIP$$");
-extern void stackchan(const String& speakStr, int expr=-1, const String balloonStr="$$SKIP$$", int afterExpr=-1 );
+extern void stackchanReq(const String& speakStr, int expr=-1, const String balloonStr="$$SKIP$$", int afterExpr=-1 );
 extern const String EXPR_STR[];
 
 // --- Wss StaTe (WST) define ------- 

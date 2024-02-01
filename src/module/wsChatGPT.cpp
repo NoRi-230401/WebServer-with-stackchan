@@ -507,106 +507,175 @@ String https_post_json(const char *url, const char *json_string, const char *roo
   return payload;
 }
 
+// String chatGpt(String json_string)
+// {
+//   String response = "";
+//   avatar.setExpression(Expression::Doubt);
+//   avatar.setSpeechText("考え中…");
+
+//   // LED 2番と7番を白色に光らせる
+//   ledSetColor(2, 255, 255, 255); // 白色
+//   ledSetColor(7, 255, 255, 255); // 白色
+//   ledShow();
+
+//   String ret = https_post_json("https://api.openai.com/v1/chat/completions", json_string.c_str(), root_ca_openai);
+//   avatar.setExpression(Expression::Neutral);
+//   avatar.setSpeechText("");
+
+//   // 音声が再生された後にLEDを消灯
+//   ledSetColor(2, 0, 0, 0); // 黒（消灯）
+//   ledSetColor(7, 0, 0, 0); // 黒（消灯）
+//   ledShow();
+
+//   if (ret != "")
+//   {
+//     WK_CNT = 0;
+//     DynamicJsonDocument doc(DOC_SIZE);
+//     DeserializationError error = deserializeJson(doc, ret.c_str());
+
+//     if (error)
+//     {
+//       Serial.print(F("deserializeJson() failed: "));
+//       Serial.println(error.f_str());
+//       avatar.setExpression(Expression::Sad);
+
+//       avatar.setSpeechText("エラーです");
+//       // response = "エラーです";
+//       Serial.println("chatGPT err : desirialization ");
+//       response = "";
+
+//       delay(1000);
+//       avatar.setSpeechText("");
+//       avatar.setExpression(Expression::Neutral);
+//     }
+//     else
+//     {
+//       const char *data = doc["choices"][0]["message"]["content"];
+//       response = String(data);
+//       std::replace(response.begin(), response.end(), '\n', ' ');
+//     }
+//   }
+//   else
+//   {
+//     // 音声が再生された後にLEDを消灯
+//     ledSetColor(2, 0, 0, 0); // 黒（消灯）
+//     ledSetColor(7, 0, 0, 0); // 黒（消灯）
+//     ledShow();
+
+//     // ---「わかりません」エラー番号とコード情報の発声 ---
+//     char msg1[200];
+
+//     if (WK_ERR_NO != 0)
+//     {
+//       if (WK_ERR_CODE < 0)
+//         sprintf(msg1, "わかりません、番号 %d、コード・マイナス %d です。", WK_ERR_NO, abs(WK_ERR_CODE));
+//       else
+//         sprintf(msg1, "わかりません、番号 %d、コード %d です。", WK_ERR_NO, abs(WK_ERR_CODE));
+//     }
+//     else
+//     {
+//       sprintf(msg1, "わかりません、番号 %d です。", WK_ERR_NO);
+//     }
+
+//     WK_LAST_ERR_NO = WK_ERR_NO;
+//     WK_LAST_ERR_CODE = WK_ERR_CODE;
+//     WK_ERR_NO = 0;
+//     WK_ERR_CODE = 0;
+
+//     WK_CNT++;
+//     Serial.print("WK_CNT = ");
+//     Serial.println(WK_CNT, DEC);
+//     char msg2[200] = "";
+
+//     char msg[200];
+//     sprintf(msg, "%s %s", msg1, msg2);
+//     avatar.setExpression(Expression::Sad);
+//     avatar.setSpeechText(msg);
+
+//     // response = msg;
+//     response = "";
+//     Serial.println(msg);
+
+//     delay(2000); // *** [わかりません対策01] ***
+//     avatar.setSpeechText("");
+//     avatar.setExpression(Expression::Neutral);
+
+//     // 音声が再生された後にLEDを消灯
+//     ledSetColor(2, 0, 0, 0); // 黒（消灯）
+//     ledSetColor(7, 0, 0, 0); // 黒（消灯）
+//     ledShow();
+//   }
+//   return response;
+// }
+
+
 String chatGpt(String json_string)
 {
   String response = "";
   avatar.setExpression(Expression::Doubt);
   avatar.setSpeechText("考え中…");
-
-  // LED 2番と7番を白色に光らせる
-  ledSetColor(2, 255, 255, 255); // 白色
-  ledSetColor(7, 255, 255, 255); // 白色
-  ledShow();
-
+  
+  // ------------------------
+  // ***** chatGPT実行 *****
   String ret = https_post_json("https://api.openai.com/v1/chat/completions", json_string.c_str(), root_ca_openai);
+  // ------------------------
+
   avatar.setExpression(Expression::Neutral);
   avatar.setSpeechText("");
 
-  // 音声が再生された後にLEDを消灯
-  ledSetColor(2, 0, 0, 0); // 黒（消灯）
-  ledSetColor(7, 0, 0, 0); // 黒（消灯）
-  ledShow();
-
   if (ret != "")
-  {
+  {// ret が正常である場合
     WK_CNT = 0;
     DynamicJsonDocument doc(DOC_SIZE);
     DeserializationError error = deserializeJson(doc, ret.c_str());
 
-    if (error)
+    if (!error)
+    { //------ 正常処理 --------------
+      const char *data = doc["choices"][0]["message"]["content"];
+      response = String(data);
+      std::replace(response.begin(), response.end(), '\n', ' ');
+      return response;
+    }
+    else
     {
       Serial.print(F("deserializeJson() failed: "));
       Serial.println(error.f_str());
       avatar.setExpression(Expression::Sad);
 
       avatar.setSpeechText("エラーです");
-      // response = "エラーです";
       Serial.println("chatGPT err : desirialization ");
       response = "";
-
-      delay(1000);
-      avatar.setSpeechText("");
-      avatar.setExpression(Expression::Neutral);
-    }
-    else
-    {
-      const char *data = doc["choices"][0]["message"]["content"];
-      response = String(data);
-      std::replace(response.begin(), response.end(), '\n', ' ');
+      return response;
     }
   }
   else
-  {
-    // 音声が再生された後にLEDを消灯
-    ledSetColor(2, 0, 0, 0); // 黒（消灯）
-    ledSetColor(7, 0, 0, 0); // 黒（消灯）
-    ledShow();
-
-    // ---「わかりません」エラー番号とコード情報の発声 ---
-    char msg1[200];
-
-    if (WK_ERR_NO != 0)
-    {
-      if (WK_ERR_CODE < 0)
-        sprintf(msg1, "わかりません、番号 %d、コード・マイナス %d です。", WK_ERR_NO, abs(WK_ERR_CODE));
-      else
-        sprintf(msg1, "わかりません、番号 %d、コード %d です。", WK_ERR_NO, abs(WK_ERR_CODE));
-    }
+  {// ret が　エラーだった場合
+    String msg3 = "";
+    if (WK_ERR_CODE == 0)
+      msg3 = "わかりません、番号 " + String(WK_ERR_NO,DEC)  + "です。";
+    else if (WK_ERR_CODE < 0)
+      msg3 = "わかりません、番号 " + String(WK_ERR_NO,DEC) + "コード・マイナス" + String(abs(WK_ERR_CODE),DEC) + "です。";
     else
-    {
-      sprintf(msg1, "わかりません、番号 %d です。", WK_ERR_NO);
-    }
+      msg3 = "わかりません、番号 " + String(WK_ERR_NO,DEC) + "コード" + String(WK_ERR_CODE,DEC) + "です。";
 
     WK_LAST_ERR_NO = WK_ERR_NO;
     WK_LAST_ERR_CODE = WK_ERR_CODE;
     WK_ERR_NO = 0;
     WK_ERR_CODE = 0;
-
     WK_CNT++;
-    Serial.print("WK_CNT = ");
-    Serial.println(WK_CNT, DEC);
-    char msg2[200] = "";
+    Serial.println("WK_CNT = " + String(WK_CNT, DEC));
 
-    char msg[200];
-    sprintf(msg, "%s %s", msg1, msg2);
     avatar.setExpression(Expression::Sad);
-    avatar.setSpeechText(msg);
-
-    // response = msg;
+    avatar.setSpeechText(msg3.c_str());
+    Serial.println(msg3);
     response = "";
-    Serial.println(msg);
-
-    delay(2000); // *** [わかりません対策01] ***
-    avatar.setSpeechText("");
-    avatar.setExpression(Expression::Neutral);
-
-    // 音声が再生された後にLEDを消灯
-    ledSetColor(2, 0, 0, 0); // 黒（消灯）
-    ledSetColor(7, 0, 0, 0); // 黒（消灯）
-    ledShow();
+    return response;    
   }
+
   return response;
 }
+
+
 
 void exec_chatGPT(String toChatGptText)
 {

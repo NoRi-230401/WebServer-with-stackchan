@@ -3,7 +3,7 @@
 #define WS_TIMER_H
 // ---------------------------------------------------------------------------
 #include <Arduino.h>
-#include <Avatar.h>
+// #include <Avatar.h>
 #include <M5Unified.h>
 #include <nvs.h>
 

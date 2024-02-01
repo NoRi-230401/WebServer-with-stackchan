@@ -98,11 +98,12 @@ void timerManage()
     { // 指定時間が経過したら終了
       timerEnd();
     }
-    // else if (TM_STOP_GET && !isTalking())
+
     else if (TM_STOP_GET )
     { // ---Timer停止---
       timerStop();
     }
+
     else if (currentElapsedSeconds != TM_ELEAPSE_SEC)
     { // --- Timer途中経過の処理------
       TM_ELEAPSE_SEC = currentElapsedSeconds;
@@ -130,12 +131,14 @@ void timerStart()
   // ---- Timer 開始 ----------------
   if ((TM_SEC_VAL < TM_MIN) || (TM_SEC_VAL > TM_MAX))
   {
-    Serial.println(TM_SEC_VAL, DEC);
+    Serial.println("ERR: TM_SEC_VAL = " + String(TM_SEC_VAL, DEC) );
+    timerStop2();
     return;
   }
 
   // Timer Start Go ----
   TM_START_MILLIS = millis();
+  TM_ELEAPSE_SEC = 0;
 
   int timer_min = TM_SEC_VAL / 60;
   int timer_sec = TM_SEC_VAL % 60;
@@ -149,12 +152,10 @@ void timerStart()
   {
     msg += String(timer_sec, DEC) + "秒";
   }
-  String msg2 = msg;
-  msg2 += "タイマー"; 
-  
-  msg += String("の、タイマーを開始します");
-  Serial.println(msg);
-  stackchan(msg, EXPR_HAPPY, msg2);
+  String msg1 = msg + String("の、タイマーを開始します");
+  String msg2 = msg + String("タイマー"); 
+  Serial.println(msg1);
+  stackchan(msg1, EXPR_HAPPY, msg2);
 
   TM_STARTED = true;
   TM_GO_GET = false;
@@ -169,11 +170,10 @@ void timerStop()
   TM_STOP_GET = false;
   TM_ELEAPSE_SEC = 0;
 
-  String msg = String("タイマーを停止します");
-  Serial.println(msg);
-
-  // if(!isTalking())
-    stackchan(msg, EXPR_SAD, msg, EXPR_NEUTRAL);
+  String msg1 = String("タイマーを停止します");
+  String msg2 = String("タイマー停止");
+  Serial.println(msg1);
+  stackchan(msg1, EXPR_SAD, msg2, EXPR_NEUTRAL);
 
   ledClearAll();
 }
@@ -209,8 +209,10 @@ void timerEnd()
   TM_STOP_GET = false;
   TM_ELEAPSE_SEC = 0;
 
-  String msg = String("設定時間になりました");
-  Serial.println(msg);
-  stackchan(String(msg), EXPR_HAPPY, msg, EXPR_NEUTRAL);
+  String msg1 = String("設定時間になりました");
+  Serial.println(msg1);
+  String msg2 = String("設定時間");
+  stackchan(msg1, EXPR_HAPPY, msg2, EXPR_NEUTRAL);
+
   ledClearAll();
 }

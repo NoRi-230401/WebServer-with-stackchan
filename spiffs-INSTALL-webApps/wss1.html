@@ -117,19 +117,22 @@
   　　<a href="http://stackchan/randomSpeak?mode=off">「独り言」停止</a>
   　　<a href="http://stackchan/timer?mode=Stop">「タイマー」停止</a>
   <br><br>
-  <b>（★注２）ここで行う設定は、SPIFFS上のファイルに書き込まれます。</b><br>
-  WiFiとApiKeyは、SDにも設定ファイルを設置することができ、<br>
-  次のような優先順位で、電源投入直後に設定されます。<br>
-　WiFi: (SD)wsWifi.json -> (SD)wifi.txt -> (SPIFF)wsWifi.json<br>
-　Apikey:(SD)wsApiKey.json->(SD)apikey.txt->(SPIFF)wsApiKey.json<br><br>
- 
-  AiStackChan2(robo8080氏作)の wifi.txtとapikey.txt が使用できます。<br>
-  SPIFFS上の設定を反映させるには、SDを抜いておく等にしてください。<br><br>
-  <p>
- <b>（★注３）設定ファイルは、破損に備えて必ずバックアップを取ってください。</b><br>
-    [ Home ] 画面の　DownloadでファイルをPCに保存することができます。<br>
-  </p>
-  <br><br>
+  <b>（★注２）ここで行う設定は、全てSPIFFS上のファイルに保存されます。</b><br>
+  　通常は、SDなしで運用することができます。<br><br>
+
+  <b>（★注３）WiFiとApiKeyの設定は、SDが優先されます。<br>
+いざという時に備え、手動でSDにファイルをコピーしてください。</b><br>
+  WiFiとApiKeyに関しては、SDにも設定ファイルを置くことができます。<br>
+  次のような優先順位で探し、電源投入直後に設定を実施します。<br>
+WiFi:　(SD)wsWifi.json ->　(SD)wifi.txt ->　(SPIFF)wsWifi.json<br>
+Apikey:(SD)wsApiKey.json->(SD)apikey.txt->(SPIFF)wsApiKey.json<br><br>
+
+AiStackChan2(robo8080氏作)仕様の wifi.txtとapikey.txt を使用することもできます。<br><br>
+
+<b>（★注４）設定ファイルは、破損に備えてバックアップを取ってください。</b><br>
+[ Home ] 画面の　DownloadでファイルをPCに保存することができます。<br>
+<br>
+<br>
   <a href="#top">トップ</a>　<a href="http://stackchan/sysInfo"">システム情報</a>　<a
     href=" http://stackchan/startup"">wsStartup.json</a>
   　<a href="http://stackchan/servoSetting">wsServo.json</a>
@@ -142,7 +145,7 @@
   <h2>★１ａ. 基本設定・操作</h2>
 
   <form action="http://stackchan/setting" method="get">
-    音量( 0 - 255 )：<input type="text" name="volume" value="200" size="3" maxlength="3" />　<input type="submit"
+    音量( 0 - 255 )：<input type="text" name="volume" value="180" size="3" maxlength="3" />　<input type="submit"
       value="送信" />
   </form>
   <br>

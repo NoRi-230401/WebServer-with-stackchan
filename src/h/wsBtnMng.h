@@ -9,8 +9,6 @@
 #define BtnREQ_A 1
 #define BtnREQ_B 2
 #define BtnREQ_C 3
-// #define BtnREQ_BOX_SERVO 4
-// #define BtnREQ_BOX_STT 5
 #define BtnREQ_MA 4
 #define BtnREQ_MB 5
 #define BtnREQ_MC 6
@@ -30,7 +28,6 @@ extern bool RANDOM_SPEAK_OFF_GET;
 extern void BoxServoDo();
 extern void timerStop2(); 
 extern void randomSpeakStop2();
-// extern void report_batt_level();
 extern void timerStart();
 extern void timerStop();
 extern void sysInfoDispEnd();
@@ -57,13 +54,7 @@ void BtnUB_Do();
 void BtnUC_Do();
 void BtnMA_Do();
 void BtnMC_Do();
-// void sysInfoDispOnOff();
-
-// void BoxSttDo();
 void BoxTouchSetup();
-// void StatusLineOnOff();
-// void StatusLineNext();
-// void StatusLinePrev();
 // --------------------------------------------------------
 
 #endif

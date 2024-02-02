@@ -34,20 +34,20 @@ extern bool RANDOM_SPEAK_ON_GET;
 extern uint16_t TM_SEC_VAL;
 extern bool TM_STARTED;
 extern void ledClearAll();
-extern void timerStop2(); 
+extern void timerStop2();
 extern void randomSpeakStop2();
 extern void timerStart();
 extern void timerStop();
-extern void timerStop2(); 
+extern void timerStop2();
 extern void sysInfoDispStart(uint8_t mode_no);
 extern bool jsonDocSave(DynamicJsonDocument &jsonDoc, String saveFile);
 extern bool jsonRead(int flType, DynamicJsonDocument &jsonDoc, String readFile);
 extern bool setJsonItem(String flName, String item, String setData, DynamicJsonDocument &jsonDoc, String arrayName);
 extern bool SD_begin();
-extern bool jsonStrSave(DynamicJsonDocument &jsonDoc,const String inJson, const String saveFile);
+extern bool jsonStrSave(DynamicJsonDocument &jsonDoc, const String inJson, const String saveFile);
 extern bool toJsonDoc(DynamicJsonDocument &jsonDoc, const String inJson);
 extern File fileOpen(int flType, const String path, const char *mode);
-extern bool getJsonItem(String flName, String item, String& getData, DynamicJsonDocument &jsonDoc, String arrayName);
+extern bool getJsonItem(String flName, String item, String &getData, DynamicJsonDocument &jsonDoc, String arrayName);
 using namespace m5avatar;
 extern Avatar avatar;
 extern String webpage;
@@ -72,18 +72,20 @@ extern void ledSetup();
 //-------------------------------------------------------------------------
 void startupSetting();
 void startupSetting00();
-void apikeySetting();
 void wsHandleSetting(String volumeS, String volumeDS, String speakerS,
-    String ledS, String muteS, String keyLockS, String toneModeS);
+                     String ledS, String muteS, String keyLockS, String toneModeS);
 void wsHandleStartup(String serverNameS, String volumeS, String ledS,
-    String toneModeS, String muteS, String keyLockS, String vSpeakerNoS,
-    String randomSpeakS,String timerS, String txS);
+                     String toneModeS, String muteS, String keyLockS, String vSpeakerNoS,
+                     String randomSpeakS, String timerS, String txS);
 void wsHandleApikeySetting(String openAiS, String voicevoxS, String txS);
 void M5StackConfig();
 bool jsonAPIKEYinit(DynamicJsonDocument &jsonDoc);
+
+void apikeySetting();
 bool apiKeyJsonSDRead();
 bool apiKeyTxtSDRead();
 bool apiKeyJsonSpiffsRead();
+
 bool jsonSTARTUPinit(DynamicJsonDocument &jsonDoc);
 void nvsSaveAll();
 bool startupFileRead();

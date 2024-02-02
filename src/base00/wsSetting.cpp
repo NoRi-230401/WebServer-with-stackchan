@@ -51,10 +51,10 @@ void apikeySetting()
 
   if (apiKeyJsonSDRead())
     return;
-
+  
   if (apiKeyTxtSDRead())
     return;
-    
+
   apiKeyJsonSpiffsRead();
 }
 
@@ -414,16 +414,17 @@ void M5StackConfig()
   M5.Display.setBrightness(config_brightness);
   M5.Lcd.setTextSize(2);
   // ledClearAll();
-  ledSetup();
-  BoxTouchSetup();
+  // ledSetup();
+  // BoxTouchSetup();
 
   // --- SPIFFS begin ----
+  // Serial.println("SPIFFS.begin Start ...");
   if (!SPIFFS.begin(true))
   {
     Serial.println("Error preparing SPIFFS Filing System...");
     // StartupErrors = true;
   }
-  isSPIFFS = 1;
+   isSPIFFS = 1;   // 1 -> SPIFFS   0 -> SD
 
   // --- SD begin -------
   int i = 0;
@@ -545,6 +546,9 @@ bool apiKeyJsonSpiffsRead()
 
 bool apiKeyJsonSDRead()
 {
+  if (!SD_ENABLE)
+    return false;
+
   DynamicJsonDocument apikeyJson(APIKEYJSON_SIZE);
 
   if (!jsonRead(FLTYPE_SD, apikeyJson, APIKEY_SPIFFS))

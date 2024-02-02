@@ -38,18 +38,18 @@ void avatarSTART()
   avatar.setSpeechFont(&fonts::efontJA_16);
   avatar.addTask(servo, "servo");
 
-  // -- batteryStatusLine setup ---
-  StatusLineMode = STATUS_MD_ICON;
-  statusLineOnOffState = false;
-  avatar.setStatusLineText("");
-  avatar.setStatusLineFont(&fonts::Font0);
-  avatar.setBatteryIcon(true, BATTERY_MD_INVISIBLE);
-  avatar.setBatteryStatus(M5.Power.isCharging(), M5.Power.getBatteryLevel());
+  // // -- batteryStatusLine setup ---
+  // StatusLineMode = STATUS_MD_IP;
+  // statusLineOnOffState = false;
+  // avatar.setStatusLineText("");
+  // avatar.setStatusLineFont(&fonts::Font0);
+  // avatar.setBatteryIcon(true, BATTERY_MD_INVISIBLE);
+  // // avatar.setBatteryStatus(M5.Power.isCharging(), M5.Power.getBatteryLevel());
 
-  // 一度balloon表示しないとBatteryIconのフォント設定が反映されない？？ -- by NoRi 240101 --
-  avatar.setSpeechText("スタックチャン");
-  delay(1000);
-  avatar.setSpeechText("");
+  // // 一度balloon表示しないとBatteryIconのフォント設定が反映されない？？ -- by NoRi 240101 --
+  // avatar.setSpeechText("スタックチャン");
+  // delay(1000);
+  // avatar.setSpeechText("");
 }
 
 // アバターの色

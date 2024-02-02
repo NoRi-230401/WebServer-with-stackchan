@@ -29,9 +29,6 @@
 extern String STT_API_KEY;
 extern String OPENAI_API_KEY;
 extern bool RANDOM_SPEAK_STATE;
-// extern AudioGeneratorMP3 *mp3;
-// extern String SPEECH_TEXT;
-// extern String SPEECH_TEXT_BUFFER;
 extern const char* root_ca_openai;
 extern int SV_MD;
 extern bool SV_USE;

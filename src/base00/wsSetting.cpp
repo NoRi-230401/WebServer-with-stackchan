@@ -410,21 +410,24 @@ void M5StackConfig()
   // ********** M5 config **************
   auto cfg = M5.config();
   M5.begin(cfg);
-
   M5.Display.setBrightness(config_brightness);
   M5.Lcd.setTextSize(2);
-  // ledClearAll();
-  // ledSetup();
-  // BoxTouchSetup();
+  M5.Display.print("\nHello StackChan!!\n\n");
+  Serial.println("Hello StackChan!!"); 
+}
 
-  // --- SPIFFS begin ----
+
+void M5FileSystemBegin()
+{
+// --- init File System ----
+  isSPIFFS = 1;   // 1 -> SPIFFS   0 -> SD
+
   // Serial.println("SPIFFS.begin Start ...");
   if (!SPIFFS.begin(true))
   {
     Serial.println("Error preparing SPIFFS Filing System...");
     // StartupErrors = true;
   }
-   isSPIFFS = 1;   // 1 -> SPIFFS   0 -> SD
 
   // --- SD begin -------
   int i = 0;
@@ -453,6 +456,7 @@ void M5StackConfig()
   else
     SD_ENABLE = true;
 }
+
 
 bool jsonAPIKEYinit(DynamicJsonDocument &jsonDoc)
 {

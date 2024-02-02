@@ -18,8 +18,8 @@ void setup()
   WST = WST_SETUP_start;
   // ** initial Setting **
   M5StackConfig();
-  // log_free_size("初期化開始：");
   M5SpeakerConfig();
+  M5FileSystemBegin();
 
   // ** Setting files **
   startupSetting();
@@ -39,8 +39,7 @@ void setup()
 
   //*** Wake UP! STACKCHAN ***
   avatarSTART();
-
-  // last setup
+  statusLineSetup();
   ledSetup();
   BoxTouchSetup();
   muteOff();

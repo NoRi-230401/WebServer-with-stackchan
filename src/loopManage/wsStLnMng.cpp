@@ -14,6 +14,23 @@ int StatusLineMode;
 #define DURATION_1013 1013UL // 1.013秒: statusLineCheck_time
 uint32_t statusLineCheck_time = 0;
 
+void statusLineSetup()
+{
+// -- batteryStatusLine setup ---
+  StatusLineMode = STATUS_MD_IP;
+  statusLineOnOffState = false;
+  avatar.setStatusLineText("");
+  avatar.setStatusLineFont(&fonts::Font0);
+  avatar.setBatteryIcon(true, BATTERY_MD_INVISIBLE);
+  // avatar.setBatteryStatus(M5.Power.isCharging(), M5.Power.getBatteryLevel());
+
+  // 一度balloon表示しないとBatteryIconのフォント設定が反映されない？？ -- by NoRi 240101 --
+  avatar.setSpeechText("スタックチャン");
+  delay(1000);
+  avatar.setSpeechText("");
+}
+
+
 void statusLinePrev()
 {
   if (!statusLineOnOffState)
@@ -56,12 +73,12 @@ void setStatusLineMode(int mode)
   case STATUS_MD_CLOCK:
   case STATUS_MD_RSSI:
   case STATUS_MD_VOL:
-  case STATUS_MD_IP:
     avatar.setStatusLineFont(&fonts::lgfxJapanGothicP_12);
     avatar.setBatteryIcon(true, BATTERY_MD_LINE_DISP);
     break;
 
   case STATUS_MD_MEM:
+  case STATUS_MD_IP:
     avatar.setStatusLineFont(&fonts::Font0);
     avatar.setBatteryIcon(true, BATTERY_MD_LINE_DISP);
     break;
@@ -124,41 +141,41 @@ void statusLineManage()
       int tmSec;
       statusLineMsg = getDateTime(tmSec);
 
-      if ((tmSec % 10) == 0)
-      {
-        // Serial.println("tmSec = " + String(tmSec, DEC));
-        switch (tmSec)
-        {
-        case 0:
-        case 30:
-          ledClear();
-          ledShow();
-          break;
+      // if ((tmSec % 10) == 0)
+      // {
+      //   // Serial.println("tmSec = " + String(tmSec, DEC));
+      //   switch (tmSec)
+      //   {
+      //   case 0:
+      //   case 30:
+      //     ledClear();
+      //     ledShow();
+      //     break;
 
-        case 10:
-          ledSetColor(rLED[0], 0, 155, 0);
-          ledShow();
-          break;
+      //   case 10:
+      //     ledSetColor(rLED[0], 0, 155, 0);
+      //     ledShow();
+      //     break;
 
-        case 20:
-          ledSetColor(rLED[0], 0, 0, 0);
-          ledSetColor(rLED[3], 0, 155, 0);
-          ledShow();
-          break;
+      //   case 20:
+      //     ledSetColor(rLED[0], 0, 0, 0);
+      //     ledSetColor(rLED[3], 0, 155, 0);
+      //     ledShow();
+      //     break;
 
-        case 40:
-          ledSetColor(lLED[3], 0, 155, 0);
-          ledShow();
-          break;
+      //   case 40:
+      //     ledSetColor(lLED[3], 0, 155, 0);
+      //     ledShow();
+      //     break;
 
-        case 50:
-          ledSetColor(lLED[3], 0, 0, 0);
-          ledSetColor(lLED[0], 0, 155, 0);
-          ledShow();
-          break;
-        }
-        break;
-      }
+      //   case 50:
+      //     ledSetColor(lLED[3], 0, 0, 0);
+      //     ledSetColor(lLED[0], 0, 155, 0);
+      //     ledShow();
+      //     break;
+      //   }
+      //   break;
+      // }
       break;
 
     case STATUS_MD_RSSI:

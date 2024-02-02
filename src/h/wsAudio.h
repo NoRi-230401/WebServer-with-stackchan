@@ -19,7 +19,6 @@ uint8_t TONE_MODE = TONE_MODE_INIT; // 0:allOff(default) 1:buttonOn 2:extCommOn 
 
 void M5SpeakerConfig();
 void setVolume(int vol);
-// void volumeReset();
 uint8_t getVolumeValfmNVM();
 uint8_t getVolumeVal();
 void toneOn();

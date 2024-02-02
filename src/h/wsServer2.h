@@ -51,7 +51,6 @@ void Handle_mkdir(AsyncWebServerRequest *request);
 void Dir_Make();
 void SelectInputDirName(String Heading, String Command, String Arg_name);
 void DirsList();
-// void checkWebReq(AsyncWebServerRequest *request);
 
 // -------------------------------------------------------
 

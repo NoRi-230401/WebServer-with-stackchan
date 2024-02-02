@@ -24,9 +24,6 @@ extern void BoxTouchSetup();
 extern bool KEYLOCK_STATE;
 extern bool SYSINFO_DISP_STATE;
 extern bool RANDOM_SPEAK_STATE;
-// extern String TTS_SPEAKER_NO;
-// extern String TTS_SPEAKER;
-// extern String TTS_PARMS;
 extern uint8_t TTS_vSpkNo;
 
 extern bool LED_OnOff_STATE;
@@ -79,6 +76,7 @@ void wsHandleStartup(String serverNameS, String volumeS, String ledS,
                      String randomSpeakS, String timerS, String txS);
 void wsHandleApikeySetting(String openAiS, String voicevoxS, String txS);
 void M5StackConfig();
+void M5FileSystemBegin();
 bool jsonAPIKEYinit(DynamicJsonDocument &jsonDoc);
 
 void apikeySetting();

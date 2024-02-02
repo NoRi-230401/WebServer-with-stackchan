@@ -25,7 +25,11 @@ extern void clockSetup();
 extern void WiFiInfo();
 extern void muteOff();
 extern void BoxTouchSetup();
-extern void ledSetup();
+extern void M5LedBegin();
+extern void ledBlue();
+extern void ledRed();
+extern void ledGreen();
+extern void ledClearAll();
 
 extern void log_free_size(const char *text);
 #define EXE_TM_MD0 0 // (default) disp and timer reset

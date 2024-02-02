@@ -16,7 +16,10 @@ extern const uint16_t lLED[lLED_LEN];
 extern const uint16_t LED_ROLL[LED_LEN];
 
 // ---------------------------------------------------------------------
-void ledSetup();
+void M5LedBegin();
+void ledBlue();
+void ledRed();
+void ledGreen();
 void ledClearAll();
 void ledSetColor2(uint16_t n, uint32_t c);
 void ledSetColor(uint16_t n, uint8_t r, uint8_t g, uint8_t b);

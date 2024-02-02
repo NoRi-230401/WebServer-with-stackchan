@@ -1,6 +1,8 @@
 // ----------------------------<wsLed.cpp>------------------------------------
 #include "../h/wsLed.h"
 
+#define LED_BRIGHT 155
+
 bool LED_OnOff_STATE = true;
 Adafruit_NeoPixel pixels(NUM_LEDS, LED_PIN, NEO_GRB + NEO_KHZ800); // 800kHzでNeoPixelを駆動 おまじない行
 
@@ -9,12 +11,39 @@ const uint16_t rLED[rLED_LEN] = {0, 1, 2, 3};
 const uint16_t lLED[lLED_LEN] = {8, 7, 6, 5};
 const uint16_t LED_ROLL[LED_LEN] = {0, 1, 2, 3, 5, 6, 7, 8};
 
-void ledSetup()
+void M5LedBegin()
 {
   pixels.begin();
   pixels.clear();
   pixels.show();
+  LED_OnOff_STATE = true;
 }
+
+
+void ledRed()
+{
+  pixels.clear();
+  pixels.setPixelColor(rLED[0], LED_BRIGHT, 0, 0);
+  pixels.setPixelColor(lLED[0], LED_BRIGHT, 0, 0);
+  pixels.show();
+}
+
+void ledGreen()
+{
+  pixels.clear();
+  pixels.setPixelColor(rLED[0], 0,LED_BRIGHT,  0);
+  pixels.setPixelColor(lLED[0], 0,LED_BRIGHT,  0);
+  pixels.show();
+}
+
+void ledBlue()
+{
+  pixels.clear();
+  pixels.setPixelColor(rLED[0], 0,0,LED_BRIGHT);
+  pixels.setPixelColor(lLED[0], 0,0,LED_BRIGHT);
+  pixels.show();
+}
+
 
 void ledClearAll()
 { // 全てのLEDを消灯
@@ -55,7 +84,7 @@ void ledClear()
     pixels.clear();
 }
 
-#define LED_BRIGHT 155
+
 void ledMoveSec(uint16_t sec)
 {
   if (!LED_OnOff_STATE)

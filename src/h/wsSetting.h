@@ -65,7 +65,7 @@ extern void muteOff();
 #define TTS_VSPKNO_INIT 3
 extern void setTTSvSpkNo(int spkNo);
 extern uint8_t getTTSvSpkNofmNVS();
-extern void ledSetup();
+extern void M5LedBegin();
 //-------------------------------------------------------------------------
 void startupSetting();
 void startupSetting00();

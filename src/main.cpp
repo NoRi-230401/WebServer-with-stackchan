@@ -18,15 +18,18 @@ void setup()
   WST = WST_SETUP_start;
   // ** initial Setting **
   M5StackConfig();
+  M5LedBegin();
+  ledRed();
   M5SpeakerConfig();
   M5FileSystemBegin();
-
+  
   // ** Setting files **
   startupSetting();
   apikeySetting();
   servoSetting();
 
   // *** Network  ***
+  ledGreen();
   wifiSetup();
   serverSetup();
   clockSetup();
@@ -35,17 +38,17 @@ void setup()
   // *** Servo, chatGpt ***
   servoSetup();
   chatGptSetup();
+  ledBlue();
   delay(3000);
 
   //*** Wake UP! STACKCHAN ***
   avatarSTART();
   statusLineSetup();
-  ledSetup();
   BoxTouchSetup();
   muteOff();
+  ledClearAll();
   WST = WST_SETUP_done;
 }
-
 
 void loop()
 {

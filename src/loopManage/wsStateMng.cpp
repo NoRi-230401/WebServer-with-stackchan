@@ -10,14 +10,14 @@ void stateManage()
   switch (WST)
   {
   case WST_SETUP_done:
-    log_free_size("初期化終了：");
-    showExeTime("setup()  --- End --- ");
+    log_free_size("setup() --- END --- ");
+    showExeTime("setup() --- END --- ");
     WST = WST_LOOP;
     return;
 
   case WST_chatGPT_exit:
-    log_free_size("chatGPT Exit：");
-    showExeTime("chatGPT Exit ");
+    log_free_size("chatGPT Exit : ");
+    showExeTime("chatGPT Exi : ");
     WST = WST_LOOP;
     return;
 
@@ -29,8 +29,8 @@ void stateManage()
     return;
   
   case WST_TTS_exit:
-    log_free_size("TTS exit：");
-    showExeTime("TTS exit ");
+    log_free_size("TTS exit : ");
+    showExeTime("TTS exit : ");
     WST = WST_LOOP;
     return;
 
@@ -46,8 +46,8 @@ void stateManage()
     }
     REQ_EXPR_AFTER = -1;
 
-    log_free_size("VOICEVOX：OUT");
-    showExeTime("VOICEVOX：end of speaking");
+    log_free_size("VOICEVOX : OUT");
+    showExeTime("VOICEVOX : end of speaking");
     WST = WST_LOOP;
     return;
 

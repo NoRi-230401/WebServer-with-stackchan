@@ -16,7 +16,8 @@ const Expression expr_table[] = {
 
 void stackchanReq(const String &speakStr, int expr, const String balloonStr, int afterExpr)
 {
-  sendReq2(REQ_STACKCHAN, speakStr, expr, balloonStr, afterExpr);
+  // sendReq2(REQ_STACKCHAN, speakStr, expr, balloonStr, afterExpr);
+  sendReq_stackchan(speakStr, expr, balloonStr, afterExpr);
 }
 
 

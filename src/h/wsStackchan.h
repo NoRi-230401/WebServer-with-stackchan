@@ -6,7 +6,7 @@
 #include <Arduino.h>
 #include <ArduinoJson.h>
 #include <Avatar.h>
-#include <AudioOutput.h>
+// #include <AudioOutput.h>
 #include <deque>
 #include <SD.h>
 #include <SPIFFS.h>
@@ -14,8 +14,8 @@
 #include <nvs.h>
 #define SUPPRESS_HPP_WARNING
 #include <ServoEasing.h>
-#include <AudioGeneratorMP3.h>
-#include "lib/AudioOutputM5Speaker.h"
+// #include <AudioGeneratorMP3.h>
+// #include "lib/AudioOutputM5Speaker.h"
 
 // -- Servo Mode define ----
 #define SV_MD_MOVING 0
@@ -30,7 +30,7 @@
 #define SV_MD_NONE 99
 
 extern const String EXPR_STR[];
-extern AudioOutputM5Speaker out;
+// extern AudioOutputM5Speaker out;
 extern bool SV_USE;
 extern int SV_MD;
 extern int SV_HOME_X;
@@ -66,22 +66,14 @@ extern int StatusLineMode;
 #define EXPR_ANGRY 5
 
 // -- Request ---------
-#define REQ_MSG_CLS 0
-#define REQ_SPEAK_ADJUST 1
-#define REQ_BALOON_ADJUST 2
-#define REQ_SPEAK_BALOON_ADJUST 3
-#define REQ_SPEAK 4
-#define REQ_BALOON 5
 #define REQ_SV_MD_ADJUST 9
 #define REQ_STACKCHAN 10
 // -------------------------
 
 
-extern void sendReq2(int reqNo, const String& speakStr="", int expr=-1, const String balloonStr="$$SKIP$$", int afterExpr=-1);
-
+extern void sendReq_stackchan(const String& speakStr="", int expr=-1, const String balloonStr="$$SKIP$$", int afterExpr=-1);
 extern void stackchanReq(const String& speakStr, int expr=-1, const String balloonStr="$$SKIP$$", int afterExpr=-1 );
 void stackchanReq(const String& speakStr,int expr, const String balloonStr, int afterExpr);
-
 extern void stackchanNow( int expr = -1, const String balloonStr = "$$SKIP$$");
 void stackchanNow( int expr, const String balloonStr);
 
@@ -98,7 +90,6 @@ void statusLineManage();
 void setStatusLineMode(int mode);
 void setAvatarcolor();
 void servo(void *args);
-
 void avatarSTART();
 // -----------------------------------
 #endif

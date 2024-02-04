@@ -12,13 +12,23 @@ String REQ_MSG = "";
 bool REQ_chatGPT_GET = false;
 int REQ_SHUTDOWN_REBOOT = 0;
 
-void sendReq2(int reqNo, const String& speakStr, int expr, const String balloonStr, int afterExpr)
+// void sendReq2(int reqNo, const String &speakStr, int expr, const String balloonStr, int afterExpr)
+// {
+//   REQ_SPEAK_STR = speakStr;
+//   REQ_EXPR = expr;
+//   REQ_EXPR_AFTER = afterExpr;
+//   REQ_BALOON_STR = balloonStr;
+//   // REQUEST_NO2 = reqNo;
+//   REQUEST_NO = reqNo;
+// }
+
+void sendReq_stackchan(const String &speakStr, int expr, const String balloonStr, int afterExpr)
 {
   REQ_SPEAK_STR = speakStr;
   REQ_EXPR = expr;
   REQ_EXPR_AFTER = afterExpr;
   REQ_BALOON_STR = balloonStr;
-  REQUEST_NO2 = reqNo;
+  REQUEST_NO = REQ_STACKCHAN;
 }
 
 void Req_stackchanDo()
@@ -42,22 +52,22 @@ void Req_stackchanDo()
   }
 }
 
-void sendReq(int reqNo, String msg)
-{
-  REQ_MSG = msg;
-  REQUEST_NO = reqNo;
-}
+// void sendReq(int reqNo, String msg)
+// {
+//   REQ_MSG = msg;
+//   REQUEST_NO = reqNo;
+// }
 
 void requestManage()
 {
-  if (REQUEST_NO2 != 0 )
-  {
-    if( (REQUEST_NO2==REQ_STACKCHAN) && !isTalking() )
-    {
-      REQUEST_NO2 = 0;
-      Req_stackchanDo();
-    }
-  }
+  // if (REQUEST_NO2 != 0)
+  // {
+  //   if ((REQUEST_NO2 == REQ_STACKCHAN) && !isTalking())
+  //   {
+  //     REQUEST_NO2 = 0;
+  //     Req_stackchanDo();
+  //   }
+  // }
 
   if (REQUEST_NO != 0)
   {
@@ -65,43 +75,21 @@ void requestManage()
 
     switch (req)
     {
-    case REQ_SPEAK:
+
+    case REQ_STACKCHAN:
       if (!isTalking())
       {
         REQUEST_NO = 0;
-        Req_SpkDo();
+        Req_stackchanDo();
       }
-      break;
-
-    case REQ_SPEAK_ADJUST:
-      if (!isTalking())
-      {
-        REQUEST_NO = 0;
-        Req_SpkDo_adjust();
-      }
-      break;
-
-    case REQ_SPEAK_BALOON_ADJUST:
-      if (!isTalking())
-      {
-        REQUEST_NO = 0;
-        Req_SpkBaloonDo_adjust();
-      }
-      break;
-
-    case REQ_BALOON_ADJUST:
-      REQUEST_NO = 0;
-      Req_BaloonDo_adjust();
-      break;
-
-    case REQ_BALOON:
-      REQUEST_NO = 0;
-      Req_BaloonDo();
       break;
 
     case REQ_SV_MD_ADJUST:
-      REQUEST_NO = 0;
-      SV_MD = SV_MD_ADJUST;
+      if (!isTalking())
+      {
+        REQUEST_NO = 0;
+        SV_MD = SV_MD_ADJUST;
+      }
       break;
 
     default:
@@ -124,59 +112,4 @@ void requestManage()
     }
     REQ_SHUTDOWN_REBOOT = 0;
   }
-}
-
-void Req_BaloonDo()
-{
-  avatar.setExpression(Expression::Happy);
-  avatar.setSpeechText(REQ_MSG.c_str());
-  avatar.setExpression(Expression::Neutral);
-}
-
-void Req_SpkDo()
-{
-  avatar.setExpression(expr_table[REQ_EXPR]);
-  SPEECH_TEXT = REQ_MSG;
-  ttsDo(SPEECH_TEXT);
-  SPEECH_TEXT = "";
-}
-
-void Req_SpkBaloonDo_adjust()
-{
-  if (!SV_ADJUST_STATE)
-    return;
-
-  avatar.setExpression(Expression::Happy);
-  avatar.setSpeechText(REQ_MSG.c_str());
-  SPEECH_TEXT = REQ_MSG;
-  ttsDo(SPEECH_TEXT);
-  SPEECH_TEXT = "";
-  avatar.setExpression(Expression::Neutral);
-}
-
-void Req_SpkDo_adjust()
-{
-  if (!SV_ADJUST_STATE)
-    return;
-
-  avatar.setExpression(Expression::Happy);
-  SPEECH_TEXT = REQ_MSG;
-  ttsDo(SPEECH_TEXT);
-  SPEECH_TEXT = "";
-  avatar.setExpression(Expression::Neutral);
-}
-
-void Req_BaloonDo_adjust()
-{
-  if (!SV_ADJUST_STATE)
-    return;
-
-  avatar.setExpression(Expression::Happy);
-  avatar.setSpeechText(REQ_MSG.c_str());
-  avatar.setExpression(Expression::Neutral);
-}
-
-void BaloonClear()
-{
-  sendReq(REQ_BALOON, "");
 }

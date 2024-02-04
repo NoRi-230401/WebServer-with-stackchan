@@ -1,13 +1,12 @@
 // -------------------------< main.h >--------------------
-#ifndef WS_MAIN_H
-#define WS_MAIN_H
+#ifndef _WS_MAIN_H
+#define _WS_MAIN_H
 // -------------------------------------------------------
 #include <Arduino.h>
 extern const String WSS_VERSION;
 extern void M5StackConfig();
 extern void M5SpeakerConfig();
 extern void startupSetting();
-// extern void startupSetting00();
 extern void apikeySetting();
 extern void servoSetting();
 extern void wifiSetup();

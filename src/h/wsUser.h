@@ -1,6 +1,6 @@
 // ---------------------------< wsUser.h >------------------------------------
-#ifndef WS_USER_H
-#define WS_USER_H
+#ifndef _WS_USER_H
+#define _WS_USER_H
 // ---------------------------
 #include <Arduino.h>
 #include <ESPAsyncWebServer.h>

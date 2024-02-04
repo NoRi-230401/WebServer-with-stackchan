@@ -1,6 +1,6 @@
 // ---------------------------< wsReqMng.h >----------------------------
-#ifndef WS_REQMNG_H
-#define WS_REQMNG_H
+#ifndef _WS_REQMNG_H
+#define _WS_REQMNG_H
 // ---------------------------------------------------------------------
 #include <Arduino.h>
 #include <Avatar.h>

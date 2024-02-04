@@ -1,6 +1,6 @@
 // ----------------------------<wsServer2.h>------------------------------------
-#ifndef WS_SERVER2_H
-#define WS_SERVER2_H
+#ifndef _WS_SERVER2_H
+#define _WS_SERVER2_H
 // ---------------------------
 #include <Arduino.h>
 #include <ArduinoJson.h>

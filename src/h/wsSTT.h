@@ -1,6 +1,6 @@
 // ---------------------------< wsSTT.h >------------------------------------
-#ifndef WS_STT_H
-#define WS_STT_H
+#ifndef _WS_STT_H
+#define _WS_STT_H
 // ---------------------------
 #include <Arduino.h>
 #include <ArduinoJson.h>

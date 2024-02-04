@@ -1,7 +1,7 @@
 // ---- <main.cpp>-------------------------------------------------------
 #include "./h/main.h"
 const String WSS_NAME = "WebServer-with-stackchan";
-const String WSS_VER = "v305m-240201";
+const String WSS_VER = "v305n-240204";
 const String WSS_VERSION = WSS_NAME + " " + WSS_VER;
 
 // ---------------------------------------------------------------------

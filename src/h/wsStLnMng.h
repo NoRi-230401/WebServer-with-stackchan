@@ -1,6 +1,6 @@
 // -----------------------<wsStLnMng.h>---------------------------------
-#ifndef WS_STLNMNG_H
-#define WS_STLNMNG_H
+#ifndef _WS_STLNMNG_H
+#define _WS_STLNMNG_H
 // ---------------------------
 #include <WiFi.h>  
 #include <Arduino.h>

@@ -1,5 +1,5 @@
-#ifndef ROOTCA_H
-#define ROOTCA_H
+#ifndef _WS_ROOTCA_H
+#define _WS_ROOTCA_H
 
 namespace {
     // const char* root_ca_openai = \

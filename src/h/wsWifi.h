@@ -1,6 +1,6 @@
 // ----------------------------<wsWifi.h>------------------------------------
-#ifndef WS_WIFI_H
-#define WS_WIFI_H
+#ifndef _WS_WIFI_H
+#define _WS_WIFI_H
 // ---------------------------
 #include <WiFi.h>  
 #include <Arduino.h>

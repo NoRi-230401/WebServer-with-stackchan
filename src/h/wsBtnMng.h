@@ -1,6 +1,6 @@
 // ----------------------------<wsBtnMng.h>------------------------------------
-#ifndef WS_BTNMNG_H
-#define WS_BTNMNG_H
+#ifndef _WS_BTNMNG_H
+#define _WS_BTNMNG_H
 // ---------------------------
 #include <Arduino.h>
 #include <ArduinoJson.h>

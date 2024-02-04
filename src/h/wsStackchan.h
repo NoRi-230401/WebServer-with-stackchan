@@ -1,6 +1,6 @@
 // ----------------------------<wsStackchan.h>------------------------------------
-#ifndef WS_STACKCHAN_H
-#define WS_STACKCHAN_H
+#ifndef _WS_STACKCHAN_H
+#define _WS_STACKCHAN_H
 // ---------------------------
 #include <WiFi.h>  
 #include <Arduino.h>

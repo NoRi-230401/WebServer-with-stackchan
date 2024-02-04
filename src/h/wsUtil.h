@@ -1,6 +1,6 @@
 // ----------------------------<wsUtil.h>------------------------------------
-#ifndef WS_UTIL_H
-#define WS_UTIL_H
+#ifndef _WS_UTIL_H
+#define _WS_UTIL_H
 // ---------------------------
 #include <Arduino.h>
 #include <ArduinoJson.h>

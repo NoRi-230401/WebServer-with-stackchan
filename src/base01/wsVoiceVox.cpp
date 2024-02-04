@@ -1,8 +1,5 @@
 // --------------- VoiceVox.cpp ----------------------------------
-// M5Stack_Stack-chan_another_dimension  : つゆきぱぱさん
-// のソフトを基にしてNoRiが変更をかけました。 2024-01-28
-// ---------------------------------------------------------------
-#include "../h/VoiceVox.h"
+#include "../h/wsVoiceVox.h"
 
 TaskHandle_t voicevox_task_handle;
 
@@ -102,10 +99,7 @@ void VoiceVox::talk_https(String url)
     mp3 = new AudioGeneratorMP3();
     out = new AudioOutputM5Speaker(&M5.Speaker);
     file_https = new AudioFileSourceHTTPSStream(url.c_str(), root_ca_voicevox);
-    
     buff = new AudioFileSourceBuffer(file_https, 1024 * 10);
-    // buff = new AudioFileSourceBuffer(file_https, 1024 * 20);
-
     // M5.Mic.end();
     // M5.Speaker.begin();
 

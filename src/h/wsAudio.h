@@ -1,6 +1,6 @@
 // ---------------------------< wsAudio.h >------------------------------------
-#ifndef WS_AUDIO_H
-#define WS_AUDIO_H
+#ifndef _WS_AUDIO_H
+#define _WS_AUDIO_H
 // ---------------------------
 #include <Arduino.h>
 #include <nvs.h>

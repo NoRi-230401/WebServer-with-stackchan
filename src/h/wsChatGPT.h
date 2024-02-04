@@ -1,12 +1,9 @@
 // -----------------------<wsChatGPT.h>---------------------------------
-#ifndef WS_CHATGPT_H
-#define WS_CHATGPT_H
+#ifndef _WS_CHATGPT_H
+#define _WS_CHATGPT_H
 // ---------------------------------------------------------------------
 #include <Arduino.h>
 #include <ArduinoJson.h>
-// #include <Avatar.h>
-// #include <AudioGeneratorMP3.h>
-// #include <AudioOutput.h>
 #include <deque>
 #include <SD.h>
 #include <SPIFFS.h>
@@ -14,31 +11,15 @@
 #include <nvs.h>
 #include <HTTPClient.h>
 #include <WiFiClientSecure.h>
-// #include "../lib/AudioOutputM5Speaker.h"
 #include "../lib/rootCACertificate.h"
 
-// -- Request ---------
-// #define REQ_MSG_CLS 0
-// #define REQ_SPEAK_ADJUST 1
-// #define REQ_BALOON_ADJUST 2
-// #define REQ_SPEAK_BALOON_ADJUST 3
-// #define REQ_SPEAK 4
-// #define REQ_BALOON 5
-// #define REQ_SV_MD_ADJUST 9
-// -----------------------
-
 #define DOC_SIZE 1024 * 4
-// #define DOC_SIZE 1024 * 10
-
 #define CHARA_SIZE 9 * 1024
 #define FLTYPE_SPIFFS 1
 #define FLTYPE_SD 2
 extern bool jsonRead(int flType, DynamicJsonDocument &jsonDoc, String readFile);
 extern bool jsonDocSave(DynamicJsonDocument &jsonDoc, String saveFile);
 
-// using namespace m5avatar;
-// extern Avatar avatar;
-// extern const Expression expr_table[];
 extern bool REQ_chatGPT_GET;
 extern String REQ_MSG;
 extern bool SYSINFO_DISP_STATE;
@@ -46,11 +27,7 @@ extern char tts_parms2[];
 extern bool KEYLOCK_STATE;
 extern String VOICEVOX_API_KEY;
 extern String OPENAI_API_KEY;
-// extern String TTS_SPEAKER_NO;
-// extern String TTS_SPEAKER;
-// extern String TTS_PARMS;
 extern uint8_t TTS_vSpkNo;
-// extern AudioGeneratorMP3 *mp3;
 extern bool LED_OnOff_STATE;
 extern void ledSetColor2(uint16_t n, uint32_t c);
 extern void ledSetColor(uint16_t n, uint8_t r, uint8_t g, uint8_t b);

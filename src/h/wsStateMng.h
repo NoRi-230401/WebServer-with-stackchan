@@ -1,6 +1,6 @@
 // -----------------------<wsStateMng.h>---------------------------------
-#ifndef WS_STATEMNG_H
-#define WS_STATEMNG_H
+#ifndef _WS_STATEMNG_H
+#define _WS_STATEMNG_H
 // ---------------------------
 #include <WiFi.h>  
 #include <Arduino.h>

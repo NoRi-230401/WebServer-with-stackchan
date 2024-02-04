@@ -1,6 +1,6 @@
 // ----------------------------<wsTimer.h>------------------------------------
-#ifndef WS_CLOCK_H
-#define WS_CLOCK_H
+#ifndef _WS_CLOCK_H
+#define _WS_CLOCK_H
 // ---------------------------------------------------------------------------
 #include <M5Unified.h>
 

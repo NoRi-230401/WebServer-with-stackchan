@@ -1,6 +1,6 @@
 // ---------------------------< wsSetting.h >------------------------------------
-#ifndef WS_SETTING_H
-#define WS_SETTING_H
+#ifndef _WS_SETTING_H
+#define _WS_SETTING_H
 // ---------------------------
 
 #include <Arduino.h>

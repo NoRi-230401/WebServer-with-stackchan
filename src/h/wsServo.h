@@ -1,6 +1,6 @@
 // ---------------------------< wsServo.h >------------------------------------
-#ifndef WS_SERVO_H
-#define WS_SERVO_H
+#ifndef _WS_SERVO_H
+#define _WS_SERVO_H
 // ---------------------------
 #include <Arduino.h>
 #include <ArduinoJson.h>

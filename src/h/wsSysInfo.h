@@ -1,6 +1,6 @@
 // ---------------------------< wsSysInfo.h >------------------------------------
-#ifndef WS_SYSINFO_H
-#define WS_SYSINFO_H
+#ifndef _WS_SYSINFO_H
+#define _WS_SYSINFO_H
 // ---------------------------
 #include <Arduino.h>
 #include <ArduinoJson.h>

@@ -1,5 +1,5 @@
-#ifndef _VOICEVOX_H
-#define _VOICEVOX_H
+#ifndef _WS_VOICEVOX_H
+#define _WS_VOICEVOX_H
 
 #include <M5Unified.h>
 #include <Avatar.h>
@@ -9,7 +9,7 @@
 #include <AudioGeneratorMP3.h>
 #include "../lib/AudioOutputM5Speaker.h"
 #include "../lib/AudioFileSourceHTTPSStream.h"
-#include "RootCA.h"
+#include "wsRootCA.h"
 
 extern m5avatar::Avatar avatar;
 extern String VOICEVOX_API_KEY;

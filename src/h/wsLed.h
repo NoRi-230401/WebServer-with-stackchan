@@ -1,6 +1,6 @@
 // -------------------------<wsLed.h>-----------------------------------
-#ifndef WS_LED_H
-#define WS_LED_H
+#ifndef _WS_LED_H
+#define _WS_LED_H
 // ---------------------------------------------------------------------
 #include <Adafruit_NeoPixel.h>
 // #include <Arduino.h>

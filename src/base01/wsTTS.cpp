@@ -2,7 +2,8 @@
 #include "../h/wsTTS.h"
 
 uint8_t TTS_vSpkNo = 3;
-VoiceVox *tts = new VoiceVox();
+VoiceVox *tts_voiceVox = new VoiceVox();
+// VoiceText *tts_voiceText = new VoiceText();
 String SPEECH_TEXT = "";
 
 void ttsDo(const String &speechText)
@@ -24,10 +25,16 @@ void ttsDo(const String &speechText)
   {
     WST = WST_TTS_talkStart;
     showExeTime("",EXE_TM_MD_START);
-    execute_talk(return_string);
+
+    // execute_talk(return_string);
+    if ( return_string != "")
+        tts_voiceVox->talk_https(return_string);
+
     showExeTime("VOICEVOX：mp3Url get then start speaking");
   }
 }
+
+
 
 
 void wsHandleSpeech(String sayS, String expressionS, String balloonS, String voiceS, String afterExpS )
@@ -83,7 +90,7 @@ void wsHandleSpeech(String sayS, String expressionS, String balloonS, String voi
 
 bool isTalking()
 {
-  return ((tts->is_talking) || (SPEECH_TEXT != ""));
+  return ((tts_voiceVox->is_talking) || (SPEECH_TEXT != ""));
 }
 
 String execute_voicevox(const String &speechText, uint8_t spk_no)
@@ -93,17 +100,9 @@ String execute_voicevox(const String &speechText, uint8_t spk_no)
     return "";
   }
 
-  tts->setSpkNo(spk_no);
-  String return_string = tts->synthesis(speechText);
+  tts_voiceVox->setSpkNo(spk_no);
+  String return_string = tts_voiceVox->synthesis(speechText);
   return return_string;
-}
-
-void execute_talk(String url)
-{
-  if (url != "")
-  {
-    tts->talk_https(url);
-  }
 }
 
 void setTTSvSpkNo(int spkNo)

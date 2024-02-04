@@ -1,9 +1,8 @@
 // ----------------------------<wsTimer.h>------------------------------------
-#ifndef WS_TIMER_H
-#define WS_TIMER_H
+#ifndef _WS_TIMER_H
+#define _WS_TIMER_H
 // ---------------------------------------------------------------------------
 #include <Arduino.h>
-// #include <Avatar.h>
 #include <M5Unified.h>
 #include <nvs.h>
 

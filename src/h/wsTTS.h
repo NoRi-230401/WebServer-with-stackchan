@@ -1,36 +1,14 @@
 // ---------------------------< wsTTS.h >------------------------------------
-#ifndef WS_TTS_H
-#define WS_TTS_H
+#ifndef _WS_TTS_H
+#define _WS_TTS_H
 // --------------------------------------------------------------------------
 #include <Arduino.h>
 #include <nvs.h>
-#include <ArduinoJson.h>
-#include <Avatar.h>
-#include <AudioOutput.h>
-#include <AudioFileSourceBuffer.h>
-#include <AudioGeneratorMP3.h>
-#include <AudioFileSourcePROGMEM.h>
-#include <M5Unified.h>
-#include <HTTPClient.h>
-#include <WiFiClientSecure.h>
-#include "../lib/AudioFileSourceHTTPSStream.h"
-#include "../lib/WebVoiceVoxTTS.h"
-#include "VoiceVox.h"
+#include "wsVoiceVox.h"
 
 using namespace m5avatar;
-
-// -- Request ---------
-#define REQ_MSG_CLS 0
-#define REQ_SPEAK_ADJUST 1
-#define REQ_BALOON_ADJUST 2
-#define REQ_SPEAK_BALOON_ADJUST 3
-#define REQ_SPEAK 4
-#define REQ_BALOON 5
-#define REQ_SV_MD_ADJUST 9
-
 extern const char *SETTING_NVS;
 // -----------------------
-// extern void sendReq(int reqNo,String msg);
 extern Avatar avatar;
 extern HTTPClient http;
 extern WiFiClient client;
@@ -69,8 +47,10 @@ extern void showExeTime(String msg, int mode = EXE_TM_MD0);
 //------------------------------------------------------------
 void wsHandleSpeech(String sayS, String expressionS, String balloonS, String voiceS, String afterExpS);
 void ttsDo( const String& speechText );
+// String execute_voiceText(const String &speechText, uint8_t spk_no);
+// void ttsDo2(const String &speechText);
 bool isTalking();
-void execute_talk(String url);
+// void execute_talk(String url);
 String execute_voicevox(const String &text, uint8_t spk_no);
 #define TTS_VSPKNO_MAX 66
 #define TTS_VSPKNO_INIT 3

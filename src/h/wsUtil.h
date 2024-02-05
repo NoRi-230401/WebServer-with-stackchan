@@ -24,13 +24,19 @@
 #define SV_MD_RANDOM 8
 #define SV_MD_NONE 9
 
+// -- Request ---------
+#define REQ_SV_MD_ADJUST 9
+#define REQ_STACKCHAN 10
+#define REQ_REBOOT  98
+#define REQ_SHUTDOWN  99
+
 extern int SV_MD;
 extern void ledClearAll();
 extern int REQUEST_NO;
 extern String REQ_MSG;
 extern String webpage;
-extern int REQ_SHUTDOWN_REBOOT;
-
+// extern int REQ_SHUTDOWN_REBOOT;
+extern void sendReq(int reqNo);
 
 //------------------------------------------------------------
 void wsHandleShutdown(String reboot_get_str, String time_get_str);

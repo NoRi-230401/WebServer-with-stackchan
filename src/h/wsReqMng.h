@@ -19,9 +19,12 @@
 #define SV_MD_POINT 7
 #define SV_MD_DELTA 8
 #define SV_MD_NONE 99
+
 // -- Request ---------
 #define REQ_SV_MD_ADJUST 9
 #define REQ_STACKCHAN 10
+#define REQ_REBOOT  98
+#define REQ_SHUTDOWN  99
 
 // -------------------------
 
@@ -45,10 +48,12 @@ extern void stackchanReq(const String& speakStr, int expr=-1, const String ballo
 extern void stackchanNow( int expr = -1, const String balloonStr = "$$SKIP$$");
 
 // ---------------------------------------------------------------------
-extern void sendReq2(int reqNo, const String& speakStr="", int expr=-1, const String balloonStr="$$SKIP$$", int afterExpr=-1);
-void sendReq2(int reqNo, const String& speakStr, int expr, const String balloonStr, int afterExpr);
+// extern void sendReq2(int reqNo, const String& speakStr="", int expr=-1, const String balloonStr="$$SKIP$$", int afterExpr=-1);
+// void sendReq2(int reqNo, const String& speakStr, int expr, const String balloonStr, int afterExpr);
 extern void sendReq_stackchan(const String& speakStr="", int expr=-1, const String balloonStr="$$SKIP$$", int afterExpr=-1);
 void sendReq_stackchan(const String &speakStr, int expr, const String balloonStr, int afterExpr);
 void requestManage();
+void sendReq(int reqNo);
+void Req_stackchanDo();
 // ---------------------------------------------------------------------
 #endif

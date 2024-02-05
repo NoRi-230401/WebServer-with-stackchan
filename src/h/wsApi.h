@@ -66,7 +66,7 @@
 #define BtnREQ_BOX_SERVO 4
 #define BtnREQ_BOX_STT 5
 
-extern bool REQ_chatGPT_GET;
+// extern bool REQ_chatGPT_GET;
 extern int SV_MD;
 extern int SV_HOME_X;
 extern int SV_HOME_Y;
@@ -76,7 +76,7 @@ extern int SV_PREV_PT_X;
 extern int SV_PREV_PT_Y;
 extern int SV_NEXT_PT_X;
 extern int SV_NEXT_PT_Y;
-extern bool SV_MD_RANDOM_1st;
+// extern bool SV_MD_RANDOM_1st;
 extern int SV_SWING_CNT;
 extern int SV_SWING_AXIS;
 extern int SV_SWING_LEN;

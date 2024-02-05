@@ -8,6 +8,9 @@
 #include <SPIFFS.h>
 #include <M5Unified.h>
 #include <ServoEasing.hpp>
+#include <Avatar.h>
+using namespace m5avatar;
+extern Avatar avatar;
 
 // ---- servo define ----------
 #define SV_CENTER_X 90
@@ -29,15 +32,6 @@
 #define SV_MD_DELTA 8
 #define SV_MD_NONE 99
 
-// -- Request ---------
-#define REQ_MSG_CLS 0
-#define REQ_SPEAK_ADJUST 1
-#define REQ_BALOON_ADJUST 2
-#define REQ_SPEAK_BALOON_ADJUST 3
-#define REQ_SPEAK 4
-#define REQ_BALOON 5
-#define REQ_SV_MD_ADJUST 9
-
 #define SV_SWING_AXIS_X 0
 #define SV_SWING_AXIS_Y 1
 #define SV_SWING_AXIS_XY 2
@@ -48,6 +42,15 @@
 #define SERVOJSON_SIZE 5 * 128
 #define FLTYPE_SPIFFS 1
 #define FLTYPE_SD 2
+
+// -- Request ---------
+#define REQ_MSG_CLS 0
+#define REQ_SPEAK_ADJUST 1
+#define REQ_BALOON_ADJUST 2
+#define REQ_SPEAK_BALOON_ADJUST 3
+#define REQ_SPEAK 4
+#define REQ_BALOON 5
+#define REQ_SV_MD_ADJUST 9
 
 //-- Avatar expressions --
 #define EXPR_NEUTRAL 0
@@ -75,6 +78,7 @@ extern void stackchanReq(const String& speakStr, int expr=-1, const String ballo
 extern void stackchanNow( int expr = -1, const String balloonStr = "$$SKIP$$");
 
 // -----------------------------------------------------------------
+void servo(void *args);
 bool jsonSERVOinit(DynamicJsonDocument &jsonDoc);
 void BoxServoDo();
 void wsHandleServo(String swingXYS,String swingXS, String swingYS,
@@ -84,7 +88,6 @@ void wsServoSetting(String txS,String servoS, String servoPortS,
       String servoModeS, String servoHomeXS, String servoHomeYS);
 void stackchanBalllonAdj(String balloonMsg);
 void stackchanSpkBalllonAdj(String msg);
-void servo2(int mode);
 void servoSetup();
 void servoSetup2();
 void servoInit();

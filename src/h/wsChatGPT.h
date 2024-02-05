@@ -20,7 +20,7 @@
 extern bool jsonRead(int flType, DynamicJsonDocument &jsonDoc, String readFile);
 extern bool jsonDocSave(DynamicJsonDocument &jsonDoc, String saveFile);
 
-extern bool REQ_chatGPT_GET;
+// extern bool REQ_chatGPT_GET;
 extern String REQ_MSG;
 extern bool SYSINFO_DISP_STATE;
 extern char tts_parms2[];

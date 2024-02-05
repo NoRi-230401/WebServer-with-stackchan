@@ -21,7 +21,8 @@ void wsHandleShutdown(String reboot_get_str, String time_get_str)
   if (reboot_get_str == "on")
   {
     SHUTDOWN_TM_SEC = time_sec;
-    REQ_SHUTDOWN_REBOOT = 2; // reboot
+    // REQ_SHUTDOWN_REBOOT = 2; // reboot
+    sendReq(REQ_REBOOT);
     SV_MD = SV_MD_HOME;
 
     webpage = "reboot : after " + String(time_sec, DEC) + "sec";
@@ -31,8 +32,9 @@ void wsHandleShutdown(String reboot_get_str, String time_get_str)
 
   // --- shutdown
   SHUTDOWN_TM_SEC = time_sec;
-  REQ_SHUTDOWN_REBOOT = 1; // shutdown
+  // REQ_SHUTDOWN_REBOOT = 1; // shutdown
   SV_MD = SV_MD_HOME;
+  sendReq(REQ_SHUTDOWN);
   webpage = "shutdown : after " + String(time_sec, DEC) + "sec";
   Serial.println(webpage);
   return;

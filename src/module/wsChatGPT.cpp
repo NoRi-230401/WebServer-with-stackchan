@@ -26,6 +26,7 @@ bool RANDOM_SPEAK_ON_GET = false;
 bool RANDOM_SPEAK_OFF_GET = false;
 uint32_t RANDOM_TM = 0;      // 「独り言モード」待ち時間
 uint32_t RANDOM_TM_LAST = 0; // 「独り言モード」前回の実行時刻
+bool REQ_chatGPT_GET = false;
 
 // 「わかりません」対策
 int WK_CNT = 0;
@@ -491,19 +492,9 @@ String https_post_json(const char *url, const char *json_string, const char *roo
 String chatGpt(String json_string)
 {
   String response = "";
-  // avatar.setExpression(Expression::Doubt);
-  // avatar.setSpeechText("考え中…");
   stackchanNow(EXPR_DOUBT,"考え中…");
-
-  // ------------------------
-  // ***** chatGPT実行 *****
   String ret = https_post_json("https://api.openai.com/v1/chat/completions", json_string.c_str(), root_ca_openai);
-  // ------------------------
-
-  // avatar.setExpression(Expression::Neutral);
-  // avatar.setSpeechText("");
   stackchanNow(EXPR_NEUTRAL,"");
-
 
   if (ret != "")
   {// ret が正常である場合
@@ -522,11 +513,7 @@ String chatGpt(String json_string)
     {
       Serial.print(F("deserializeJson() failed: "));
       Serial.println(error.f_str());
-      // avatar.setExpression(Expression::Sad);
-      // avatar.setSpeechText("エラーです");
       stackchanNow(EXPR_SAD,"エラーです");
-
-
       Serial.println("chatGPT err : desirialization ");
       response = "";
       return response;
@@ -548,16 +535,11 @@ String chatGpt(String json_string)
     WK_ERR_CODE = 0;
     WK_CNT++;
     Serial.println("WK_CNT = " + String(WK_CNT, DEC));
-
-    // avatar.setExpression(Expression::Sad);
-    // avatar.setSpeechText(msg3.c_str());
     stackchanNow(EXPR_SAD,msg3);
-
     Serial.println(msg3);
     response = "";
     return response;    
   }
-
   return response;
 }
 

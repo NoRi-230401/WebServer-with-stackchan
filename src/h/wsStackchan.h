@@ -46,6 +46,9 @@ extern uint8_t TTS_vSpkNo;
 extern int CHARA_NO;
 extern String getHeapFreeSize();
 
+//-- statusLine Mode define --
+extern  bool statusLineOnOffState;
+extern int StatusLineMode;
 #define STATUS_MD_ICON 0
 #define STATUS_MD_NUM 1
 #define STATUS_MD_CLOCK 2
@@ -54,8 +57,6 @@ extern String getHeapFreeSize();
 #define STATUS_MD_MEM 5
 #define STATUS_MD_IP 6
 #define STATUS_MD_MAX 7
-extern  bool statusLineOnOffState;
-extern int StatusLineMode;
 
 //-- Avatar expressions --
 #define EXPR_NEUTRAL 0
@@ -68,8 +69,8 @@ extern int StatusLineMode;
 // -- Request ---------
 #define REQ_SV_MD_ADJUST 9
 #define REQ_STACKCHAN 10
-// -------------------------
-
+#define REQ_REBOOT  98
+#define REQ_SHUTDOWN  99
 
 extern void sendReq_stackchan(const String& speakStr="", int expr=-1, const String balloonStr="$$SKIP$$", int afterExpr=-1);
 extern void stackchanReq(const String& speakStr, int expr=-1, const String balloonStr="$$SKIP$$", int afterExpr=-1 );
@@ -89,7 +90,7 @@ void statusLineOnOff();
 void statusLineManage();
 void setStatusLineMode(int mode);
 void setAvatarcolor();
-void servo(void *args);
+extern void servo(void *args);
 void avatarSTART();
 // -----------------------------------
 #endif

@@ -10,9 +10,6 @@
 #define TM_MIN 30            // 最小タイマー設定値：３０秒
 #define TM_MAX (60 * 60 - 1) // 最大タイマー設定値：６０分未満 (59分59秒)
 
-extern bool SYSINFO_DISP_STATE;
-extern void sysInfoDispEnd();
-extern void stackchanReq(const String& speakStr, int expr=-1, const String balloonStr="$$SKIP$$", int afterExpr=-1 );
 //-- Avatar expressions --
 #define EXPR_NEUTRAL 0
 #define EXPR_HAPPY 1
@@ -21,6 +18,9 @@ extern void stackchanReq(const String& speakStr, int expr=-1, const String ballo
 #define EXPR_SAD 4
 #define EXPR_ANGRY 5
 
+extern bool SYSINFO_DISP_STATE;
+extern void sysInfoDispEnd();
+extern void stackchanReq(const String& speakStr, int expr=-1, const String balloonStr="$$SKIP$$", int afterExpr=-1 );
 extern String webpage;
 extern void randomSpeakStop2();
 extern bool isTalking();

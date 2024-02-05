@@ -116,40 +116,40 @@ void clearAvatarBalloon()
   avatar.setSpeechText("");
 }
 
-void servo(void *args)
-{
-  float gazeX, gazeY;
-  DriveContext *ctx = (DriveContext *)args;
-  Avatar *avatar = ctx->getAvatar();
-  for (;;)
-  {
-    if (SV_USE)
-    {
-      int mode = SV_MD;
+// void servo(void *args)
+// {
+//   float gazeX, gazeY;
+//   DriveContext *ctx = (DriveContext *)args;
+//   Avatar *avatar = ctx->getAvatar();
+//   for (;;)
+//   {
+//     if (SV_USE)
+//     {
+//       int mode = SV_MD;
 
-      if (mode == SV_MD_MOVING)
-      {
-        avatar->getGaze(&gazeY, &gazeX);
-        sv_setEaseToX(SV_HOME_X + (int)(15.0 * gazeX));
+//       if (mode == SV_MD_MOVING)
+//       {
+//         avatar->getGaze(&gazeY, &gazeX);
+//         sv_setEaseToX(SV_HOME_X + (int)(15.0 * gazeX));
 
-        if (gazeY < 0)
-        {
-          int tmp = (int)(10.0 * gazeY);
-          if (tmp > 10)
-            tmp = 10;
-          sv_setEaseToY(SV_HOME_Y + tmp);
-        }
-        else
-        {
-          sv_setEaseToY(SV_HOME_Y + (int)(10.0 * gazeY));
-        }
-        synchronizeAllServosStartAndWaitForAllServosToStop();
-      }
-      else
-      {
-        servo2(mode);
-      }
-      delay(50);
-    }
-  }
-}
+//         if (gazeY < 0)
+//         {
+//           int tmp = (int)(10.0 * gazeY);
+//           if (tmp > 10)
+//             tmp = 10;
+//           sv_setEaseToY(SV_HOME_Y + tmp);
+//         }
+//         else
+//         {
+//           sv_setEaseToY(SV_HOME_Y + (int)(10.0 * gazeY));
+//         }
+//         synchronizeAllServosStartAndWaitForAllServosToStop();
+//       }
+//       else
+//       {
+//         servo2(mode);
+//       }
+//       delay(50);
+//     }
+//   }
+// }

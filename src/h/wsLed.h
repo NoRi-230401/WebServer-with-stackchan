@@ -3,10 +3,8 @@
 #define _WS_LED_H
 // ---------------------------------------------------------------------
 #include <Adafruit_NeoPixel.h>
-// #include <Arduino.h>
 
 #define LED_PIN 25         // GPIO25でLEDを使用する
-// #define NUM_LEDS 10        // LEDの数を指定する
 #define NUM_LEDS 9        // LEDの数を指定する
 #define rLED_LEN 4
 #define lLED_LEN 4

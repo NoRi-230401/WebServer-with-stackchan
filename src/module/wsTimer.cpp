@@ -8,6 +8,39 @@ static uint16_t TM_ELEAPSE_SEC = 0;
 bool TM_STOP_GET = false;
 bool TM_GO_GET = false;
 
+void timerManage()
+{
+  if (TM_STARTED)
+  { // Timer 起動中
+    if (SYSINFO_DISP_STATE)
+      sysInfoDispEnd();
+
+    uint32_t elapsedTimeMillis = millis() - TM_START_MILLIS;
+    uint16_t currentElapsedSeconds =(uint16_t)(elapsedTimeMillis / 1000);
+
+    if (currentElapsedSeconds >= TM_SEC_VAL)
+    { // 指定時間が経過したら終了
+      timerEnd();
+    }
+
+    else if (TM_STOP_GET )
+    { // ---Timer停止---
+      timerStop();
+    }
+
+    else if (currentElapsedSeconds != TM_ELEAPSE_SEC)
+    { // --- Timer途中経過の処理------
+      TM_ELEAPSE_SEC = currentElapsedSeconds;
+      timerStarted();
+    }
+  }
+  else
+  {
+    if (TM_GO_GET && !isTalking())
+      timerStart();
+  }
+}
+
 void wsHandleTimer(String TmSecS, String TmMinS, String timerModeS)
 {
   if ((TmSecS != "") || (TmMinS != ""))
@@ -81,39 +114,6 @@ void wsHandleTimer(String TmSecS, String TmMinS, String timerModeS)
       Serial.println(webpage);
       return;
     }
-  }
-}
-
-void timerManage()
-{
-  if (TM_STARTED)
-  { // Timer 起動中
-    if (SYSINFO_DISP_STATE)
-      sysInfoDispEnd();
-
-    uint32_t elapsedTimeMillis = millis() - TM_START_MILLIS;
-    uint16_t currentElapsedSeconds =(uint16_t)(elapsedTimeMillis / 1000);
-
-    if (currentElapsedSeconds >= TM_SEC_VAL)
-    { // 指定時間が経過したら終了
-      timerEnd();
-    }
-
-    else if (TM_STOP_GET )
-    { // ---Timer停止---
-      timerStop();
-    }
-
-    else if (currentElapsedSeconds != TM_ELEAPSE_SEC)
-    { // --- Timer途中経過の処理------
-      TM_ELEAPSE_SEC = currentElapsedSeconds;
-      timerStarted();
-    }
-  }
-  else
-  {
-    if (TM_GO_GET && !isTalking())
-      timerStart();
   }
 }
 

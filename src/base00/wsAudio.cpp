@@ -1,5 +1,5 @@
 // ---------------------------< wsAudio.cpp >------------------------------------
-#include "../h/wsAudio.h"
+#include "wsAudio.h"
 
 uint8_t m5spk_virtual_channel = 0;
 uint8_t VOLUME_VALUE;

@@ -1,5 +1,5 @@
 // ----------------------------<wsUtil.cpp>------------------------------------
-#include "../h/wsUtil.h"
+#include "wsUtil.h"
 uint16_t SHUTDOWN_TM_SEC;
 bool isSD_enable = false;
 

@@ -1,5 +1,5 @@
 // ----------------------------<wsStackchan.cpp>------------------------------------
-#include "../h/wsStackchan.h"
+#include "wsStackchan.h"
 
 using namespace m5avatar;
 Avatar avatar;
@@ -16,10 +16,8 @@ const Expression expr_table[] = {
 
 void stackchanReq(const String &speakStr, int expr, const String balloonStr, int afterExpr)
 {
-  // sendReq2(REQ_STACKCHAN, speakStr, expr, balloonStr, afterExpr);
   sendReq_stackchan(speakStr, expr, balloonStr, afterExpr);
 }
-
 
 
 void stackchanNow( int expr, const String balloonStr)
@@ -39,18 +37,6 @@ void avatarSTART()
   avatar.setSpeechFont(&fonts::efontJA_16);
   avatar.addTask(servo, "servo");
 
-  // // -- batteryStatusLine setup ---
-  // StatusLineMode = STATUS_MD_IP;
-  // statusLineOnOffState = false;
-  // avatar.setStatusLineText("");
-  // avatar.setStatusLineFont(&fonts::Font0);
-  // avatar.setBatteryIcon(true, BATTERY_MD_INVISIBLE);
-  // // avatar.setBatteryStatus(M5.Power.isCharging(), M5.Power.getBatteryLevel());
-
-  // // 一度balloon表示しないとBatteryIconのフォント設定が反映されない？？ -- by NoRi 240101 --
-  // avatar.setSpeechText("スタックチャン");
-  // delay(1000);
-  // avatar.setSpeechText("");
 }
 
 // アバターの色
@@ -115,41 +101,3 @@ void clearAvatarBalloon()
 {
   avatar.setSpeechText("");
 }
-
-// void servo(void *args)
-// {
-//   float gazeX, gazeY;
-//   DriveContext *ctx = (DriveContext *)args;
-//   Avatar *avatar = ctx->getAvatar();
-//   for (;;)
-//   {
-//     if (SV_USE)
-//     {
-//       int mode = SV_MD;
-
-//       if (mode == SV_MD_MOVING)
-//       {
-//         avatar->getGaze(&gazeY, &gazeX);
-//         sv_setEaseToX(SV_HOME_X + (int)(15.0 * gazeX));
-
-//         if (gazeY < 0)
-//         {
-//           int tmp = (int)(10.0 * gazeY);
-//           if (tmp > 10)
-//             tmp = 10;
-//           sv_setEaseToY(SV_HOME_Y + tmp);
-//         }
-//         else
-//         {
-//           sv_setEaseToY(SV_HOME_Y + (int)(10.0 * gazeY));
-//         }
-//         synchronizeAllServosStartAndWaitForAllServosToStop();
-//       }
-//       else
-//       {
-//         servo2(mode);
-//       }
-//       delay(50);
-//     }
-//   }
-// }

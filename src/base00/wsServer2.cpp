@@ -1,7 +1,7 @@
 // ----------------------------<wsServer2.cpp>------------------------------------
 // 2023-09-18 Add folder funciton for SD (chdir,mkdir,rmdir, etc)  by NoRi
 // -------------------------------------------------------------------------------
-#include "../h/wsServer2.h"
+#include "wsServer2.h"
 
 extern const String FLS_NAME[];
 const String FLS_NAME[] = {"SD", "SPIFFS"};

@@ -1,5 +1,6 @@
 // ----------------------------<wsStateMng.cpp>------------------------------------
-#include "../h/wsStateMng.h"
+#include "wsStateMng.h"
+
 uint16_t WST = WST_INIT;
 
 void stateManage()

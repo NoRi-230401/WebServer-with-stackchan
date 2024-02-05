@@ -1,5 +1,5 @@
 // ---------------------------< wsServo.cpp >------------------------------------
-#include "../h/wsServo.h"
+#include "wsServo.h"
 
 ServoEasing servo_x;
 ServoEasing servo_y;

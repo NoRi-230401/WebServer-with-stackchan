@@ -1,5 +1,5 @@
 // ----------------------------<wsLed.cpp>------------------------------------
-#include "../h/wsLed.h"
+#include "wsLed.h"
 
 #define LED_BRIGHT 155
 

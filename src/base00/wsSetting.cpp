@@ -1,5 +1,5 @@
 // ---------------------------< wsSetting.cpp >------------------------------------
-#include "../h/wsSetting.h"
+#include "wsSetting.h"
 
 const char *SETTING_NVS = "setting"; // setting --NVS の設定用ファイル
 const String APIKEY_SPIFFS = "/wsApiKey.json";

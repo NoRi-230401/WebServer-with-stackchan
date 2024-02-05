@@ -1,5 +1,5 @@
 // ---------------------------< wsSTT.cpp >------------------------------------
-#include "../h/wsSTT.h"
+#include "wsSTT.h"
 
 // bool wakeword_is_enable = false;
 

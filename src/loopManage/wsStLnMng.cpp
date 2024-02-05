@@ -1,5 +1,5 @@
 // ----------------------------<wsStLnMng.cpp>------------------------------------
-#include "../h/wsStLnMng.h"
+#include "wsStLnMng.h"
 
 bool statusLineOnOffState = false;
 int StatusLineMode;

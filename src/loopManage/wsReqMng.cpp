@@ -1,5 +1,5 @@
 // ---------------------------< wsReqMng.cpp >------------------------------------
-#include "../h/wsReqMng.h"
+#include "wsReqMng.h"
 
 String REQ_SPEAK_STR = "";
 int REQ_EXPR = -1;

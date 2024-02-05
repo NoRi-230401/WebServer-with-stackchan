@@ -1,5 +1,5 @@
 // --------------- VoiceVox.cpp ----------------------------------
-#include "../h/wsVoiceVox.h"
+#include "wsVoiceVox.h"
 
 TaskHandle_t voicevox_task_handle;
 

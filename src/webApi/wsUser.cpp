@@ -1,5 +1,5 @@
 // ---------------------------< wsUser.cpp >------------------------------------
-#include "../h/wsUser.h"
+#include "wsUser.h"
 
 String SERVER_NAME = "stackchan";
 const String WSS1_HTML = "/wss1.html";

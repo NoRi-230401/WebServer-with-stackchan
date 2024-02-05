@@ -1,5 +1,5 @@
 // ----------------------------<wsChatGPT.cpp>------------------------------------
-#include "../h/wsChatGPT.h"
+#include "wsChatGPT.h"
 
 // const String chatStrIData =
 //     "{\"model\": \"gpt-3.5-turbo-0613\",\"max_tokens\":512,\"messages\": [{\"role\": \"user\", \"content\": \""

@@ -51,7 +51,7 @@ void buttonManage()
           BtnUA_Do();
 
         if (BOX_STATUS_LINE_ONOFF.contain(t.x, t.y))
-          // StatusLineDoOnOff();
+          // StatusLineDoOnOff(); -> statusModeSeclect()
           BtnUB_Do();
 
         if (BOX_STATUS_LINE_PREV.contain(t.x, t.y) && statusLineOnOffState)
@@ -231,15 +231,21 @@ void BtnUA_Do()
   statusLineNext();
 }
 
+
+
 void BtnUB_Do()
 {
   tone(1);
   if (SYSINFO_DISP_STATE)
     sysInfoDispEnd();
 
-  Serial.println("StatusLineOnOff");
-  statusLineOnOff();
+  // Serial.println("StatusLineOnOff");
+  // statusLineOnOff();
+  statusModeSelect();
+
 }
+
+
 
 void BtnUC_Do()
 {

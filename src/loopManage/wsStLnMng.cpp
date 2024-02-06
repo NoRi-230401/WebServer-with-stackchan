@@ -52,13 +52,13 @@ void statusLineManage()
 
 void statusLineSetup()
 {
-// -- batteryStatusLine init Setup ---
+  // -- batteryStatusLine init Setup ---
   StatusLineMode = STATUS_MD_IP;
   statusLineOnOffState = false;
   avatar.setStatusLineText("");
   avatar.setStatusLineFont(&fonts::Font0);
-  avatar.setBatteryIcon(false);  //  statusLine = off
-  
+  avatar.setBatteryIcon(false); //  statusLine = off
+
   // 一度balloon表示しないとBatteryIconのフォント設定が反映されない？？ -- by NoRi 240101 --
   avatar.setSpeechText("スタックチャン");
   delay(1000);
@@ -120,6 +120,61 @@ void setStatusLineMode(int mode)
     break;
   }
 }
+
+#define STM_NONE 0
+#define STM_LINE 1
+#define STM_ALL 2
+#define STM_LEN 3
+static int statusMode = STM_NONE;
+
+void statusModeSelect()
+{
+  statusMode++;
+  statusMode = statusMode % STM_LEN;
+  Serial.println("statusMode = " + String(statusMode,DEC));
+
+  switch (statusMode)
+  {
+  case STM_NONE:
+    statusLineOnOffState = false;
+    avatar.setBatteryIcon(true, BATTERY_MD_INVISIBLE);
+    break;
+
+  case STM_LINE:
+    statusLineOnOffState = true;
+    switch (StatusLineMode)
+    {
+    case STATUS_MD_ICON:
+      avatar.setBatteryIcon(true, BATTERY_MD_ICON);
+      break;
+
+    case STATUS_MD_NUM:
+      avatar.setBatteryIcon(true, BATTERY_MD_NUM);
+      break;
+
+    case STATUS_MD_CLOCK:
+    case STATUS_MD_RSSI:
+    case STATUS_MD_VOL:
+    case STATUS_MD_MEM:
+    case STATUS_MD_IP:
+      avatar.setBatteryIcon(true, BATTERY_MD_LINE_DISP);
+      break;
+    }
+    break;
+
+  case STM_ALL:
+    statusLineOnOffState = false;
+    avatar.setBatteryIcon(true, BATTERY_MD_INVISIBLE);
+    delay(10);
+    sysInfoDispStart(0);
+    break;
+
+  default:
+    break;
+  }
+}
+
+
 
 void statusLineOnOff()
 {

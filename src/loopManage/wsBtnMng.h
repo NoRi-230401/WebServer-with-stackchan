@@ -41,6 +41,7 @@ extern void statusLinePrev();
 extern void statusLineNext();
 extern bool statusLineOnOffState;
 extern bool statusLineOneState;
+extern void statusModeSelect();
 
 // --------------------------------------------------------
 void wsHandleBtn(String arg);

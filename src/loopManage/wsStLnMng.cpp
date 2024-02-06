@@ -52,14 +52,13 @@ void statusLineManage()
 
 void statusLineSetup()
 {
-// -- batteryStatusLine setup ---
+// -- batteryStatusLine init Setup ---
   StatusLineMode = STATUS_MD_IP;
   statusLineOnOffState = false;
   avatar.setStatusLineText("");
   avatar.setStatusLineFont(&fonts::Font0);
-  avatar.setBatteryIcon(true, BATTERY_MD_INVISIBLE);
-  // avatar.setBatteryStatus(M5.Power.isCharging(), M5.Power.getBatteryLevel());
-
+  avatar.setBatteryIcon(false);  //  statusLine = off
+  
   // 一度balloon表示しないとBatteryIconのフォント設定が反映されない？？ -- by NoRi 240101 --
   avatar.setSpeechText("スタックチャン");
   delay(1000);

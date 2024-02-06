@@ -288,29 +288,15 @@ namespace m5avatar
     this->speechFont = speechFont;
   }
 
-  // ----- setBatteryIcon() Origin  ------------------
-  void Avatar::setBatteryIcon(bool batteryIcon)
+  void Avatar::setBatteryIcon(bool iconStatus, int8_t statusMode )
   {
-    if (!batteryIcon)
-    {
-      batteryIconStatus = BatteryIconStatus::invisible;
-    }
-    else
-    {
-      batteryIconStatus = BatteryIconStatus::unknown;
-    }
-  }
-
-  // ----- StatusLine Mode Set ----------------
-  void Avatar::setBatteryIcon(bool batteryIcon, int8_t batteryIconMode)
-  {
-    if (!batteryIcon)
+    if (!iconStatus)
     {
       batteryIconStatus = BatteryIconStatus::invisible;
       return;
     }
 
-    switch (batteryIconMode)
+    switch (statusMode)
     {
     case BATTERY_MD_ICON:
       batteryIconStatus = BatteryIconStatus::unknown;
@@ -364,7 +350,5 @@ namespace m5avatar
   {
     this->statusLineFont = lineFont;
   }
-  // --- end of statisLine -----------------
-
-
+  
 } // namespace m5avatar

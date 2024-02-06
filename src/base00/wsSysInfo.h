@@ -62,7 +62,7 @@ uint8_t getBatteryLevel();
 void sysInfoDispMake(uint8_t mode_no);
 void sysInfo_m01_DispMake();
 void sysInfo_m00_DispMake();
-void sysInfo_m99_DispMake();
+void sysInfo_m02_DispMake();
 void randomSpeakStop2();
 //------------------------------------------------------------
 

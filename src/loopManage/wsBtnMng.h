@@ -37,11 +37,18 @@ extern void SST_ChatGPT();
 extern bool TM_STOP_GET;
 extern bool TM_GO_GET;
 extern void statusLineOnOff();
-extern void statusLinePrev();
-extern void statusLineNext();
-extern bool statusLineOnOffState;
+extern void statusPrev();
+extern void statusNext();
+// extern bool statusLineOnOffState;
 extern bool statusLineOneState;
 extern void statusModeSelect();
+
+// --- status Mode ----
+#define STM_NONE 0
+#define STM_LINE 1
+#define STM_SYSINFO 2
+#define STM_LEN 3
+extern int statusMode;
 
 // --------------------------------------------------------
 void wsHandleBtn(String arg);

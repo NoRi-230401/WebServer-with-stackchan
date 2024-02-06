@@ -23,6 +23,12 @@ extern Avatar avatar;
 #define STATUS_MD_MAX 7
 #define DURATION_1013 1013UL // 1.013秒: statusLineCheck_time
 
+// --- status Mode  ----
+#define STM_NONE 0
+#define STM_LINE 1
+#define STM_SYSINFO 2
+#define STM_LEN 3
+
 extern String getDateTime(int &tmSec);
 extern String SERVER_NAME;
 extern uint8_t VOLUME_VALUE;
@@ -38,8 +44,8 @@ extern void sysInfoDispStart(uint8_t mode_no);
 extern void sysInfoDispEnd();
 // -----------------------------------
 void statusLineSetup();
-void statusLineNext();
-void statusLinePrev();
+void statusNext();
+void statusPrev();
 void statusLineOnOff();
 void statusLineManage();
 void setStatusLineMode(int mode);

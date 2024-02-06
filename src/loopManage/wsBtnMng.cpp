@@ -25,9 +25,9 @@ struct box_t
     return this->x <= x && x < (this->x + this->w) && this->y <= y && y < (this->y + this->h);
   }
 };
-static box_t BOX_STATUS_LINE_NEXT;
-static box_t BOX_STATUS_LINE_ONOFF;
-static box_t BOX_STATUS_LINE_PREV;
+static box_t BOX_STATUS_NEXT;
+static box_t BOX_STATUS_MODE_SELECT;
+static box_t BOX_STATUS_PREV;
 static box_t BOX_SERVO;
 static box_t BOX_SYSINFO;
 
@@ -46,19 +46,19 @@ void buttonManage()
       auto t = M5.Touch.getDetail();
       if (t.wasPressed())
       {
-        if (BOX_STATUS_LINE_NEXT.contain(t.x, t.y) && statusLineOnOffState)
-          // StatusLineDoNext();
+        if (BOX_STATUS_NEXT.contain(t.x, t.y) && statusMode != STM_NONE)
+          // next
           BtnUA_Do();
 
-        if (BOX_STATUS_LINE_ONOFF.contain(t.x, t.y))
-          // StatusLineDoOnOff(); -> statusModeSeclect()
+        if (BOX_STATUS_MODE_SELECT.contain(t.x, t.y))
+          // statusModeSelect
           BtnUB_Do();
 
-        if (BOX_STATUS_LINE_PREV.contain(t.x, t.y) && statusLineOnOffState)
-          // StatusLineDoPrev();
+        if (BOX_STATUS_PREV.contain(t.x, t.y) && statusMode != STM_NONE)
+          // prev
           BtnUC_Do();
 
-        if (BOX_SERVO.contain(t.x, t.y))
+        if (BOX_SERVO.contain(t.x, t.y) && !SYSINFO_DISP_STATE)
           // BoxServoDo();
           BtnMA_Do();
 
@@ -73,19 +73,19 @@ void buttonManage()
   // ** (BtnA) self-talk OnOff
   if (M5.BtnA.wasPressed())
   {
-    if (!KEYLOCK_STATE)
+    if (!KEYLOCK_STATE && !SYSINFO_DISP_STATE)
       BtnA_Do();
   }
 
   // ** (BtnB) talk to chatGPT --STT
-  if (M5.BtnB.wasPressed())
+  if (M5.BtnB.wasPressed() && !SYSINFO_DISP_STATE)
   {
     if (!KEYLOCK_STATE)
       BtnB_Do();
   }
 
   // ** (BtnC) Timer Start/Stop
-  if (M5.BtnC.wasPressed())
+  if (M5.BtnC.wasPressed() && !SYSINFO_DISP_STATE)
   {
     if (!KEYLOCK_STATE)
       BtnC_Do();
@@ -224,37 +224,22 @@ void BtnA_Do()
 void BtnUA_Do()
 {
   tone(1);
-  if (SYSINFO_DISP_STATE)
-    sysInfoDispEnd();
-
-  Serial.println("StatusLineNext");
-  statusLineNext();
+  Serial.println("StatusNext");
+  statusNext();
 }
-
-
 
 void BtnUB_Do()
 {
   tone(1);
-  if (SYSINFO_DISP_STATE)
-    sysInfoDispEnd();
-
-  // Serial.println("StatusLineOnOff");
-  // statusLineOnOff();
+  Serial.println("StatusModeSelect");
   statusModeSelect();
-
 }
-
-
 
 void BtnUC_Do()
 {
   tone(1);
-  if (SYSINFO_DISP_STATE)
-    sysInfoDispEnd();
-
   Serial.println("StatusLinePrev");
-  statusLinePrev();
+  statusPrev();
 }
 
 void BtnMC_Do()
@@ -312,10 +297,11 @@ void BoxTouchSetup()
   int h50 = h100 / 2;
   int h25 = h100 / 4;
 
-  BOX_STATUS_LINE_NEXT.setupBox(0, 0, w25, h25);                  // 上左
-  BOX_STATUS_LINE_ONOFF.setupBox(w50 - w25 / 2 - 1, 0, w25, h25); // 上中
-  BOX_STATUS_LINE_PREV.setupBox(w100 - w25 - 1, 0, w25, h25);     // 上右
+  BOX_STATUS_NEXT.setupBox(0, 0, w25, h25);                        // 上左
+  BOX_STATUS_MODE_SELECT.setupBox(w50 - w25 / 2 - 1, 0, w25, h25); // 上中
+  BOX_STATUS_PREV.setupBox(w100 - w25 - 1, 0, w25, h25);           // 上右
 
-  BOX_SERVO.setupBox(0, h50 - (h25 / 2) - 1, w25, h25);                // 中左
-  BOX_SYSINFO.setupBox(w100 - w25 - 1, h50 - (h25 / 2) - 1, w25, h25); // 中右
+  BOX_SERVO.setupBox(0, h50 - (h25 / 2) - 1, w25, h25); // 中左
+
+  // BOX_SYSINFO.setupBox(w100 - w25 - 1, h50 - (h25 / 2) - 1, w25, h25); // 中右
 }

@@ -47,7 +47,7 @@ extern int CHARA_NO;
 extern String getHeapFreeSize();
 
 //-- statusLine Mode define --
-extern  bool statusLineOnOffState;
+// extern  bool statusLineOnOffState;
 extern int StatusLineMode;
 #define STATUS_MD_ICON 0
 #define STATUS_MD_NUM 1
@@ -84,8 +84,8 @@ void wsHandleBalloon(String text);
 void setAvatarExpr(int expr);
 void setAvatarBalloon(String msg);
 void clearAvatarBalloon();
-void statusLineNext();
-void statusLinePrev();
+void statusNext();
+void statusPrev();
 void statusLineOnOff();
 void statusLineManage();
 void setStatusLineMode(int mode);

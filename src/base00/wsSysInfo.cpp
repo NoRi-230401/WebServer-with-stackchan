@@ -289,8 +289,8 @@ void sysInfoDispMake(uint8_t mode_no)
     sysInfo_m01_DispMake();
     break;
 
-  case 99:
-    sysInfo_m99_DispMake();
+  case 2:
+    sysInfo_m02_DispMake();
     break;
 
   default:
@@ -340,8 +340,8 @@ void sysInfo_m00_DispMake()
   String msg = "";
   char msg2[100];
 
-  // SYSINFO_MSG = "*** System Information ***\n";
-  SYSINFO_MSG = "";
+  SYSINFO_MSG = "*** System Information ***\n";
+  // SYSINFO_MSG = "";
   SYSINFO_MSG += WSS_VERSION;
   SYSINFO_MSG += "\nIP_Addr = " + IP_ADDR;
   SYSINFO_MSG += "\nSSID = " + SSID;
@@ -352,9 +352,6 @@ void sysInfo_m00_DispMake()
 
   sprintf(msg2, "\nvolume = %d", VOLUME_VALUE);
   SYSINFO_MSG += msg2;
-  // SYSINFO_MSG += "\nttsSelect = " + String(TTS_NAME[TTS_TYPE]);
-  
-  // SYSINFO_MSG += "\nvSpkNo = " + TTS_SPEAKER_NO;
   SYSINFO_MSG += "\nvSpkNo = " + String(TTS_vSpkNo,DEC);
   
   // SYSINFO_MSG += "\nlang = " + LANG_CODE;
@@ -399,7 +396,7 @@ void sysInfo_m00_DispMake()
   SYSINFO_MSG += msg2;
 }
 
-void sysInfo_m99_DispMake()
+void sysInfo_m02_DispMake()
 {
   SYSINFO_MSG = "*** Test Mode  *** ";
 }

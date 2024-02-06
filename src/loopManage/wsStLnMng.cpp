@@ -1,9 +1,9 @@
 // ----------------------------<wsStLnMng.cpp>------------------------------------
 #include "wsStLnMng.h"
 
-bool statusLineOnOffState = false;
+// bool statusLineOnOffState = false;
 int StatusLineMode;
-
+int statusMode = STM_NONE;
 uint32_t statusLineCheck_time = 0;
 
 void statusLineManage()
@@ -54,7 +54,7 @@ void statusLineSetup()
 {
   // -- batteryStatusLine init Setup ---
   StatusLineMode = STATUS_MD_IP;
-  statusLineOnOffState = false;
+  // statusLineOnOffState = false;
   avatar.setStatusLineText("");
   avatar.setStatusLineFont(&fonts::Font0);
   avatar.setBatteryIcon(false); //  statusLine = off
@@ -65,28 +65,57 @@ void statusLineSetup()
   avatar.setSpeechText("");
 }
 
-void statusLinePrev()
+int SYSINFO_NO = 0;
+#define SYSINFO_LEN 3
+
+void statusPrev()
 {
-  if (!statusLineOnOffState)
-    return;
+  if (statusMode == STM_SYSINFO)
+  {
+    if (SYSINFO_NO == 0)
+    {
+      SYSINFO_NO = SYSINFO_LEN - 1;
+    }
+    else
+    {
+      SYSINFO_NO--;
+      SYSINFO_NO = SYSINFO_NO % SYSINFO_LEN;
+    }
+    sysInfoDispStart(SYSINFO_NO);
+  }
 
-  if (StatusLineMode == 0)
-    StatusLineMode = STATUS_MD_MAX - 1;
-  else
-    StatusLineMode--;
+  else if (statusMode == STM_LINE)
+  {
+    // if (!statusLineOnOffState)
+    //   return;
 
-  StatusLineMode = StatusLineMode % STATUS_MD_MAX;
-  setStatusLineMode(StatusLineMode);
+    if (StatusLineMode == 0)
+      StatusLineMode = STATUS_MD_MAX - 1;
+    else
+      StatusLineMode--;
+
+    StatusLineMode = StatusLineMode % STATUS_MD_MAX;
+    setStatusLineMode(StatusLineMode);
+  }
 }
 
-void statusLineNext()
+void statusNext()
 {
-  if (!statusLineOnOffState)
-    return;
+  if (statusMode == STM_SYSINFO)
+  {
+    SYSINFO_NO++;
+    SYSINFO_NO = SYSINFO_NO % SYSINFO_LEN;
+    sysInfoDispStart(SYSINFO_NO);
+  }
+  else if (statusMode == STM_LINE)
+  {
+    // if (!statusLineOnOffState)
+    //   return;
 
-  StatusLineMode++;
-  StatusLineMode = StatusLineMode % STATUS_MD_MAX;
-  setStatusLineMode(StatusLineMode);
+    StatusLineMode++;
+    StatusLineMode = StatusLineMode % STATUS_MD_MAX;
+    setStatusLineMode(StatusLineMode);
+  }
 }
 
 void setStatusLineMode(int mode)
@@ -121,27 +150,22 @@ void setStatusLineMode(int mode)
   }
 }
 
-#define STM_NONE 0
-#define STM_LINE 1
-#define STM_ALL 2
-#define STM_LEN 3
-static int statusMode = STM_NONE;
-
 void statusModeSelect()
 {
   statusMode++;
   statusMode = statusMode % STM_LEN;
-  Serial.println("statusMode = " + String(statusMode,DEC));
+  Serial.println("statusMode = " + String(statusMode, DEC));
 
   switch (statusMode)
   {
   case STM_NONE:
-    statusLineOnOffState = false;
+    sysInfoDispEnd();
+    // statusLineOnOffState = false;
     avatar.setBatteryIcon(true, BATTERY_MD_INVISIBLE);
     break;
 
   case STM_LINE:
-    statusLineOnOffState = true;
+    // statusLineOnOffState = true;
     switch (StatusLineMode)
     {
     case STATUS_MD_ICON:
@@ -162,11 +186,12 @@ void statusModeSelect()
     }
     break;
 
-  case STM_ALL:
-    statusLineOnOffState = false;
+  case STM_SYSINFO:
+    // statusLineOnOffState = false;
     avatar.setBatteryIcon(true, BATTERY_MD_INVISIBLE);
     delay(10);
-    sysInfoDispStart(0);
+    SYSINFO_NO = 0;
+    sysInfoDispStart(SYSINFO_NO);
     break;
 
   default:
@@ -174,38 +199,36 @@ void statusModeSelect()
   }
 }
 
+// void statusLineOnOff()
+// {
+//   if (statusLineOnOffState)
+//   {
+//     statusLineOnOffState = false;
+//     avatar.setBatteryIcon(true, BATTERY_MD_INVISIBLE);
+//   }
+//   else
+//   {
+//     statusLineOnOffState = true;
+//     switch (StatusLineMode)
+//     {
+//     case STATUS_MD_ICON:
+//       avatar.setBatteryIcon(true, BATTERY_MD_ICON);
+//       break;
 
+//     case STATUS_MD_NUM:
+//       avatar.setBatteryIcon(true, BATTERY_MD_NUM);
+//       break;
 
-void statusLineOnOff()
-{
-  if (statusLineOnOffState)
-  {
-    statusLineOnOffState = false;
-    avatar.setBatteryIcon(true, BATTERY_MD_INVISIBLE);
-  }
-  else
-  {
-    statusLineOnOffState = true;
-    switch (StatusLineMode)
-    {
-    case STATUS_MD_ICON:
-      avatar.setBatteryIcon(true, BATTERY_MD_ICON);
-      break;
+//     case STATUS_MD_CLOCK:
+//     case STATUS_MD_RSSI:
+//     case STATUS_MD_VOL:
+//     case STATUS_MD_MEM:
+//     case STATUS_MD_IP:
+//       avatar.setBatteryIcon(true, BATTERY_MD_LINE_DISP);
+//       break;
 
-    case STATUS_MD_NUM:
-      avatar.setBatteryIcon(true, BATTERY_MD_NUM);
-      break;
-
-    case STATUS_MD_CLOCK:
-    case STATUS_MD_RSSI:
-    case STATUS_MD_VOL:
-    case STATUS_MD_MEM:
-    case STATUS_MD_IP:
-      avatar.setBatteryIcon(true, BATTERY_MD_LINE_DISP);
-      break;
-
-    default:
-      break;
-    }
-  }
-}
+//     default:
+//       break;
+//     }
+//   }
+// }

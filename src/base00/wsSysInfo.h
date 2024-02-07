@@ -11,6 +11,10 @@
 #include <SPIFFS.h>
 #include <M5Unified.h>
 #include <nvs.h>
+#include <WiFi.h>  
+// #include <HTTPClient.h>
+// #include <WiFiClientSecure.h>
+extern String EncryptionType(wifi_auth_mode_t encryptionType);
 
 // ---- servo define
 #define SV_CENTER_X 90
@@ -51,6 +55,8 @@ extern String SV_PORT;
 extern const String SV_MD_NAME[];
 extern int SV_MD_NAME_NO;
 extern const String WSS_VERSION;
+extern const String WSS_NAME;
+extern const String WSS_VER;
 
 //------------------------------------------------------------
 void wsHandleSysInfo(String txS, String dispS, String modeS);
@@ -60,8 +66,9 @@ void sysInfoDispStart(uint8_t mode_no);
 void sysInfoDispEnd();
 uint8_t getBatteryLevel();
 void sysInfoDispMake(uint8_t mode_no);
-void sysInfo_m01_DispMake();
+#define SYSINFO_LEN 3
 void sysInfo_m00_DispMake();
+void sysInfo_m01_DispMake();
 void sysInfo_m02_DispMake();
 void randomSpeakStop2();
 //------------------------------------------------------------

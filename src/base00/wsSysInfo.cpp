@@ -4,6 +4,7 @@
 using namespace m5avatar;
 extern Avatar avatar;
 
+int SYSINFO_NO = 0;
 
 void wsHandleSysInfo(String txS, String dispS, String modeS)
 {
@@ -299,51 +300,17 @@ void sysInfoDispMake(uint8_t mode_no)
   }
 }
 
-void sysInfo_m01_DispMake()
-{
-  String msg = "";
-  char msg2[100];
-
-  SYSINFO_MSG += "\nSSID_PASSWD = " + SSID_PASSWD;
-  SYSINFO_MSG += "\nopenAiApiKey = " + OPENAI_API_KEY;
-  // SYSINFO_MSG += "\nvoiceTextApiKey = " + VOICETEXT_API_KEY;
-  SYSINFO_MSG += "\nvoicevoxApiKey = " + VOICEVOX_API_KEY;
-  // SYSINFO_MSG += "\nsttApiKey = " + STT_API_KEY;
-  SYSINFO_MSG += "\ntimer = " + String(TM_SEC_VAL,DEC) + "sec";
-
-  if (MUTE_ON_STATE)
-    SYSINFO_MSG += "\nmute = on";
-  else
-    SYSINFO_MSG += "\nmute = off";
-
-  if (SV_USE)
-    SYSINFO_MSG += "\nservo = on";
-  else
-    SYSINFO_MSG += "\nservo = on";
-
-  SYSINFO_MSG += "\nservoPort = " + SV_PORT;
-  SYSINFO_MSG += "\nservoMode = " + SV_MD_NAME[SV_MD_NAME_NO] ;
-  SYSINFO_MSG += "\nservoHomeX = " + String(SV_HOME_X,DEC);
-  SYSINFO_MSG += "\nservoHomeY = " + String(SV_HOME_Y,DEC);
-
-  uint32_t uptime = millis() / 1000;
-  uint16_t up_sec = uptime % 60;
-  uint16_t up_min = (uptime / 60) % 60;
-  uint16_t up_hour = uptime / (60 * 60);
-  sprintf(msg2, "\nuptime = %02d:%02d:%02d", up_hour, up_min, up_sec);
-  SYSINFO_MSG += msg2;
-}
-
 
 void sysInfo_m00_DispMake()
 {
   String msg = "";
   char msg2[100];
-
-  SYSINFO_MSG = "*** System Information ***\n";
-  // SYSINFO_MSG = "";
-  SYSINFO_MSG += WSS_VERSION;
-  SYSINFO_MSG += "\nIP_Addr = " + IP_ADDR;
+  String page = "(1/" + String(SYSINFO_LEN,DEC) + ") ";
+  SYSINFO_MSG = page + "** System Info **\n";
+    
+  SYSINFO_MSG += WSS_NAME;
+  SYSINFO_MSG += "\n" + WSS_VER;
+  SYSINFO_MSG += "\n\nIP = " + IP_ADDR;
   SYSINFO_MSG += "\nSSID = " + SSID;
   SYSINFO_MSG += "\nserverName = " + SERVER_NAME ;
 
@@ -354,8 +321,6 @@ void sysInfo_m00_DispMake()
   SYSINFO_MSG += msg2;
   SYSINFO_MSG += "\nvSpkNo = " + String(TTS_vSpkNo,DEC);
   
-  // SYSINFO_MSG += "\nlang = " + LANG_CODE;
-
   if (RANDOM_SPEAK_STATE)
   {
     msg = "\nrandomSpeak = on";
@@ -396,7 +361,35 @@ void sysInfo_m00_DispMake()
   SYSINFO_MSG += msg2;
 }
 
+void sysInfo_m01_DispMake()
+{
+  String page = "(2/" + String(SYSINFO_LEN,DEC) + ") ";
+  SYSINFO_MSG = page + "Network/Sever Info\n";
+  
+  SYSINFO_MSG += "\nSSID: "+ SSID;
+  SYSINFO_MSG += "\nSSID_PASS: " + SSID_PASSWD;
+  SYSINFO_MSG += "\n\nopenAiApiKey :\n " + OPENAI_API_KEY;
+  SYSINFO_MSG += "\n\nvoicevoxApiKey :\n " + VOICEVOX_API_KEY;
+}
+
+
 void sysInfo_m02_DispMake()
 {
-  SYSINFO_MSG = "*** Test Mode  *** ";
+  String page = "(3/" + String(SYSINFO_LEN,DEC) + ") ";
+  SYSINFO_MSG = page + "***  WiFi Info  ***\n";
+
+  String w_IP = String(WiFi.localIP().toString());
+  String w_MAC = String(WiFi.BSSIDstr());
+  String w_SSID = String(WiFi.SSID());
+  String w_RSSI = String(WiFi.RSSI()) + " dB";
+  String w_Channel = String(WiFi.channel()) ;
+  String w_EncryptionT = String(EncryptionType(WiFi.encryptionType(0)));;
+  
+  SYSINFO_MSG += "\nIP = "+ w_IP;
+  SYSINFO_MSG += "\n\nMAC = "+ w_MAC;
+  SYSINFO_MSG += "\n\nSSID = "+ w_SSID;
+  SYSINFO_MSG += "\n\nRSSI = "+ w_RSSI;
+  SYSINFO_MSG += "\n\nChannel = "+ w_Channel;
+  SYSINFO_MSG += "\n\nEncryptionType = "+ w_EncryptionT;
 }
+

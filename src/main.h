@@ -55,7 +55,9 @@ extern uint16_t WST ;
 extern void stateManage();
 
 // ----------------------------------------------------------
-
+extern const String WSS_NAME;
+extern const String WSS_VER;
+extern const String WSS_VERSION;
 void setup();
 void loop();
 // ---------------end of < WS_MAIN_H > -----------------------

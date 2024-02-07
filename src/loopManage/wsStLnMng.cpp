@@ -53,20 +53,20 @@ void statusLineManage()
 void statusLineSetup()
 {
   // -- batteryStatusLine init Setup ---
+  statusMode = STM_NONE;
   StatusLineMode = STATUS_MD_IP;
-  // statusLineOnOffState = false;
+  SYSINFO_NO =0;
+
   avatar.setStatusLineText("");
   avatar.setStatusLineFont(&fonts::Font0);
   avatar.setBatteryIcon(false); //  statusLine = off
 
+  
   // 一度balloon表示しないとBatteryIconのフォント設定が反映されない？？ -- by NoRi 240101 --
   avatar.setSpeechText("スタックチャン");
   delay(1000);
   avatar.setSpeechText("");
 }
-
-int SYSINFO_NO = 0;
-#define SYSINFO_LEN 3
 
 void statusPrev()
 {
@@ -86,15 +86,12 @@ void statusPrev()
 
   else if (statusMode == STM_LINE)
   {
-    // if (!statusLineOnOffState)
-    //   return;
-
     if (StatusLineMode == 0)
-      StatusLineMode = STATUS_MD_MAX - 1;
+      StatusLineMode = STATUS_MD_LEN - 1;
     else
       StatusLineMode--;
 
-    StatusLineMode = StatusLineMode % STATUS_MD_MAX;
+    StatusLineMode = StatusLineMode % STATUS_MD_LEN;
     setStatusLineMode(StatusLineMode);
   }
 }
@@ -109,11 +106,8 @@ void statusNext()
   }
   else if (statusMode == STM_LINE)
   {
-    // if (!statusLineOnOffState)
-    //   return;
-
     StatusLineMode++;
-    StatusLineMode = StatusLineMode % STATUS_MD_MAX;
+    StatusLineMode = StatusLineMode % STATUS_MD_LEN;
     setStatusLineMode(StatusLineMode);
   }
 }
@@ -187,10 +181,8 @@ void statusModeSelect()
     break;
 
   case STM_SYSINFO:
-    // statusLineOnOffState = false;
     avatar.setBatteryIcon(true, BATTERY_MD_INVISIBLE);
     delay(10);
-    SYSINFO_NO = 0;
     sysInfoDispStart(SYSINFO_NO);
     break;
 
@@ -199,36 +191,3 @@ void statusModeSelect()
   }
 }
 
-// void statusLineOnOff()
-// {
-//   if (statusLineOnOffState)
-//   {
-//     statusLineOnOffState = false;
-//     avatar.setBatteryIcon(true, BATTERY_MD_INVISIBLE);
-//   }
-//   else
-//   {
-//     statusLineOnOffState = true;
-//     switch (StatusLineMode)
-//     {
-//     case STATUS_MD_ICON:
-//       avatar.setBatteryIcon(true, BATTERY_MD_ICON);
-//       break;
-
-//     case STATUS_MD_NUM:
-//       avatar.setBatteryIcon(true, BATTERY_MD_NUM);
-//       break;
-
-//     case STATUS_MD_CLOCK:
-//     case STATUS_MD_RSSI:
-//     case STATUS_MD_VOL:
-//     case STATUS_MD_MEM:
-//     case STATUS_MD_IP:
-//       avatar.setBatteryIcon(true, BATTERY_MD_LINE_DISP);
-//       break;
-
-//     default:
-//       break;
-//     }
-//   }
-// }

@@ -1,9 +1,9 @@
 // ---- <main.cpp>-------------------------------------------------------
 #include "main.h"
-const String WSS_NAME = "WebServer-with-stackchan";
-const String WSS_VER = "v305o-240206";
-const String WSS_VERSION = WSS_NAME + " " + WSS_VER;
 
+const String WSS_NAME = "WebServer-with-stackchan";
+const String WSS_VER = "v305o-240207";
+const String WSS_VERSION = WSS_NAME + " " + WSS_VER;
 // ---------------------------------------------------------------------
 //  *** Extended from ***
 // AI_StackChan2                         : robo8080さん
@@ -11,7 +11,6 @@ const String WSS_VERSION = WSS_NAME + " " + WSS_VER;
 // ESPAsynch_Server_v1.1　　　　　　　　　: David Bird 2022
 // M5Stack_Stack-chan_another_dimension  : つゆきぱぱさん
 // ----------------------------------------------------------------------
-
 
 void setup()
 {

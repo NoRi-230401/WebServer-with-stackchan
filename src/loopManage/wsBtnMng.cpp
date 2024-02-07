@@ -119,14 +119,14 @@ void wsHandleBtn(String arg)
   }
   else if (arg_mode == "BTNUA")
   {
-    webpage = "statusLine Next";
+    webpage = "statusLine Prev";
     BTN_REQ = BtnREQ_UA;
     return;
   }
   else if (arg_mode == "BTNUC")
   {
-    webpage = "statusLine Prev";
-    BTN_REQ = BtnREQ_UC;
+    webpage = "statusLine Next";
+        BTN_REQ = BtnREQ_UC;
     return;
   }
   else if (arg_mode == "BTNUB")
@@ -224,8 +224,8 @@ void BtnA_Do()
 void BtnUA_Do()
 {
   tone(1);
-  Serial.println("StatusNext");
-  statusNext();
+  Serial.println("StatusPrev");
+  statusPrev();
 }
 
 void BtnUB_Do()
@@ -238,8 +238,8 @@ void BtnUB_Do()
 void BtnUC_Do()
 {
   tone(1);
-  Serial.println("StatusLinePrev");
-  statusPrev();
+  Serial.println("StatusNext");
+  statusNext();
 }
 
 void BtnMC_Do()

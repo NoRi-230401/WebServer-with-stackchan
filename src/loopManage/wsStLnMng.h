@@ -20,7 +20,7 @@ extern Avatar avatar;
 #define STATUS_MD_VOL 4
 #define STATUS_MD_MEM 5
 #define STATUS_MD_IP 6
-#define STATUS_MD_MAX 7
+#define STATUS_MD_LEN 7
 #define DURATION_1013 1013UL // 1.013秒: statusLineCheck_time
 
 // --- status Mode  ----
@@ -42,6 +42,10 @@ extern void ledShow();
 extern void ledClear();
 extern void sysInfoDispStart(uint8_t mode_no);
 extern void sysInfoDispEnd();
+
+extern int SYSINFO_NO;
+#define SYSINFO_LEN 3
+
 // -----------------------------------
 void statusLineSetup();
 void statusNext();

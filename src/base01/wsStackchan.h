@@ -56,7 +56,7 @@ extern int StatusLineMode;
 #define STATUS_MD_VOL 4
 #define STATUS_MD_MEM 5
 #define STATUS_MD_IP 6
-#define STATUS_MD_MAX 7
+#define STATUS_MD_LEN 7
 
 //-- Avatar expressions --
 #define EXPR_NEUTRAL 0

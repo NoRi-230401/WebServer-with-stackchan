@@ -32,7 +32,10 @@ void setup()
   wifiSetup();
   serverSetup();
   clockSetup();
+
+  // *** Information ***
   WiFiInfo();
+  EPS32_system_info();
 
   // *** Servo, chatGpt ***
   servoSetup();

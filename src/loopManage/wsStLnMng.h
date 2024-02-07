@@ -44,7 +44,7 @@ extern void sysInfoDispStart(uint8_t mode_no);
 extern void sysInfoDispEnd();
 
 extern int SYSINFO_NO;
-#define SYSINFO_LEN 3
+#define SYSINFO_LEN 6
 
 // -----------------------------------
 void statusLineSetup();

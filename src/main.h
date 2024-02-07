@@ -53,7 +53,7 @@ extern uint16_t WST ;
 #define WST_TTS_ttsExit   0x5800
 #define WST_TTS_talkDone  0x5900
 extern void stateManage();
-
+extern void EPS32_system_info(void);
 // ----------------------------------------------------------
 extern const String WSS_NAME;
 extern const String WSS_VER;

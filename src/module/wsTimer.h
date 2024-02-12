@@ -18,7 +18,14 @@
 #define EXPR_SAD 4
 #define EXPR_ANGRY 5
 
-extern bool SYSINFO_DISP_STATE;
+// --- status Mode ----
+#define STM_NONE 0  // nomal
+#define STM_LINE 1  // statusLine
+#define STM_SYSINFO 2 // sysInfo
+#define STM_LEN 3
+extern int statusMode;
+
+// extern bool SYSINFO_DISP_STATE;
 extern void sysInfoDispEnd();
 extern void stackchanReq(const String& speakStr, int expr=-1, const String balloonStr="$$SKIP$$", int afterExpr=-1 );
 extern String webpage;

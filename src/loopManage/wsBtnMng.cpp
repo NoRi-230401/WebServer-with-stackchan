@@ -58,13 +58,14 @@ void buttonManage()
           // prev
           BtnUC_Do();
 
-        if (BOX_SERVO.contain(t.x, t.y) && !SYSINFO_DISP_STATE)
+        // if (BOX_SERVO.contain(t.x, t.y) && !SYSINFO_DISP_STATE)
+        if (BOX_SERVO.contain(t.x, t.y) && statusMode != STM_SYSINFO)
           // BoxServoDo();
           BtnMA_Do();
 
-        if (BOX_SYSINFO.contain(t.x, t.y))
-          // sysInfoDispOnOff();
-          BtnMC_Do();
+        // if (BOX_SYSINFO.contain(t.x, t.y))
+        //   // sysInfoDispOnOff();
+        //   BtnMC_Do();
       }
     }
   }
@@ -73,21 +74,22 @@ void buttonManage()
   // ** (BtnA) self-talk OnOff
   if (M5.BtnA.wasPressed())
   {
-    if (!KEYLOCK_STATE && !SYSINFO_DISP_STATE)
+    // if (!KEYLOCK_STATE && !SYSINFO_DISP_STATE)
+    if (!KEYLOCK_STATE && statusMode != STM_SYSINFO)
       BtnA_Do();
   }
 
   // ** (BtnB) talk to chatGPT --STT
-  if (M5.BtnB.wasPressed() && !SYSINFO_DISP_STATE)
+  if (M5.BtnB.wasPressed() )
   {
-    if (!KEYLOCK_STATE)
+    if (!KEYLOCK_STATE && statusMode != STM_SYSINFO)
       BtnB_Do();
   }
 
   // ** (BtnC) Timer Start/Stop
-  if (M5.BtnC.wasPressed() && !SYSINFO_DISP_STATE)
+  if (M5.BtnC.wasPressed())
   {
-    if (!KEYLOCK_STATE)
+    if (!KEYLOCK_STATE && statusMode != STM_SYSINFO)
       BtnC_Do();
   }
 }
@@ -212,8 +214,8 @@ void BtnReqGet()
 void BtnA_Do()
 {
   tone(1);
-  if (SYSINFO_DISP_STATE)
-    sysInfoDispEnd();
+  // if (SYSINFO_DISP_STATE)
+  //   sysInfoDispEnd();
 
   if (!RANDOM_SPEAK_STATE)
     RANDOM_SPEAK_ON_GET = true;
@@ -244,18 +246,18 @@ void BtnUC_Do()
 
 void BtnMC_Do()
 {
-  tone(1);
-  if (SYSINFO_DISP_STATE)
-    sysInfoDispEnd();
-  else
-    sysInfoDispStart(0);
+  // tone(1);
+  // if (SYSINFO_DISP_STATE)
+  //   sysInfoDispEnd();
+  // else
+  //   sysInfoDispStart(0);
 }
 
 void BtnMA_Do()
 {
   tone(1);
-  if (SYSINFO_DISP_STATE)
-    sysInfoDispEnd();
+  // if (SYSINFO_DISP_STATE)
+  //   sysInfoDispEnd();
 
   BoxServoDo();
 }
@@ -263,8 +265,8 @@ void BtnMA_Do()
 void BtnC_Do()
 {
   tone(1);
-  if (SYSINFO_DISP_STATE)
-    sysInfoDispEnd();
+  // if (SYSINFO_DISP_STATE)
+  //   sysInfoDispEnd();
 
   if (!TM_STARTED)
   { // ---- Timer 開始 ------
@@ -282,8 +284,8 @@ void BtnC_Do()
 void BtnB_Do()
 {
   tone(1);
-  if (SYSINFO_DISP_STATE)
-    sysInfoDispEnd();
+  // if (SYSINFO_DISP_STATE)
+  //   sysInfoDispEnd();
 
   SST_ChatGPT();
 }

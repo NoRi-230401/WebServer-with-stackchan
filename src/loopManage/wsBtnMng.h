@@ -18,7 +18,7 @@
 
 
 extern AudioGeneratorMP3 *mp3;
-extern bool SYSINFO_DISP_STATE;
+// extern bool SYSINFO_DISP_STATE;
 extern String webpage;
 extern bool TM_STARTED;
 extern bool RANDOM_SPEAK_STATE;
@@ -44,9 +44,9 @@ extern bool statusLineOneState;
 extern void statusModeSelect();
 
 // --- status Mode ----
-#define STM_NONE 0
-#define STM_LINE 1
-#define STM_SYSINFO 2
+#define STM_NONE 0  // nomal
+#define STM_LINE 1  // statusLine
+#define STM_SYSINFO 2 // sysInfo
 #define STM_LEN 3
 extern int statusMode;
 

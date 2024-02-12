@@ -22,7 +22,7 @@ extern bool jsonDocSave(DynamicJsonDocument &jsonDoc, String saveFile);
 
 // extern bool REQ_chatGPT_GET;
 extern String REQ_MSG;
-extern bool SYSINFO_DISP_STATE;
+// extern bool SYSINFO_DISP_STATE;
 extern char tts_parms2[];
 extern bool KEYLOCK_STATE;
 extern String VOICEVOX_API_KEY;
@@ -46,6 +46,12 @@ extern void sysInfoDispEnd();
 extern bool isTalking();
 // extern void sendReq(int reqNo,String msg);
 extern void log_free_size(const char *text);
+// --- status Mode ----
+#define STM_NONE 0  // nomal
+#define STM_LINE 1  // statusLine
+#define STM_SYSINFO 2 // sysInfo
+#define STM_LEN 3
+extern int statusMode;
 
 // --- exe timer define ------- 
 #define EXE_TM_MD0 0 // (default) disp and timer reset

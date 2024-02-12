@@ -94,7 +94,7 @@ extern AsyncWebServer server;
 extern void servoSetup2();
 extern void muteOff();
 extern void muteOn();
-extern bool SYSINFO_DISP_STATE;
+// extern bool SYSINFO_DISP_STATE;
 extern bool KEYLOCK_STATE;
 extern uint8_t TONE_MODE;
 extern bool LED_OnOff_STATE;

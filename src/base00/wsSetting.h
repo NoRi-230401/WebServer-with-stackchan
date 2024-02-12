@@ -22,7 +22,7 @@
 extern String SERVER_NAME;
 extern void BoxTouchSetup();
 extern bool KEYLOCK_STATE;
-extern bool SYSINFO_DISP_STATE;
+// extern bool SYSINFO_DISP_STATE;
 extern bool RANDOM_SPEAK_STATE;
 extern uint8_t TTS_vSpkNo;
 

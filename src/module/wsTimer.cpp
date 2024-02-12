@@ -10,10 +10,10 @@ bool TM_GO_GET = false;
 
 void timerManage()
 {
-  if (TM_STARTED)
+  if (TM_STARTED && statusMode != STM_SYSINFO )
   { // Timer 起動中
-    if (SYSINFO_DISP_STATE)
-      sysInfoDispEnd();
+    // if (SYSINFO_DISP_STATE)
+    //   sysInfoDispEnd();
 
     uint32_t elapsedTimeMillis = millis() - TM_START_MILLIS;
     uint16_t currentElapsedSeconds =(uint16_t)(elapsedTimeMillis / 1000);
@@ -82,10 +82,10 @@ void wsHandleTimer(String TmSecS, String TmMinS, String timerModeS)
 
     if (timerModeS == "START" || timerModeS == "GO")
     {
-      if (!TM_STARTED)
+      if (!TM_STARTED && statusMode != STM_SYSINFO)
       {
-        if (SYSINFO_DISP_STATE)
-          sysInfoDispEnd();
+        // if (SYSINFO_DISP_STATE)
+        //   sysInfoDispEnd();
 
         randomSpeakStop2();
         TM_GO_GET = true;

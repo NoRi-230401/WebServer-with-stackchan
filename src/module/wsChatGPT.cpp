@@ -38,12 +38,13 @@ int WK_LAST_ERR_CODE = 0;
 void chatGptManage()
 {
   // --  RandomSpeakManage ---
-  if (RANDOM_SPEAK_ON_GET)
+  // if (RANDOM_SPEAK_ON_GET)
+  if (RANDOM_SPEAK_ON_GET && statusMode != STM_SYSINFO)
   {
     RANDOM_SPEAK_ON_GET = false;
 
-    if (SYSINFO_DISP_STATE)
-      sysInfoDispEnd();
+    // if (SYSINFO_DISP_STATE)
+    //   sysInfoDispEnd();
 
     timerStop2();
     if (!RANDOM_SPEAK_STATE)
@@ -70,10 +71,11 @@ void chatGptManage()
   }
 
   // --- chatGPT REQ ----------
-  if (REQ_chatGPT_GET)
+  // if (REQ_chatGPT_GET)
+  if (REQ_chatGPT_GET && statusMode != STM_SYSINFO)
   {
-    if (SYSINFO_DISP_STATE)
-      sysInfoDispEnd();
+    // if (SYSINFO_DISP_STATE)
+    //   sysInfoDispEnd();
 
     randomSpeakStop2();
     timerStop2();

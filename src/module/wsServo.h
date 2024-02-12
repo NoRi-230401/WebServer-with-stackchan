@@ -73,7 +73,7 @@ extern String webpage;
 extern void tone(int mode);
 extern bool jsonStrSave(DynamicJsonDocument &jsonDoc,const String inJson, const String saveFile);
 extern void sysInfoDispEnd();
-extern bool SYSINFO_DISP_STATE;
+// extern bool SYSINFO_DISP_STATE;
 extern void stackchanReq(const String& speakStr, int expr=-1, const String balloonStr="$$SKIP$$", int afterExpr=-1 );
 extern void stackchanNow( int expr = -1, const String balloonStr = "$$SKIP$$");
 

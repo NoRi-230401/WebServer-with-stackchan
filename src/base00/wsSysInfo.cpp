@@ -4,6 +4,7 @@
 using namespace m5avatar;
 extern Avatar avatar;
 
+bool SYSINFO_DISP_STATE=false;
 int SYSINFO_NO = 0;
 
 void wsHandleSysInfo(String txS, String dispS, String modeS)
@@ -315,8 +316,8 @@ void sysInfo_m00_DispMake()
 {
   String msg = "";
   char msg2[100];
-  String page = "(1/" + String(SYSINFO_LEN, DEC) + ") ";
-  SYSINFO_MSG = page + "----  SYSTEM  ----\n";
+  String page = "[1/" + String(SYSINFO_LEN, DEC) + "] ";
+  SYSINFO_MSG = page + " -  SYSTEM Info  -\n";
 
   SYSINFO_MSG += WSS_NAME;
   SYSINFO_MSG += "\n" + WSS_VER;
@@ -373,8 +374,8 @@ void sysInfo_m00_DispMake()
 
 void sysInfo_m01_DispMake()
 {
-  String page = "(2/" + String(SYSINFO_LEN, DEC) + ") ";
-  SYSINFO_MSG = page + "-- Passwd/ApiKey --\n";
+  String page = "[2/" + String(SYSINFO_LEN, DEC) + "] ";
+  SYSINFO_MSG = page + " - Passwd/ApiKey -\n";
 
   SYSINFO_MSG += "\nSSID: " + SSID;
   SYSINFO_MSG += "\nSSID_PASS: " + SSID_PASSWD;
@@ -384,8 +385,8 @@ void sysInfo_m01_DispMake()
 
 void sysInfo_m02_DispMake()
 {
-  String page = "(3/" + String(SYSINFO_LEN, DEC) + ") ";
-  SYSINFO_MSG = page + "---  MAC/etc  ---\n";
+  String page = "[3/" + String(SYSINFO_LEN, DEC) + "] ";
+  SYSINFO_MSG = page + " --  MAC Info  --\n";
   
   uint8_t mac0[6];
   char s[200];
@@ -395,37 +396,37 @@ void sysInfo_m02_DispMake()
 
   uint8_t mac3[6];
   esp_read_mac(mac3, ESP_MAC_WIFI_STA);
-  sprintf(s, "\nStation=%02X:%02X:%02X:%02X:%02X:%02X", mac3[0], mac3[1], mac3[2], mac3[3], mac3[4], mac3[5]);
+  sprintf(s, "\n\nStation=%02X:%02X:%02X:%02X:%02X:%02X", mac3[0], mac3[1], mac3[2], mac3[3], mac3[4], mac3[5]);
   SYSINFO_MSG += String(s);
 
   uint8_t mac4[7];
   esp_read_mac(mac4, ESP_MAC_WIFI_SOFTAP);
-  sprintf(s, "\nSoftAP =%02X:%02X:%02X:%02X:%02X:%02X", mac4[0], mac4[1], mac4[2], mac4[3], mac4[4], mac4[5]);
+  sprintf(s, "\n\nSoftAP =%02X:%02X:%02X:%02X:%02X:%02X", mac4[0], mac4[1], mac4[2], mac4[3], mac4[4], mac4[5]);
   SYSINFO_MSG += String(s);
 
   uint8_t mac5[6];
   esp_read_mac(mac5, ESP_MAC_BT);
-  sprintf(s, "\nBLE_MAC=%02X:%02X:%02X:%02X:%02X:%02X", mac5[0], mac5[1], mac5[2], mac5[3], mac5[4], mac5[5]);
+  sprintf(s, "\n\nBLE_MAC=%02X:%02X:%02X:%02X:%02X:%02X", mac5[0], mac5[1], mac5[2], mac5[3], mac5[4], mac5[5]);
   SYSINFO_MSG += String(s);
 
   uint8_t mac6[6];
   esp_read_mac(mac6, ESP_MAC_ETH);
-  sprintf(s, "\nETH_MAC=%02X:%02X:%02X:%02X:%02X:%02X", mac6[0], mac6[1], mac6[2], mac6[3], mac6[4], mac6[5]);
+  sprintf(s, "\n\nETH_MAC=%02X:%02X:%02X:%02X:%02X:%02X", mac6[0], mac6[1], mac6[2], mac6[3], mac6[4], mac6[5]);
   SYSINFO_MSG += String(s);
 
-  String w_RSSI = String(WiFi.RSSI()) + " dB";
-  String w_Channel = String(WiFi.channel());
-  String w_EncryptionT = String(EncryptionType(WiFi.encryptionType(0)));
-  SYSINFO_MSG += "\n\nRSSI = " + w_RSSI;
-  SYSINFO_MSG += "\nChannel = " + w_Channel;
-  SYSINFO_MSG += "\nEncryptionType = " + w_EncryptionT;
+  // String w_RSSI = String(WiFi.RSSI()) + " dB";
+  // String w_Channel = String(WiFi.channel());
+  // String w_EncryptionT = String(EncryptionType(WiFi.encryptionType(0)));
+  // SYSINFO_MSG += "\n\nRSSI = " + w_RSSI;
+  // SYSINFO_MSG += "\nChannel = " + w_Channel;
+  // SYSINFO_MSG += "\nEncryptionType = " + w_EncryptionT;
 
 }
 
 void sysInfo_m03_DispMake()
 {
-  String page = "(4/" + String(SYSINFO_LEN, DEC) + ") ";
-  SYSINFO_MSG = page + "---  CPU Info  ---\n";
+  String page = "[4/" + String(SYSINFO_LEN, DEC) + "] ";
+  SYSINFO_MSG = page + " --  CPU Info  --\n";
 
   uint64_t chipid;
   char s[200];
@@ -437,73 +438,91 @@ void sysInfo_m03_DispMake()
   sprintf(s, "\nESP32 Chip ID = %04X", (uint16_t)(chipid >> 32));
   SYSINFO_MSG += String(s);
 
-  sprintf(s, "\nChip Revision %d", ESP.getChipRevision());
+  sprintf(s, "\n\nChip Revision %d", ESP.getChipRevision());
   SYSINFO_MSG += String(s);
 
   esp_chip_info_t chip_info;
   esp_chip_info(&chip_info);
-  sprintf(s, "\nNumber of Core: %d", chip_info.cores);
+  sprintf(s, "\n\nNumber of Core: %d", chip_info.cores);
   SYSINFO_MSG += String(s);
 
-  sprintf(s, "\nCPU Frequency: %d MHz", ESP.getCpuFreqMHz());
+  sprintf(s, "\n\nCPU Frequency: %d MHz", ESP.getCpuFreqMHz());
   SYSINFO_MSG += String(s);
 
-  sprintf(s, "\nFlash Memory Size = %d MB", ESP.getFlashChipSize() / (1024 * 1024));
+  sprintf(s, "\n\nFlash Memory Size = %d MB", ESP.getFlashChipSize() / (1024 * 1024));
   SYSINFO_MSG += String(s);
 
-  sprintf(s, "\nFlash Chip Speed = %d MHz", ESP.getFlashChipSpeed() / (1000 * 1000));
+  sprintf(s, "\n\nFlash Chip Speed = %d MHz", ESP.getFlashChipSpeed() / (1000 * 1000));
   SYSINFO_MSG += String(s);
 
-  sprintf(s, "\nESP-IDF version = %s", esp_get_idf_version());
+  sprintf(s, "\n\nESP-IDF version = %s", esp_get_idf_version());
   SYSINFO_MSG += String(s);
 }
 
+// -- Core2 Memory size bytes define ----
+#define Core2_SRAM  532480L 
+#define Core2_PSRAM 4194304L
+#define Core2_TOTAL_RAM (Core2_SRAM + Core2_PSRAM) 
+#define Core2_SYS_RAM_USED 204800L 
+#define Core2_USR_MAX_RAM (Core2_TOTAL_RAM - Core2_SYS_RAM_USED)
 
 void sysInfo_m04_DispMake()
 {
-  String page = "(5/" + String(SYSINFO_LEN, DEC) + ") ";
-  SYSINFO_MSG = page + "-- free heap size --\n";
+  String page = "[5/" + String(SYSINFO_LEN, DEC) + "] ";
+  SYSINFO_MSG = page + " --  RAM Info  --\n";
 
   char s[200];
 
   int mDEF = heap_caps_get_free_size(MALLOC_CAP_DEFAULT) / 1024;
   int mPSRAM = heap_caps_get_free_size(MALLOC_CAP_SPIRAM) / 1024;
   int mDMA = heap_caps_get_free_size(MALLOC_CAP_DMA) / 1024;
-  int mINTERNAL = heap_caps_get_free_size(MALLOC_CAP_INTERNAL) / 1024;
 
-  sprintf(s,"\ndefault = %d KB", mDEF );
+  int usrMax = Core2_USR_MAX_RAM/1024;
+  int usedRAM = usrMax - mDEF;
+
+  sprintf(s,"\nRAM  = %4d KB : 100%%", usrMax );
   SYSINFO_MSG += String(s);
 
-  sprintf(s,"\nPSRAM = %d KB", mPSRAM );
+  sprintf(s,"\nUsed = %4d KB : %3.1f%%", usedRAM, (usedRAM * 100.0)/usrMax) ;
   SYSINFO_MSG += String(s);
 
-  sprintf(s,"\nDMA = %d KB", mDMA );
+  sprintf(s,"\n\n\n -- Free Heap size --" );
   SYSINFO_MSG += String(s);
 
-  sprintf(s,"\nInternal= %d KB", mINTERNAL );
+  sprintf(s,"\n\nDefault = %4d KB : %3.1f%%", mDEF, (mDEF * 100.0)/usrMax );
   SYSINFO_MSG += String(s);
+
+  sprintf(s,"\n  PSRAM = %4d KB", mPSRAM );
+  SYSINFO_MSG += String(s);
+
+  sprintf(s,"\n  DMA   = %4d KB", mDMA );
+  SYSINFO_MSG += String(s);
+
 }
 
 
 void sysInfo_m05_DispMake()
 {
-  String page = "(6/" + String(SYSINFO_LEN, DEC) + ") ";
-  SYSINFO_MSG = page + "-SPIFFS Space Bytes-\n";
+  String page = "[6/" + String(SYSINFO_LEN, DEC) + "] ";
+  SYSINFO_MSG = page + " - SPIFFS Space -\n";
 
   int total_b = SPIFFS.totalBytes();
-  int used_b  = SPIFFS.usedBytes() ;
-  int free_b  = total_b - used_b ;
-  float used_p =(float)( ( 100.0 * used_b ) / total_b);
-  float free_p =(float)( 100.0 - used_p);
+  int used_b  = SPIFFS.usedBytes();
+  int total_kb = total_b/1024;
+  int used_kb  = used_b/1024 ;
+  int free_kb  = total_kb - used_kb ;
+  
+  float used_percent =(float)( ( 100.0 * used_b ) / total_b);
+  float free_percent =(float)( 100.0 - used_percent);
   
   char s[200];
-  sprintf(s, "\n\nTotal:100.0%%   %7d B",total_b );
+  sprintf(s, "\n\n\nTotal:100.0%%   %4d KB",total_kb );
   SYSINFO_MSG += String(s);
 
-  sprintf(s, "\n\nUsed : %4.1f%%   %7d B",used_p, used_b);
+  sprintf(s,   "\n\nUsed : %4.1f%%   %4d KB",used_percent, used_kb);
   SYSINFO_MSG += String(s);
 
-  sprintf(s, "\n\nFree : %4.1f%%   %7d B",free_p, free_b );
+  sprintf(s,   "\n\nFree : %4.1f%%   %4d KB",free_percent, free_kb );
   SYSINFO_MSG += String(s);
 }
 

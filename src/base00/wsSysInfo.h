@@ -61,7 +61,7 @@ extern const String WSS_VER;
 
 //------------------------------------------------------------
 void wsHandleSysInfo(String txS, String dispS, String modeS);
-bool SYSINFO_DISP_STATE;
+
 bool sysInfoGet(String txArg, String &txData);
 void sysInfoDispStart(uint8_t mode_no);
 void sysInfoDispEnd();

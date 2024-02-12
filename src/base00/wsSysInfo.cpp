@@ -4,7 +4,7 @@
 using namespace m5avatar;
 extern Avatar avatar;
 
-bool SYSINFO_DISP_STATE=false;
+bool SYSINFO_DISP_STATE = false;
 int SYSINFO_NO = 0;
 
 void wsHandleSysInfo(String txS, String dispS, String modeS)
@@ -237,13 +237,13 @@ void sysInfoDispStart(uint8_t mode_no)
     timerStop2();
     M5.Display.setTextFont(1);
     M5.Display.setTextSize(2);
-    M5.Display.setTextColor(WHITE, BLACK);
+    M5.Display.setTextColor(WHITE, BLUE);
     M5.Display.setTextDatum(0);
   }
 
   M5.Display.setCursor(0, 0);
   delay(50);
-  M5.Display.fillScreen(BLACK);
+  M5.Display.fillScreen(BLUE);
   delay(50);
 
   sysInfoDispMake(mode_no);
@@ -263,13 +263,13 @@ void sysInfoDispEnd()
   {
     return;
   }
-
-  // avatar.start();
+  
+  M5.Display.setTextColor(WHITE, BLACK);
+  M5.Display.fillScreen(BLACK);
   avatar.resume();
   Serial.println("avatar resumed");
 
   delay(200);
-  // muteOff();
   SYSINFO_DISP_STATE = false;
 }
 
@@ -304,6 +304,10 @@ void sysInfoDispMake(uint8_t mode_no)
 
   case 5:
     sysInfo_m05_DispMake();
+    break;
+
+  case 6:
+    sysInfo_m06_DispMake();
     break;
 
   default:
@@ -387,7 +391,7 @@ void sysInfo_m02_DispMake()
 {
   String page = "[3/" + String(SYSINFO_LEN, DEC) + "] ";
   SYSINFO_MSG = page + " --  MAC Info  --\n";
-  
+
   uint8_t mac0[6];
   char s[200];
   esp_efuse_mac_get_default(mac0);
@@ -420,7 +424,6 @@ void sysInfo_m02_DispMake()
   // SYSINFO_MSG += "\n\nRSSI = " + w_RSSI;
   // SYSINFO_MSG += "\nChannel = " + w_Channel;
   // SYSINFO_MSG += "\nEncryptionType = " + w_EncryptionT;
-
 }
 
 void sysInfo_m03_DispMake()
@@ -460,10 +463,10 @@ void sysInfo_m03_DispMake()
 }
 
 // -- Core2 Memory size bytes define ----
-#define Core2_SRAM  532480L 
+#define Core2_SRAM 532480L
 #define Core2_PSRAM 4194304L
-#define Core2_TOTAL_RAM (Core2_SRAM + Core2_PSRAM) 
-#define Core2_SYS_RAM_USED 204800L 
+#define Core2_TOTAL_RAM (Core2_SRAM + Core2_PSRAM)
+#define Core2_SYS_RAM_USED 204800L
 #define Core2_USR_MAX_RAM (Core2_TOTAL_RAM - Core2_SYS_RAM_USED)
 
 void sysInfo_m04_DispMake()
@@ -477,29 +480,27 @@ void sysInfo_m04_DispMake()
   int mPSRAM = heap_caps_get_free_size(MALLOC_CAP_SPIRAM) / 1024;
   int mDMA = heap_caps_get_free_size(MALLOC_CAP_DMA) / 1024;
 
-  int usrMax = Core2_USR_MAX_RAM/1024;
+  int usrMax = Core2_USR_MAX_RAM / 1024;
   int usedRAM = usrMax - mDEF;
 
-  sprintf(s,"\nRAM  = %4d KB : 100%%", usrMax );
+  sprintf(s, "\nRAM  = %4d KB : 100%%", usrMax);
   SYSINFO_MSG += String(s);
 
-  sprintf(s,"\nUsed = %4d KB : %3.1f%%", usedRAM, (usedRAM * 100.0)/usrMax) ;
+  sprintf(s, "\nUsed = %4d KB : %3.1f%%", usedRAM, (usedRAM * 100.0) / usrMax);
   SYSINFO_MSG += String(s);
 
-  sprintf(s,"\n\n\n -- Free Heap size --" );
+  sprintf(s, "\n\n\n -- Free Heap size --");
   SYSINFO_MSG += String(s);
 
-  sprintf(s,"\n\nDefault = %4d KB : %3.1f%%", mDEF, (mDEF * 100.0)/usrMax );
+  sprintf(s, "\n\nDefault = %4d KB : %3.1f%%", mDEF, (mDEF * 100.0) / usrMax);
   SYSINFO_MSG += String(s);
 
-  sprintf(s,"\n  PSRAM = %4d KB", mPSRAM );
+  sprintf(s, "\n  PSRAM = %4d KB", mPSRAM);
   SYSINFO_MSG += String(s);
 
-  sprintf(s,"\n  DMA   = %4d KB", mDMA );
+  sprintf(s, "\n  DMA   = %4d KB", mDMA);
   SYSINFO_MSG += String(s);
-
 }
-
 
 void sysInfo_m05_DispMake()
 {
@@ -507,26 +508,57 @@ void sysInfo_m05_DispMake()
   SYSINFO_MSG = page + " - SPIFFS Space -\n";
 
   int total_b = SPIFFS.totalBytes();
-  int used_b  = SPIFFS.usedBytes();
-  int total_kb = total_b/1024;
-  int used_kb  = used_b/1024 ;
-  int free_kb  = total_kb - used_kb ;
-  
-  float used_percent =(float)( ( 100.0 * used_b ) / total_b);
-  float free_percent =(float)( 100.0 - used_percent);
-  
+  int used_b = SPIFFS.usedBytes();
+  int total_kb = total_b / 1024;
+  int used_kb = used_b / 1024;
+  int free_kb = total_kb - used_kb;
+
+  float used_percent = (float)((100.0 * used_b) / total_b);
+  float free_percent = (float)(100.0 - used_percent);
+
   char s[200];
-  sprintf(s, "\n\n\nTotal:100.0%%   %4d KB",total_kb );
+  sprintf(s, "\n\n\nTotal:100.0%%   %4d KB", total_kb);
   SYSINFO_MSG += String(s);
 
-  sprintf(s,   "\n\nUsed : %4.1f%%   %4d KB",used_percent, used_kb);
+  sprintf(s, "\n\nUsed : %4.1f%%   %4d KB", used_percent, used_kb);
   SYSINFO_MSG += String(s);
 
-  sprintf(s,   "\n\nFree : %4.1f%%   %4d KB",free_percent, free_kb );
+  sprintf(s, "\n\nFree : %4.1f%%   %4d KB", free_percent, free_kb);
   SYSINFO_MSG += String(s);
 }
 
+void sysInfo_m06_DispMake()
+{
+  String page = "[7/" + String(SYSINFO_LEN, DEC) + "] ";
+  SYSINFO_MSG = page + " --  NVS status  --\n";
 
+  nvs_stats_t stats;
+
+  esp_err_t err = nvs_get_stats("nvs", &stats);
+  if (err != ESP_OK)
+  {
+    Serial.println("failed to nvs_get_stats()");
+    return;
+  }
+
+  size_t total_ent = stats.total_entries;
+  size_t used_ent = stats.used_entries;
+  size_t free_ent = stats.free_entries;
+  size_t namespace_cnt = stats.namespace_count;
+
+  char s[200];
+  sprintf(s,"\n\n\nTotal_entries   = %4d", total_ent);
+  SYSINFO_MSG += String(s);
+
+  sprintf(s,  "\n\nUsed_entries    = %4d", used_ent);
+  SYSINFO_MSG += String(s);
+
+  sprintf(s,  "\n\nFree_entries    = %4d", free_ent);
+  SYSINFO_MSG += String(s);
+
+  sprintf(s,  "\n\nNamespace_count = %4d", namespace_cnt);
+  SYSINFO_MSG += String(s);
+}
 
 void EPS32_system_info(void)
 {
@@ -580,22 +612,19 @@ void EPS32_system_info(void)
   Serial.printf("[Ethernet] Mac Address = %02X:%02X:%02X:%02X:%02X:%02X\r\n", mac6[0], mac6[1], mac6[2], mac6[3], mac6[4], mac6[5]);
 }
 
-
 void info_spiffs()
 {
-  float total_mb = SPIFFS.totalBytes() / (1024 * 1024 );
-  float used_mb  = SPIFFS.usedBytes() / (1024 * 1024);
-  float free_mb  = total_mb - used_mb ;
+  float total_mb = SPIFFS.totalBytes() / (1024 * 1024);
+  float used_mb = SPIFFS.usedBytes() / (1024 * 1024);
+  float free_mb = total_mb - used_mb;
 
   char s[200];
-  sprintf(s, "Total Space = %.3f MB",total_mb );
+  sprintf(s, "Total Space = %.3f MB", total_mb);
   Serial.println(s);
 
-  sprintf(s, "Used Space = %.3f MB",used_mb );
+  sprintf(s, "Used Space = %.3f MB", used_mb);
   Serial.println(s);
 
-  sprintf(s, "Free Space = %.3f MB",free_mb );
+  sprintf(s, "Free Space = %.3f MB", free_mb);
   Serial.println(s);
-
 }
-

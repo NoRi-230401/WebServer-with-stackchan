@@ -67,13 +67,15 @@ void sysInfoDispStart(uint8_t mode_no);
 void sysInfoDispEnd();
 uint8_t getBatteryLevel();
 void sysInfoDispMake(uint8_t mode_no);
-#define SYSINFO_LEN 6
+#define SYSINFO_LEN 7
 void sysInfo_m00_DispMake();
 void sysInfo_m01_DispMake();
 void sysInfo_m02_DispMake();
 void sysInfo_m03_DispMake();
 void sysInfo_m04_DispMake();
 void sysInfo_m05_DispMake();
+void sysInfo_m06_DispMake();
+
 void randomSpeakStop2();
 void EPS32_system_info(void);
 //------------------------------------------------------------

@@ -242,7 +242,6 @@ void sysInfoDispStart(uint8_t mode_no)
   }
 
   M5.Display.setCursor(0, 0);
-  delay(50);
   M5.Display.fillScreen(BLUE);
   delay(50);
 
@@ -269,7 +268,7 @@ void sysInfoDispEnd()
   avatar.resume();
   Serial.println("avatar resumed");
 
-  delay(200);
+  delay(100);
   SYSINFO_DISP_STATE = false;
 }
 
@@ -277,6 +276,7 @@ uint8_t getBatteryLevel()
 {
   return (M5.Power.getBatteryLevel());
 }
+
 
 void sysInfoDispMake(uint8_t mode_no)
 {
@@ -390,46 +390,40 @@ void sysInfo_m01_DispMake()
 void sysInfo_m02_DispMake()
 {
   String page = "[3/" + String(SYSINFO_LEN, DEC) + "] ";
-  SYSINFO_MSG = page + " --  MAC Info  --\n";
+  SYSINFO_MSG = page + " -  MAC  -\n";
 
   uint8_t mac0[6];
   char s[200];
   esp_efuse_mac_get_default(mac0);
-  sprintf(s, "\n\ndef_MAC=%02X:%02X:%02X:%02X:%02X:%02X", mac0[0], mac0[1], mac0[2], mac0[3], mac0[4], mac0[5]);
+  sprintf(s, "\n\ndef_MAC= %02X:%02X:%02X:%02X:%02X:%02X", mac0[0], mac0[1], mac0[2], mac0[3], mac0[4], mac0[5]);
   SYSINFO_MSG += String(s);
 
   uint8_t mac3[6];
   esp_read_mac(mac3, ESP_MAC_WIFI_STA);
-  sprintf(s, "\n\nStation=%02X:%02X:%02X:%02X:%02X:%02X", mac3[0], mac3[1], mac3[2], mac3[3], mac3[4], mac3[5]);
+  sprintf(s, "\n\nStation= %02X:%02X:%02X:%02X:%02X:%02X", mac3[0], mac3[1], mac3[2], mac3[3], mac3[4], mac3[5]);
   SYSINFO_MSG += String(s);
 
   uint8_t mac4[7];
   esp_read_mac(mac4, ESP_MAC_WIFI_SOFTAP);
-  sprintf(s, "\n\nSoftAP =%02X:%02X:%02X:%02X:%02X:%02X", mac4[0], mac4[1], mac4[2], mac4[3], mac4[4], mac4[5]);
+  sprintf(s, "\n\nSoftAP = %02X:%02X:%02X:%02X:%02X:%02X", mac4[0], mac4[1], mac4[2], mac4[3], mac4[4], mac4[5]);
   SYSINFO_MSG += String(s);
 
   uint8_t mac5[6];
   esp_read_mac(mac5, ESP_MAC_BT);
-  sprintf(s, "\n\nBLE_MAC=%02X:%02X:%02X:%02X:%02X:%02X", mac5[0], mac5[1], mac5[2], mac5[3], mac5[4], mac5[5]);
+  sprintf(s, "\n\nBLE_MAC= %02X:%02X:%02X:%02X:%02X:%02X", mac5[0], mac5[1], mac5[2], mac5[3], mac5[4], mac5[5]);
   SYSINFO_MSG += String(s);
 
   uint8_t mac6[6];
   esp_read_mac(mac6, ESP_MAC_ETH);
-  sprintf(s, "\n\nETH_MAC=%02X:%02X:%02X:%02X:%02X:%02X", mac6[0], mac6[1], mac6[2], mac6[3], mac6[4], mac6[5]);
+  sprintf(s, "\n\nETH_MAC= %02X:%02X:%02X:%02X:%02X:%02X", mac6[0], mac6[1], mac6[2], mac6[3], mac6[4], mac6[5]);
   SYSINFO_MSG += String(s);
-
-  // String w_RSSI = String(WiFi.RSSI()) + " dB";
-  // String w_Channel = String(WiFi.channel());
-  // String w_EncryptionT = String(EncryptionType(WiFi.encryptionType(0)));
-  // SYSINFO_MSG += "\n\nRSSI = " + w_RSSI;
-  // SYSINFO_MSG += "\nChannel = " + w_Channel;
-  // SYSINFO_MSG += "\nEncryptionType = " + w_EncryptionT;
+ 
 }
 
 void sysInfo_m03_DispMake()
 {
   String page = "[4/" + String(SYSINFO_LEN, DEC) + "] ";
-  SYSINFO_MSG = page + " --  CPU Info  --\n";
+  SYSINFO_MSG = page + " -  CPU Info  -\n";
 
   uint64_t chipid;
   char s[200];
@@ -472,7 +466,7 @@ void sysInfo_m03_DispMake()
 void sysInfo_m04_DispMake()
 {
   String page = "[5/" + String(SYSINFO_LEN, DEC) + "] ";
-  SYSINFO_MSG = page + " --  RAM Info  --\n";
+  SYSINFO_MSG = page + " -  RAM  -\n";
 
   char s[200];
 
@@ -530,7 +524,7 @@ void sysInfo_m05_DispMake()
 void sysInfo_m06_DispMake()
 {
   String page = "[7/" + String(SYSINFO_LEN, DEC) + "] ";
-  SYSINFO_MSG = page + " --  NVS status  --\n";
+  SYSINFO_MSG = page + " -  NVS stats  -\n";
 
   nvs_stats_t stats;
 

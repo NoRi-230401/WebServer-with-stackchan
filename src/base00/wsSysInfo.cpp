@@ -14,8 +14,8 @@ void wsHandleSysInfo(String txS, String dispS, String modeS)
   if (txS == "" && dispS == "" && modeS == "")
   {
     sysInfoDispMake(0);
-    SYSINFO_MSG += "\n";
-    sysInfoDispMake(1);
+    // SYSINFO_MSG += "\n";
+    // sysInfoDispMake(1);
     webpage = SYSINFO_MSG;
     return;
   }
@@ -53,8 +53,8 @@ void wsHandleSysInfo(String txS, String dispS, String modeS)
     if (modeS == "all")
     {
       sysInfoDispMake(0);
-      SYSINFO_MSG += "\n";
-      sysInfoDispMake(1);
+      // SYSINFO_MSG += "\n";
+      // sysInfoDispMake(1);
       webpage = SYSINFO_MSG;
     }
     else

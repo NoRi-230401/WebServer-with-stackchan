@@ -2,7 +2,7 @@
 #include "main.h"
 
 const String WSS_NAME = "WebServer-with-stackchan";
-const String WSS_VER = "v305o-240207";
+const String WSS_VER = "v305p-240214";
 const String WSS_VERSION = WSS_NAME + " " + WSS_VER;
 // ---------------------------------------------------------------------
 //  *** Extended from ***
@@ -32,10 +32,6 @@ void setup()
   wifiSetup();
   serverSetup();
   clockSetup();
-
-  // *** Information ***
-  WiFiInfo();
-  EPS32_system_info();
 
   // *** Servo, chatGpt ***
   servoSetup();

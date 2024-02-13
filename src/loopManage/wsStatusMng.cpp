@@ -154,12 +154,10 @@ void statusModeSelect()
   {
   case STM_NONE:
     sysInfoDispEnd();
-    // statusLineOnOffState = false;
     avatar.setBatteryIcon(true, BATTERY_MD_INVISIBLE);
     break;
 
   case STM_LINE:
-    // statusLineOnOffState = true;
     switch (StatusLineMode)
     {
     case STATUS_MD_ICON:

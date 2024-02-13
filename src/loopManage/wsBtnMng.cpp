@@ -62,10 +62,6 @@ void buttonManage()
         if (BOX_SERVO.contain(t.x, t.y) && statusMode != STM_SYSINFO)
           // BoxServoDo();
           BtnMA_Do();
-
-        // if (BOX_SYSINFO.contain(t.x, t.y))
-        //   // sysInfoDispOnOff();
-        //   BtnMC_Do();
       }
     }
   }
@@ -74,7 +70,6 @@ void buttonManage()
   // ** (BtnA) self-talk OnOff
   if (M5.BtnA.wasPressed())
   {
-    // if (!KEYLOCK_STATE && !SYSINFO_DISP_STATE)
     if (!KEYLOCK_STATE && statusMode != STM_SYSINFO)
       BtnA_Do();
   }
@@ -121,19 +116,19 @@ void wsHandleBtn(String arg)
   }
   else if (arg_mode == "BTNUA")
   {
-    webpage = "statusLine Prev";
+    webpage = "StatusPrev";
     BTN_REQ = BtnREQ_UA;
     return;
   }
   else if (arg_mode == "BTNUC")
   {
-    webpage = "statusLine Next";
+    webpage = "StatusNext";
         BTN_REQ = BtnREQ_UC;
     return;
   }
   else if (arg_mode == "BTNUB")
   {
-    webpage = "statusLine OnOff";
+    webpage = "StatusModeSelect";
     BTN_REQ = BtnREQ_UB;
     return;
   }
@@ -143,12 +138,12 @@ void wsHandleBtn(String arg)
     webpage = "BtnMA: BoxServo";
     return;
   }
-  else if (arg_mode == "BOX_SYSINFO" || arg_mode == "BTNMC")
-  {
-    BTN_REQ = BtnREQ_MC;
-    webpage = "BtnMC: SysInfo Disp";
-    return;
-  }
+  // else if (arg_mode == "BOX_SYSINFO" || arg_mode == "BTNMC")
+  // {
+  //   BTN_REQ = BtnREQ_MC;
+  //   webpage = "BtnMC: SysInfo Disp";
+  //   return;
+  // }
   else
   {
     BTN_REQ = 0;
@@ -214,9 +209,6 @@ void BtnReqGet()
 void BtnA_Do()
 {
   tone(1);
-  // if (SYSINFO_DISP_STATE)
-  //   sysInfoDispEnd();
-
   if (!RANDOM_SPEAK_STATE)
     RANDOM_SPEAK_ON_GET = true;
   else
@@ -256,17 +248,12 @@ void BtnMC_Do()
 void BtnMA_Do()
 {
   tone(1);
-  // if (SYSINFO_DISP_STATE)
-  //   sysInfoDispEnd();
-
   BoxServoDo();
 }
 
 void BtnC_Do()
 {
   tone(1);
-  // if (SYSINFO_DISP_STATE)
-  //   sysInfoDispEnd();
 
   if (!TM_STARTED)
   { // ---- Timer 開始 ------
@@ -284,9 +271,6 @@ void BtnC_Do()
 void BtnB_Do()
 {
   tone(1);
-  // if (SYSINFO_DISP_STATE)
-  //   sysInfoDispEnd();
-
   SST_ChatGPT();
 }
 

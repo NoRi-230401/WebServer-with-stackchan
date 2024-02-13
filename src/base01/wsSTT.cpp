@@ -36,8 +36,8 @@ void SST_ChatGPT()
   avatar.setSpeechText("御用でしょうか？");
   
   // ---- Whisper STT USE -------------
-  String ret;
-  ret = SpeechToText();
+  String transAudioText;
+  transAudioText = SpeechToText();
 
   if (SV_USE)
     SV_MD = prev_SV_MD;
@@ -45,12 +45,14 @@ void SST_ChatGPT()
   Serial.println("音声認識終了");
   Serial.println("音声認識結果");
   
-  if (ret != "")
+  if (transAudioText != "")
   {
-    Serial.println(ret);
-    if (!mp3->isRunning() && SPEECH_TEXT == "" && SPEECH_TEXT_BUFFER == "")
+    Serial.println(transAudioText);
+    // if (!mp3->isRunning() && SPEECH_TEXT == "" && SPEECH_TEXT_BUFFER == "")
+    // if ( SPEECH_TEXT == "" && SPEECH_TEXT_BUFFER == "")
+    if ( !isTalking() )
     {
-      exec_chatGPT(ret);
+      exec_chatGPT(transAudioText);
       // WAKEWORD_MODE = 0;
     }
   }

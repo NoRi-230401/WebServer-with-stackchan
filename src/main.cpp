@@ -1,7 +1,9 @@
 // ---- <main.cpp>-------------------------------------------------------
 #include "main.h"
-const String WS_VERSION = "WebServer-with-stackchan_V304-240106";
 
+const String WSS_NAME = "WebServer-with-stackchan";
+const String WSS_VER = "v305-240214";
+const String WSS_VERSION = WSS_NAME + " " + WSS_VER;
 // ---------------------------------------------------------------------
 //  *** Extended from ***
 // AI_StackChan2                         : robo8080さん
@@ -12,41 +14,48 @@ const String WS_VERSION = "WebServer-with-stackchan_V304-240106";
 
 void setup()
 {
+  WST = WST_SETUP_start;
   // ** initial Setting **
   M5StackConfig();
-  log_free_size("初期化開始：");
-
+  M5LedBegin();
+  ledRed();
+  M5SpeakerConfig();
+  M5FileSystemBegin();
+  
   // ** Setting files **
   startupSetting();
   apikeySetting();
   servoSetting();
-  
+
   // *** Network  ***
+  ledGreen();
   wifiSetup();
   serverSetup();
   clockSetup();
-  networkInformation();
-  
-  // *** Servo,TTS,chatGpt ***
-  servoSetup();
-  ttsSetup();
-  chatGptSetup();
-  
-  delay(3000);
-    
- //*** Wake UP! STACKCHAN ***
-  avatarSTART();
-  log_free_size("初期化終了：");
-}
 
+  // *** Servo, chatGpt ***
+  servoSetup();
+  chatGptSetup();
+  ledBlue();
+  delay(3000);
+
+  //*** Wake UP! STACKCHAN ***
+  avatarSTART();
+  statusLineSetup();
+  BoxTouchSetup();
+  muteOff();
+  ledClearAll();
+  WST = WST_SETUP_done;
+}
 
 void loop()
 {
+  stateManage();
+  buttonManage();
+  requestManage();
+  statusLineManage();
+
   chatGptManage();
-  TimerManage();
-  ButtonManage();
-  RequestManage();
-  SpeechManage();
-  StatusLineManage();
+  timerManage();
 }
 

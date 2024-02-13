@@ -1,6 +1,6 @@
 // ----------------------------<wsServer2.h>------------------------------------
-#ifndef WS_SERVER2_H
-#define WS_SERVER2_H
+#ifndef _WS_SERVER2_H
+#define _WS_SERVER2_H
 // ---------------------------
 #include <Arduino.h>
 #include <ArduinoJson.h>
@@ -51,7 +51,6 @@ void Handle_mkdir(AsyncWebServerRequest *request);
 void Dir_Make();
 void SelectInputDirName(String Heading, String Command, String Arg_name);
 void DirsList();
-// void checkWebReq(AsyncWebServerRequest *request);
 
 // -------------------------------------------------------
 

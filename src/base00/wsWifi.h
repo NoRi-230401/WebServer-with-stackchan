@@ -1,8 +1,7 @@
 // ----------------------------<wsWifi.h>------------------------------------
-#ifndef WS_WIFI_H
-#define WS_WIFI_H
+#ifndef _WS_WIFI_H
+#define _WS_WIFI_H
 // ---------------------------
-// #include "wsServer.h"
 #include <WiFi.h>  
 #include <Arduino.h>
 #include <ArduinoJson.h>
@@ -28,25 +27,24 @@ extern String webpage;
 extern const String WIFI_SPIFFS;
 extern const String WIFI_SD;
 extern void REBOOT();
-extern bool jsonSave(DynamicJsonDocument &jsonDoc, String saveFile);
+extern bool jsonDocSave(DynamicJsonDocument &jsonDoc, String saveFile);
 extern bool jsonRead(int flType, DynamicJsonDocument &jsonDoc, String readFile);
 extern File fileOpen(int flType, const String path, const char *mode);
-extern bool jsonInitSave(DynamicJsonDocument &jsonDoc,const String inJson, const String saveFile);
+extern bool jsonStrSave(DynamicJsonDocument &jsonDoc,const String inJson, const String saveFile);
 extern String SERVER_NAME;
 extern String EncryptionType(wifi_auth_mode_t encryptionType);
 
 //----------------------------------------------
-void networkInformation();
+void WiFiInfo();
 void wsHandleWifiSetting(String initS, String ssidS, String passwdS,String removeS, String ipS, String gatewayS, String subnetS, String dnsS  );
 bool initWifiJson(DynamicJsonDocument &wifiJson);
 bool jsonInitSave_wifi(DynamicJsonDocument &jsonDoc);
 bool wifiNoSetupFileConnect();
 bool wifiSmartConfigConnect();
-void addSuccessAP();
 int wifiConnect2();
 bool wifiSelect(int flType);
-bool wifiTxtRead();
-bool wifiTxtConnect();
+bool wifiTxtSDRead();
+bool wifiTxtSDConnect();
 bool IPstrToIntArray(String strIPaddr, int *iAddr);
 //----------------------------------------------
 #endif

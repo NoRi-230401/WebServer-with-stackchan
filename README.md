@@ -1,24 +1,27 @@
 # WebServer-with-stackchan (WSS)
 
-## New（Ver304 新機能）
-<b>(1).ステータス表示</b><br>
-バッテリー・アイコンを拡張してステータス表示ができるよになりました。<br>
-画面上部をタッチすると、６種のモード切替え・１０秒表示・常時表示OnOff機能を実行します。
+## New（Ver305 新機能）
+### <b>(1).ステータス表示(StatusDisp)</b><br>
+Ver304に引き続き、バッテリー・アイコンを拡張し、情報表示の機能をつけました。<br>
+<b>画面上の真中</b>をタッチすると、Normal, StatusLine, StatusDispの３つのModeを切替えます。<br>
+<b>Normal</b> : 通常のスタックチャンの顔の表示<br>
+<b>StatusLine</b> ：上１行を使い、バッテリー・アイコンを含めた７種類を選択できます。<br>
+種類の選択は、画面上部の左(Prev)または、右(Next)で選ぶことができます。今回は、「メモリ残量」表示を追加しています。<br>
+<b>StatusDisp</b> :　Avatarを停止して、全画面を使って情報表示をします。 <br>
+StatsuLineモードと同様に、画面上部の左右をタッチすると違う種類を選択することができます。
+全部で７種類の情報があります。（下記の画面参照）
 
-![画像](images/statusLineMode.jpg)<br>
+
+![モード](images/stackV305gazo2.jpg)<br>
 <br>
 
-<b>(2).イラストのHome画面表示（自由に選択可）</b><br>
-おきもくさんがまとめてくれた、自由に使えるイラストをHome画面に表示できるようになりました。現在、ご提供いただいたイラスト９＋１(下の画像)の計１０種類のファイルが選択できます。
-![画像](images/home-gazo03.png)<br>
-<br>
-<br>
-
-<b>(3).スタックチャン用リモコンの更新（Remote StackChan）</b><br>
-ステータス表示の対応とKeyLock・Rebootボタンが追加されました。
-
-![画像](images/remoteStackChan.png)<br>
-
+### (2).その他
+v304から、ソースにかなりの変更を加えています。<br>
+・VOICEVOXのクラス化<br>
+・階層間の機能分離の推進<br>
+・PowerOn時のWiFi優先順位の見直し、などなど<br>
+・HOME画面で使用できるイラストが、１０＋１(下の画像)で１１種類になりました。<br>
+![モード](images/home-gazo.png)<br>
 <br>
 <br>
 
@@ -73,9 +76,10 @@ Webアプリは、html、styleSheet、javaScript、画像ファイルなどを�
 
 ## 必要なもの
 ・　本体： M5Stack Core2  ( Core2 for Awsで動作確認しています。）<br>
-・　SDカード （初回のWiFi接続時のみ使用）<br>
+・　SDカード （初回のWiFi接続時に使用します。）<br>
+通常は、SPIFFSのファイルだけで運用できますが、SDの情報はSPIFFSファイルより優先されますので。　緊急用に必ずWiFiの設定ファイルをSDに保存しておいてください。<br>
+・　Servo（SG90、または互換サーボ： 「顔だけ」の場合は必要なし）<br>
 ・　PC ＋ VsCode開発環境：ファームウエアをM5StackCore2に書き込めること<br>
-・　Servo（足、胴体部分： 「顔だけ」の場合は必要なし）<br>
 ・　OpenAiのApiKey<br>
 ・　VOICEVOXのApiKey<br>
 <br>
@@ -143,8 +147,17 @@ https://github.com/meganetaaan/stack-chan
 <br>
 
 ## history
+### Ver3.05 2024-02-14
+
 ### Ver3.04 2024-01-06
-　
+(1).ステータス表示<br>
+バッテリー・アイコンを拡張してステータス表示ができるよになりました。<br>
+~~画面上部をタッチすると、６種のモード切替え・１０秒表示・常時表示OnOff機能を実行します。~~<br>
+(Ver3.05でStatusLine：７種類　および StatusDisp：７種類となりました。タッチ操作も変更されました)
+<br>
+(2).イラストのHome画面表示（自由に選択可）<br>
+自由に使えるイラストをHome画面に表示できるようになりました。現在、ご提供いただいたイラスト９＋１(下の画像)の~~計１０種類~~ (Ver3.05で１１種類) のファイルが選択できます。<br>
+
 ### Ver3.03 2023-12-24　
 ・CORE2 V1.1対応 -- M5UnifiedライブラリV0.1.11使用
 ### Ver3.02 2023-12-22　

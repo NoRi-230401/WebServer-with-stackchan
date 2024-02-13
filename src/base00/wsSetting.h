@@ -1,6 +1,6 @@
 // ---------------------------< wsSetting.h >------------------------------------
-#ifndef WS_SETTING_H
-#define WS_SETTING_H
+#ifndef _WS_SETTING_H
+#define _WS_SETTING_H
 // ---------------------------
 
 #include <Arduino.h>
@@ -22,51 +22,68 @@
 extern String SERVER_NAME;
 extern void BoxTouchSetup();
 extern bool KEYLOCK_STATE;
-extern bool SYSINFO_DISP_STATE;
+// extern bool SYSINFO_DISP_STATE;
 extern bool RANDOM_SPEAK_STATE;
-extern String TTS2_SPEAKER_NO;
-extern String TTS2_SPEAKER;
-extern String TTS2_PARMS;
+extern uint8_t TTS_vSpkNo;
+
 extern bool LED_OnOff_STATE;
 extern bool RANDOM_SPEAK_ON_GET;
-extern uint16_t TIMER_SEC_VALUE;
-extern uint8_t m5spk_virtual_channel;
-extern int RANDOM_TIME;
-extern bool TIMER_STARTED;
-extern void led_allOff();
-extern void timerStop2(); 
+extern uint16_t TM_SEC_VAL;
+extern bool TM_STARTED;
+extern void ledClearAll();
+extern void timerStop2();
 extern void randomSpeakStop2();
 extern void timerStart();
 extern void timerStop();
-extern void timerStop2(); 
-extern void report_batt_level();
+extern void timerStop2();
 extern void sysInfoDispStart(uint8_t mode_no);
-extern bool jsonSave(DynamicJsonDocument &jsonDoc, String saveFile);
+extern bool jsonDocSave(DynamicJsonDocument &jsonDoc, String saveFile);
 extern bool jsonRead(int flType, DynamicJsonDocument &jsonDoc, String readFile);
 extern bool setJsonItem(String flName, String item, String setData, DynamicJsonDocument &jsonDoc, String arrayName);
 extern bool SD_begin();
-extern bool jsonInitSave(DynamicJsonDocument &jsonDoc,const String inJson, const String saveFile);
-extern bool jsonInit(DynamicJsonDocument &jsonDoc, const String inJson);
+extern bool jsonStrSave(DynamicJsonDocument &jsonDoc, const String inJson, const String saveFile);
+extern bool toJsonDoc(DynamicJsonDocument &jsonDoc, const String inJson);
 extern File fileOpen(int flType, const String path, const char *mode);
-extern bool getJsonItem(String flName, String item, String& getData, DynamicJsonDocument &jsonDoc, String arrayName);
+extern bool getJsonItem(String flName, String item, String &getData, DynamicJsonDocument &jsonDoc, String arrayName);
 using namespace m5avatar;
 extern Avatar avatar;
 extern String webpage;
 extern int isSPIFFS;
+extern uint8_t VOLUME_VALUE;
 
+#define TONE_MODE_INIT 4
+#define TONE_MODE_MAX 5
+extern uint8_t TONE_MODE;
+extern bool MUTE_ON_STATE;
+#define VAL_NVS_NOSAVE 0
+#define VAL_NVS_SAVE 1
+// extern uint8_t setVolumeVal(uint8_t volumeVal, int save_flag);
+extern void setVolume(int vol);
+extern void muteOn();
+extern void muteOff();
+#define TTS_VSPKNO_MAX 66
+#define TTS_VSPKNO_INIT 3
+extern void setTTSvSpkNo(int spkNo);
+extern uint8_t getTTSvSpkNofmNVS();
+extern void M5LedBegin();
 //-------------------------------------------------------------------------
 void startupSetting();
-void apikeySetting();
+void startupSetting00();
 void wsHandleSetting(String volumeS, String volumeDS, String speakerS,
-    String ledS, String muteS, String keyLockS, String toneModeS);
+                     String ledS, String muteS, String keyLockS, String toneModeS);
 void wsHandleStartup(String serverNameS, String volumeS, String ledS,
-    String toneModeS, String muteS, String keyLockS, String vSpeakerNoS,
-    String randomSpeakS,String timerS, String txS);
+                     String toneModeS, String muteS, String keyLockS, String vSpeakerNoS,
+                     String randomSpeakS, String timerS, String txS);
 void wsHandleApikeySetting(String openAiS, String voicevoxS, String txS);
 void M5StackConfig();
+void M5FileSystemBegin();
 bool jsonAPIKEYinit(DynamicJsonDocument &jsonDoc);
-bool apiKeyTxtRead();
-bool apiKeyFileRead();
+
+void apikeySetting();
+bool apiKeyJsonSDRead();
+bool apiKeyTxtSDRead();
+bool apiKeyJsonSpiffsRead();
+
 bool jsonSTARTUPinit(DynamicJsonDocument &jsonDoc);
 void nvsSaveAll();
 bool startupFileRead();
@@ -74,10 +91,7 @@ bool setApiKey(String item, String data, DynamicJsonDocument &apikeyJson);
 bool getApiKey(String item, String &data, DynamicJsonDocument &apikeyJson);
 bool setStartup(String item, String data, DynamicJsonDocument &startupJson);
 bool getStartup(String item, String &getData, DynamicJsonDocument &startupJson);
-void toneOn();
-void tone(int mode);
-void muteOn();
-void muteOff();
+
 //-------------------------------------------------------------------------
 
 #endif

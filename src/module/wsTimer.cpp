@@ -1,12 +1,45 @@
 // ----------------------------<wsTimer.cpp>------------------------------------
 #include "wsTimer.h"
 
-uint16_t TIMER_SEC_VALUE = TIMER_INIT; // Timer時間設定(sec)
-bool TIMER_STARTED = false;
-uint32_t TIMER_START_MILLIS = 0;
-uint16_t TIMER_ELEAPSE_SEC = 0;
-bool TIMER_STOP_GET = false;
-bool TIMER_GO_GET = false;
+uint32_t TM_SEC_VAL = TM_INIT; // Timer時間設定(sec)
+bool TM_STARTED = false;
+static uint32_t TM_START_MILLIS = 0;
+static uint16_t TM_ELEAPSE_SEC = 0;
+bool TM_STOP_GET = false;
+bool TM_GO_GET = false;
+
+void timerManage()
+{
+  if (TM_STARTED && statusMode != STM_SYSINFO )
+  { // Timer 起動中
+    // if (SYSINFO_DISP_STATE)
+    //   sysInfoDispEnd();
+
+    uint32_t elapsedTimeMillis = millis() - TM_START_MILLIS;
+    uint16_t currentElapsedSeconds =(uint16_t)(elapsedTimeMillis / 1000);
+
+    if (currentElapsedSeconds >= TM_SEC_VAL)
+    { // 指定時間が経過したら終了
+      timerEnd();
+    }
+
+    else if (TM_STOP_GET )
+    { // ---Timer停止---
+      timerStop();
+    }
+
+    else if (currentElapsedSeconds != TM_ELEAPSE_SEC)
+    { // --- Timer途中経過の処理------
+      TM_ELEAPSE_SEC = currentElapsedSeconds;
+      timerStarted();
+    }
+  }
+  else
+  {
+    if (TM_GO_GET && !isTalking())
+      timerStart();
+  }
+}
 
 void wsHandleTimer(String TmSecS, String TmMinS, String timerModeS)
 {
@@ -21,26 +54,26 @@ void wsHandleTimer(String TmSecS, String TmMinS, String timerModeS)
     if (TmMinS != "")
       timerMin = TmMinS.toInt();
 
-    TIMER_SEC_VALUE = (timerMin * 60) + timerSec;
+    TM_SEC_VAL = (timerMin * 60) + timerSec;
 
-    if (TIMER_SEC_VALUE > TIMER_MAX)
-      TIMER_SEC_VALUE = TIMER_MAX;
+    if (TM_SEC_VAL > TM_MAX)
+      TM_SEC_VAL = TM_MAX;
 
-    if (TIMER_SEC_VALUE < TIMER_MIN)
-      TIMER_SEC_VALUE = TIMER_MIN;
+    if (TM_SEC_VAL < TM_MIN)
+      TM_SEC_VAL = TM_MIN;
 
     // NVS に保存
     uint32_t nvs_handle;
-    size_t timer_value = (size_t)TIMER_SEC_VALUE;
+    size_t timer_value = (size_t)TM_SEC_VAL;
     if (ESP_OK == nvs_open("setting", NVS_READWRITE, &nvs_handle))
     {
       nvs_set_u32(nvs_handle, "timer", timer_value);
     }
     nvs_close(nvs_handle);
 
-    TIMER_STOP_GET = false;
-    TIMER_GO_GET = false;
-    webpage = "timer = " + String(TIMER_SEC_VALUE, DEC) + "sec";
+    TM_STOP_GET = false;
+    TM_GO_GET = false;
+    webpage = "timer = " + String(TM_SEC_VAL, DEC) + "sec";
   }
 
   if (timerModeS != "")
@@ -49,15 +82,15 @@ void wsHandleTimer(String TmSecS, String TmMinS, String timerModeS)
 
     if (timerModeS == "START" || timerModeS == "GO")
     {
-      if (!TIMER_STARTED)
+      if (!TM_STARTED && statusMode != STM_SYSINFO)
       {
-        if (SYSINFO_DISP_STATE)
-          sysInfoDispEnd();
+        // if (SYSINFO_DISP_STATE)
+        //   sysInfoDispEnd();
 
         randomSpeakStop2();
-        TIMER_GO_GET = true;
-        TIMER_STOP_GET = false;
-        webpage = "timer Start : " + String(TIMER_SEC_VALUE, DEC) + "sec";
+        TM_GO_GET = true;
+        TM_STOP_GET = false;
+        webpage = "timer Start : " + String(TM_SEC_VAL, DEC) + "sec";
       }
       else
       {
@@ -68,10 +101,10 @@ void wsHandleTimer(String TmSecS, String TmMinS, String timerModeS)
     }
     else if (timerModeS == "STOP")
     {
-      if (TIMER_STARTED)
+      if (TM_STARTED)
       {
-        TIMER_STOP_GET = true;
-        TIMER_GO_GET = false;
+        TM_STOP_GET = true;
+        TM_GO_GET = false;
         webpage = "timer Stop";
       }
       else
@@ -84,189 +117,102 @@ void wsHandleTimer(String TmSecS, String TmMinS, String timerModeS)
   }
 }
 
-void TimerManage()
-{
-  if (TIMER_STARTED)
-  { // Timer 起動中
-    if (SYSINFO_DISP_STATE)
-      sysInfoDispEnd();
-
-    uint32_t elapsedTimeMillis = millis() - TIMER_START_MILLIS;
-    uint16_t currentElapsedSeconds = elapsedTimeMillis / 1000;
-
-    if (currentElapsedSeconds >= TIMER_SEC_VALUE)
-    { // 指定時間が経過したら終了
-      timerEnd();
-    }
-    else if (TIMER_STOP_GET && (SPEECH_TEXT_BUFFER == "") && (SPEECH_TEXT == ""))
-    { // ---Timer停止---
-      timerStop();
-    }
-    else if (currentElapsedSeconds != TIMER_ELEAPSE_SEC)
-    { // --- Timer途中経過の処理------
-      TIMER_ELEAPSE_SEC = currentElapsedSeconds;
-      timerStarted();
-    }
-  }
-  else
-  {
-    if (TIMER_GO_GET && (SPEECH_TEXT_BUFFER == "") && (SPEECH_TEXT == ""))
-      timerStart();
-  }
-}
-
 void timerStop2()
 {
   // --- Timer を途中で停止 ------
-  TIMER_STARTED = false;
-  TIMER_GO_GET = false;
-  TIMER_STOP_GET = false;
-  TIMER_ELEAPSE_SEC = 0;
+  TM_STARTED = false;
+  TM_GO_GET = false;
+  TM_STOP_GET = false;
+  TM_ELEAPSE_SEC = 0;
 }
 
 void timerStart()
 {
   // ---- Timer 開始 ----------------
-  if ((TIMER_SEC_VALUE < TIMER_MIN) || (TIMER_SEC_VALUE > TIMER_MAX))
+  if ((TM_SEC_VAL < TM_MIN) || (TM_SEC_VAL > TM_MAX))
   {
-    Serial.println(TIMER_SEC_VALUE, DEC);
+    Serial.println("ERR: TM_SEC_VAL = " + String(TM_SEC_VAL, DEC) );
+    timerStop2();
     return;
   }
 
   // Timer Start Go ----
-  TIMER_START_MILLIS = millis();
+  TM_START_MILLIS = millis();
+  TM_ELEAPSE_SEC = 0;
 
-  led_clear();
-  led_show();
-  led_setColor2(2, led_ColorLED3(0, 0, 255));
-  led_setColor2(7, led_ColorLED3(0, 0, 255));
+  int timer_min = TM_SEC_VAL / 60;
+  int timer_sec = TM_SEC_VAL % 60;
 
-  int timer_min = TIMER_SEC_VALUE / 60;
-  int timer_sec = TIMER_SEC_VALUE % 60;
-  char timer_min_str[10] = "";
-  char timer_sec_str[10] = "";
-  char timer_msg_str[100] = "";
-
+  String msg = "";
   if (timer_min >= 1)
   {
-    sprintf(timer_min_str, "%d分", timer_min);
+    msg = String(timer_min, DEC) + "分";
   }
   if (timer_sec >= 1)
   {
-    sprintf(timer_sec_str, "%d秒", timer_sec);
+    msg += String(timer_sec, DEC) + "秒";
   }
+  String msg1 = msg + String("の、タイマーを開始します");
+  String msg2 = msg + String("タイマー"); 
+  Serial.println(msg1);
+  stackchanReq(msg1, EXPR_HAPPY, msg2);
 
-  char EX_TmrSTART_TXT[] = "の、タイマーを開始します。";
-  sprintf(timer_msg_str, "%s%s%s", timer_min_str, timer_sec_str, EX_TmrSTART_TXT);
-  Serial.println(timer_msg_str);
-  // ttsDo(timer_msg_str, tts_parms2);
-  ttsDo(String(timer_msg_str));
-  led_show();
-
-  delay(3000); // 3秒待機
-  TIMER_STARTED = true;
-  TIMER_GO_GET = false;
-  TIMER_STOP_GET = false;
+  TM_STARTED = true;
+  TM_GO_GET = false;
+  TM_STOP_GET = false;
 }
 
 void timerStop()
 {
   // --- Timer を途中で停止 ------
-  TIMER_STARTED = false;
-  TIMER_GO_GET = false;
-  TIMER_STOP_GET = false;
-  TIMER_ELEAPSE_SEC = 0;
+  TM_STARTED = false;
+  TM_GO_GET = false;
+  TM_STOP_GET = false;
+  TM_ELEAPSE_SEC = 0;
 
-  led_clear();
-  led_show();
+  String msg1 = String("タイマーを停止します");
+  String msg2 = String("タイマー停止");
+  Serial.println(msg1);
+  stackchanReq(msg1, EXPR_SAD, msg2, EXPR_NEUTRAL);
 
-  led_setColor2(2, led_ColorLED3(255, 0, 0));
-  led_setColor2(7, led_ColorLED3(255, 0, 0));
-
-  char EX_TmrSTOP_TXT[] = "タイマーを停止します。";
-  ttsDo(String(EX_TmrSTOP_TXT));
-  led_show();
-  delay(2000); // 2秒待機
-
-  // 全てのLEDを消灯
-  led_clear();
-  led_show();
-  delay(500); // 0.5秒待機
+  ledClearAll();
 }
 
 void timerStarted()
 {
-  // timer開始後の途中経過の処理
+  if (TM_ELEAPSE_SEC > 15)
+    ledMoveSec(TM_ELEAPSE_SEC);
 
-  // 0.5秒ごとにLEDを更新する処理を追加
-  int phase = (TIMER_ELEAPSE_SEC / 5) % 2; // 往復の方向を決定
-  int pos = TIMER_ELEAPSE_SEC % 5;
-  int ledIndex1, ledIndex2;
-
-  if (phase == 0)
-  { // 前進
-    ledIndex1 = pos;
-    ledIndex2 = NUM_LEDS - 1 - pos;
-  }
-  else
-  { // 後退
-    ledIndex1 = 4 - pos;
-    ledIndex2 = 5 + pos;
-  }
-
-  led_clear();                         // すべてのLEDを消す
-  led_setColor4(ledIndex1, 0, 0, 255); // 現在のLEDを青色で点灯
-  led_setColor4(ledIndex2, 0, 0, 255); // 現在のLEDを青色で点灯
-  led_show();                          // LEDの状態を更新
-
-  // 10秒間隔で読み上げ
-  if ((TIMER_ELEAPSE_SEC % 10 == 0) && (TIMER_ELEAPSE_SEC < TIMER_SEC_VALUE))
+  //20秒間隔で読み上げ
+  if ((TM_ELEAPSE_SEC % 20 == 0) && (TM_ELEAPSE_SEC < TM_SEC_VAL))
   {
-    char buffer[64];
-    if (TIMER_ELEAPSE_SEC < 60)
-    {
-      sprintf(buffer, "%d秒。", TIMER_ELEAPSE_SEC);
-    }
+    String msg ="";
+    if (TM_ELEAPSE_SEC < 60)
+      msg = String(TM_ELEAPSE_SEC,DEC) + "秒";
     else
     {
-      int minutes = TIMER_ELEAPSE_SEC / 60;
-      int seconds = TIMER_ELEAPSE_SEC % 60;
+      int minutes = TM_ELEAPSE_SEC / 60;
+      int seconds = TM_ELEAPSE_SEC % 60;
       if (seconds != 0)
-      {
-        sprintf(buffer, "%d分%d秒。", minutes, seconds);
-      }
+        msg = String(minutes,DEC) + "分" + String(seconds,DEC) + "秒";
       else
-      {
-        sprintf(buffer, "%d分経過。", minutes);
-      }
+        msg = String(minutes,DEC) + "分経過" ;
     }
-    avatar.setExpression(Expression::Happy);
-    ttsDo(String(buffer));
-    avatar.setExpression(Expression::Neutral);
+    stackchanReq(msg, EXPR_HAPPY, msg, EXPR_NEUTRAL);
   }
 }
 
 void timerEnd()
 {
-  // 指定時間が経過したら終了
-  // 全てのLEDを消す処理を追加
-  led_clear();
-  led_show();
-  led_setColor2(2, led_ColorLED3(0, 255, 0));
-  led_setColor2(7, led_ColorLED3(0, 255, 0));
-  led_show();
+  TM_STARTED = false;
+  TM_GO_GET = false;
+  TM_STOP_GET = false;
+  TM_ELEAPSE_SEC = 0;
 
-  avatar.setExpression(Expression::Happy);
-  ttsDo(String("設定時間になりました。"));
-  avatar.setExpression(Expression::Neutral);
+  String msg1 = String("設定時間になりました");
+  Serial.println(msg1);
+  String msg2 = String("設定時間");
+  stackchanReq(msg1, EXPR_HAPPY, msg2, EXPR_NEUTRAL);
 
-  // 全てのLEDを消す処理を追加
-  led_clear();
-  led_show(); // LEDの状態を更新
-
-  // カウントダウンをリセット
-  TIMER_STARTED = false;
-  TIMER_GO_GET = false;
-  TIMER_STOP_GET = false;
-  TIMER_ELEAPSE_SEC = 0;
+  ledClearAll();
 }

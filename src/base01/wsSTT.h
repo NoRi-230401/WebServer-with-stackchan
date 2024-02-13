@@ -1,13 +1,13 @@
 // ---------------------------< wsSTT.h >------------------------------------
-#ifndef WS_STT_H
-#define WS_STT_H
+#ifndef _WS_STT_H
+#define _WS_STT_H
 // ---------------------------
 #include <Arduino.h>
 #include <ArduinoJson.h>
 #include <Avatar.h>
 #include <AudioOutput.h>
 #include <AudioFileSourceBuffer.h>
-#include <AudioGeneratorMP3.h>
+// #include <AudioGeneratorMP3.h>
 #include <AudioFileSourcePROGMEM.h>
 #include <M5Unified.h>
 #include "../lib/AudioWhisper.h"
@@ -29,18 +29,15 @@
 extern String STT_API_KEY;
 extern String OPENAI_API_KEY;
 extern bool RANDOM_SPEAK_STATE;
-extern AudioGeneratorMP3 *mp3;
-extern String SPEECH_TEXT;
-extern String SPEECH_TEXT_BUFFER;
 extern const char* root_ca_openai;
 extern int SV_MD;
 extern bool SV_USE;
-extern int RANDOM_TIME;
+extern int RANDOM_TM;
 using namespace m5avatar;
 extern Avatar avatar;
 extern void randomSpeakStop2();
 extern void tone(int toneMode);
-
+extern bool isTalking();
 //--------------------------------------------
 String SpeechToText();
 void SST_ChatGPT();

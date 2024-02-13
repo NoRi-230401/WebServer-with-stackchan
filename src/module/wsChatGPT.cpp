@@ -1,27 +1,32 @@
 // ----------------------------<wsChatGPT.cpp>------------------------------------
 #include "wsChatGPT.h"
 
-const String json_ChatString =
-    "{\"model\": \"gpt-3.5-turbo-0613\",\"max_tokens\":512,\"messages\": [{\"role\": \"user\", \"content\": \""
+// const String chatStrIData =
+//     "{\"model\": \"gpt-3.5-turbo-0613\",\"max_tokens\":512,\"messages\": [{\"role\": \"user\", \"content\": \""
+//     "\"}]}";
+const String chatStrIData =
+    "{\"model\": \"gpt-3.5-turbo-0125\",\"max_tokens\":512,\"messages\": [{\"role\": \"user\", \"content\": \""
     "\"}]}";
 
+const String charaStrIData = "{\"character\":[{\"name\":\"\",\"vSpkNo\":\"3\",\"role\":\"\"},{\"name\":\"\",\"vSpkNo\":\"3\",\"role\":\"\"},{\"name\":\"\",\"vSpkNo\":\"3\",\"role\":\"\"},{\"name\":\"\",\"vSpkNo\":\"3\",\"role\":\"\"},{\"name\":\"\",\"vSpkNo\":\"3\",\"role\":\"\"},{\"name\":\"\",\"vSpkNo\":\"3\",\"role\":\"\"},{\"name\":\"\",\"vSpkNo\":\"3\",\"role\":\"\"},{\"name\":\"\",\"vSpkNo\":\"3\",\"role\":\"\"},{\"name\":\"\",\"vSpkNo\":\"3\",\"role\":\"\"}]}";
+
 const String CHATDOC_SPI = "/data.json"; // chatDoc in SPIFFS
-const int MAX_HISTORY = 5;               // 保存する質問と回答の最大数
-String INIT_BUFFER = "";
-String CHAT_RESPONSE = "";
+const String CHARA_SPIFFS = "/wsCharacter.json";
+const int MAX_HISTORY = 5; // 保存する質問と回答の最大数
+
+String CHATDOC_INIT_BUF = "";
+
 DynamicJsonDocument CHAT_DOC(1024 * 10);
 std::deque<String> chatHistory; // 過去の質問と回答を保存するデータ構造
 
-const String CHARA_SPIFFS = "/wsCharacter.json";
-const String charaJsonInitStr = "{\"character\":[{\"name\":\"\",\"vSpkNo\":\"3\",\"role\":\"\"},{\"name\":\"\",\"vSpkNo\":\"3\",\"role\":\"\"},{\"name\":\"\",\"vSpkNo\":\"3\",\"role\":\"\"},{\"name\":\"\",\"vSpkNo\":\"3\",\"role\":\"\"},{\"name\":\"\",\"vSpkNo\":\"3\",\"role\":\"\"},{\"name\":\"\",\"vSpkNo\":\"3\",\"role\":\"\"},{\"name\":\"\",\"vSpkNo\":\"3\",\"role\":\"\"},{\"name\":\"\",\"vSpkNo\":\"3\",\"role\":\"\"},{\"name\":\"\",\"vSpkNo\":\"3\",\"role\":\"\"}]}";
-
-// 独り言
+// 「独り言モード」
 const String random_words[] = {"あなたは誰", "楽しい", "怒った", "可愛い", "悲しい", "眠い", "ジョークを言って", "泣きたい", "怒ったぞ", "こんにちは", "お疲れ様", "詩を書いて", "疲れた", "お腹空いた", "嫌いだ", "苦しい", "俳句を作って", "歌をうたって"};
 bool RANDOM_SPEAK_STATE = false; // 独り言モード　true -> on  false -> off
 bool RANDOM_SPEAK_ON_GET = false;
 bool RANDOM_SPEAK_OFF_GET = false;
-int RANDOM_TIME = -1;
-static int LASTMS1 = 0;
+uint32_t RANDOM_TM = 0;      // 「独り言モード」待ち時間
+uint32_t RANDOM_TM_LAST = 0; // 「独り言モード」前回の実行時刻
+bool REQ_chatGPT_GET = false;
 
 // 「わかりません」対策
 int WK_CNT = 0;
@@ -33,38 +38,44 @@ int WK_LAST_ERR_CODE = 0;
 void chatGptManage()
 {
   // --  RandomSpeakManage ---
-  if ((RANDOM_SPEAK_ON_GET) && (SPEECH_TEXT_BUFFER == "") && (SPEECH_TEXT == ""))
+  // if (RANDOM_SPEAK_ON_GET)
+  if (RANDOM_SPEAK_ON_GET && statusMode != STM_SYSINFO)
   {
     RANDOM_SPEAK_ON_GET = false;
 
-    if (SYSINFO_DISP_STATE)
-      sysInfoDispEnd();
+    // if (SYSINFO_DISP_STATE)
+    //   sysInfoDispEnd();
 
     timerStop2();
-    randomSpeak(true);
+    if (!RANDOM_SPEAK_STATE)
+      randomSpeak(true);
   }
 
-  if (RANDOM_SPEAK_OFF_GET && (SPEECH_TEXT_BUFFER == "") && (SPEECH_TEXT == ""))
+  if (RANDOM_SPEAK_OFF_GET)
   {
     RANDOM_SPEAK_OFF_GET = false;
-    randomSpeak(false);
+
+    if (RANDOM_SPEAK_STATE)
+      randomSpeak(false);
   }
 
-  if ((RANDOM_TIME >= 0) && (millis() - LASTMS1 > RANDOM_TIME))
+  if (RANDOM_SPEAK_STATE && (millis() > (RANDOM_TM_LAST + RANDOM_TM)))
   {
-    LASTMS1 = millis();                      // 今回のRandomSpeak起動した時刻
-    RANDOM_TIME = 40000 + 1000 * random(30); // 次回のRandomSpeak起動までの時間
-    if ((!mp3->isRunning()) && (SPEECH_TEXT == "") && (SPEECH_TEXT_BUFFER == ""))
+    RANDOM_TM_LAST = millis();               // 今回のRandomSpeak起動した時刻
+    RANDOM_TM = 1000 * (40 + random(0, 30)); // 次回のRandomSpeak起動までの時間
+
+    if (!isTalking())
     {
       exec_chatGPT(random_words[random(18)]);
     }
   }
 
   // --- chatGPT REQ ----------
-  if (REQ_chatGPT_GET)
+  // if (REQ_chatGPT_GET)
+  if (REQ_chatGPT_GET && statusMode != STM_SYSINFO)
   {
-    if (SYSINFO_DISP_STATE)
-      sysInfoDispEnd();
+    // if (SYSINFO_DISP_STATE)
+    //   sysInfoDispEnd();
 
     randomSpeakStop2();
     timerStop2();
@@ -104,22 +115,22 @@ void wsHandelChat(String textS, String voiceS)
     return;
 
   if (voiceS != "")
-    TTS2_PARMS = TTS2_SPEAKER + voiceS;
+    TTS_vSpkNo = (uint8_t)voiceS.toInt();
 
   REQ_chatGPT_GET = true;
   REQ_MSG = textS;
 
-  webpage = "chat : voice = " + voiceS;
-  webpage += "chat : text = " + textS;
+  webpage = "chat : text  = " + textS + "<br>";
+  webpage += "chat : voice = " + String(TTS_vSpkNo, DEC);
 }
 
 void wsHandelChatCharacter(String ch_NoS, String ch_nameS, String ch_voiceS, String ch_roleS)
 {
-  Serial.println("no = " +ch_NoS );
-  Serial.println("name = " +ch_nameS );
-  Serial.println("voice = " +ch_voiceS );
-  Serial.println("role = " +ch_roleS );
-  
+  Serial.println("no = " + ch_NoS);
+  Serial.println("name = " + ch_nameS);
+  Serial.println("voice = " + ch_voiceS);
+  Serial.println("role = " + ch_roleS);
+
   DynamicJsonDocument charaJson(CHARA_SIZE);
   if (!jsonRead(FLTYPE_SPIFFS, charaJson, CHARA_SPIFFS))
   {
@@ -170,30 +181,28 @@ void wsHandelChatCharacter(String ch_NoS, String ch_nameS, String ch_voiceS, Str
   object["vSpkNo"] = charaVoiceNo;
   object["role"] = charaRole;
 
-  bool success = jsonSave(charaJson, CHARA_SPIFFS);
+  bool success = jsonDocSave(charaJson, CHARA_SPIFFS);
   if (!success)
   {
     return;
   }
 
-  webpage = "Character No. = " + ch_NoS  + "  modified";
+  webpage = "Character No. = " + ch_NoS + "  modified";
 }
-
-
 
 bool initCharaJson(DynamicJsonDocument &charaJson)
 {
-  DeserializationError error = deserializeJson(charaJson, charaJsonInitStr);
+  DeserializationError error = deserializeJson(charaJson, charaStrIData);
   if (error)
   {
     Serial.println("DeserializationError in initCharaJson func");
     return false;
   }
-  jsonSave(charaJson, CHARA_SPIFFS);
+  jsonDocSave(charaJson, CHARA_SPIFFS);
   return true;
 }
 
-int CHARA_NO= -1;
+int CHARA_NO = -1;
 
 void wsHandelChatGpt(String historyS, String charaS)
 {
@@ -216,46 +225,43 @@ void wsHandelChatGpt(String historyS, String charaS)
     CHARA_NO = charaS.toInt();
     JsonObject chara = jsonArray[CHARA_NO];
     String chara_name = chara["name"];
-    String chara_vSpeakerNoS = chara["vSpkNo"];
+    String chara_vSpkNoS = chara["vSpkNo"];
     String chara_role = chara["role"];
 
     Serial.println("charaNo = " + String(CHARA_NO, DEC));
     Serial.println("name = " + chara_name);
-    Serial.println("vSpeakerNo = " + chara_vSpeakerNoS);
+    Serial.println("vSpkNo = " + chara_vSpkNoS);
     Serial.println("role = " + chara_role);
 
-    init_chat_doc(json_ChatString.c_str());
+    setChatDoc(chatStrIData); // 初期データの登録
+
     JsonArray messages = CHAT_DOC["messages"];
     JsonObject systemMessage1 = messages.createNestedObject();
     systemMessage1["role"] = "system";
     systemMessage1["content"] = chara_role;
 
-    // 会話履歴をクリア
     chatHistory.clear();
-    INIT_BUFFER = "";
-    serializeJson(CHAT_DOC, INIT_BUFFER);
-    Serial.println("INIT_BUFFER = " + INIT_BUFFER);
-    // JSONデータをspiffsへ保存
-    save_json();
+    CHATDOC_INIT_BUF = "";
+    serializeJson(CHAT_DOC, CHATDOC_INIT_BUF);
+    saveChatDoc();
 
     // ---- Speaker -------
     size_t speaker_no;
-    if (chara_vSpeakerNoS != "")
+    if (chara_vSpkNoS != "")
     {
       uint32_t nvs_handle;
 
-      speaker_no = chara_vSpeakerNoS.toInt();
+      speaker_no = chara_vSpkNoS.toInt();
       if (speaker_no > 66)
       {
         speaker_no = 3;
       }
-      TTS2_SPEAKER_NO = String(speaker_no);
-      TTS2_PARMS = TTS2_SPEAKER + TTS2_SPEAKER_NO;
+      TTS_vSpkNo = (uint8_t)speaker_no;
 
       if (ESP_OK == nvs_open(SETTING_NVS, NVS_READWRITE, &nvs_handle))
       {
-        nvs_set_u32(nvs_handle, "vSpeakerNo", speaker_no);
-        Serial.println("NVS Write : vSpeakerNo = " + String(speaker_no, DEC));
+        nvs_set_u32(nvs_handle, "vSpkNo", speaker_no);
+        Serial.println("NVS Write : vSpkNo = " + String(speaker_no, DEC));
       }
       nvs_close(nvs_handle);
     }
@@ -263,14 +269,14 @@ void wsHandelChatGpt(String historyS, String charaS)
     webpage = "character changed<br><br>";
     webpage += "character No. = " + String(CHARA_NO, DEC) + "<br>";
     webpage += "name = " + chara_name + "<br>";
-    webpage += "vSpeakerNo = " + chara_vSpeakerNoS + "<br>";
+    webpage += "vSpkNo = " + chara_vSpkNoS + "<br>";
     webpage += "role = " + chara_role + "<br><br>";
 
     if (chara_name != "")
     {
       String spkMsg = chara_name + " です。";
       Serial.println(spkMsg);
-      ReqSpkMsg2(spkMsg);
+      stackchanReq(spkMsg);
     }
     return;
   }
@@ -283,11 +289,11 @@ void wsHandelChatGpt(String historyS, String charaS)
     {
       if ((i % 2) == 0)
       {
-        webpage += "Q - " + chatHistory[i] + "<br>";
+        webpage += "<font color='blue'>(You)</font>　" + chatHistory[i] + "<br>";
       }
       else
       {
-        webpage += "A - " + chatHistory[i] + "<br><br>";
+        webpage += "<font color='#ff0000'>(chatGPT)</font>　" + chatHistory[i] + "<br><br>";
       }
     }
   }
@@ -299,7 +305,7 @@ void wsHandleRoleSet(String roleS)
 
   if (role != "")
   {
-    init_chat_doc(json_ChatString.c_str());
+    setChatDoc(chatStrIData);
     JsonArray messages = CHAT_DOC["messages"];
     JsonObject systemMessage1 = messages.createNestedObject();
     systemMessage1["role"] = "system";
@@ -308,34 +314,14 @@ void wsHandleRoleSet(String roleS)
   }
   else
   {
-    init_chat_doc(json_ChatString.c_str());
+    setChatDoc(chatStrIData);
     webpage = "chatGPT : clear role data ";
   }
-  // 会話履歴をクリア
   chatHistory.clear();
-
-  INIT_BUFFER = "";
-  serializeJson(CHAT_DOC, INIT_BUFFER);
-  Serial.println("INIT_BUFFER = " + INIT_BUFFER);
-
-  // JSONデータをspiffsへ保存
-  save_json();
+  CHATDOC_INIT_BUF = "";
+  serializeJson(CHAT_DOC, CHATDOC_INIT_BUF);
+  saveChatDoc();
 }
-
-// void wsHandleRoleGet()
-// {
-//   String chatDocGet = "";
-//   serializeJsonPretty(CHAT_DOC, chatDocGet);
-
-//   Serial.println("\n****** role_get ******");
-//   Serial.println(chatDocGet);
-//   Serial.println("**********************\n");
-
-//   webpage = "<!DOCTYPE html><html lang='ja'><head><meta charset='UTF-8'>";
-//   webpage += "<title>StackChanSub</title></head><body><pre>";
-//   webpage += chatDocGet;
-//   webpage += "</pre></body></html>";
-// }
 
 void wsHandleRoleGet()
 {
@@ -358,8 +344,7 @@ bool chatDocInit()
     Serial.println(errorMsg2);
     M5.Lcd.print(errorMsg1);
     M5.Lcd.print(errorMsg2);
-
-    init_chat_doc(json_ChatString.c_str());
+    setChatDoc(chatStrIData);
     return false;
   }
 
@@ -369,7 +354,8 @@ bool chatDocInit()
   if (error)
   { // ファイルの中身が壊れていた時の処理 ---------
     Serial.println("Failed to deserialize JSON");
-    if (!init_chat_doc(json_ChatString.c_str()))
+    // if (!setChatDoc(chatStrIData.c_str()))
+    if (!setChatDoc(chatStrIData))
     {
       String errorMsg1 = "*** Failed to init chat_doc JSON in SPIFFS *** ";
       String errorMsg2 = "*** FATAL ERROR : cannot READ/WRITE CHAT_DOC FILE !!!! ***";
@@ -399,17 +385,12 @@ bool chatDocInit()
     }
   }
 
-  serializeJson(CHAT_DOC, INIT_BUFFER);
-  // Role_JSON = INIT_BUFFER;
-  String json_str;
-  serializeJsonPretty(CHAT_DOC, json_str); // 文字列をシリアルポートに出力する
-  Serial.println(json_str);
+  serializeJson(CHAT_DOC, CHATDOC_INIT_BUF);
   return true;
 }
 
 void randomSpeakStop2()
 {
-  RANDOM_TIME = -1;
   RANDOM_SPEAK_STATE = false;
   RANDOM_SPEAK_ON_GET = false;
 }
@@ -421,37 +402,29 @@ void randomSpeak(bool mode)
   if (mode)
   {
     speakMsg = "独り言始めます。";
-    SPEECH_TEXT_BUFFER = "";
-    LASTMS1 = millis();
-    RANDOM_TIME = 40000 + 1000 * random(30);
+    RANDOM_TM_LAST = millis();
+    RANDOM_TM = 1000 * (40 + random(0, 30));
     RANDOM_SPEAK_STATE = true;
   }
   else
   {
     speakMsg = "独り言やめます。";
-    SPEECH_TEXT_BUFFER = "";
-    RANDOM_TIME = -1;
     RANDOM_SPEAK_STATE = false;
   }
+
   RANDOM_SPEAK_ON_GET = false;
-  avatar.setExpression(Expression::Happy);
-  ttsDo(speakMsg);
-  avatar.setExpression(Expression::Neutral);
-  Serial.println("mp3 begin");
+  RANDOM_SPEAK_OFF_GET = false;
+  stackchanReq(speakMsg);
 }
 
-bool init_chat_doc(const char *data)
+bool setChatDoc(const String &data)
 {
-
-  DeserializationError error = deserializeJson(CHAT_DOC, data);
+  DeserializationError error = deserializeJson(CHAT_DOC, data.c_str());
   if (error)
   {
     Serial.println("DeserializationError");
     return false;
   }
-  String json_str;                         //= JSON.stringify(chat_doc);
-  serializeJsonPretty(CHAT_DOC, json_str); // 文字列をシリアルポートに出力する
-  Serial.println(json_str);
   return true;
 }
 
@@ -466,37 +439,22 @@ String https_post_json(const char *url, const char *json_string, const char *roo
   {
     client->setCACert(root_ca);
     {
-      // Add a scoping block for HTTPClient https to make sure it is destroyed before WiFiClientSecure *client is
       HTTPClient https;
       https.setTimeout(UINT16_MAX); // 最大値の約65秒にタイムアウトを設定
 
-      Serial.print("[HTTPS] begin...\n");
       if (https.begin(*client, url))
-      { // HTTPS
-        Serial.print("[HTTPS] POST...\n");
-        // start connection and send HTTP header
+      {
         https.addHeader("Content-Type", "application/json");
         https.addHeader("Authorization", String("Bearer ") + OPENAI_API_KEY);
         int httpCode = https.POST((uint8_t *)json_string, strlen(json_string));
 
         WK_ERR_CODE = httpCode;
-        Serial.print(" httpCode = ");
-        Serial.println(httpCode, DEC);
 
-        // httpCode will be negative on error
         if (httpCode > 0)
         {
-          // HTTP header has been send and Server response header has been handled
-          Serial.printf("[HTTPS] POST... code: %d\n", httpCode);
-
-          // file found at server
           if (httpCode == HTTP_CODE_OK || httpCode == HTTP_CODE_MOVED_PERMANENTLY)
           {
             payload = https.getString();
-            Serial.println("/////payload-start/////");
-            Serial.print(payload);
-            Serial.println("/////payload-end/////");
-
             if (payload == "")
             {
               Serial.println("CODE_OK or CODE_MOVED_PERMANENTLY and payload is void ");
@@ -521,7 +479,6 @@ String https_post_json(const char *url, const char *json_string, const char *roo
         Serial.printf("[HTTPS] Unable to connect\n");
         WK_ERR_NO = 4;
       }
-      // End extra scoping block
     }
     delete client;
   }
@@ -533,122 +490,81 @@ String https_post_json(const char *url, const char *json_string, const char *roo
   return payload;
 }
 
+
 String chatGpt(String json_string)
 {
   String response = "";
-  avatar.setExpression(Expression::Doubt);
-
-  avatar.setSpeechText("考え中…");
-
-  // LED 3番と7番を黄色に光らせる
-  led_setColor4(2, 255, 255, 255); // 白色
-  led_setColor4(7, 255, 255, 255); // 白色
-  led_show();
-
+  stackchanNow(EXPR_DOUBT,"考え中…");
   String ret = https_post_json("https://api.openai.com/v1/chat/completions", json_string.c_str(), root_ca_openai);
-  avatar.setExpression(Expression::Neutral);
-  avatar.setSpeechText("");
-  // Serial.println(ret);
-
-  // 音声が再生された後にLEDを消灯
-  led_setColor4(2, 0, 0, 0); // 黒（消灯）
-  led_setColor4(7, 0, 0, 0); // 黒（消灯）
-  led_show();
+  stackchanNow(EXPR_NEUTRAL,"");
 
   if (ret != "")
-  {
+  {// ret が正常である場合
     WK_CNT = 0;
     DynamicJsonDocument doc(DOC_SIZE);
     DeserializationError error = deserializeJson(doc, ret.c_str());
 
-    if (error)
+    if (!error)
+    { //------ 正常処理 --------------
+      const char *data = doc["choices"][0]["message"]["content"];
+      response = String(data);
+      std::replace(response.begin(), response.end(), '\n', ' ');
+      return response;
+    }
+    else
     {
       Serial.print(F("deserializeJson() failed: "));
       Serial.println(error.f_str());
-      avatar.setExpression(Expression::Sad);
-
-      avatar.setSpeechText("エラーです");
-      response = "エラーです";
-
-      delay(1000);
-      avatar.setSpeechText("");
-      avatar.setExpression(Expression::Neutral);
-    }
-    else
-    {
-      const char *data = doc["choices"][0]["message"]["content"];
-      // Serial.println(data);
-      response = String(data);
-      std::replace(response.begin(), response.end(), '\n', ' ');
+      stackchanNow(EXPR_SAD,"エラーです");
+      Serial.println("chatGPT err : desirialization ");
+      response = "";
+      return response;
     }
   }
   else
-  {
-    // 音声が再生された後にLEDを消灯
-    led_setColor4(2, 0, 0, 0); // 黒（消灯）
-    led_setColor4(7, 0, 0, 0); // 黒（消灯）
-    led_show();
-
-    // ---「わかりません」エラー番号とコード情報の発声 ---
-    char msg1[200];
-
-    if (WK_ERR_NO != 0)
-    {
-      if (WK_ERR_CODE < 0)
-        sprintf(msg1, "わかりません、番号 %d、コード・マイナス %d です。", WK_ERR_NO, abs(WK_ERR_CODE));
-      else
-        sprintf(msg1, "わかりません、番号 %d、コード %d です。", WK_ERR_NO, abs(WK_ERR_CODE));
-    }
+  {// ret が　エラーだった場合
+    String msg3 = "";
+    if (WK_ERR_CODE == 0)
+      msg3 = "わかりません、番号 " + String(WK_ERR_NO,DEC)  + "です。";
+    else if (WK_ERR_CODE < 0)
+      msg3 = "わかりません、番号 " + String(WK_ERR_NO,DEC) + "コード・マイナス" + String(abs(WK_ERR_CODE),DEC) + "です。";
     else
-    {
-      sprintf(msg1, "わかりません、番号 %d です。", WK_ERR_NO);
-    }
+      msg3 = "わかりません、番号 " + String(WK_ERR_NO,DEC) + "コード" + String(WK_ERR_CODE,DEC) + "です。";
 
     WK_LAST_ERR_NO = WK_ERR_NO;
     WK_LAST_ERR_CODE = WK_ERR_CODE;
     WK_ERR_NO = 0;
     WK_ERR_CODE = 0;
-
     WK_CNT++;
-    Serial.print("WK_CNT = ");
-    Serial.println(WK_CNT, DEC);
-    char msg2[200] = "";
-
-    char msg[200];
-    sprintf(msg, "%s %s", msg1, msg2);
-    avatar.setExpression(Expression::Sad);
-    avatar.setSpeechText(msg);
-    response = msg;
-    Serial.println(msg);
-    // delay(1000);
-    delay(2000); // *** [わかりません対策01] ***
-    avatar.setSpeechText("");
-    avatar.setExpression(Expression::Neutral);
-
-    // 音声が再生された後にLEDを消灯
-    led_setColor4(2, 0, 0, 0); // 黒（消灯）
-    led_setColor4(7, 0, 0, 0); // 黒（消灯）
-    led_show();
+    Serial.println("WK_CNT = " + String(WK_CNT, DEC));
+    stackchanNow(EXPR_SAD,msg3);
+    Serial.println(msg3);
+    response = "";
+    return response;    
   }
   return response;
 }
 
-void exec_chatGPT(String text)
-{
-  Serial.println("\n~~ Send Msg to chatGPT ~~");
-  Serial.println(text);
-  Serial.println("~~~~~~~~~~~~~~~~~~~~~~~~~\n");
 
-  CHAT_RESPONSE = "";
-  init_chat_doc(INIT_BUFFER.c_str());
-  chatHistory.push_back(text);
-  // チャット履歴が最大数を超えた場合、古い質問と回答を削除
+
+void exec_chatGPT(String toChatGptText)
+{
+  showExeTime("", EXE_TM_MD_START); // timer start
+  log_free_size("\nchatGPT ：IN");
+  WST = WST_chatGPT_start;
+
+  Serial.println("----- [ talk to chatGPT ] -----");
+  Serial.println(toChatGptText);
+  Serial.println("--------------------------------");
+
+  // ----   chatGPTに送るデータを作成　-----------------------------
+  setChatDoc(CHATDOC_INIT_BUF); // CHATDOC_INIT_BUF のデータをセットする。
+  chatHistory.push_back(toChatGptText);
   if (chatHistory.size() > MAX_HISTORY * 2)
   {
     chatHistory.pop_front();
     chatHistory.pop_front();
   }
-
   for (int i = 0; i < chatHistory.size(); i++)
   {
     JsonArray messages = CHAT_DOC["messages"];
@@ -663,25 +579,39 @@ void exec_chatGPT(String text)
     }
     systemMessage1["content"] = chatHistory[i];
   }
+  String chatDocJson;
+  String chatResponse = "";
+  serializeJson(CHAT_DOC, chatDocJson);
+  // -----------------------------------------------------------------
 
-  String json_string;
-  serializeJson(CHAT_DOC, json_string);
-  if (SPEECH_TEXT == "" && SPEECH_TEXT_BUFFER == "")
+  if (isTalking())
   {
-    CHAT_RESPONSE = chatGpt(json_string);
-    SPEECH_TEXT = CHAT_RESPONSE;
-    // 返答をチャット履歴に追加
-    chatHistory.push_back(CHAT_RESPONSE);
+    Serial.println("chatGPT exit : 話し中");
+    WST = WST_chatGPT_exit;
+    return;
   }
   else
   {
-    CHAT_RESPONSE = "busy";
+    chatResponse = chatGpt(chatDocJson);
+    if (chatResponse != "")
+    { // chatGPT応答が正常な場合
+      chatHistory.push_back(chatResponse);
+      stackchanReq(chatResponse, EXPR_HAPPY, "$$SKIP$$", EXPR_NEUTRAL);
+      showExeTime("ChatGPT ：chatResponse get, then move to VOICEVOX");
+      log_free_size("chatGPT ：OUT");
+      WST = WST_chatGPT_done;
+      return;
+    }
+    else
+    {
+      Serial.println("chatGPT exit : エラー");
+      WST = WST_chatGPT_exit;
+      return;
+    }
   }
-
-  serializeJsonPretty(CHAT_DOC, json_string);
 }
 
-bool save_json()
+bool saveChatDoc()
 {
   File fl_SPIFFS = SPIFFS.open(CHATDOC_SPI, "w");
   if (!fl_SPIFFS)
@@ -717,7 +647,6 @@ void chatGptSetup()
 }
 
 void chatHistoryCls()
-{
-  // 会話履歴をクリア
+{ // 会話履歴クリア
   chatHistory.clear();
 }

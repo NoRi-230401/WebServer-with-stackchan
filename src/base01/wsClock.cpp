@@ -13,7 +13,7 @@ void clockSetup()
 }
 
 // 現在日時を表示
-String getDateTime()
+String getDateTime(int &tmSec)
 {
   struct tm timeInfo;
   char s[40];
@@ -26,17 +26,12 @@ String getDateTime()
     return dateTime;
   }
 
-  // sprintf(s, " %04d/%02d/%02d%s %02d:%02d:%02d",
-  //         timeInfo.tm_year + 1900, timeInfo.tm_mon + 1, timeInfo.tm_mday,
-  //         week[timeInfo.tm_wday],
-  //         timeInfo.tm_hour, timeInfo.tm_min, timeInfo.tm_sec);
+  tmSec = timeInfo.tm_sec;
 
   sprintf(s, "%04d/%02d/%02d%s  %2d:%02d:%02d",
           timeInfo.tm_year + 1900,timeInfo.tm_mon + 1, timeInfo.tm_mday, week[timeInfo.tm_wday],
-          timeInfo.tm_hour, timeInfo.tm_min, timeInfo.tm_sec);
+          timeInfo.tm_hour, timeInfo.tm_min, tmSec);
 
-  // Serial.println(String(s));
   dateTime = String(s);
-  
   return dateTime;
 }

@@ -7,36 +7,58 @@ const String APIKEY_TXT_SD = "/apikey.txt";
 const String STARTUP_SPIFFS = "/wsStartup.json";
 const String OffOn[] = {"off", "on"};
 const String jsonAPIKEY = "{\"apikey\":[{\"openAiApiKey\":\"***\",\"voicevoxApiKey\":\"***\"}]}";
-const String jsonSTARTUP = "{\"startup\":[{\"serverName\":\"stackchan\",\"vSpeakerNo\":\"3\",\"volume\":\"200\",\"led\":\"on\",\"randomSpeak\":\"off\",\"toneMode\":\"1\",\"mute\":\"off\",\"keyLock\":\"off\",\"timer\":\"180\"}]}";
+const String jsonSTARTUP = "{\"startup\":[{\"serverName\":\"stackchan\",\"vSpkNo\":\"3\",\"volume\":\"200\",\"led\":\"on\",\"randomSpeak\":\"off\",\"toneMode\":\"1\",\"mute\":\"off\",\"keyLock\":\"off\",\"timer\":\"180\"}]}";
 
-size_t VOLUME_VALUE;
-bool MUTE_ON_STATE = false;
-#define TONE_MODE_INIT 0
-// uint8_t TONE_MODE = 1; // 0:allOff 1:buttonOn 2:extCommOn 3:allOn
-uint8_t TONE_MODE = TONE_MODE_INIT; // 0:allOff(default) 1:buttonOn 2:extCommOn 3:allOn
 String SYSINFO_MSG = "";
 String IP_ADDR = "";
 String SSID = "";
 String SSID_PASSWD = "";
 String OPENAI_API_KEY = "";
 String VOICEVOX_API_KEY = "";
-// String VOICETEXT_API_KEY = "";
 String STT_API_KEY = "";
 bool SD_ENABLE = false;
 
 void startupSetting()
 {
+  startupSetting00();
   startupFileRead();
   nvsSaveAll();
 }
 
-void apikeySetting()
+void startupSetting00()
 {
-  if (!apiKeyFileRead())
-    apiKeyTxtRead();
+  // ****** 初期値設定　**********
+  SERVER_NAME = "stackchan";
+  VOLUME_VALUE = 200;
+  LED_OnOff_STATE = true;
+  TONE_MODE = TONE_MODE_INIT;
+  MUTE_ON_STATE = false;
+  KEYLOCK_STATE = false;
+  TTS_vSpkNo = TTS_VSPKNO_INIT;
+  RANDOM_SPEAK_ON_GET = false;
+  RANDOM_SPEAK_STATE = false;
+  TM_SEC_VAL = 180;
 }
 
-void wsHandleSetting(String volumeS, String volumeDS, String vSpeakerNoS,
+void apikeySetting()
+{
+  // ****** 初期値設定　**********
+  OPENAI_API_KEY = "***";
+  VOICEVOX_API_KEY = "***";
+  STT_API_KEY = "***";
+  // VOICETEXT_API_KEY = "***";
+  //------------------------------
+
+  if (apiKeyJsonSDRead())
+    return;
+  
+  if (apiKeyTxtSDRead())
+    return;
+
+  apiKeyJsonSpiffsRead();
+}
+
+void wsHandleSetting(String volumeS, String volumeDS, String vSpkNoS,
                      String ledS, String muteS, String keyLockS, String toneModeS)
 {
   uint32_t nvs_handle;
@@ -51,40 +73,29 @@ void wsHandleSetting(String volumeS, String volumeDS, String vSpeakerNoS,
     if (volumeVal <= 0)
       volumeVal = 0;
 
-    VOLUME_VALUE = volumeVal;
-    M5.Speaker.setVolume(VOLUME_VALUE);
-    M5.Speaker.setChannelVolume(m5spk_virtual_channel, VOLUME_VALUE);
+    // VOLUME_VALUE = (uint8_t)volumeVal;
+    // setVolumeVal(VOLUME_VALUE,VAL_NVS_SAVE);
+    setVolume(volumeVal);
 
-    if (ESP_OK == nvs_open(SETTING_NVS, NVS_READWRITE, &nvs_handle))
-      nvs_set_u32(nvs_handle, "volume", VOLUME_VALUE);
-    nvs_close(nvs_handle);
-
-    webpage = "volume = " + String(volumeVal, DEC);
+    String msg = "volume = " + String(VOLUME_VALUE, DEC);
+    webpage = msg;
   }
 
-  // ---- volumeDelta -------
+  // ---- volume Delta -------
   if (volumeDS != "")
   {
     int volumeVal = volumeDS.toInt();
-    volumeVal += VOLUME_VALUE;
+    volumeVal += (int)VOLUME_VALUE;
     if (volumeVal > 255)
       volumeVal = 255;
     if (volumeVal <= 0)
       volumeVal = 0;
 
-    VOLUME_VALUE = volumeVal;
-    Serial.print("volume = ");
-    Serial.println(VOLUME_VALUE, DEC);
-
-    M5.Speaker.setVolume(VOLUME_VALUE);
-    M5.Speaker.setChannelVolume(m5spk_virtual_channel, VOLUME_VALUE);
-    if (ESP_OK == nvs_open(SETTING_NVS, NVS_READWRITE, &nvs_handle))
-    {
-      nvs_set_u32(nvs_handle, "volume", VOLUME_VALUE);
-    }
-    nvs_close(nvs_handle);
-
-    webpage = "volume = " + String(volumeVal, DEC);
+    // VOLUME_VALUE =(uint8_t)volumeVal;
+    // setVolumeVal(VOLUME_VALUE, VAL_NVS_SAVE);
+    setVolume(volumeVal);
+    String msg = "volume = " + String(VOLUME_VALUE, DEC);
+    webpage = msg;
   }
 
   // ---- led -------
@@ -101,7 +112,7 @@ void wsHandleSetting(String volumeS, String volumeDS, String vSpeakerNoS,
 
     if (ledStr == "off")
     {
-      led_allOff();
+      ledClearAll();
       LED_OnOff_STATE = false;
     }
     else if (ledStr == "on")
@@ -124,13 +135,14 @@ void wsHandleSetting(String volumeS, String volumeDS, String vSpeakerNoS,
   {
     if (toneModeS == "next")
     {
+      // Serial.println("toneMode=next preToneMode=" + String(TONE_MODE, DEC));
       TONE_MODE++;
-      TONE_MODE = TONE_MODE % 4;
+      TONE_MODE = TONE_MODE % (TONE_MODE_MAX + 1);
     }
     else
     {
       TONE_MODE = toneModeS.toInt();
-      if ((TONE_MODE < 0) || (TONE_MODE > 3))
+      if ((TONE_MODE < 0) || (TONE_MODE > TONE_MODE_MAX))
       {
         TONE_MODE = TONE_MODE_INIT;
       }
@@ -141,6 +153,7 @@ void wsHandleSetting(String volumeS, String volumeDS, String vSpeakerNoS,
       nvs_set_u32(nvs_handle, "toneMode", tMode);
     nvs_close(nvs_handle);
 
+    Serial.println("toneMode = " + String(TONE_MODE, DEC));
     webpage = "toneMode = " + String(TONE_MODE, DEC);
   }
 
@@ -213,29 +226,30 @@ void wsHandleSetting(String volumeS, String volumeDS, String vSpeakerNoS,
 
   // ---- Speaker -------
   size_t speaker_no;
-  if (vSpeakerNoS != "")
+  if (vSpkNoS != "")
   {
-    speaker_no = vSpeakerNoS.toInt();
-    if (speaker_no > 66)
-    {
-      speaker_no = 3;
-    }
-    TTS2_SPEAKER_NO = String(speaker_no);
-    TTS2_PARMS = TTS2_SPEAKER + TTS2_SPEAKER_NO;
+    speaker_no = vSpkNoS.toInt();
+    // if (speaker_no > 66)
+    // {
+    //   speaker_no = 3;
+    // }
+    // TTS_vSpkNo = (uint8_t)speaker_no;
 
-    if (ESP_OK == nvs_open(SETTING_NVS, NVS_READWRITE, &nvs_handle))
-    {
-      nvs_set_u32(nvs_handle, "vSpeakerNo", speaker_no);
-      Serial.println("NVS Write : vSpeakerNo = " + String(speaker_no, DEC));
-    }
-    nvs_close(nvs_handle);
-    webpage = "vSpeakerNo = " + String(speaker_no, DEC);
+    // if (ESP_OK == nvs_open(SETTING_NVS, NVS_READWRITE, &nvs_handle))
+    // {
+    //   nvs_set_u32(nvs_handle, "vSpkNo", speaker_no);
+    //   Serial.println("NVS Write : vSpkNo = " + String(speaker_no, DEC));
+    // }
+    // nvs_close(nvs_handle);
+
+    setTTSvSpkNo((int)speaker_no);
+    webpage = "vSpkNo = " + String(speaker_no, DEC);
   }
   Serial.println(webpage);
 }
 
 void wsHandleStartup(String serverNameS, String volumeS, String ledS, String toneModeS,
-                     String muteS, String keyLockS, String vSpeakerNoS, String randomSpeakS,
+                     String muteS, String keyLockS, String vSpkNoS, String randomSpeakS,
                      String timerS, String txS)
 {
   DynamicJsonDocument startupJson(STARTUPJSON_SIZE);
@@ -292,10 +306,10 @@ void wsHandleStartup(String serverNameS, String volumeS, String ledS, String ton
   }
 
   // ---------------------------------------------------------
-  if (vSpeakerNoS != "")
+  if (vSpkNoS != "")
   {
-    if (setStartup("vSpeakerNo", vSpeakerNoS, startupJson))
-      webpage = "wsSetting.Json : vSpeakerNo = " + vSpeakerNoS;
+    if (setStartup("vSpkNo", vSpkNoS, startupJson))
+      webpage = "wsSetting.Json : vSpkNo = " + vSpkNoS;
     return;
   }
 
@@ -389,58 +403,41 @@ void wsHandleApikeySetting(String openAiS, String voicevoxS, String txS)
   return;
 }
 
+uint8_t config_brightness = 120; // 明るさ
+
 void M5StackConfig()
 {
   // ********** M5 config **************
   auto cfg = M5.config();
-
-  cfg.external_spk = true; /// use external speaker (SPK HAT / ATOMIC SPK)
-                           // cfg.external_spk_detail.omit_atomic_spk = true; // exclude ATOMIC SPK
-  // cfg.external_spk_detail.omit_spk_hat    = true; // exclude SPK HAT
-  // cfg.output_power = true;
   M5.begin(cfg);
-  // delay(500);
-
-  // { // Mic Setting
-  //   auto micConfig = M5.Mic.config();
-  //   micConfig.stereo = false;
-  //   micConfig.sample_rate = 16000;
-  //   M5.Mic.config(micConfig);
-  // }
-  // M5.Mic.begin();
-
-  { // Speaker Setting
-    auto spk_cfg = M5.Speaker.config();
-    /// Increasing the sample_rate will improve the sound quality instead of increasing the CPU load.
-    spk_cfg.sample_rate = 96000; // default:64000 (64kHz)  e.g. 48000 , 50000 , 80000 , 96000 , 100000 , 128000 , 144000 , 192000 , 200000
-    spk_cfg.task_pinned_core = APP_CPU_NUM;
-    M5.Speaker.config(spk_cfg);
-  }
-  M5.Speaker.begin();
-
+  M5.Display.setBrightness(config_brightness);
   M5.Lcd.setTextSize(2);
-  led_allOff();
-  BoxTouchSetup();
+  M5.Display.print("\nHello StackChan!!\n\n");
+  Serial.println("Hello StackChan!!"); 
+}
 
-  // --- SPIFFS begin ----
+
+void M5FileSystemBegin()
+{
+// --- init File System ----
+  isSPIFFS = 1;   // 1 -> SPIFFS   0 -> SD
+
+  // Serial.println("SPIFFS.begin Start ...");
   if (!SPIFFS.begin(true))
   {
     Serial.println("Error preparing SPIFFS Filing System...");
     // StartupErrors = true;
   }
-  isSPIFFS = 1;  
-  
+
   // --- SD begin -------
   int i = 0;
   bool success = false;
   // Serial.println("SD.begin Start ...");
   while (i < 3)
   { // SDカードマウント待ち
-    // success = SD.begin(GPIO_NUM_4, SPI, 15000000, "/sdcard", 10, false);
     // success = SD.begin(GPIO_NUM_4, SPI, 16000000,"/sd", 10, false);
-    // success = SD.begin(GPIO_NUM_4, SPI, 15000000,"/sd", 10, false);
-    success = SD.begin(GPIO_NUM_4, SPI, 15000000U,"/sd", 10U, false);
-    
+    success = SD.begin(GPIO_NUM_4, SPI, 15000000U, "/sd", 10U, false);
+
     if (success)
       break;
 
@@ -448,7 +445,7 @@ void M5StackConfig()
     delay(500);
     i++;
   }
-  
+
   if (i >= 3)
   {
     Serial.println("SD.begin faile ...");
@@ -456,21 +453,19 @@ void M5StackConfig()
   }
   else
     SD_ENABLE = true;
-
 }
-
 
 
 bool jsonAPIKEYinit(DynamicJsonDocument &jsonDoc)
 {
-  return (jsonInitSave(jsonDoc, jsonAPIKEY, APIKEY_SPIFFS));
+  return (jsonStrSave(jsonDoc, jsonAPIKEY, APIKEY_SPIFFS));
 }
 
-bool apiKeyTxtRead()
+bool apiKeyTxtSDRead()
 {
-  if(!SD_ENABLE)
+  if (!SD_ENABLE)
     return false;
-    
+
   File fs = fileOpen(FLTYPE_SD, APIKEY_TXT_SD, "r");
   if (!fs)
   {
@@ -502,22 +497,17 @@ bool apiKeyTxtRead()
   STT_API_KEY = OPENAI_API_KEY;
   Serial.println("** Read data from apikey.txt in SD **");
 
-  DynamicJsonDocument apikeyJson(APIKEYJSON_SIZE);
-  setApiKey("openAiApiKey", OPENAI_API_KEY, apikeyJson);
-  setApiKey("voicevoxApiKey", VOICEVOX_API_KEY, apikeyJson);
-  Serial.println("** and Save to wsApikey.json in SPISS  **");
+  // *** SPIFFS に書き組むのはセキュリティの関係で止めた 240128 *****
+  // DynamicJsonDocument apikeyJson(APIKEYJSON_SIZE);
+  // setApiKey("openAiApiKey", OPENAI_API_KEY, apikeyJson);
+  // setApiKey("voicevoxApiKey", VOICEVOX_API_KEY, apikeyJson);
+  // Serial.println("** and Save to wsApikey.json in SPISS  **");
 
   return true;
 }
 
-bool apiKeyFileRead()
+bool apiKeyJsonSpiffsRead()
 {
-  // ****** 初期値設定　**********
-  OPENAI_API_KEY = "***";
-  VOICEVOX_API_KEY = "***";
-  STT_API_KEY = "***";
-  // VOICETEXT_API_KEY = "***";
-  //----------------------------------
   DynamicJsonDocument apikeyJson(APIKEYJSON_SIZE);
 
   if (!jsonRead(FLTYPE_SPIFFS, apikeyJson, APIKEY_SPIFFS))
@@ -556,17 +546,60 @@ bool apiKeyFileRead()
   return true;
 }
 
+bool apiKeyJsonSDRead()
+{
+  if (!SD_ENABLE)
+    return false;
+
+  DynamicJsonDocument apikeyJson(APIKEYJSON_SIZE);
+
+  if (!jsonRead(FLTYPE_SD, apikeyJson, APIKEY_SPIFFS))
+  {
+    Serial.println("fail wsApiKey.json in SD");
+    // jsonAPIKEYinit(apikeyJson);
+    return false;
+  }
+
+  JsonArray jsonArray = apikeyJson["apikey"];
+  JsonObject object = jsonArray[0];
+
+  int cnt = 0;
+  // String getStr;
+
+  // openAiApiKey
+  String getStr0 = object["openAiApiKey"];
+  if (getStr0 != "" && (getStr0 != "null"))
+  {
+    OPENAI_API_KEY = getStr0;
+    STT_API_KEY = getStr0;
+    Serial.println("ApiKey : openAiApiKey = " + getStr0);
+    cnt++;
+  }
+
+  // voicevoxApiKey
+  String getStr2 = object["voicevoxApiKey"];
+  if (getStr2 != "" && (getStr2 != "null"))
+  {
+    VOICEVOX_API_KEY = getStr2;
+    Serial.println("ApiKey : voicevoxApiKey = " + getStr2);
+    cnt++;
+  }
+
+  Serial.println("** wsApiKey.json total " + String(cnt, DEC) + " item read **");
+  return true;
+}
+
 bool jsonSTARTUPinit(DynamicJsonDocument &jsonDoc)
 {
-  return (jsonInitSave(jsonDoc, jsonSTARTUP, STARTUP_SPIFFS));
+  return (jsonStrSave(jsonDoc, jsonSTARTUP, STARTUP_SPIFFS));
 }
 
 void nvsSaveAll()
 {
   size_t volume = (size_t)VOLUME_VALUE;
-  size_t timer_value = (size_t)TIMER_SEC_VALUE;
+  size_t timer_value = (size_t)TM_SEC_VAL;
   size_t tone_mode = (size_t)TONE_MODE;
-  size_t speaker_no = (size_t)TTS2_SPEAKER_NO.toInt();
+  size_t spk_no = (size_t)TTS_vSpkNo;
 
   uint8_t led_onoff = 0;
   if (LED_OnOff_STATE)
@@ -590,7 +623,7 @@ void nvsSaveAll()
     nvs_set_u32(nvs_handle, "volume", volume);
     nvs_set_u32(nvs_handle, "timer", timer_value);
     nvs_set_u32(nvs_handle, "toneMode", tone_mode);
-    nvs_set_u32(nvs_handle, "vSpeakerNo", speaker_no);
+    nvs_set_u32(nvs_handle, "vSpkNo", spk_no);
 
     nvs_set_u8(nvs_handle, "led", led_onoff);
     nvs_set_u8(nvs_handle, "mute", mute_onoff);
@@ -602,22 +635,6 @@ void nvsSaveAll()
 
 bool startupFileRead()
 {
-  // ****** 初期値設定　**********
-  SERVER_NAME = "stackchan";
-  // TTS_TYPE = 2; // VOICEVOX
-  TTS2_SPEAKER_NO = "3";
-  // LANG_CODE = String(LANG_CODE_JP);
-  VOLUME_VALUE = 200;
-  LED_OnOff_STATE = true;
-  RANDOM_TIME = -1;
-  RANDOM_SPEAK_ON_GET = false;
-  RANDOM_SPEAK_STATE = false;
-  TONE_MODE = TONE_MODE_INIT;
-  MUTE_ON_STATE = false;
-  KEYLOCK_STATE = false;
-  TIMER_SEC_VALUE = 180;
-
-  //----------------------------------
   DynamicJsonDocument startupJson(STARTUPJSON_SIZE);
 
   if (!jsonRead(FLTYPE_SPIFFS, startupJson, STARTUP_SPIFFS))
@@ -653,7 +670,7 @@ bool startupFileRead()
     if (getVal > 255)
       getVal = 255;
 
-    VOLUME_VALUE = (size_t)getVal;
+    VOLUME_VALUE = (uint8_t)getVal;
     Serial.println("Startup : volume = " + getStr3);
     cnt++;
   }
@@ -669,14 +686,12 @@ bool startupFileRead()
       if (volume < 0)
         volume = 0;
 
-      VOLUME_VALUE = volume;
+      VOLUME_VALUE = (uint8_t)volume;
       nvs_close(nvs_handle);
       Serial.println("Startup : NVS volume = " + String(volume, DEC));
       cnt++;
     }
   }
-  M5.Speaker.setVolume(VOLUME_VALUE);
-  M5.Speaker.setChannelVolume(m5spk_virtual_channel, VOLUME_VALUE);
 
   // led
   String getStr4 = object["led"];
@@ -712,9 +727,11 @@ bool startupFileRead()
   if (getStr6 != "" && (getStr6 != "***") && (getStr6 != "-1") && (getStr6 != "null"))
   {
     int getVal = getStr6.toInt();
-    if (getVal < 0 || getVal > 3)
+
+    if (getVal < 0 || getVal > TONE_MODE_MAX)
       getVal = TONE_MODE_INIT;
     TONE_MODE = getVal;
+
     Serial.println("Startup : toneMode = " + getStr6);
     cnt++;
   }
@@ -725,7 +742,7 @@ bool startupFileRead()
     {
       size_t mode;
       nvs_get_u32(nvs_handle, "toneMode", &mode);
-      if (mode < 0 || mode > 3)
+      if (mode < 0 || mode > TONE_MODE_MAX)
         mode = TONE_MODE_INIT;
       TONE_MODE = mode;
       nvs_close(nvs_handle);
@@ -788,32 +805,20 @@ bool startupFileRead()
     }
   }
 
-  // --------------------------------------------------------------------------
-
-  // --- SPEAKER ---
-  String getStr1 = object["vSpeakerNo"];
+  // --- TTS SPEAKER ---
+  String getStr1 = object["vSpkNo"];
   if ((getStr1 != "") && (getStr1 != "***") && (getStr1 != "-1") && (getStr1 != "null"))
   {
-    TTS2_SPEAKER_NO = getStr1;
-    Serial.println("Startup : vSpeakerNo = " + TTS2_SPEAKER_NO);
+    TTS_vSpkNo = (uint8_t)getStr1.toInt();
+    Serial.println("Startup : vSpkNo = " + String(TTS_vSpkNo, DEC));
     cnt++;
   }
   else
   {
-    uint32_t nvs_handle;
-    if (ESP_OK == nvs_open("setting", NVS_READONLY, &nvs_handle))
-    {
-      size_t speaker_no;
-      nvs_get_u32(nvs_handle, "vSpeakerNo", &speaker_no);
-      if (speaker_no > 66)
-        speaker_no = 3;
-      TTS2_SPEAKER_NO = String(speaker_no);
-      nvs_close(nvs_handle);
-    }
-    Serial.println("Startup : NVS vSpeakerNo = " + TTS2_SPEAKER_NO);
+    TTS_vSpkNo = getTTSvSpkNofmNVS();
+    Serial.println("Startup : NVS vSpkNo = " + String(TTS_vSpkNo, DEC));
     cnt++;
   }
-  TTS2_PARMS = TTS2_SPEAKER + TTS2_SPEAKER_NO;
 
   // randomSpeak
   String getStr5 = object["randomSpeak"];
@@ -853,7 +858,7 @@ bool startupFileRead()
     if (getVal >= 3599)
       getVal = 180;
 
-    TIMER_SEC_VALUE = getVal;
+    TM_SEC_VAL = getVal;
     Serial.println("Startup : timer = " + getStr9);
     cnt++;
   }
@@ -869,7 +874,7 @@ bool startupFileRead()
       if (timer >= 3599)
         timer = 180;
 
-      TIMER_SEC_VALUE = timer;
+      TM_SEC_VAL = timer;
       nvs_close(nvs_handle);
       Serial.println("Startup : NVS timer = " + String(timer, DEC));
       cnt++;
@@ -899,49 +904,4 @@ bool setStartup(String item, String setData, DynamicJsonDocument &startupJson)
 bool getStartup(String item, String &getData, DynamicJsonDocument &startupJson)
 {
   return (getJsonItem(STARTUP_SPIFFS, item, getData, startupJson, "startup"));
-}
-
-void toneOn()
-{
-  M5.Speaker.tone(1000, 100);
-}
-
-void tone(int mode)
-{
-  switch (TONE_MODE)
-  {
-  case 0: // always toneOff
-    break;
-
-  case 1: // toneOn when buttons pressed
-    if (mode == TONE_MODE)
-      toneOn();
-    break;
-
-  case 2: // toneOn whenn external command rcv
-    if (mode == TONE_MODE)
-      toneOn();
-    break;
-
-  case 3: // toneOn every time
-    toneOn();
-    break;
-
-  default:
-    break;
-  }
-}
-
-void muteOn()
-{
-  M5.Speaker.setVolume(0);
-  M5.Speaker.setChannelVolume(m5spk_virtual_channel, 0);
-  MUTE_ON_STATE = true;
-}
-
-void muteOff()
-{
-  M5.Speaker.setVolume(VOLUME_VALUE);
-  M5.Speaker.setChannelVolume(m5spk_virtual_channel, VOLUME_VALUE);
-  MUTE_ON_STATE = false;
 }

@@ -1,128 +1,135 @@
 // ---------------------------< wsTTS.cpp >------------------------------------
 #include "wsTTS.h"
 
+uint8_t TTS_vSpkNo = 3;
+VoiceVox *tts_voiceVox = new VoiceVox();
+// VoiceText *tts_voiceText = new VoiceText();
 String SPEECH_TEXT = "";
-String SPEECH_TEXT_BUFFER = "";
 
-// -- TTS2(VOICEVOX)　---
-String TTS2_SPEAKER_NO = "";
-extern const String TTS2_SPEAKER;
-const String TTS2_SPEAKER = "&speaker=";
-String TTS2_PARMS = TTS2_SPEAKER + TTS2_SPEAKER_NO;
-int TTS_mp3buffSize = 25 * 1024;
-uint8_t *TTS_mp3buff;
-uint8_t m5spk_virtual_channel = 0;
-
-AudioOutputM5Speaker out(&M5.Speaker, m5spk_virtual_channel);
-AudioGeneratorMP3 *mp3;
-AudioFileSourceHTTPSStream *file_TTS2 = nullptr;
-AudioFileSourceBuffer *BUFF = nullptr;
-
-// uint8_t TTS_TYPE = 2; // default "VOICEVOX"
-// String LANG_CODE = "";
-// const char *TTS_NAME[] = {"VoiceText", "GoogleTTS", "VOICEVOX"};
-// const char *LANG_CODE_JP = "ja-JP";
-// const char *LANG_CODE_EN = "en-US";
-
-void playMP3(AudioFileSourceBuffer *buff)
+void ttsDo(const String &speechText)
 {
-  mp3->begin(buff, &out);
+  WST = WST_TTS_start;
+  log_free_size("VOICEVOX：IN");
+  Serial.println("------- [ speak to you ] -------");
+  Serial.println(speechText);
+  Serial.println("--------------------------------");
+
+  String return_string = execute_voicevox(speechText, TTS_vSpkNo);
+  if(return_string=="")
+  {
+    Serial.println("voicevox Err");
+    WST = WST_TTS_exit;
+    return;
+  }
+  else
+  {
+    WST = WST_TTS_talkStart;
+    showExeTime("",EXE_TM_MD_START);
+
+    // execute_talk(return_string);
+    if ( return_string != "")
+        tts_voiceVox->talk_https(return_string);
+
+    showExeTime("VOICEVOX：mp3Url get then start speaking");
+  }
 }
 
-void wsHandleSpeech(String sayS, String expressionS, String voiceS)
+
+
+
+void wsHandleSpeech(String sayS, String expressionS, String balloonS, String voiceS, String afterExpS )
 {
-  if (sayS == "")
-    return;
+  String speakTxt = "";
+  int expr = -1;
+  int afterExpr = -1;
+  String balloonStr = "$$SKIP$$";
 
   webpage = "";
 
-  int expr = 0;
+  speakTxt = sayS;
+
   if (expressionS != "")
+  { // Avatar の顔の表情
+    int tmp_expr = expressionS.toInt();
+    if (tmp_expr >= 0 && tmp_expr <= 5)
+      expr = tmp_expr;
+
+    webpage += "speech : expression = " + EXPR_STR[expr] ;
+    webpage += "　expr = " + String(expr,DEC) + "<br>";
+  }
+
+  if (afterExpS != "")
+  { // After Avatar の顔の表情
+    int tmp_expr = afterExpS.toInt();
+    if (tmp_expr >= 0 && tmp_expr <= 5)
+      afterExpr = tmp_expr;
+
+    webpage += "speech : afterExpr = " + EXPR_STR[afterExpr] ;
+    webpage += "　expr = " + String(afterExpr,DEC) + "<br>";
+  }
+
+  if ( balloonS != "$$SKIP$$")
   {
-    expr = expressionS.toInt();
-    if (expr < 0)
-      expr = 0;
-    if (expr > 5)
-      expr = 5;
-    webpage += "speech : expression = " + String(expr, DEC);
+    balloonStr = balloonS;
+    webpage += "speech : baloon = " + balloonS + "<br>";
   }
 
   if (voiceS != "")
   {
-    TTS2_PARMS = TTS2_SPEAKER + voiceS;
-    webpage += "\nspeech : voice = " + voiceS;
+    int tmp_vNo = voiceS.toInt();
+    if( tmp_vNo>=0 && tmp_vNo<=66)
+        TTS_vSpkNo = (uint8_t)tmp_vNo;
+
+    webpage += "speech : voice = " + voiceS + "<br>";
   }
 
-  REQUEST_GET = REQ_SPEAK_MSG2;
-  REQ_MSG = sayS;
-  REQ_SPK_EXPR = expr;
-  webpage += "\nspeech : say = " + sayS;
+
+  stackchanReq(speakTxt, expr, balloonStr, afterExpr);
+  webpage += "speech : say = " + sayS;
 }
 
-void ttsSetup()
+bool isTalking()
 {
-  // *** TTS用 mp3Buffer確保 ******
-  TTS_mp3buff = (uint8_t *)malloc(TTS_mp3buffSize);
-  if (!TTS_mp3buff)
+  return ((tts_voiceVox->is_talking) || (SPEECH_TEXT != ""));
+}
+
+String execute_voicevox(const String &speechText, uint8_t spk_no)
+{
+  if (speechText == "")
   {
-    String msg = "\nFATAL ERROR:  Unable to preallocate " + String(TTS_mp3buffSize, DEC) + "bytes for app\n";
-    Serial.println(msg);
-    M5.Display.println(msg);
-    errSTOP();
-    // --- Stop
+    return "";
   }
 
-  audioLogger = &Serial;
-  mp3 = new AudioGeneratorMP3();
+  tts_voiceVox->setSpkNo(spk_no);
+  String return_string = tts_voiceVox->synthesis(speechText);
+  return return_string;
 }
 
-void SpeechManage()
+void setTTSvSpkNo(int spkNo)
 {
-  // *** SPEECH_TEXT 1st ****
-  if (SPEECH_TEXT != "")
-    SpeechText1st();
+  if (spkNo > TTS_VSPKNO_MAX)
+    spkNo = TTS_VSPKNO_INIT;
 
-  // ** mp3 Running and SPEECH Next **
-  if (mp3->isRunning())
-  { // -- mp3 loop終了 ------
-    if (!mp3->loop())
-    {
-      SpeechTextNext();
-    }
-    delay(1);
-  }
+  TTS_vSpkNo = (uint8_t)spkNo;
+
+  uint32_t nvs_handle;
+  if (ESP_OK == nvs_open(SETTING_NVS, NVS_READWRITE, &nvs_handle))
+    nvs_set_u32(nvs_handle, "vSpkNo", (size_t)TTS_vSpkNo);
+  nvs_close(nvs_handle);
 }
 
-void SpeechText1st()
+uint8_t getTTSvSpkNofmNVS()
 {
-  avatar.setExpression(Expression::Happy);
-  SPEECH_TEXT_BUFFER = SPEECH_TEXT;
-  SPEECH_TEXT = "";
-  ttsDo(SPEECH_TEXT_BUFFER);
-}
+  uint32_t nvs_handle;
+  size_t spkNo = TTS_VSPKNO_INIT;
 
-void SpeechTextNext()
-{
-  mp3->stop();
-  // Serial.println("mp3 stop");
-
-  if (file_TTS2 != nullptr)
+  if (ESP_OK == nvs_open(SETTING_NVS, NVS_READONLY, &nvs_handle))
   {
-    delete file_TTS2;
-    file_TTS2 = nullptr;
+    nvs_get_u32(nvs_handle, "vSpkNo", &spkNo);
+    if (spkNo > TTS_VSPKNO_MAX)
+      spkNo = TTS_VSPKNO_INIT;
   }
+  nvs_close(nvs_handle);
 
-  avatar.setExpression(Expression::Neutral);
-  SPEECH_TEXT_BUFFER = "";
-  Serial.println("--- end of speaking ---");
+  return (uint8_t)spkNo;
 }
-
-void ttsDo( const String& speechText )
-{
-  Serial.println("\n~~~~~ Speech-Text ~~~~~");
-  Serial.println(speechText);
-  Serial.println("~~~~~~~~~~~~~~~~~~~~~~~");
-  
-  Voicevox_tts((char *)speechText.c_str(), (char *)TTS2_PARMS.c_str());
-}
-

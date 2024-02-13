@@ -21,7 +21,8 @@ void wsHandleShutdown(String reboot_get_str, String time_get_str)
   if (reboot_get_str == "on")
   {
     SHUTDOWN_TM_SEC = time_sec;
-    REQ_SHUTDOWN_REBOOT = 2; // reboot
+    // REQ_SHUTDOWN_REBOOT = 2; // reboot
+    sendReq(REQ_REBOOT);
     SV_MD = SV_MD_HOME;
 
     webpage = "reboot : after " + String(time_sec, DEC) + "sec";
@@ -31,8 +32,9 @@ void wsHandleShutdown(String reboot_get_str, String time_get_str)
 
   // --- shutdown
   SHUTDOWN_TM_SEC = time_sec;
-  REQ_SHUTDOWN_REBOOT = 1; // shutdown
+  // REQ_SHUTDOWN_REBOOT = 1; // shutdown
   SV_MD = SV_MD_HOME;
+  sendReq(REQ_SHUTDOWN);
   webpage = "shutdown : after " + String(time_sec, DEC) + "sec";
   Serial.println(webpage);
   return;
@@ -43,7 +45,7 @@ void errSTOP()
   Serial.println("Stop : Fatal Error Occurred!");
   SD.end();
   SPIFFS.end();
-  led_allOff();
+  ledClearAll();
   delay(5000);
 
   for (;;)
@@ -57,7 +59,7 @@ void REBOOT()
   Serial.println(" *** Reboot ***");
   SD.end();
   SPIFFS.end();
-  led_allOff();
+  ledClearAll();
   delay(5000);
   ESP.restart();
 
@@ -73,7 +75,7 @@ void POWER_OFF()
 
   SD.end();
   SPIFFS.end();
-  led_allOff();
+  ledClearAll();
   delay(5000);
   M5.Power.powerOff();
 
@@ -185,7 +187,7 @@ bool jsonRead(int flType, DynamicJsonDocument &jsonDoc, String filePath)
   return true;
 }
 
-bool jsonSave(DynamicJsonDocument &jsonDoc, const String filePath)
+bool jsonDocSave(DynamicJsonDocument &jsonDoc, const String filePath)
 {
   File file = SPIFFS.open(filePath.c_str(), "w");
   if (!file)
@@ -199,10 +201,10 @@ bool jsonSave(DynamicJsonDocument &jsonDoc, const String filePath)
   return true;
 }
 
-bool jsonInitSave(DynamicJsonDocument &jsonDoc, const String inJson, const String saveFile)
-{
-  bool success = jsonInit(jsonDoc, inJson);
+bool jsonStrSave(DynamicJsonDocument &jsonDoc, const String inJsonStr, const String saveFile)
+{ // jsonStr を読み込み、ファイルに保存
 
+  bool success = toJsonDoc(jsonDoc, inJsonStr);
   if (!success)
     return false;
 
@@ -212,7 +214,7 @@ bool jsonInitSave(DynamicJsonDocument &jsonDoc, const String inJson, const Strin
     Serial.println("Failed to open file for writing");
     return false;
   }
-  // JSONデータをシリアル化して書き込む
+  // JSONデータをシリアル化pritty形式で書き込む
   serializeJsonPretty(jsonDoc, fl_SPIFFS);
   // serializeJson(jsonDoc, fl_SPIFFS);
   fl_SPIFFS.close();
@@ -220,9 +222,9 @@ bool jsonInitSave(DynamicJsonDocument &jsonDoc, const String inJson, const Strin
   return true;
 }
 
-bool jsonInit(DynamicJsonDocument &jsonDoc, const String inJson)
-{
-  DeserializationError error = deserializeJson(jsonDoc, inJson.c_str());
+bool toJsonDoc(DynamicJsonDocument &jsonDoc, const String inJsonStr)
+{ // JsonStrを JsonDocに変換
+  DeserializationError error = deserializeJson(jsonDoc, inJsonStr.c_str());
   if (error)
   {
     Serial.print(F("deserializeJson() failed: "));
@@ -230,9 +232,10 @@ bool jsonInit(DynamicJsonDocument &jsonDoc, const String inJson)
     return false;
   }
 
-  String json_str;
-  serializeJsonPretty(jsonDoc, json_str);
-  Serial.println(json_str);
+  String jsonStr;
+  // jsonDoc　を　txt 形式に変換
+  serializeJsonPretty(jsonDoc, jsonStr);
+  Serial.println(jsonStr);
 
   return true;
 }
@@ -249,7 +252,7 @@ bool setJsonItem(String flName, String item, String setData, DynamicJsonDocument
   JsonObject object = jsonArray[0];
   object[item] = setData;
 
-  bool success = jsonSave(jsonDoc, flName);
+  bool success = jsonDocSave(jsonDoc, flName);
   if (!success)
   {
     return false;
@@ -277,11 +280,61 @@ bool getJsonItem(String flName, String item, String &getData, DynamicJsonDocumen
   return false;
 }
 
-// 空きメモリをシリアル出力 from つゆきぱぱさん
+// 空きメモリをシリアル出力
 void log_free_size(const char *text)
 {
-  M5.Log.printf("%s メモリ残/最大ブロック残（DEFAULT->DMA->SPIRAM）：%4dKB/%4dKB %3dKB/%3dKB %4dKB/%4dKB\n", text,
-                heap_caps_get_free_size(MALLOC_CAP_DEFAULT) / 1024, heap_caps_get_largest_free_block(MALLOC_CAP_DEFAULT) / 1024,
-                heap_caps_get_free_size(MALLOC_CAP_DMA) / 1024, heap_caps_get_largest_free_block(MALLOC_CAP_DMA) / 1024,
-                heap_caps_get_free_size(MALLOC_CAP_SPIRAM) / 1024, heap_caps_get_largest_free_block(MALLOC_CAP_SPIRAM) / 1024);
+  M5.Log.printf("%s * free size of Memory (def-ps-dma:kB): %4d-%4d-%3d *\n", text,
+                heap_caps_get_free_size(MALLOC_CAP_DEFAULT) / 1024,
+                heap_caps_get_free_size(MALLOC_CAP_SPIRAM) / 1024,
+                heap_caps_get_free_size(MALLOC_CAP_DMA) / 1024);
+
+  // M5.Log.printf("%s メモリ残/最大ブロック残（DEFAULT->SPIRAM->DMA）：%4dKB/%4dKB %4dKB/%4dKB %3dKB/%3dKB\n", text,
+  // heap_caps_get_free_size(MALLOC_CAP_DEFAULT) / 1024, heap_caps_get_largest_free_block(MALLOC_CAP_DEFAULT) / 1024,
+  // heap_caps_get_free_size(MALLOC_CAP_SPIRAM) / 1024, heap_caps_get_largest_free_block(MALLOC_CAP_SPIRAM) / 1024,
+  // heap_caps_get_free_size(MALLOC_CAP_DMA) / 1024, heap_caps_get_largest_free_block(MALLOC_CAP_DMA) / 1024         );
+
+  // heap_caps_get_minimum_free_size(MALLOC_CAP_DEFAULT) / 1024, heap_caps_get_largest_free_block(MALLOC_CAP_DEFAULT) / 1024,
+  // heap_caps_get_minimum_free_size(MALLOC_CAP_DMA) / 1024, heap_caps_get_largest_free_block(MALLOC_CAP_DMA) / 1024,
+  // heap_caps_get_minimum_free_size(MALLOC_CAP_SPIRAM) / 1024, heap_caps_get_largest_free_block(MALLOC_CAP_SPIRAM) / 1024);
+}
+
+String getHeapFreeSize()
+{
+  char s[40];
+  // int minDEF = heap_caps_get_minimum_free_size(MALLOC_CAP_DEFAULT) / 1024;
+  // int minPSRAM = heap_caps_get_minimum_free_size(MALLOC_CAP_SPIRAM) / 1024;
+  // int minDMA = heap_caps_get_minimum_free_size(MALLOC_CAP_DMA) / 1024;
+
+  int mDEF = heap_caps_get_free_size(MALLOC_CAP_DEFAULT) / 1024;
+  int mPSRAM = heap_caps_get_free_size(MALLOC_CAP_SPIRAM) / 1024;
+  int mDMA = heap_caps_get_free_size(MALLOC_CAP_DMA) / 1024;
+
+  sprintf(s, "Mem=%4dkB ps:%4d dma:%3d", mDEF, mPSRAM, mDMA);
+
+  return String(s);
+}
+
+uint32_t static exe_time = 0;
+//void showExeTime(String msg, int mode=EXE_TM_MD0)  // コンパイラが通らない
+void showExeTime(String msg, int mode)               // 関数宣言部分からデフォルト引数を削除する
+{
+  switch (mode)
+  {
+  case EXE_TM_MD0:
+    M5.Log.printf("%s (%.1fsec)\n", msg.c_str(), (millis() - exe_time) / 1000.0);
+    exe_time = millis();
+    break;
+
+  case EXE_TM_MD1:
+    M5.Log.printf("%s (%.1fsec)\n", msg.c_str(), (millis() - exe_time) / 1000.0);
+    break;
+
+  case EXE_TM_MD2:
+  case EXE_TM_MD_START:
+      exe_time = millis();
+    break;
+
+  default:
+    break;
+  }
 }

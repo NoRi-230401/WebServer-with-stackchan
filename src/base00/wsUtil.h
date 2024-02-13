@@ -1,6 +1,6 @@
 // ----------------------------<wsUtil.h>------------------------------------
-#ifndef WS_UTIL_H
-#define WS_UTIL_H
+#ifndef _WS_UTIL_H
+#define _WS_UTIL_H
 // ---------------------------
 #include <Arduino.h>
 #include <ArduinoJson.h>
@@ -24,12 +24,19 @@
 #define SV_MD_RANDOM 8
 #define SV_MD_NONE 9
 
+// -- Request ---------
+#define REQ_SV_MD_ADJUST 9
+#define REQ_STACKCHAN 10
+#define REQ_REBOOT  98
+#define REQ_SHUTDOWN  99
+
 extern int SV_MD;
-extern void led_allOff();
-extern int REQUEST_GET;
+extern void ledClearAll();
+extern int REQUEST_NO;
 extern String REQ_MSG;
 extern String webpage;
-extern int REQ_SHUTDOWN_REBOOT;
+// extern int REQ_SHUTDOWN_REBOOT;
+extern void sendReq(int reqNo);
 
 //------------------------------------------------------------
 void wsHandleShutdown(String reboot_get_str, String time_get_str);
@@ -38,9 +45,9 @@ void REBOOT();
 void POWER_OFF();
 void MDCallback(void *cbData, const char *type, bool isUnicode, const char *string);
 void StatusCallback(void *cbData, int code, const char *string);
-bool jsonInitSave(DynamicJsonDocument &jsonDoc,const String inJson, const String saveFile);
-bool jsonSave(DynamicJsonDocument &jsonDoc, const String saveFile);
-bool jsonInit(DynamicJsonDocument &jsonDoc, const String inJson);
+bool jsonStrSave(DynamicJsonDocument &jsonDoc,const String inJson, const String saveFile);
+bool jsonDocSave(DynamicJsonDocument &jsonDoc, const String saveFile);
+bool toJsonDoc(DynamicJsonDocument &jsonDoc, const String inJson);
 bool jsonRead(int flType, DynamicJsonDocument &jsonDoc, String readFile);
 bool setJsonItem(String flName, String item, String setData, DynamicJsonDocument &jsonDoc, String arrayName);
 bool getJsonItem(String flName, String item, String& getData, DynamicJsonDocument &jsonDoc, String arrayName);
@@ -49,6 +56,12 @@ void SD_end();
 File SD_open(const String path, const char *mode);
 File fileOpen(int flType, const String path, const char *mode);
 void log_free_size(const char *text);
+String getHeapFreeSize();
+#define EXE_TM_MD0 0 // (default) disp and timer reset
+#define EXE_TM_MD1 1 // disp and timer no reset
+#define EXE_TM_MD2 2 // no disp and timer reset
+#define EXE_TM_MD_START 3 // no disp and timer reset for START 
+void showExeTime(String msg, int mode=EXE_TM_MD0);
 //------------------------------------------------------------
 
 #endif

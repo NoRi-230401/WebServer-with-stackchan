@@ -1,6 +1,6 @@
 // ----------------------------<wsApi.h>------------------------------------
-#ifndef WS_API_H
-#define WS_API_H
+#ifndef _WS_API_H
+#define _WS_API_H
 // ---------------------------
 #include <Avatar.h>
 #include <ArduinoJson.h>
@@ -66,8 +66,7 @@
 #define BtnREQ_BOX_SERVO 4
 #define BtnREQ_BOX_STT 5
 
-extern const String json_ChatString;
-extern bool REQ_chatGPT_GET;
+// extern bool REQ_chatGPT_GET;
 extern int SV_MD;
 extern int SV_HOME_X;
 extern int SV_HOME_Y;
@@ -77,15 +76,14 @@ extern int SV_PREV_PT_X;
 extern int SV_PREV_PT_Y;
 extern int SV_NEXT_PT_X;
 extern int SV_NEXT_PT_Y;
-extern bool SV_MD_RANDOM_1st;
+// extern bool SV_MD_RANDOM_1st;
 extern int SV_SWING_CNT;
 extern int SV_SWING_AXIS;
 extern int SV_SWING_LEN;
 extern String REQ_MSG;
 extern char *SETTING_NVS;
-extern uint8_t m5spk_virtual_channel;
 extern String IP_ADDR;
-extern size_t VOLUME_VALUE;
+extern uint8_t VOLUME_VALUE;
 extern bool MUTE_ON_STATE;
 extern String webpage;
 extern String HTML_Header();
@@ -93,18 +91,14 @@ extern String HTML_Footer();
 extern String HTML_Header3();
 extern String HTML_Footer3();
 extern AsyncWebServer server;
-extern void Req_MsgCls();
 extern void servoSetup2();
 extern void muteOff();
 extern void muteOn();
-extern bool SYSINFO_DISP_STATE;
+// extern bool SYSINFO_DISP_STATE;
 extern bool KEYLOCK_STATE;
 extern uint8_t TONE_MODE;
 extern bool LED_OnOff_STATE;
-extern String TTS2_SPEAKER_NO;
-extern String TTS2_PARMS;
-extern String TTS2_SPEAKER;
-extern void led_allOff();
+extern void ledClearAll();
 extern void tone(int);
 extern bool sysInfoGet(String txArg, String &txData);
 extern void sysInfoDispEnd();
@@ -114,9 +108,9 @@ extern void sysInfoDispStart(uint8_t mode_no);
 extern bool RANDOM_SPEAK_STATE;
 extern bool RANDOM_SPEAK_ON_GET;
 
-extern void wsHandleSpeech(String message, String expression, String speaker);
+extern void wsHandleSpeech(String sayS, String expressionS, String balloonS, String voiceS, String afterExpS);
 extern void timerStop2();
-extern bool jsonSave(DynamicJsonDocument &jsonDoc, String saveFile);
+extern bool jsonDocSave(DynamicJsonDocument &jsonDoc, String saveFile);
 extern bool jsonRead(int flType, DynamicJsonDocument &jsonDoc, String readFile);
 extern bool getServo(String item, String &data, DynamicJsonDocument &servoJson);
 extern bool setServo(String item, String data, DynamicJsonDocument &servoJson);
@@ -128,7 +122,6 @@ extern bool initWifiJson(DynamicJsonDocument &wifiJson);
 extern void wsHandleStartup(String serverNameS, String volumeS, String ledS, String toneModeS,
    String muteS, String keyLockS, String vSpeakerNoS, String randomSpeakS,
    String timerS, String txS);
-extern bool setFace(int expr);
 extern void wsHandleApikeySetting(String openAiS, String voicevoxS,String txS);
 extern void wsHandleSetting(String volumeS, String volumeDS, String speakerS, String ledS, String muteS, String keyLockS, String toneModeS);
 extern void wsHandleBtn(String arg);
@@ -140,6 +133,7 @@ extern void wsHandleServo(String swingXYS,String swingXS, String swingYS,
   String txS, String modeS);
 extern void wsHandleRoleGet();
 extern void wsHandleFace(String expression);
+extern void wsHandleBalloon(String text);
 extern void wsHandelChat(String textS, String voiceS);
 extern void wsHandelChatCharacter(String ch_NoS,String ch_nameS, String ch_voiceS,String ch_rollS);
 extern void wsHandelChatGpt(String historyS,String charaS);
@@ -150,15 +144,11 @@ extern void wsServoSetting(String txS,String servoS, String servoPortS,
 extern int BTN_REQ;
 using namespace m5avatar;
 extern Avatar avatar;
-extern uint16_t TIMER_SEC_VALUE;
-extern bool TIMER_STOP_GET;
-extern bool TIMER_GO_GET;
-extern bool TIMER_STARTED;
+extern bool TM_STOP_GET;
+extern bool TM_GO_GET;
+extern bool TM_STARTED;
 extern void randomSpeakStop2();
 extern void timerStart();
-extern String INIT_BUFFER;
-extern bool init_chat_doc(const char *data);
-extern bool save_json();
 extern void chatHistoryCls();
 extern void wsHandleWifiSetting(String initS, String ssidS, String passwdS,String removeS,
     String ipS, String gatewayS, String subnetS, String dnsS  );
@@ -182,6 +172,7 @@ void handle_shutdown(AsyncWebServerRequest *request);
 void handle_timer(AsyncWebServerRequest *request);
 void handle_speech(AsyncWebServerRequest *request);
 void handle_face(AsyncWebServerRequest *request);
+void handle_balloon(AsyncWebServerRequest *request);
 void handle_chat(AsyncWebServerRequest *request);
 void handle_chatCharacter(AsyncWebServerRequest *request);
 void handle_chatGpt(AsyncWebServerRequest *request);

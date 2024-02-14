@@ -3,7 +3,7 @@
 ## New（Ver305 新機能）
 ### <b>(1).ステータス表示(StatusDisp)</b><br>
 Ver304に引き続き、バッテリー・アイコンを拡張し、情報表示の機能をつけました。<br>
-<b>画面上の真中</b>をタッチすると、Normal, StatusLine, StatusDispの３つのModeを切替えます。<br>
+<b>画面上部の真中</b>をタッチすると、Normal, StatusLine, StatusDispの３つのModeを切替えます。<br>
 <b>Normal</b> : 通常のスタックチャンの顔の表示<br>
 <b>StatusLine</b> ：上１行を使い、バッテリー・アイコンを含めた７種類を選択できます。<br>
 種類の選択は、画面上部の左(Prev)または、右(Next)で選ぶことができます。今回は、「メモリ残量」表示を追加しています。<br>

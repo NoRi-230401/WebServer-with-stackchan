@@ -727,7 +727,7 @@ void Display_System_Info()
   webpage += "<tr><td>Chip revision</td><td>" + String(chip_info.revision) + "</td></tr>";
   webpage += "<tr><td>Internal or External Flash Memory</td><td>" + String(((chip_info.features & CHIP_FEATURE_EMB_FLASH) ? "Embedded" : "External")) + "</td></tr>";
   webpage += "<tr><td>Flash Memory Size</td><td>" + String((spi_flash_get_chip_size() / (1024 * 1024))) + " MB</td></tr>";
-  webpage += "<tr><td>Current Free RAM</td><td>" + ConvBinUnits(ESP.getFreeHeap(), 1) + "</td></tr>";
+  // webpage += "<tr><td>Current Free RAM</td><td>" + ConvBinUnits(ESP.getFreeHeap(), 1) + "</td></tr>";
   webpage += "</table>";
   webpage += "<h4>Network Information</h4>";
   webpage += "<table class='center'>";

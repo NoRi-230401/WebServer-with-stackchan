@@ -24,11 +24,11 @@ extern String EncryptionType(wifi_auth_mode_t encryptionType);
 #define SV_PIN_Y_CORE2_PA 32
 #define SV_PIN_X_CORE2_PC 13 // Core2 PORT C
 #define SV_PIN_Y_CORE2_PC 14
-#define REQ_MSG_CLS 0
-#define REQ_SPEAK 1
-#define REQ_MSG_ONLY 2
-#define REQ_SPEAK_MSG 3
-#define REQ_SPEAK_MSG2 4
+// #define REQ_MSG_CLS 0
+// #define REQ_SPEAK 1
+// #define REQ_MSG_ONLY 2
+// #define REQ_SPEAK_MSG 3
+// #define REQ_SPEAK_MSG2 4
 
 extern String SERVER_NAME;
 extern int WK_LAST_ERR_NO;

@@ -7,7 +7,7 @@ const String APIKEY_TXT_SD = "/apikey.txt";
 const String STARTUP_SPIFFS = "/wsStartup.json";
 const String OffOn[] = {"off", "on"};
 const String jsonAPIKEY = "{\"apikey\":[{\"openAiApiKey\":\"***\",\"voicevoxApiKey\":\"***\"}]}";
-const String jsonSTARTUP = "{\"startup\":[{\"serverName\":\"stackchan\",\"vSpkNo\":\"3\",\"volume\":\"200\",\"led\":\"on\",\"randomSpeak\":\"off\",\"toneMode\":\"1\",\"mute\":\"off\",\"keyLock\":\"off\",\"timer\":\"180\"}]}";
+const String jsonSTARTUP = "{\"startup\":[{\"serverName\":\"stackchan\",\"vSpkNo\":\"3\",\"volume\":\"180\",\"led\":\"on\",\"randomSpeak\":\"off\",\"toneMode\":\"1\",\"mute\":\"off\",\"keyLock\":\"off\",\"timer\":\"180\"}]}";
 
 String SYSINFO_MSG = "";
 String IP_ADDR = "";
@@ -29,7 +29,7 @@ void startupSetting00()
 {
   // ****** 初期値設定　**********
   SERVER_NAME = "stackchan";
-  VOLUME_VALUE = 200;
+  VOLUME_VALUE = 180;
   LED_OnOff_STATE = true;
   TONE_MODE = TONE_MODE_INIT;
   MUTE_ON_STATE = false;

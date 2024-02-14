@@ -22,7 +22,7 @@ void M5SpeakerConfig()
 void setVolume(int vol)
 {
   if ((vol < 0) || (vol > 255))
-    vol = 200;
+    vol = 180;
 
   VOLUME_VALUE = (uint8_t)vol;
   
@@ -49,14 +49,14 @@ uint8_t getVolumeVal()
 uint8_t getVolumeValfmNVM()
 {
   uint32_t nvs_handle;
-  size_t getVol = 200;
+  size_t getVol = 180;
 
   if (ESP_OK == nvs_open(SETTING_NVS, NVS_READONLY, &nvs_handle))
     nvs_get_u32(nvs_handle, "volume", &getVol);
   nvs_close(nvs_handle);
 
   if (getVol > 255)
-    getVol = 200;
+    getVol = 180;
 
   return (uint8_t)getVol;
 }

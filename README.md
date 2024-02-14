@@ -85,7 +85,7 @@ Webアプリは、html、styleSheet、javaScript、画像ファイルなどを�
 ・　<b>VOICEVOXのApiKey</b><br>
 ファームウエアを本体に書き込む為にPC上にどちらかの環境を整えてください。<br>
 ・　<b>VsCodeの開発環境</b>　または、<br>
-・　<b>M5Burner<br>
+・　<b>M5Burner</b><br>
 
 ## Support Page
 下記リンクで、インストール手順などのサポートを行っています。<br>

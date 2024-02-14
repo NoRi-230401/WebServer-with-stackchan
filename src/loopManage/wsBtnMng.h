@@ -60,7 +60,7 @@ void BtnC_Do();
 void BtnUA_Do();
 void BtnUB_Do();
 void BtnUC_Do();
-void BtnMA_Do();
+void BtnMB_Do();
 void BtnMC_Do();
 void BoxTouchSetup();
 // --------------------------------------------------------

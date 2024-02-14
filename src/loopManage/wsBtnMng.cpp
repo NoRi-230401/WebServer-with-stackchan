@@ -29,7 +29,7 @@ static box_t BOX_STATUS_NEXT;
 static box_t BOX_STATUS_MODE_SELECT;
 static box_t BOX_STATUS_PREV;
 static box_t BOX_SERVO;
-static box_t BOX_SYSINFO;
+// static box_t BOX_SYSINFO;
 
 void buttonManage()
 {
@@ -58,10 +58,9 @@ void buttonManage()
           // prev
           BtnUC_Do();
 
-        // if (BOX_SERVO.contain(t.x, t.y) && !SYSINFO_DISP_STATE)
         if (BOX_SERVO.contain(t.x, t.y) && statusMode != STM_SYSINFO)
-          // BoxServoDo();
-          BtnMA_Do();
+          // BoxServo
+          BtnMB_Do();
       }
     }
   }
@@ -132,18 +131,12 @@ void wsHandleBtn(String arg)
     BTN_REQ = BtnREQ_UB;
     return;
   }
-  else if (arg_mode == "BOX_SERVO" || arg_mode == "BTNMA")
+  else if (arg_mode == "BOX_SERVO" || arg_mode == "BTNMB")
   {
-    BTN_REQ = BtnREQ_MA;
-    webpage = "BtnMA: BoxServo";
+    BTN_REQ = BtnREQ_MB;
+    webpage = "BtnMB: BoxServo";
     return;
   }
-  // else if (arg_mode == "BOX_SYSINFO" || arg_mode == "BTNMC")
-  // {
-  //   BTN_REQ = BtnREQ_MC;
-  //   webpage = "BtnMC: SysInfo Disp";
-  //   return;
-  // }
   else
   {
     BTN_REQ = 0;
@@ -192,12 +185,8 @@ void BtnReqGet()
     BtnUC_Do();
     break;
 
-  case BtnREQ_MA:
-    BtnMA_Do();
-    break;
-
-  case BtnREQ_MC:
-    BtnMC_Do();
+  case BtnREQ_MB:
+    BtnMB_Do();
     break;
 
   default:
@@ -236,16 +225,7 @@ void BtnUC_Do()
   statusNext();
 }
 
-void BtnMC_Do()
-{
-  // tone(1);
-  // if (SYSINFO_DISP_STATE)
-  //   sysInfoDispEnd();
-  // else
-  //   sysInfoDispStart(0);
-}
-
-void BtnMA_Do()
+void BtnMB_Do()
 {
   tone(1);
   BoxServoDo();
@@ -283,11 +263,9 @@ void BoxTouchSetup()
   int h50 = h100 / 2;
   int h25 = h100 / 4;
 
-  BOX_STATUS_NEXT.setupBox(0, 0, w25, h25);                        // 上左
-  BOX_STATUS_MODE_SELECT.setupBox(w50 - w25 / 2 - 1, 0, w25, h25); // 上中
-  BOX_STATUS_PREV.setupBox(w100 - w25 - 1, 0, w25, h25);           // 上右
-
-  BOX_SERVO.setupBox(0, h50 - (h25 / 2) - 1, w25, h25); // 中左
-
-  // BOX_SYSINFO.setupBox(w100 - w25 - 1, h50 - (h25 / 2) - 1, w25, h25); // 中右
+  BOX_STATUS_NEXT.setupBox(0, 0, w25, h25);                               // 上左
+  BOX_STATUS_MODE_SELECT.setupBox(w50 - (w25 / 2) - 1, 0, w25, h25);      // 上中
+  BOX_STATUS_PREV.setupBox(w100 - w25 - 1, 0, w25, h25);                  // 上右
+  
+  BOX_SERVO.setupBox(w50 - (w25 / 2) - 1, h50 - (h25 / 2) - 1, w25, h25); // 中中
 }

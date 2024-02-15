@@ -2,7 +2,7 @@
 #include "main.h"
 
 const String WSS_NAME = "WebServer-with-stackchan";
-const String WSS_VER = "v306a-240315";
+const String WSS_VER = "v306a-240216";
 const String WSS_VERSION = WSS_NAME + " " + WSS_VER;
 // ---------------------------------------------------------------------
 //  *** Extended from ***

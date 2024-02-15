@@ -301,18 +301,13 @@ void log_free_size(const char *text)
 String getHeapFreeSize()
 {
   char s[40];
-  // int minDEF = heap_caps_get_minimum_free_size(MALLOC_CAP_DEFAULT) / 1024;
-  // int minPSRAM = heap_caps_get_minimum_free_size(MALLOC_CAP_SPIRAM) / 1024;
-  // int minDMA = heap_caps_get_minimum_free_size(MALLOC_CAP_DMA) / 1024;
-
   int mDEF = heap_caps_get_free_size(MALLOC_CAP_DEFAULT) / 1024;
   int mPSRAM = heap_caps_get_free_size(MALLOC_CAP_SPIRAM) / 1024;
   int mDMA = heap_caps_get_free_size(MALLOC_CAP_DMA) / 1024;
-
   sprintf(s, "Mem=%4dkB ps:%4d dma:%3d", mDEF, mPSRAM, mDMA);
-
   return String(s);
 }
+
 
 uint32_t static exe_time = 0;
 //void showExeTime(String msg, int mode=EXE_TM_MD0)  // コンパイラが通らない

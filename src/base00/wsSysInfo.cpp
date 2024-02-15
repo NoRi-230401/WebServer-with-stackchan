@@ -14,8 +14,6 @@ void wsHandleSysInfo(String txS, String dispS, String modeS)
   if (txS == "" && dispS == "" && modeS == "")
   {
     sysInfoDispMake(0);
-    // SYSINFO_MSG += "\n";
-    // sysInfoDispMake(1);
     webpage = SYSINFO_MSG;
     return;
   }
@@ -38,10 +36,7 @@ void wsHandleSysInfo(String txS, String dispS, String modeS)
     }
     else if (dispS == "on")
     {
-      // uint8_t mode_no =(uint8_t) modeS.toInt();
-      // sysInfoDispStart(mode_no);
       sysInfoDispStart(0);
-
       webpage = SYSINFO_MSG;
       return;
     }
@@ -53,8 +48,6 @@ void wsHandleSysInfo(String txS, String dispS, String modeS)
     if (modeS == "all")
     {
       sysInfoDispMake(0);
-      // SYSINFO_MSG += "\n";
-      // sysInfoDispMake(1);
       webpage = SYSINFO_MSG;
     }
     else

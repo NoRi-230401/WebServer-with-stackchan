@@ -76,15 +76,15 @@ Webアプリは、html、styleSheet、javaScript、画像ファイルなどを�
 
 
 ## 必要なもの
-・　<b>本体 - M5Stack Core2</b> （Core2 for Awsで動作確認しています）<br>
-・　<b>Servo（SG90、または互換サーボ)</b>： 「顔だけ」の場合は必要なし<br>
+・<b>本体 - M5Stack Core2</b> （Core2 for Awsで動作確認しています）<br>
+・<b>Servo（SG90、または互換サーボ)</b>： 「顔だけ」の場合は必要なし<br>
 サーボ・ポートは、PortA,PortC両方に対応。設定で後から変更できます。<br><br>
-・　<b>SDカード</b> : 初回のWiFi接続時に使用します。<br>
+・<b>SDカード</b> : 初回のWiFi接続時に使用します。<br>
 通常は、SPIFFS内のファイルだけで運用することができますが、SDの情報がSPIFFSファイルより優先されます。緊急用にWiFiとApiKeyの設定ファイルは、SDに保存しておくことをお勧めします。<br><br>
-・　<b>OpenAiのApiKey</b><br>
-・　<b>VOICEVOXのApiKey</b><br><br>
+・<b>OpenAiのApiKey</b><br>
+・<b>VOICEVOXのApiKey</b><br><br>
 ファームウエアを本体に書き込む為にPC上にどちらかの環境を整えてください。<br>
-・　<b>VsCodeの開発環境</b>　または、<b>M5Burner</b><br>
+・<b>VsCodeの開発環境</b>　または、<b>M5Burner</b><br>
 <br>
 
 ## Support Page

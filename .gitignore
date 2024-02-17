@@ -1,5 +1,6 @@
 .pio
 .vscode
+.bin
 logs
 APIKEY
 BACKUP

@@ -2,9 +2,9 @@
 #include "main.h"
 
 const String WSS_NAME = "WebServer-with-stackchan";
-const String WSS_VER = "v307a-240216";
+const String WSS_VER = "v307-240218";
 const String WSS_VERSION = WSS_NAME + " " + WSS_VER;
-const String WSS_BIN_FILE = "/wss-v307.bin";  // default-SDUpdater-bin-fileName
+const String WSS_BIN_FILE = "/wss.bin";  // default-SDUpdater-bin-fileName
 
 // ---------------------------------------------------------------------
 //  *** Extended from ***

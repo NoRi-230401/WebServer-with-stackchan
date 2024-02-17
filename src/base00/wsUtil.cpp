@@ -379,9 +379,10 @@ void sdupdater_save(String flname)
   M5.Display.setTextColor(WHITE, BLACK);
   M5.Display.fillScreen(BLACK);
   M5.Display.setTextDatum(0);
-  delay(100);
+  delay(200);
+  Serial.println("save to sdupdater bin file in SD");
   saveSketchToFS(SD, flname.c_str());
-  Serial.println("saved sdupdater bin file in SD");
+  Serial.println("save done");
 
   M5.Display.setTextColor(WHITE, BLACK);
   M5.Display.fillScreen(BLACK);

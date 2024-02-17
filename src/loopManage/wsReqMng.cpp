@@ -45,7 +45,7 @@ void requestManage()
   case REQ_SDUPDATER_SAVE:
     REQUEST_NO = 0;
     sdupdater_save(REQUEST_STR);
-    REQUEST_STR="";
+    // REQUEST_STR="";
     break;
 
   default:

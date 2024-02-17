@@ -405,17 +405,25 @@ void wsHandleApikeySetting(String openAiS, String voicevoxS, String txS)
 
 uint8_t config_brightness = 120; // 明るさ
 
-void M5StackConfig()
+void M5StackConfig01()
 {
   // ********** M5 config **************
   auto cfg = M5.config();
   M5.begin(cfg);
+  // M5.Display.setBrightness(config_brightness);
+  // M5.Lcd.setTextSize(2);
+  // M5.Display.print("\nHello StackChan!!\n\n");
+  // Serial.println("Hello StackChan!!"); 
+}
+
+void M5StackConfig02()
+{
+  // ********** M5 config **************
   M5.Display.setBrightness(config_brightness);
   M5.Lcd.setTextSize(2);
   M5.Display.print("\nHello StackChan!!\n\n");
   Serial.println("Hello StackChan!!"); 
 }
-
 
 void M5FileSystemBegin()
 {

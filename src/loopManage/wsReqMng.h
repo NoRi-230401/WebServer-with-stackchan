@@ -21,6 +21,7 @@
 #define SV_MD_NONE 99
 
 // -- Request ---------
+#define REQ_SDUPDATER_SAVE 8
 #define REQ_SV_MD_ADJUST 9
 #define REQ_STACKCHAN 10
 #define REQ_REBOOT  98
@@ -46,14 +47,16 @@ extern void setAvatarBalloon(String msg);
 extern void clearAvatarBalloon();
 extern void stackchanReq(const String& speakStr, int expr=-1, const String balloonStr="$$SKIP$$", int afterExpr=-1 );
 extern void stackchanNow( int expr = -1, const String balloonStr = "$$SKIP$$");
+extern void sdupdater_save(String flname);
 
 // ---------------------------------------------------------------------
-// extern void sendReq2(int reqNo, const String& speakStr="", int expr=-1, const String balloonStr="$$SKIP$$", int afterExpr=-1);
-// void sendReq2(int reqNo, const String& speakStr, int expr, const String balloonStr, int afterExpr);
 extern void sendReq_stackchan(const String& speakStr="", int expr=-1, const String balloonStr="$$SKIP$$", int afterExpr=-1);
 void sendReq_stackchan(const String &speakStr, int expr, const String balloonStr, int afterExpr);
 void requestManage();
+// extern void sendReq(int reqNo, String reqString="");
 void sendReq(int reqNo);
+void sendReq2(int reqNo, const String reqString);
+
 void Req_stackchanDo();
 // ---------------------------------------------------------------------
 #endif

@@ -78,6 +78,11 @@ void setupApiHandler()
   // ##################### timer ############################
   server.on("/timer", HTTP_GET, [](AsyncWebServerRequest *request)
             { handle_timer(request);    serverSend(request); });
+
+  // ##################### timer ############################
+  server.on("/sdupdater", HTTP_GET, [](AsyncWebServerRequest *request)
+            { handle_sdupdater(request);    serverSend(request); });
+
 }
 
 void handle_button(AsyncWebServerRequest *request)
@@ -149,6 +154,15 @@ void handle_timer(AsyncWebServerRequest *request)
   String timerModeS = request->arg("mode");
   wsHandleTimer(TmSecS, TmMinS, timerModeS);
 }
+
+void handle_sdupdater(AsyncWebServerRequest *request)
+{
+  tone(2);
+  webpage = "NG";
+  String saveFileName = request->arg("saveFileName");
+  wsHandleSdupdater(saveFileName);
+}
+
 
 void handle_face(AsyncWebServerRequest *request)
 {

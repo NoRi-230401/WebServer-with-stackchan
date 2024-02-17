@@ -8,6 +8,10 @@
 #include <SD.h>
 #include <SPIFFS.h>
 #include <M5Unified.h>
+#include <Avatar.h>
+using namespace m5avatar;
+extern Avatar avatar;
+
 
 #define WIFIJSON_SIZE 5 * 256
 #define FLTYPE_SPIFFS 1
@@ -35,9 +39,10 @@ extern void ledClearAll();
 extern int REQUEST_NO;
 extern String REQ_MSG;
 extern String webpage;
-// extern int REQ_SHUTDOWN_REBOOT;
 extern void sendReq(int reqNo);
-
+extern void sendReq2(int reqNo, const String reqString );
+extern const String WSS_NAME;
+extern const String WSS_BIN_FILE;
 //------------------------------------------------------------
 void wsHandleShutdown(String reboot_get_str, String time_get_str);
 void errSTOP();
@@ -62,6 +67,18 @@ String getHeapFreeSize();
 #define EXE_TM_MD2 2 // no disp and timer reset
 #define EXE_TM_MD_START 3 // no disp and timer reset for START 
 void showExeTime(String msg, int mode=EXE_TM_MD0);
+
+// --- for SD-Updater -----
+#define REQ_SDUPDATER_SAVE 8
+// #define TFCARD_CS_PIN 4
+#include <ESP32-targz.h>
+#include <M5StackUpdater.h>
+void SD_Updater_Menu();
+void wsHandleSdupdater(String saveFileName);
+void sdupdater_save(String flname);
+extern void sendReq( int reqNo);
+extern void sendReq2( int reqNo, const String reqString );
+
 //------------------------------------------------------------
 
 #endif

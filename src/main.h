@@ -3,8 +3,10 @@
 #define _WS_MAIN_H
 // -------------------------------------------------------
 #include <Arduino.h>
+
 extern const String WSS_VERSION;
-extern void M5StackConfig();
+extern void M5StackConfig01();
+extern void M5StackConfig02();
 extern void M5SpeakerConfig();
 extern void startupSetting();
 extern void apikeySetting();
@@ -38,6 +40,7 @@ extern void log_free_size(const char *text);
 // extern void showExeTime(String msg, int mode = EXE_TM_MD0);
 extern void statusLineSetup();
 extern void M5FileSystemBegin();
+extern void SD_Updater_Menu();
 
 // --- Wss StaTe (WST) define ------- 
 extern uint16_t WST ;
@@ -58,6 +61,9 @@ extern void EPS32_system_info(void);
 extern const String WSS_NAME;
 extern const String WSS_VER;
 extern const String WSS_VERSION;
+extern const String WSS_BIN_FILE;
+// extern String webpage;
+
 void setup();
 void loop();
 // ---------------end of < WS_MAIN_H > -----------------------

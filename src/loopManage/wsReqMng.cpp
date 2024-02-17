@@ -6,6 +6,7 @@ int REQ_EXPR = -1;
 int REQ_EXPR_AFTER = -1;
 String REQ_BALLOON_STR = "";
 int REQUEST_NO = 0; // 0 : no request
+String REQUEST_STR ="";
 String REQ_MSG = "";
 
 void requestManage()
@@ -41,16 +42,30 @@ void requestManage()
     POWER_OFF();
     break;
 
+  case REQ_SDUPDATER_SAVE:
+    REQUEST_NO = 0;
+    sdupdater_save(REQUEST_STR);
+    REQUEST_STR="";
+    break;
+
   default:
     REQUEST_NO = 0;
     break;
   }
 }
 
-void sendReq(int reqNo)
+void sendReq(int reqNo )
 {
   REQUEST_NO = reqNo;
 }
+
+void sendReq2(int reqNo, const String reqString )
+{
+  REQUEST_NO = reqNo;
+  REQUEST_STR = reqString;
+}
+
+
 
 void sendReq_stackchan(const String &speakStr, int expr, const String balloonStr, int afterExpr)
 {

@@ -4,6 +4,8 @@
 const String WSS_NAME = "WebServer-with-stackchan";
 const String WSS_VER = "v307a-240216";
 const String WSS_VERSION = WSS_NAME + " " + WSS_VER;
+const String WSS_BIN_FILE = "/wss-v307.bin";  // default-SDUpdater-bin-fileName
+
 // ---------------------------------------------------------------------
 //  *** Extended from ***
 // AI_StackChan2                         : robo8080さん
@@ -12,16 +14,20 @@ const String WSS_VERSION = WSS_NAME + " " + WSS_VER;
 // M5Stack_Stack-chan_another_dimension  : つゆきぱぱさん
 // ----------------------------------------------------------------------
 
+
 void setup()
 {
   WST = WST_SETUP_start;
   // ** initial Setting **
-  M5StackConfig();
+  M5StackConfig01();
+  SD_Updater_Menu();
+  M5StackConfig02();
+
   M5LedBegin();
   ledRed();
   M5SpeakerConfig();
   M5FileSystemBegin();
-  
+
   // ** Setting files **
   startupSetting();
   apikeySetting();
@@ -37,12 +43,14 @@ void setup()
   servoSetup();
   chatGptSetup();
   ledBlue();
-  delay(3000);
+
+  delay(2000);
 
   //*** Wake UP! STACKCHAN ***
   avatarSTART();
   statusLineSetup();
   BoxTouchSetup();
+
   muteOff();
   ledClearAll();
   WST = WST_SETUP_done;
@@ -58,4 +66,3 @@ void loop()
   chatGptManage();
   timerManage();
 }
-

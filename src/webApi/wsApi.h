@@ -140,7 +140,7 @@ extern void wsHandelChatGpt(String historyS,String charaS);
 extern void wsHandleRandomSpeak(String modeS);
 extern void wsServoSetting(String txS,String servoS, String servoPortS,
       String servoModeS, String servoHomeXS, String servoHomeYS);
-
+extern void wsHandleSdupdater(String saveFileName);
 extern int BTN_REQ;
 using namespace m5avatar;
 extern Avatar avatar;
@@ -170,6 +170,7 @@ void handle_startupSetting(AsyncWebServerRequest *request);
 void handle_wifiSetting(AsyncWebServerRequest *request);
 void handle_shutdown(AsyncWebServerRequest *request);
 void handle_timer(AsyncWebServerRequest *request);
+void handle_sdupdater(AsyncWebServerRequest *request);
 void handle_speech(AsyncWebServerRequest *request);
 void handle_face(AsyncWebServerRequest *request);
 void handle_balloon(AsyncWebServerRequest *request);

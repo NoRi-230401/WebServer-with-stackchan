@@ -333,3 +333,60 @@ void showExeTime(String msg, int mode)               // 関数宣言部分から
     break;
   }
 }
+
+
+
+void SD_Updater_Menu()
+{
+  SDUCfg.setAppName(WSS_NAME.c_str()); // lobby screen label: application name
+  SDUCfg.setLabelMenu("< Menu");    // BtnA label: load menu.bin
+  // SDUCfg.setLabelSkip("Launch");    // BtnB label: skip the lobby countdown and run the app
+  // SDUCfg.setLabelSave("Save");      // BtnC label: save the sketch to the SD
+  SDUCfg.setBinFileName(WSS_BIN_FILE.c_str());
+  // if file path to bin is set for this app, it will be checked at boot and created if not exist
+
+  checkSDUpdater(
+      SD,           // filesystem (default=SD)
+      MENU_BIN,     // path to binary (default=/menu.bin, empty string=rollback only)
+      10000,        // wait delay, (default=0, will be forced to 2000 upon ESP.restart() )
+      TFCARD_CS_PIN // usually default=4 but your mileage may vary
+  );
+}
+
+void wsHandleSdupdater(String saveFileName)
+{
+  String flname = WSS_BIN_FILE;
+
+  if (saveFileName != "")
+  {
+    flname = "/" + saveFileName;
+  }
+
+  webpage = "save bin file to SD  -->  " + flname;
+  Serial.println(webpage);
+  sendReq2(REQ_SDUPDATER_SAVE, flname);
+}
+
+void sdupdater_save(String flname)
+{
+  avatar.suspend();
+  Serial.println("avatar suspended");
+
+  // randomSpeakStop2();
+  // timerStop2();
+  M5.Display.setTextFont(1);
+  M5.Display.setTextSize(2);
+  M5.Display.setTextColor(WHITE, BLACK);
+  M5.Display.fillScreen(BLACK);
+  M5.Display.setTextDatum(0);
+  delay(100);
+  saveSketchToFS(SD, flname.c_str());
+  Serial.println("saved sdupdater bin file in SD");
+
+  M5.Display.setTextColor(WHITE, BLACK);
+  M5.Display.fillScreen(BLACK);
+  avatar.resume();
+  Serial.println("avatar resumed");
+}
+
+// ------------------------------------------------

@@ -75,7 +75,8 @@ void wsHandleStartup(String serverNameS, String volumeS, String ledS,
                      String toneModeS, String muteS, String keyLockS, String vSpeakerNoS,
                      String randomSpeakS, String timerS, String txS);
 void wsHandleApikeySetting(String openAiS, String voicevoxS, String txS);
-void M5StackConfig();
+void M5StackConfig01();
+void M5StackConfig02();
 void M5FileSystemBegin();
 bool jsonAPIKEYinit(DynamicJsonDocument &jsonDoc);
 

@@ -1,30 +1,14 @@
 # WebServer-with-stackchan (WSS)
 
-## New（Ver305 新機能）
-### <b>(1).ステータス表示(StatusDisp)</b><br>
-Ver304に引き続き、バッテリー・アイコンを拡張し、情報表示の機能をつけました。<br>
-<b>画面上部の真中</b>をタッチすると、Normal, StatusLine, StatusDispの３つのModeを切替えます。<br>
-<b>Normal</b> : 通常のスタックチャンの顔の表示<br>
-<b>StatusLine</b> ：上１行を使い、バッテリー・アイコンを含めた７種類を選択できます。<br>
-種類の選択は、画面上部の左(Prev)または、右(Next)で選ぶことができます。今回は、「メモリ残量」表示を追加しています。<br>
-<b>StatusDisp</b> :　Avatarを停止して、全画面を使って情報表示をします。 <br>
-StatsuLineモードと同様に、画面上部の左右をタッチすると違う種類を選択することができます。
-全部で７種類の情報があります。（下記の画面参照）
+## New（Ver307 新機能）
+### <b> SD-Updater対応</b><br>
+立上げ時に SD-UpdaterのMenuに移行できるようしました。<br>
+SD直下に、firmware（ファイル名"wss.bin"）をコピーしておくと、SD-Updater対応のアプリと切替えができるようになります。<br>
+SD-Updaterの簡単な導入方法は、以下のサポート・ページのインストール箇所で行っています。<br>
+https://nori.rdy.jp/wss/ 　　　(WSS-Support) <br>
 
-
-![モード](images/stackV305gazo2.jpg)<br>
 <br>
 
-### (2).その他
-v304から、ソースにかなりの変更を加えています。<br>
-・chatGPTの modelは、「gpt-3.5-turbo-0125」に変更<br>
-・VOICEVOXのクラス化<br>
-・階層間の機能分離の推進<br>
-・PowerOn時のWiFi優先順位の見直し、などなど<br>
-・HOME画面で使用できるイラストが、１０＋１(下の画像)で１１種類になりました。<br>
-![モード](images/home-gazo.png)<br>
-<br>
-<br>
 
 ## Features（特徴）
 <b>(1).ファイル管理機能つき、WebServer</b><br>
@@ -149,12 +133,41 @@ https://github.com/meganetaaan/stack-chan
 <br>
 
 ## history
+
+### Ver3.07 2024-02-18
+#### SD-Updater対応
+<br>
+
 ### Ver3.06a 2024-02-16
 電源投入時の不具合対応のため緊急リリース。<br>
 （根本原因は不明なのですが、とりあえず現象は解消した）
+<br>
 
 ### Ver3.05 2024-02-14
-ステータス表示の拡張他
+#### <b>(1).ステータス表示(StatusDisp)</b><br>
+Ver304に引き続き、バッテリー・アイコンを拡張し、情報表示の機能をつけました。<br>
+<b>画面上部の真中</b>をタッチすると、Normal, StatusLine, StatusDispの３つのModeを切替えます。<br>
+<b>Normal</b> : 通常のスタックチャンの顔の表示<br>
+<b>StatusLine</b> ：上１行を使い、バッテリー・アイコンを含めた７種類を選択できます。<br>
+種類の選択は、画面上部の左(Prev)または、右(Next)で選ぶことができます。今回は、「メモリ残量」表示を追加しています。<br>
+<b>StatusDisp</b> :　Avatarを停止して、全画面を使って情報表示をします。 <br>
+StatsuLineモードと同様に、画面上部の左右をタッチすると違う種類を選択することができます。
+全部で７種類の情報があります。<br>
+
+![モード](images/stackV305gazo2.jpg)<br>
+<br> 
+
+#### (2).その他
+v304から、ソースにかなりの変更を加えました。<br>
+・chatGPTの modelは、「gpt-3.5-turbo-0125」に変更<br>
+・VOICEVOXのクラス化<br>
+・階層間の機能分離の推進<br>
+・PowerOn時のWiFi優先順位の見直し、などなど<br>
+・HOME画面で使用できるイラストが、１０＋１(下の画像)で１１種類になりました。<br>
+<br>
+
+
+
 
 ### Ver3.04 2024-01-06
 (1).ステータス表示<br>

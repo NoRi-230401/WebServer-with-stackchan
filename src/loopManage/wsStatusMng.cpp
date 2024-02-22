@@ -47,6 +47,7 @@ void statusModeSelect()
     avatar.setBatteryIcon(true, BATTERY_MD_INVISIBLE);
     delay(10);
     avatarStop();
+    avatarStop2();
     sysInfoDispStart(SYSINFO_NO);
     break;
 

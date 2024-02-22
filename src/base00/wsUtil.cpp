@@ -355,50 +355,25 @@ void SDU_lobby()
 
 void wsHandleSdupdater(String saveFileName)
 {
-  return;
+  String flname = WSS_BIN_FILE;
 
-  // String flname = WSS_BIN_FILE;
+  if (saveFileName != "")
+    flname = saveFileName;
 
-  // if (saveFileName != "")
-  // {
-  //   flname = "/" + saveFileName;
-  // }
-
-  // randomSpeakStop2();
-  // timerStop2();
-
-  // webpage = "save bin file to SD  -->  " + flname;
-  // Serial.println(webpage);
-  // sendReq2(REQ_SDUPDATER_SAVE, flname);
+  randomSpeakStop2();
+  timerStop2();
+  webpage = "save bin file to SD  -->  " + flname;
+  Serial.println(webpage);
+  sendReq2(REQ_SDUPDATER_SAVE, flname);
 }
-
-void sdupdater_save(String flname)
-{
-  avatar.suspend();
-  Serial.println("avatar suspended");
-
-  M5.Display.setTextFont(1);
-  M5.Display.setTextSize(2);
-  M5.Display.setTextColor(WHITE, BLACK);
-  M5.Display.fillScreen(BLACK);
-  M5.Display.setTextDatum(0);
-  delay(200);
-  Serial.println("save to sdupdater bin file in SD");
-  saveSketchToFS(SD, flname.c_str());
-  delay(10);
-  Serial.println("save done");
-
-  M5.Display.setTextColor(WHITE, BLACK);
-  M5.Display.fillScreen(BLACK);
-  avatar.resume();
-  Serial.println("avatar resumed");
-}
-
 
 void SDU_saveBin(String flname)
 {
+  Serial.println("save to sdupdater bin file in SD : " + flname);
+  delay(50);
+  
   saveSketchToFS(SD, flname.c_str());
+  Serial.println("save done");
 }
-
 
 // ------------------------------------------------

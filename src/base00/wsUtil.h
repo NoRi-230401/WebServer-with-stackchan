@@ -45,6 +45,11 @@ extern const String WSS_NAME;
 extern const String WSS_BIN_FILE;
 extern  void timerStop2(); 
 extern void randomSpeakStop2();
+extern void sendReq( int reqNo);
+extern void sendReq2( int reqNo, const String reqString );
+extern void avatarStop();
+extern void avatarStop2();
+extern void avatarResume();
 
 //------------------------------------------------------------
 void wsHandleShutdown(String reboot_get_str, String time_get_str);
@@ -69,6 +74,9 @@ String getHeapFreeSize();
 #define EXE_TM_MD1 1 // disp and timer no reset
 #define EXE_TM_MD2 2 // no disp and timer reset
 #define EXE_TM_MD_START 3 // no disp and timer reset for START 
+
+
+
 void showExeTime(String msg, int mode=EXE_TM_MD0);
 
 // --- for SD-Updater -----
@@ -79,10 +87,7 @@ void showExeTime(String msg, int mode=EXE_TM_MD0);
 void SDU_lobby();
 void SDU_fromSD();
 void wsHandleSdupdater(String saveFileName);
-void sdupdater_save(String flname);
 void SDU_saveBin(String flname);
-extern void sendReq( int reqNo);
-extern void sendReq2( int reqNo, const String reqString );
 
 //------------------------------------------------------------
 

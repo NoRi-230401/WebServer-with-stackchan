@@ -34,19 +34,15 @@ extern void timerStop2();
 extern void randomSpeakStop2();
 extern void timerStart();
 extern void timerStop();
-// extern void sysInfoDispEnd();
 extern void sysInfoDispStart(uint8_t mode_no);
 extern void tone(int mode);
 extern void SST_ChatGPT();
 extern bool TM_STOP_GET;
 extern bool TM_GO_GET;
-// extern void statusLineOnOff();
 extern void statusPrev();
 extern void statusNext();
 extern bool statusLineOneState;
 extern void statusModeSelect();
-// extern void avatarStop();
-// extern void avatarResume();
 
 extern const String WSS_NAME;
 extern const String WSS_BIN_FILE;
@@ -75,7 +71,6 @@ void BtnUA_Do();
 void BtnUB_Do();
 void BtnUC_Do();
 void BtnMB_Do();
-// void BtnMC_Do();
 void BoxTouchSetup();
 void SDU_disp();
 

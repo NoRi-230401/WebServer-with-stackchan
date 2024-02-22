@@ -52,6 +52,7 @@ extern const String WSS_VERSION;
 extern const String WSS_NAME;
 extern const String WSS_VER;
 extern void avatarStop();
+extern void avatarStop2();
 extern void avatarResume();
 
 //------------------------------------------------------------

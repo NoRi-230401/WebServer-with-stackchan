@@ -46,8 +46,9 @@ extern void ledSetColor(uint16_t n, uint8_t r, uint8_t g, uint8_t b);
 extern void ledShow();
 extern void ledClear();
 extern void sysInfoDispStart(uint8_t mode_no);
-extern void sysInfoDispEnd();
+// extern void sysInfoDispEnd();
 extern void avatarStop();
+extern void avatarStop2();
 extern void avatarResume();
 extern const String WSS_NAME;
 

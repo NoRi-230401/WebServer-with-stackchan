@@ -31,34 +31,36 @@ void stackchanNow( int expr, const String balloonStr)
 
 
 static bool AVATAR_STATUS = true;
-
 void avatarStop()
 {
   if(!AVATAR_STATUS)
     return;
 
   avatar.suspend();
+  AVATAR_STATUS = false;
   Serial.println("avatar suspended");
+}
 
+void avatarStop2()
+{
   M5.Lcd.setTextFont(0);
   M5.Lcd.setTextSize(2);
   M5.Lcd.setTextColor(WHITE, BLACK);
   M5.Lcd.setTextDatum(0);
   M5.Lcd.setCursor(0, 0);
-  M5.Lcd.fillScreen(BLUE);
-  AVATAR_STATUS = false;
+  M5.Lcd.fillScreen(BLACK);
 }
+
 
 void avatarResume()
 {
   if(AVATAR_STATUS)
     return;
-  
-  M5.Lcd.setTextColor(WHITE, BLACK);
-  M5.Lcd.fillScreen(BLACK);
+
   avatar.resume();
   Serial.println("avatar resumed");
   AVATAR_STATUS = true;
+  delay(100);
 }
 
 

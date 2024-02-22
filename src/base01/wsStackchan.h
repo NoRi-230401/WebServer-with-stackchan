@@ -91,6 +91,7 @@ void setStatusLineMode(int mode);
 void setAvatarcolor();
 extern void servo(void *args);
 void avatarStop();
+void avatarStop2();
 void avatarResume();
 void avatarSTART();
 // -----------------------------------

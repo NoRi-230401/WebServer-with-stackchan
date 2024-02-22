@@ -2,9 +2,9 @@
 #include "main.h"
 
 const String WSS_NAME = "WebServer-with-stackchan";
-const String WSS_VER = "v307-240218";
+const String WSS_VER = "v308a-240229";
 const String WSS_VERSION = WSS_NAME + " " + WSS_VER;
-const String WSS_BIN_FILE = "/wss.bin";  // default-SDUpdater-bin-fileName
+const String WSS_BIN_FILE = "wss.bin";  // default-SDUpdater-bin-fileName
 
 // ---------------------------------------------------------------------
 //  *** Extended from ***
@@ -20,7 +20,7 @@ void setup()
   WST = WST_SETUP_start;
   // ** initial Setting **
   M5StackConfig01();
-  SD_Updater_Menu();
+  SDU_lobby();
   M5StackConfig02();
 
   M5LedBegin();

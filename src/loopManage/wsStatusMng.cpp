@@ -3,8 +3,81 @@
 
 // bool statusLineOnOffState = false;
 int StatusLineMode;
-int statusMode = STM_NONE;
+int statusMode = STM0X_NONE;
 uint32_t statusLineCheck_time = 0;
+
+
+
+
+void statusModeSelect()
+{
+  statusMode++;
+  statusMode = statusMode % STM_LEN;
+  Serial.println("statusMode = " + String(statusMode, DEC));
+
+  switch (statusMode)
+  {
+  case STM0X_NONE:
+    avatarResume();
+    avatar.setBatteryIcon(true, BATTERY_MD_INVISIBLE);
+    break;
+
+  case STM1X_LINE:
+    switch (StatusLineMode)
+    {
+    case STM10_ICON:
+      avatar.setBatteryIcon(true, BATTERY_MD_ICON);
+      break;
+
+    case STM11_NUM:
+      avatar.setBatteryIcon(true, BATTERY_MD_NUM);
+      break;
+
+    case STM12_CLOCK:
+    case STM13_RSSI:
+    case STM14_VOL:
+    case STM15_MEM:
+    case STM16_IP:
+      avatar.setBatteryIcon(true, BATTERY_MD_LINE_DISP);
+      break;
+    }
+    break;
+
+  case STM2X_SYSINFO:
+    avatar.setBatteryIcon(true, BATTERY_MD_INVISIBLE);
+    delay(10);
+    avatarStop();
+    sysInfoDispStart(SYSINFO_NO);
+    break;
+
+  case STM3X_SETTING:
+    // avatar.setBatteryIcon(true, BATTERY_MD_INVISIBLE);
+    // delay(10);
+    // avatarStop();
+    SDU_disp();
+    break;
+
+  default:
+    break;
+  }
+}
+
+void SDU_disp()
+{
+  M5.Lcd.setTextFont(1);
+  M5.Lcd.setTextSize(2);
+  M5.Lcd.setTextColor(WHITE, BLACK);
+  M5.Lcd.setTextDatum(0);
+  M5.Lcd.setCursor(0, 0);
+  M5.Lcd.fillScreen(BLACK);
+
+  M5.Lcd.print( "**  SD-Updater  **\n\n");
+  M5.Lcd.print( WSS_NAME.c_str());
+  M5.Lcd.print("\n\n\nBtnA: lobby screen appear\n\n");
+  M5.Lcd.print("BtnB: load menu binary\n\n");
+  M5.Lcd.print("BtnC: store BIN file to SD\n");
+}
+
 
 void statusLineManage()
 {
@@ -16,30 +89,30 @@ void statusLineManage()
 
     switch (StatusLineMode)
     {
-    case STATUS_MD_ICON:
-    case STATUS_MD_NUM:
+    case STM10_ICON:
+    case STM11_NUM:
       avatar.setBatteryStatus(M5.Power.isCharging(), M5.Power.getBatteryLevel());
       return;
 
-    case STATUS_MD_CLOCK:
+    case STM12_CLOCK:
       int tmSec;
       statusLineMsg = getDateTime(tmSec);
       break;
 
-    case STATUS_MD_RSSI:
+    case STM13_RSSI:
       statusLineMsg = "WiFi  Rssi=" + String(WiFi.RSSI()) + "dB   Chan=" + String(WiFi.channel());
       break;
 
-    case STATUS_MD_VOL:
+    case STM14_VOL:
       sprintf(s, "Vol=%3d vSpk=%2d Chara=%d", VOLUME_VALUE, TTS_vSpkNo, CHARA_NO);
       statusLineMsg = String(s);
       break;
 
-    case STATUS_MD_MEM:
+    case STM15_MEM:
       statusLineMsg = getHeapFreeSize();
       break;
 
-    case STATUS_MD_IP:
+    case STM16_IP:
       statusLineMsg = String(WiFi.localIP().toString()) + "  " + SERVER_NAME;
       break;
 
@@ -53,8 +126,8 @@ void statusLineManage()
 void statusLineSetup()
 {
   // -- batteryStatusLine init Setup ---
-  statusMode = STM_NONE;
-  StatusLineMode = STATUS_MD_IP;
+  statusMode = STM0X_NONE;
+  StatusLineMode = STM16_IP;
   SYSINFO_NO =0;
 
   avatar.setStatusLineText("");
@@ -70,44 +143,44 @@ void statusLineSetup()
 
 void statusPrev()
 {
-  if (statusMode == STM_SYSINFO)
+  if (statusMode == STM2X_SYSINFO)
   {
     if (SYSINFO_NO == 0)
     {
-      SYSINFO_NO = SYSINFO_LEN - 1;
+      SYSINFO_NO = STM2X_SYSINFO_LEN - 1;
     }
     else
     {
       SYSINFO_NO--;
-      SYSINFO_NO = SYSINFO_NO % SYSINFO_LEN;
+      SYSINFO_NO = SYSINFO_NO % STM2X_SYSINFO_LEN;
     }
     sysInfoDispStart(SYSINFO_NO);
   }
 
-  else if (statusMode == STM_LINE)
+  else if (statusMode == STM1X_LINE)
   {
     if (StatusLineMode == 0)
-      StatusLineMode = STATUS_MD_LEN - 1;
+      StatusLineMode = STM1X_LINE_LEN - 1;
     else
       StatusLineMode--;
 
-    StatusLineMode = StatusLineMode % STATUS_MD_LEN;
+    StatusLineMode = StatusLineMode % STM1X_LINE_LEN;
     setStatusLineMode(StatusLineMode);
   }
 }
 
 void statusNext()
 {
-  if (statusMode == STM_SYSINFO)
+  if (statusMode == STM2X_SYSINFO)
   {
     SYSINFO_NO++;
-    SYSINFO_NO = SYSINFO_NO % SYSINFO_LEN;
+    SYSINFO_NO = SYSINFO_NO % STM2X_SYSINFO_LEN;
     sysInfoDispStart(SYSINFO_NO);
   }
-  else if (statusMode == STM_LINE)
+  else if (statusMode == STM1X_LINE)
   {
     StatusLineMode++;
-    StatusLineMode = StatusLineMode % STATUS_MD_LEN;
+    StatusLineMode = StatusLineMode % STM1X_LINE_LEN;
     setStatusLineMode(StatusLineMode);
   }
 }
@@ -118,70 +191,25 @@ void setStatusLineMode(int mode)
 
   switch (mode)
   {
-  case STATUS_MD_ICON:
+  case STM10_ICON:
     avatar.setBatteryIcon(true, BATTERY_MD_ICON);
     break;
 
-  case STATUS_MD_NUM:
+  case STM11_NUM:
     avatar.setBatteryIcon(true, BATTERY_MD_NUM);
     break;
 
-  case STATUS_MD_CLOCK:
-  case STATUS_MD_RSSI:
-  case STATUS_MD_VOL:
+  case STM12_CLOCK:
+  case STM13_RSSI:
+  case STM14_VOL:
     avatar.setStatusLineFont(&fonts::lgfxJapanGothicP_12);
     avatar.setBatteryIcon(true, BATTERY_MD_LINE_DISP);
     break;
 
-  case STATUS_MD_MEM:
-  case STATUS_MD_IP:
+  case STM15_MEM:
+  case STM16_IP:
     avatar.setStatusLineFont(&fonts::Font0);
     avatar.setBatteryIcon(true, BATTERY_MD_LINE_DISP);
-    break;
-
-  default:
-    break;
-  }
-}
-
-void statusModeSelect()
-{
-  statusMode++;
-  statusMode = statusMode % STM_LEN;
-  Serial.println("statusMode = " + String(statusMode, DEC));
-
-  switch (statusMode)
-  {
-  case STM_NONE:
-    sysInfoDispEnd();
-    avatar.setBatteryIcon(true, BATTERY_MD_INVISIBLE);
-    break;
-
-  case STM_LINE:
-    switch (StatusLineMode)
-    {
-    case STATUS_MD_ICON:
-      avatar.setBatteryIcon(true, BATTERY_MD_ICON);
-      break;
-
-    case STATUS_MD_NUM:
-      avatar.setBatteryIcon(true, BATTERY_MD_NUM);
-      break;
-
-    case STATUS_MD_CLOCK:
-    case STATUS_MD_RSSI:
-    case STATUS_MD_VOL:
-    case STATUS_MD_MEM:
-    case STATUS_MD_IP:
-      avatar.setBatteryIcon(true, BATTERY_MD_LINE_DISP);
-      break;
-    }
-    break;
-
-  case STM_SYSINFO:
-    avatar.setBatteryIcon(true, BATTERY_MD_INVISIBLE);
-    delay(10);
-    sysInfoDispStart(SYSINFO_NO);
     break;
 
   default:

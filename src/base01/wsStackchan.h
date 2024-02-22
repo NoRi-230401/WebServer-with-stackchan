@@ -86,11 +86,12 @@ void setAvatarBalloon(String msg);
 void clearAvatarBalloon();
 void statusNext();
 void statusPrev();
-void statusLineOnOff();
 void statusLineManage();
 void setStatusLineMode(int mode);
 void setAvatarcolor();
 extern void servo(void *args);
+void avatarStop();
+void avatarResume();
 void avatarSTART();
 // -----------------------------------
 #endif

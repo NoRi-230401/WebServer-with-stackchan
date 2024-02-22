@@ -4,7 +4,7 @@
 using namespace m5avatar;
 extern Avatar avatar;
 
-bool SYSINFO_DISP_STATE = false;
+// bool SYSINFO_DISP_STATE = false;
 int SYSINFO_NO = 0;
 
 void wsHandleSysInfo(String txS, String dispS, String modeS)
@@ -31,11 +31,13 @@ void wsHandleSysInfo(String txS, String dispS, String modeS)
   {
     if (dispS == "off")
     {
-      sysInfoDispEnd();
+      avatarResume();
+      // sysInfoDispEnd();
       webpage = "OK";
     }
     else if (dispS == "on")
     {
+      avatarStop();
       sysInfoDispStart(0);
       webpage = SYSINFO_MSG;
       return;
@@ -219,57 +221,31 @@ bool sysInfoGet(String txArg, String &txData)
   return true;
 }
 
+
 void sysInfoDispStart(uint8_t mode_no)
 {
-  if (!SYSINFO_DISP_STATE)
-  {
-    avatar.suspend();
-    Serial.println("avatar suspended");
-
-    randomSpeakStop2();
-    timerStop2();
-    M5.Display.setTextFont(1);
-    M5.Display.setTextSize(2);
-    M5.Display.setTextColor(WHITE, BLUE);
-    M5.Display.setTextDatum(0);
-  }
-
-  M5.Display.setCursor(0, 0);
-  M5.Display.fillScreen(BLUE);
+  M5.Lcd.setTextColor(TFT_WHITE, TFT_BLUE);
+  M5.Lcd.fillScreen(BLUE);
   delay(50);
-
   sysInfoDispMake(mode_no);
   M5.Display.print(SYSINFO_MSG);
-
-  if (mode_no == 99)
-  { // Test mode Display
-    // errStop("EX_errFatal_STOP Called !!");
-    // reboot("EX_errFatal_REBOOT Called !!");
-  }
-  SYSINFO_DISP_STATE = true;
+  // SYSINFO_DISP_STATE = true;
 }
 
-void sysInfoDispEnd()
-{
-  if (!SYSINFO_DISP_STATE)
-  {
-    return;
-  }
-  
-  M5.Display.setTextColor(WHITE, BLACK);
-  M5.Display.fillScreen(BLACK);
-  avatar.resume();
-  Serial.println("avatar resumed");
-
-  delay(100);
-  SYSINFO_DISP_STATE = false;
-}
+// void sysInfoDispEnd()
+// {
+//   // if (!SYSINFO_DISP_STATE)
+//   // {
+//   //   return;
+//   // }
+//   // delay(100);
+//   // SYSINFO_DISP_STATE = false;
+// }
 
 uint8_t getBatteryLevel()
 {
   return (M5.Power.getBatteryLevel());
 }
-
 
 void sysInfoDispMake(uint8_t mode_no)
 {
@@ -313,7 +289,7 @@ void sysInfo_m00_DispMake()
 {
   String msg = "";
   char msg2[100];
-  String page = "[1/" + String(SYSINFO_LEN, DEC) + "] ";
+  String page = "[1/" + String(STM2X_SYSINFO_LEN, DEC) + "] ";
   SYSINFO_MSG = page + " -  SYSTEM Info  -\n";
 
   SYSINFO_MSG += WSS_NAME;
@@ -371,7 +347,7 @@ void sysInfo_m00_DispMake()
 
 void sysInfo_m01_DispMake()
 {
-  String page = "[2/" + String(SYSINFO_LEN, DEC) + "] ";
+  String page = "[2/" + String(STM2X_SYSINFO_LEN, DEC) + "] ";
   SYSINFO_MSG = page + " - Passwd/ApiKey -\n";
 
   SYSINFO_MSG += "\nSSID: " + SSID;
@@ -382,7 +358,7 @@ void sysInfo_m01_DispMake()
 
 void sysInfo_m02_DispMake()
 {
-  String page = "[3/" + String(SYSINFO_LEN, DEC) + "] ";
+  String page = "[3/" + String(STM2X_SYSINFO_LEN, DEC) + "] ";
   SYSINFO_MSG = page + " -  MAC  -\n";
 
   uint8_t mac0[6];
@@ -410,12 +386,11 @@ void sysInfo_m02_DispMake()
   esp_read_mac(mac6, ESP_MAC_ETH);
   sprintf(s, "\n\nETH_MAC= %02X:%02X:%02X:%02X:%02X:%02X", mac6[0], mac6[1], mac6[2], mac6[3], mac6[4], mac6[5]);
   SYSINFO_MSG += String(s);
- 
 }
 
 void sysInfo_m03_DispMake()
 {
-  String page = "[4/" + String(SYSINFO_LEN, DEC) + "] ";
+  String page = "[4/" + String(STM2X_SYSINFO_LEN, DEC) + "] ";
   SYSINFO_MSG = page + " -  CPU Info  -\n";
 
   uint64_t chipid;
@@ -458,7 +433,7 @@ void sysInfo_m03_DispMake()
 
 void sysInfo_m04_DispMake()
 {
-  String page = "[5/" + String(SYSINFO_LEN, DEC) + "] ";
+  String page = "[5/" + String(STM2X_SYSINFO_LEN, DEC) + "] ";
   SYSINFO_MSG = page + " -  RAM  -\n";
 
   char s[200];
@@ -491,7 +466,7 @@ void sysInfo_m04_DispMake()
 
 void sysInfo_m05_DispMake()
 {
-  String page = "[6/" + String(SYSINFO_LEN, DEC) + "] ";
+  String page = "[6/" + String(STM2X_SYSINFO_LEN, DEC) + "] ";
   SYSINFO_MSG = page + " - SPIFFS Space -\n";
 
   int total_b = SPIFFS.totalBytes();
@@ -516,7 +491,7 @@ void sysInfo_m05_DispMake()
 
 void sysInfo_m06_DispMake()
 {
-  String page = "[7/" + String(SYSINFO_LEN, DEC) + "] ";
+  String page = "[7/" + String(STM2X_SYSINFO_LEN, DEC) + "] ";
   SYSINFO_MSG = page + " -  NVS stats  -\n";
 
   nvs_stats_t stats;
@@ -534,16 +509,16 @@ void sysInfo_m06_DispMake()
   size_t namespace_cnt = stats.namespace_count;
 
   char s[200];
-  sprintf(s,"\n\n\nTotal_entries   = %4d", total_ent);
+  sprintf(s, "\n\n\nTotal_entries   = %4d", total_ent);
   SYSINFO_MSG += String(s);
 
-  sprintf(s,  "\n\nUsed_entries    = %4d", used_ent);
+  sprintf(s, "\n\nUsed_entries    = %4d", used_ent);
   SYSINFO_MSG += String(s);
 
-  sprintf(s,  "\n\nFree_entries    = %4d", free_ent);
+  sprintf(s, "\n\nFree_entries    = %4d", free_ent);
   SYSINFO_MSG += String(s);
 
-  sprintf(s,  "\n\nNamespace_count = %4d", namespace_cnt);
+  sprintf(s, "\n\nNamespace_count = %4d", namespace_cnt);
   SYSINFO_MSG += String(s);
 }
 

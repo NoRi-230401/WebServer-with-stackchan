@@ -334,40 +334,42 @@ void showExeTime(String msg, int mode)               // 関数宣言部分から
   }
 }
 
+void SDU_fromSD()
+{
+  updateFromFS(SD);
+}
 
-
-void SD_Updater_Menu()
+#define SDU_SKIP_TMR 10000  // skip timer : ms
+void SDU_lobby()
 {
   SDUCfg.setAppName(WSS_NAME.c_str()); // lobby screen label: application name
   SDUCfg.setLabelMenu("< Menu");    // BtnA label: load menu.bin
-  // SDUCfg.setLabelSkip("Launch");    // BtnB label: skip the lobby countdown and run the app
-  // SDUCfg.setLabelSave("Save");      // BtnC label: save the sketch to the SD
-  SDUCfg.setBinFileName(WSS_BIN_FILE.c_str());
-  // if file path to bin is set for this app, it will be checked at boot and created if not exist
-
+  
   checkSDUpdater(
       SD,           // filesystem (default=SD)
       MENU_BIN,     // path to binary (default=/menu.bin, empty string=rollback only)
-      10000,        // wait delay, (default=0, will be forced to 2000 upon ESP.restart() )
+      SDU_SKIP_TMR, // wait delay, (default=0, will be forced to 2000 upon ESP.restart() )
       TFCARD_CS_PIN // usually default=4 but your mileage may vary
   );
 }
 
 void wsHandleSdupdater(String saveFileName)
 {
-  String flname = WSS_BIN_FILE;
+  return;
 
-  if (saveFileName != "")
-  {
-    flname = "/" + saveFileName;
-  }
+  // String flname = WSS_BIN_FILE;
 
-  randomSpeakStop2();
-  timerStop2();
+  // if (saveFileName != "")
+  // {
+  //   flname = "/" + saveFileName;
+  // }
 
-  webpage = "save bin file to SD  -->  " + flname;
-  Serial.println(webpage);
-  sendReq2(REQ_SDUPDATER_SAVE, flname);
+  // randomSpeakStop2();
+  // timerStop2();
+
+  // webpage = "save bin file to SD  -->  " + flname;
+  // Serial.println(webpage);
+  // sendReq2(REQ_SDUPDATER_SAVE, flname);
 }
 
 void sdupdater_save(String flname)
@@ -391,5 +393,12 @@ void sdupdater_save(String flname)
   avatar.resume();
   Serial.println("avatar resumed");
 }
+
+
+void SDU_saveBin(String flname)
+{
+  saveSketchToFS(SD, flname.c_str());
+}
+
 
 // ------------------------------------------------

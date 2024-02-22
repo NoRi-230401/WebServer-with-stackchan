@@ -76,9 +76,11 @@ void showExeTime(String msg, int mode=EXE_TM_MD0);
 // #define TFCARD_CS_PIN 4
 #include <ESP32-targz.h>
 #include <M5StackUpdater.h>
-void SD_Updater_Menu();
+void SDU_lobby();
+void SDU_fromSD();
 void wsHandleSdupdater(String saveFileName);
 void sdupdater_save(String flname);
+void SDU_saveBin(String flname);
 extern void sendReq( int reqNo);
 extern void sendReq2( int reqNo, const String reqString );
 

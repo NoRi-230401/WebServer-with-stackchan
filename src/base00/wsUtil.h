@@ -31,6 +31,8 @@ extern Avatar avatar;
 // -- Request ---------
 #define REQ_SV_MD_ADJUST 9
 #define REQ_STACKCHAN 10
+#define REQ_SDUPDATER_SAVE 21
+#define REQ_SDUPDATER_SAVE2 22
 #define REQ_REBOOT  98
 #define REQ_SHUTDOWN  99
 
@@ -47,8 +49,6 @@ extern  void timerStop2();
 extern void randomSpeakStop2();
 extern void sendReq( int reqNo);
 extern void sendReq2( int reqNo, const String reqString );
-// extern void avatarStop();
-// extern void avatarStop2();
 extern void avatarResume();
 
 //------------------------------------------------------------
@@ -80,8 +80,6 @@ String getHeapFreeSize();
 void showExeTime(String msg, int mode=EXE_TM_MD0);
 
 // --- for SD-Updater -----
-#define REQ_SDUPDATER_SAVE 8
-// #define TFCARD_CS_PIN 4
 #include <ESP32-targz.h>
 #include <M5StackUpdater.h>
 void SDU_lobby();

@@ -21,9 +21,10 @@
 #define SV_MD_NONE 99
 
 // -- Request ---------
-#define REQ_SDUPDATER_SAVE 8
 #define REQ_SV_MD_ADJUST 9
 #define REQ_STACKCHAN 10
+#define REQ_SDUPDATER_SAVE 21
+#define REQ_SDUPDATER_SAVE2 22
 #define REQ_REBOOT  98
 #define REQ_SHUTDOWN  99
 
@@ -46,7 +47,7 @@ extern void SDU_saveBin(String flname);
 extern void avatarStop();
 extern void avatarStop2();
 extern void avatarResume();
-
+extern void SDU_disp();
 // ---------------------------------------------------------------------
 extern void sendReq_stackchan(const String& speakStr="", int expr=-1, const String balloonStr="$$SKIP$$", int afterExpr=-1);
 void sendReq_stackchan(const String &speakStr, int expr, const String balloonStr, int afterExpr);

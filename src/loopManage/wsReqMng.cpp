@@ -15,6 +15,7 @@ void requestManage()
     return;
 
   int req = REQUEST_NO;
+  String flname = "";
 
   switch (req)
   {
@@ -44,7 +45,7 @@ void requestManage()
 
   case REQ_SDUPDATER_SAVE:
     REQUEST_NO = 0;
-    String flname = REQUEST_STR;
+    flname = REQUEST_STR;
     avatarStop();
     avatarStop2();
     Serial.println("Will store BIN_FILE to SD");
@@ -53,6 +54,17 @@ void requestManage()
     avatarResume();
     return;
 
+  case REQ_SDUPDATER_SAVE2:
+    REQUEST_NO = 0;
+    flname = REQUEST_STR;
+    avatarStop();
+    avatarStop2();
+    Serial.println("Will store BIN_FILE to SD");
+    SDU_saveBin(flname);
+    delay(50);
+    // avatarResume();
+    SDU_disp();
+    return;
   }
 
   REQUEST_NO = 0;

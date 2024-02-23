@@ -33,8 +33,8 @@ void stackchanNow( int expr, const String balloonStr)
 static bool AVATAR_STATUS = true;
 void avatarStop()
 {
-  if(!AVATAR_STATUS)
-    return;
+  // if(!AVATAR_STATUS)
+  //   return;
 
   avatar.suspend();
   AVATAR_STATUS = false;

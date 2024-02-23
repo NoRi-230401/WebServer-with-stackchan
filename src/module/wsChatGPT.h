@@ -42,7 +42,7 @@ extern const String chatStrIData;
 extern const char *SETTING_NVS; // setting --NVS の設定用ファイル
 extern String webpage;
 extern int TTS_PARMS_NO;
-extern void sysInfoDispEnd();
+// extern void sysInfoDispEnd();
 extern bool isTalking();
 // extern void sendReq(int reqNo,String msg);
 extern void log_free_size(const char *text);

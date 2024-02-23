@@ -270,10 +270,10 @@ void BtnB_Do()
   }
 }
 
-
 void BtnC_Do()
 {
   tone(1);
+  String bin_flname = WSS_SD_BIN;
 
   switch (statusMode)
   {
@@ -293,12 +293,13 @@ void BtnC_Do()
     break;
 
   case STM3X_SETTING:
-    avatarStop();
-    avatarStop2();
-    Serial.println("Will store BIN_FILE to SD");
-    SDU_saveBin(WSS_SD_BIN);
-    SDU_disp();
-    delay(50);
+    sendReq2(REQ_SDUPDATER_SAVE2, bin_flname);
+    // avatarStop();
+    // avatarStop2();
+    // Serial.println("Will store BIN_FILE to SD");
+    // SDU_saveBin(bin_flname);
+    // delay(50);
+    // SDU_disp();
     break;
 
   default:

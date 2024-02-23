@@ -59,7 +59,7 @@ extern void stateManage();
 extern void EPS32_system_info(void);
 // ----------------------------------------------------------
 extern const String WSS_NAME;
-extern const String WSS_BIN_FILE;
+extern const String WSS_SD_BIN;
 extern const String WSS_VER;
 extern const String WSS_VERSION;
 

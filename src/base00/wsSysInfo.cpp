@@ -38,6 +38,7 @@ void wsHandleSysInfo(String txS, String dispS, String modeS)
     else if (dispS == "on")
     {
       avatarStop();
+      avatarStop2();
       sysInfoDispStart(0);
       webpage = SYSINFO_MSG;
       return;

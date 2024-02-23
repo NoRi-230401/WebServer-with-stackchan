@@ -45,7 +45,7 @@ extern bool statusLineOneState;
 extern void statusModeSelect();
 
 extern const String WSS_NAME;
-extern const String WSS_BIN_FILE;
+extern const String WSS_SD_BIN;
 extern void SDU_lobby();
 extern void SDU_fromSD();
 extern void SDU_saveBin(String flname);
@@ -58,6 +58,8 @@ extern void SDU_saveBin(String flname);
 #define STM_LEN 4
 extern int statusMode;
 
+extern void avatarStop();
+extern void avatarStop2();
 
 
 // --------------------------------------------------------

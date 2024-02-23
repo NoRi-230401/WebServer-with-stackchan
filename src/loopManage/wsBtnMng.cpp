@@ -293,8 +293,10 @@ void BtnC_Do()
     break;
 
   case STM3X_SETTING:
+    avatarStop();
+    avatarStop2();
     Serial.println("Will store BIN_FILE to SD");
-    SDU_saveBin(WSS_BIN_FILE);
+    SDU_saveBin(WSS_SD_BIN);
     SDU_disp();
     delay(50);
     break;

@@ -46,7 +46,10 @@ void requestManage()
     REQUEST_NO = 0;
     String flname = REQUEST_STR;
     avatarStop();
+    avatarStop2();
+    Serial.println("Will store BIN_FILE to SD");
     SDU_saveBin(flname);
+    delay(50);
     avatarResume();
     return;
 

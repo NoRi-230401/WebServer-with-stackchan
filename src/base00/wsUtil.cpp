@@ -308,10 +308,9 @@ String getHeapFreeSize()
   return String(s);
 }
 
-
 uint32_t static exe_time = 0;
-//void showExeTime(String msg, int mode=EXE_TM_MD0)  // コンパイラが通らない
-void showExeTime(String msg, int mode)               // 関数宣言部分からデフォルト引数を削除する
+// void showExeTime(String msg, int mode=EXE_TM_MD0)  // コンパイラが通らない
+void showExeTime(String msg, int mode) // 関数宣言部分からデフォルト引数を削除する
 {
   switch (mode)
   {
@@ -326,7 +325,7 @@ void showExeTime(String msg, int mode)               // 関数宣言部分から
 
   case EXE_TM_MD2:
   case EXE_TM_MD_START:
-      exe_time = millis();
+    exe_time = millis();
     break;
 
   default:
@@ -339,12 +338,12 @@ void SDU_fromSD()
   updateFromFS(SD);
 }
 
-#define SDU_SKIP_TMR 10000  // skip timer : ms
+#define SDU_SKIP_TMR 10000 // skip timer : ms
 void SDU_lobby()
 {
   SDUCfg.setAppName(WSS_NAME.c_str()); // lobby screen label: application name
-  SDUCfg.setLabelMenu("< Menu");    // BtnA label: load menu.bin
-  
+  SDUCfg.setLabelMenu("< Menu");       // BtnA label: load menu.bin
+
   checkSDUpdater(
       SD,           // filesystem (default=SD)
       MENU_BIN,     // path to binary (default=/menu.bin, empty string=rollback only)
@@ -355,7 +354,7 @@ void SDU_lobby()
 
 void wsHandleSdupdater(String saveFileName)
 {
-  String flname = WSS_BIN_FILE;
+  String flname = WSS_SD_BIN;
 
   if (saveFileName != "")
     flname = saveFileName;
@@ -369,9 +368,12 @@ void wsHandleSdupdater(String saveFileName)
 
 void SDU_saveBin(String flname)
 {
+  if (!flname.startsWith("/"))
+    flname = "/" + flname;
+
   Serial.println("save to sdupdater bin file in SD : " + flname);
   delay(50);
-  
+
   saveSketchToFS(SD, flname.c_str());
   Serial.println("save done");
 }

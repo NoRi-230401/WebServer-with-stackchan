@@ -44,13 +44,12 @@ extern Avatar avatar;
 #define FLTYPE_SD 2
 
 // -- Request ---------
-#define REQ_MSG_CLS 0
-#define REQ_SPEAK_ADJUST 1
-#define REQ_BALOON_ADJUST 2
-#define REQ_SPEAK_BALOON_ADJUST 3
-#define REQ_SPEAK 4
-#define REQ_BALOON 5
 #define REQ_SV_MD_ADJUST 9
+#define REQ_STACKCHAN 10
+#define REQ_SDUPDATER_SAVE 21
+#define REQ_SDUPDATER_SAVE2 22
+#define REQ_REBOOT  98
+#define REQ_SHUTDOWN  99
 
 //-- Avatar expressions --
 #define EXPR_NEUTRAL 0
@@ -72,7 +71,7 @@ extern bool KEYLOCK_STATE;
 extern String webpage;
 extern void tone(int mode);
 extern bool jsonStrSave(DynamicJsonDocument &jsonDoc,const String inJson, const String saveFile);
-extern void sysInfoDispEnd();
+// extern void sysInfoDispEnd();
 // extern bool SYSINFO_DISP_STATE;
 extern void stackchanReq(const String& speakStr, int expr=-1, const String balloonStr="$$SKIP$$", int afterExpr=-1 );
 extern void stackchanNow( int expr = -1, const String balloonStr = "$$SKIP$$");

@@ -26,7 +26,7 @@
 extern int statusMode;
 
 // extern bool SYSINFO_DISP_STATE;
-extern void sysInfoDispEnd();
+// extern void sysInfoDispEnd();
 extern void stackchanReq(const String& speakStr, int expr=-1, const String balloonStr="$$SKIP$$", int afterExpr=-1 );
 extern String webpage;
 extern void randomSpeakStop2();

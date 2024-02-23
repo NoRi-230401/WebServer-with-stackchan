@@ -1,18 +1,9 @@
 # WebServer-with-stackchan (WSS)
-
-## New（Ver307 新機能）
-### <b> SD-Updater対応</b><br>
-![画像](images/wss-sdupdater.jpg)<br>
-
-立上げ時に SD-UpdaterのMenuに移行できるようしました。<br>
-SD直下に、firmware（ファイル名"wss.bin"）をコピーしておくと、SD-Updater対応のアプリと切替えができるようになります。<br>
-SD-Updaterの簡単な導入方法は、以下のサポート・ページのインストール箇所で行っています。<br>
-https://nori.rdy.jp/wss/ 　　　(WSS-Support) <br>
-
-<br>
-
-
-
+## v3.08（変更・新機能）
+・初期設定で、SERVOはOFFに変更。(サーボなし使用)<br>
+・SD-Updatar使用するBINファイルをSDに直接書込みする機能。<br>
+　（書込みに失敗することがある）
+<br><br>
 
 ## Features（特徴）
 <b>(1).ファイル管理機能つき、WebServer</b><br>
@@ -138,8 +129,19 @@ https://github.com/meganetaaan/stack-chan
 
 ## history
 
+### Ver3.08 2024-02-23
+<br>
+
 ### Ver3.07 2024-02-18
 #### SD-Updater対応
+![画像](images/wss-sdupdater.jpg)<br>
+
+立上げ時に SD-UpdaterのMenuに移行できるようしました。<br>
+SD直下に、firmware（ファイル名"wss.bin"）をコピーしておくと、SD-Updater対応のアプリと切替えができるようになります。<br>
+<br>
+
+
+
 <br>
 
 ### Ver3.06a 2024-02-16

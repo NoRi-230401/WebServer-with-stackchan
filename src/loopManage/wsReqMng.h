@@ -21,19 +21,15 @@
 #define SV_MD_NONE 99
 
 // -- Request ---------
-#define REQ_SDUPDATER_SAVE 8
 #define REQ_SV_MD_ADJUST 9
 #define REQ_STACKCHAN 10
+#define REQ_SDUPDATER_SAVE 21
+#define REQ_SDUPDATER_SAVE2 22
 #define REQ_REBOOT  98
 #define REQ_SHUTDOWN  99
 
 // -------------------------
 
-// using namespace m5avatar;
-// extern Avatar avatar;
-// extern const Expression expr_table[];
-// extern char *tts_parms_table[];
-// extern char tts_parms2[];
 extern void ttsDo( const String& text );
 extern bool SV_ADJUST_STATE;
 extern int SV_MD;
@@ -47,8 +43,11 @@ extern void setAvatarBalloon(String msg);
 extern void clearAvatarBalloon();
 extern void stackchanReq(const String& speakStr, int expr=-1, const String balloonStr="$$SKIP$$", int afterExpr=-1 );
 extern void stackchanNow( int expr = -1, const String balloonStr = "$$SKIP$$");
-extern void sdupdater_save(String flname);
-
+extern void SDU_saveBin(String flname);
+extern void avatarStop();
+extern void avatarStop2();
+extern void avatarResume();
+extern void SDU_disp();
 // ---------------------------------------------------------------------
 extern void sendReq_stackchan(const String& speakStr="", int expr=-1, const String balloonStr="$$SKIP$$", int afterExpr=-1);
 void sendReq_stackchan(const String &speakStr, int expr, const String balloonStr, int afterExpr);

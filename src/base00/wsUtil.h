@@ -31,6 +31,8 @@ extern Avatar avatar;
 // -- Request ---------
 #define REQ_SV_MD_ADJUST 9
 #define REQ_STACKCHAN 10
+#define REQ_SDUPDATER_SAVE 21
+#define REQ_SDUPDATER_SAVE2 22
 #define REQ_REBOOT  98
 #define REQ_SHUTDOWN  99
 
@@ -42,9 +44,12 @@ extern String webpage;
 extern void sendReq(int reqNo);
 extern void sendReq2(int reqNo, const String reqString );
 extern const String WSS_NAME;
-extern const String WSS_BIN_FILE;
+extern const String WSS_SD_BIN;
 extern  void timerStop2(); 
 extern void randomSpeakStop2();
+extern void sendReq( int reqNo);
+extern void sendReq2( int reqNo, const String reqString );
+extern void avatarResume();
 
 //------------------------------------------------------------
 void wsHandleShutdown(String reboot_get_str, String time_get_str);
@@ -69,18 +74,18 @@ String getHeapFreeSize();
 #define EXE_TM_MD1 1 // disp and timer no reset
 #define EXE_TM_MD2 2 // no disp and timer reset
 #define EXE_TM_MD_START 3 // no disp and timer reset for START 
+
+
+
 void showExeTime(String msg, int mode=EXE_TM_MD0);
 
 // --- for SD-Updater -----
-#define REQ_SDUPDATER_SAVE 8
-// #define TFCARD_CS_PIN 4
 #include <ESP32-targz.h>
 #include <M5StackUpdater.h>
-void SD_Updater_Menu();
+void SDU_lobby();
+void SDU_fromSD();
 void wsHandleSdupdater(String saveFileName);
-void sdupdater_save(String flname);
-extern void sendReq( int reqNo);
-extern void sendReq2( int reqNo, const String reqString );
+void SDU_saveBin(String flname);
 
 //------------------------------------------------------------
 

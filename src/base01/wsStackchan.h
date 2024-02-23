@@ -69,6 +69,8 @@ extern int StatusLineMode;
 // -- Request ---------
 #define REQ_SV_MD_ADJUST 9
 #define REQ_STACKCHAN 10
+#define REQ_SDUPDATER_SAVE 21
+#define REQ_SDUPDATER_SAVE2 22
 #define REQ_REBOOT  98
 #define REQ_SHUTDOWN  99
 
@@ -86,11 +88,13 @@ void setAvatarBalloon(String msg);
 void clearAvatarBalloon();
 void statusNext();
 void statusPrev();
-void statusLineOnOff();
 void statusLineManage();
 void setStatusLineMode(int mode);
 void setAvatarcolor();
 extern void servo(void *args);
+void avatarStop();
+void avatarStop2();
+void avatarResume();
 void avatarSTART();
 // -----------------------------------
 #endif

@@ -30,13 +30,52 @@ void stackchanNow( int expr, const String balloonStr)
 }
 
 
+static bool AVATAR_STATUS = true;
+void avatarStop()
+{
+  if(!AVATAR_STATUS)
+    return;
+
+  avatar.suspend();
+  AVATAR_STATUS = false;
+  delay(100);
+  Serial.println("avatar suspended");
+}
+
+void avatarStop2()
+{
+  M5.Lcd.setTextFont(0);
+  M5.Lcd.setTextSize(2);
+  M5.Lcd.setTextColor(WHITE, BLACK);
+  M5.Lcd.setTextDatum(0);
+  M5.Lcd.setCursor(0, 0);
+  M5.Lcd.fillScreen(BLACK);
+  delay(100);
+}
+
+
+void avatarResume()
+{
+  if(AVATAR_STATUS)
+    return;
+
+  avatar.resume();
+  Serial.println("avatar resumed");
+  AVATAR_STATUS = true;
+  delay(100);
+}
+
+
 void avatarSTART()
 {
   avatar.init(8);
   setAvatarcolor();
   avatar.setSpeechFont(&fonts::efontJA_16);
-  avatar.addTask(servo, "servo");
 
+  if(SV_USE)
+    avatar.addTask(servo, "servo");
+  
+  AVATAR_STATUS = true;
 }
 
 // アバターの色

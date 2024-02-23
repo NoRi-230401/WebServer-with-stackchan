@@ -46,7 +46,7 @@ void buttonManage()
       auto t = M5.Touch.getDetail();
       if (t.wasPressed())
       {
-        if (BOX_STATUS_NEXT.contain(t.x, t.y) && statusMode != STM_NONE)
+        if (BOX_STATUS_NEXT.contain(t.x, t.y) && statusMode != STM0X_NONE)
           // next
           BtnUA_Do();
 
@@ -54,11 +54,11 @@ void buttonManage()
           // statusModeSelect
           BtnUB_Do();
 
-        if (BOX_STATUS_PREV.contain(t.x, t.y) && statusMode != STM_NONE)
+        if (BOX_STATUS_PREV.contain(t.x, t.y) && statusMode != STM0X_NONE)
           // prev
           BtnUC_Do();
 
-        if (BOX_SERVO.contain(t.x, t.y) && statusMode != STM_SYSINFO)
+        if (BOX_SERVO.contain(t.x, t.y) && statusMode != STM2X_SYSINFO)
           // BoxServo
           BtnMB_Do();
       }
@@ -69,21 +69,21 @@ void buttonManage()
   // ** (BtnA) self-talk OnOff
   if (M5.BtnA.wasPressed())
   {
-    if (!KEYLOCK_STATE && statusMode != STM_SYSINFO)
+    if (!KEYLOCK_STATE)
       BtnA_Do();
   }
 
   // ** (BtnB) talk to chatGPT --STT
-  if (M5.BtnB.wasPressed() )
+  if (M5.BtnB.wasPressed())
   {
-    if (!KEYLOCK_STATE && statusMode != STM_SYSINFO)
+    if (!KEYLOCK_STATE)
       BtnB_Do();
   }
 
   // ** (BtnC) Timer Start/Stop
   if (M5.BtnC.wasPressed())
   {
-    if (!KEYLOCK_STATE && statusMode != STM_SYSINFO)
+    if (!KEYLOCK_STATE)
       BtnC_Do();
   }
 }
@@ -122,7 +122,7 @@ void wsHandleBtn(String arg)
   else if (arg_mode == "BTNUC")
   {
     webpage = "StatusNext";
-        BTN_REQ = BtnREQ_UC;
+    BTN_REQ = BtnREQ_UC;
     return;
   }
   else if (arg_mode == "BTNUB")
@@ -195,15 +195,6 @@ void BtnReqGet()
   return;
 }
 
-void BtnA_Do()
-{
-  tone(1);
-  if (!RANDOM_SPEAK_STATE)
-    RANDOM_SPEAK_ON_GET = true;
-  else
-    RANDOM_SPEAK_OFF_GET = true;
-}
-
 void BtnUA_Do()
 {
   tone(1);
@@ -231,27 +222,84 @@ void BtnMB_Do()
   BoxServoDo();
 }
 
-void BtnC_Do()
+void BtnA_Do()
 {
   tone(1);
 
-  if (!TM_STARTED)
-  { // ---- Timer 開始 ------
-    randomSpeakStop2();
-    TM_GO_GET = true;
-    TM_STOP_GET = false;
-  }
-  else
-  { // --- Timer 停止 ------
-    TM_STOP_GET = true;
-    TM_GO_GET = false;
+  switch (statusMode)
+  {
+  case STM0X_NONE:
+  case STM1X_LINE:
+    if (!RANDOM_SPEAK_STATE)
+      RANDOM_SPEAK_ON_GET = true;
+    else
+      RANDOM_SPEAK_OFF_GET = true;
+    break;
+
+  case STM3X_SETTING:
+    Serial.println("Will go to lobby screen");
+    SDU_lobby();
+    SDU_disp();
+    delay(50);
+    break;
+
+  default:
+    break;
   }
 }
 
 void BtnB_Do()
 {
   tone(1);
-  SST_ChatGPT();
+  switch (statusMode)
+  {
+  case STM0X_NONE:
+  case STM1X_LINE:
+    SST_ChatGPT();
+    break;
+
+  case STM3X_SETTING:
+    Serial.println("Will Load menu binary");
+    SDU_fromSD();
+    ESP.restart();
+    delay(200);
+    break;
+
+  default:
+    break;
+  }
+}
+
+void BtnC_Do()
+{
+  tone(1);
+  String bin_flname = WSS_SD_BIN;
+
+  switch (statusMode)
+  {
+  case STM0X_NONE:
+  case STM1X_LINE:
+    if (!TM_STARTED)
+    { // ---- Timer 開始 ------
+      randomSpeakStop2();
+      TM_GO_GET = true;
+      TM_STOP_GET = false;
+    }
+    else
+    { // --- Timer 停止 ------
+      TM_STOP_GET = true;
+      TM_GO_GET = false;
+    }
+    break;
+
+  case STM3X_SETTING:
+    sendReq2(REQ_SDUPDATER_SAVE2, bin_flname);
+    delay(200);
+    break;
+
+  default:
+    break;
+  }
 }
 
 void BoxTouchSetup()
@@ -263,9 +311,9 @@ void BoxTouchSetup()
   int h50 = h100 / 2;
   int h25 = h100 / 4;
 
-  BOX_STATUS_NEXT.setupBox(0, 0, w25, h25);                               // 上左
-  BOX_STATUS_MODE_SELECT.setupBox(w50 - (w25 / 2) - 1, 0, w25, h25);      // 上中
-  BOX_STATUS_PREV.setupBox(w100 - w25 - 1, 0, w25, h25);                  // 上右
-  
+  BOX_STATUS_NEXT.setupBox(0, 0, w25, h25);                          // 上左
+  BOX_STATUS_MODE_SELECT.setupBox(w50 - (w25 / 2) - 1, 0, w25, h25); // 上中
+  BOX_STATUS_PREV.setupBox(w100 - w25 - 1, 0, w25, h25);             // 上右
+
   BOX_SERVO.setupBox(w50 - (w25 / 2) - 1, h50 - (h25 / 2) - 1, w25, h25); // 中中
 }

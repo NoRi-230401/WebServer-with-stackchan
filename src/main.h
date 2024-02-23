@@ -40,7 +40,7 @@ extern void log_free_size(const char *text);
 // extern void showExeTime(String msg, int mode = EXE_TM_MD0);
 extern void statusLineSetup();
 extern void M5FileSystemBegin();
-extern void SD_Updater_Menu();
+extern void SDU_lobby();
 
 // --- Wss StaTe (WST) define ------- 
 extern uint16_t WST ;
@@ -59,9 +59,10 @@ extern void stateManage();
 extern void EPS32_system_info(void);
 // ----------------------------------------------------------
 extern const String WSS_NAME;
+extern const String WSS_SD_BIN;
 extern const String WSS_VER;
 extern const String WSS_VERSION;
-extern const String WSS_BIN_FILE;
+
 // extern String webpage;
 
 void setup();

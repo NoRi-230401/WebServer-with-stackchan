@@ -9,8 +9,8 @@ const String SV_MD_NAME[] = {"Moving", "Home", "Random", "Center", "Swing", "Sto
 const String SV_AXIS_NAME[] = {"X", "Y", "XY"};
 const String SERVO_ITEM[] = {"servo", "servoPort", "servoMode", "servoHomeX", "servoHomeY"};
 String SV_PORT = "";
-const String jsonSERVO = "{\"servo\":[{\"servo\":\"on\",\"servoPort\":\"portC\",\"servoMode\":\"home\",\"servoHomeX\":\"90\",\"servoHomeY\":\"80\"}]}";
-bool SV_USE = true;
+const String jsonSERVO = "{\"servo\":[{\"servo\":\"off\",\"servoPort\":\"portC\",\"servoMode\":\"home\",\"servoHomeX\":\"90\",\"servoHomeY\":\"80\"}]}";
+bool SV_USE = false;
 bool SV_ADJUST_STATE = false;
 bool SV_MD_RANDOM_1st = false;
 bool SV_MD_MOVING_1st = false;
@@ -175,8 +175,8 @@ void BoxServoDo()
 }
 
 void wsHandleServo(String swingXYS, String swingXS, String swingYS,
-  String pointXS, String pointYS, String deltaXS, String deltaYS,
-  String txS, String modeS)
+                   String pointXS, String pointYS, String deltaXS, String deltaYS,
+                   String txS, String modeS)
 {
   // ---- swingXY -------
   if (swingXYS != "")
@@ -407,64 +407,67 @@ void stackchanSpkBalllonAdj(String msg)
 
 void servoSetup2()
 { // 起動中の変更
-  if (SV_USE)
+  if (!SV_USE)
+    return;
+
+  if (SV_MD == SV_MD_MOVING)
   {
-    if (SV_MD == SV_MD_MOVING)
-    {
-      servo_x.setEasingType(EASE_QUADRATIC_IN_OUT);
-      servo_y.setEasingType(EASE_QUADRATIC_IN_OUT);
-      setSpeedForAllServos(30);
-    }
-    else
-    {
-      servo_x.setEasingType(EASE_LINEAR);
-      servo_y.setEasingType(EASE_LINEAR);
-      setSpeedForAllServos(60);
-    }
+    servo_x.setEasingType(EASE_QUADRATIC_IN_OUT);
+    servo_y.setEasingType(EASE_QUADRATIC_IN_OUT);
+    setSpeedForAllServos(30);
+  }
+  else
+  {
+    servo_x.setEasingType(EASE_LINEAR);
+    servo_y.setEasingType(EASE_LINEAR);
+    setSpeedForAllServos(60);
   }
 }
 
 void servoSetup()
 { // 最初の設定
-  if (SV_USE)
+  if (!SV_USE)
   {
-    char msg[100];
-    uint8_t ret;
-
-    ret = servo_x.attach(SV_PIN_X, SV_HOME_X, DEFAULT_MICROSECONDS_FOR_0_DEGREE, DEFAULT_MICROSECONDS_FOR_180_DEGREE);
-    if (ret == 0)
-      sprintf(msg, "Error attaching servo X PIN=%d HOM=%d", SV_PIN_X, SV_HOME_X);
-    else
-      sprintf(msg, "Success attaching servo X PIN=%d HOME=%d RET=%d", SV_PIN_X, SV_HOME_X, ret);
-
-    Serial.println(msg);
-
-    ret = servo_y.attach(SV_PIN_Y, SV_HOME_Y, DEFAULT_MICROSECONDS_FOR_0_DEGREE, DEFAULT_MICROSECONDS_FOR_180_DEGREE);
-    if (ret == 0)
-      sprintf(msg, "Error attaching servo Y PIN=%d HOME=%d", SV_PIN_Y, SV_HOME_Y);
-    else
-      sprintf(msg, "Success attaching servo Y PIN=%d HOME=%d RET=%d", SV_PIN_Y, SV_HOME_Y, ret);
-
-    Serial.println(msg);
-
-    if (SV_ADJUST_STATE)
-    { // サーボ調整モード
-      servo_x.setEasingType(EASE_LINEAR);
-      servo_y.setEasingType(EASE_LINEAR);
-      setSpeedForAllServos(60);
-      sv_setEaseToX(SV_CENTER_X);
-      sv_setEaseToY(SV_CENTER_Y);
-    }
-    else
-    {
-      servo_x.setEasingType(EASE_QUADRATIC_IN_OUT);
-      servo_y.setEasingType(EASE_QUADRATIC_IN_OUT);
-      setSpeedForAllServos(30);
-      sv_setEaseToX(SV_HOME_X);
-      sv_setEaseToY(SV_HOME_Y);
-    }
-    synchronizeAllServosStartAndWaitForAllServosToStop();
+    Serial.println("SERVO NOT USED");
+    return;
   }
+
+  char msg[100];
+  uint8_t ret;
+
+  ret = servo_x.attach(SV_PIN_X, SV_HOME_X, DEFAULT_MICROSECONDS_FOR_0_DEGREE, DEFAULT_MICROSECONDS_FOR_180_DEGREE);
+  if (ret == 0)
+    sprintf(msg, "Error attaching servo X PIN=%d HOM=%d", SV_PIN_X, SV_HOME_X);
+  else
+    sprintf(msg, "Success attaching servo X PIN=%d HOME=%d RET=%d", SV_PIN_X, SV_HOME_X, ret);
+
+  Serial.println(msg);
+
+  ret = servo_y.attach(SV_PIN_Y, SV_HOME_Y, DEFAULT_MICROSECONDS_FOR_0_DEGREE, DEFAULT_MICROSECONDS_FOR_180_DEGREE);
+  if (ret == 0)
+    sprintf(msg, "Error attaching servo Y PIN=%d HOME=%d", SV_PIN_Y, SV_HOME_Y);
+  else
+    sprintf(msg, "Success attaching servo Y PIN=%d HOME=%d RET=%d", SV_PIN_Y, SV_HOME_Y, ret);
+
+  Serial.println(msg);
+
+  if (SV_ADJUST_STATE)
+  { // サーボ調整モード
+    servo_x.setEasingType(EASE_LINEAR);
+    servo_y.setEasingType(EASE_LINEAR);
+    setSpeedForAllServos(60);
+    sv_setEaseToX(SV_CENTER_X);
+    sv_setEaseToY(SV_CENTER_Y);
+  }
+  else
+  {
+    servo_x.setEasingType(EASE_QUADRATIC_IN_OUT);
+    servo_y.setEasingType(EASE_QUADRATIC_IN_OUT);
+    setSpeedForAllServos(30);
+    sv_setEaseToX(SV_HOME_X);
+    sv_setEaseToY(SV_HOME_Y);
+  }
+  synchronizeAllServosStartAndWaitForAllServosToStop();
 }
 
 void servoSwing(int sw_mode, int repeatNum, int len)
@@ -637,8 +640,8 @@ void servoSetting()
 void servoInit()
 {
   // ****** 初期値設定　**********
-  SV_USE = true;
-  SV_PORT = "portA";
+  SV_USE = false;
+  SV_PORT = "portC";
   SV_PIN_X = SV_PIN_X_CORE2_PA;
   SV_PIN_Y = SV_PIN_Y_CORE2_PA;
   SV_MD = SV_MD_MOVING; // moving
@@ -672,8 +675,8 @@ void servoFileRead()
   {
     String getData = getStr10;
     getData.toLowerCase();
-    if (getData == "off")
-      SV_USE = false;
+    if (getData == "on")
+      SV_USE = true;
 
     Serial.println("Servo : " + SERVO_ITEM[0] + " = " + getStr10);
     cnt++;
@@ -723,12 +726,12 @@ void servoFileRead()
   String getStr13 = object[SERVO_ITEM[3]];
   if (getStr13 != "" && (getStr13 != "null"))
   {
-    int getVal = getStr13.toInt(); // 60 <= HomeX <=120
-    if (getVal <= 60)
-      getVal = 60;
+    int getVal = getStr13.toInt(); // 70 <= HomeX <=110
+    if (getVal <= 70)
+      getVal = 70;
 
-    if (getVal >= 120)
-      getVal = 120;
+    if (getVal >= 110)
+      getVal = 110;
 
     SV_HOME_X = getVal;
 
@@ -740,9 +743,9 @@ void servoFileRead()
   String getStr14 = object[SERVO_ITEM[4]];
   if (getStr14 != "" && (getStr14 != "null"))
   {
-    int getVal = getStr14.toInt(); // 75 <= HomeY <= 100
-    if (getVal <= 75)
-      getVal = 75;
+    int getVal = getStr14.toInt(); // 60 <= HomeY <= 100
+    if (getVal <= 60)
+      getVal = 60;
 
     if (getVal >= 100)
       getVal = 100;

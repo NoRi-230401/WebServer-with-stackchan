@@ -13,8 +13,6 @@
 #include <M5Unified.h>
 #include <nvs.h>
 #include <WiFi.h>  
-// #include <HTTPClient.h>
-// #include <WiFiClientSecure.h>
 extern String EncryptionType(wifi_auth_mode_t encryptionType);
 
 // ---- servo define
@@ -24,11 +22,6 @@ extern String EncryptionType(wifi_auth_mode_t encryptionType);
 #define SV_PIN_Y_CORE2_PA 32
 #define SV_PIN_X_CORE2_PC 13 // Core2 PORT C
 #define SV_PIN_Y_CORE2_PC 14
-// #define REQ_MSG_CLS 0
-// #define REQ_SPEAK 1
-// #define REQ_MSG_ONLY 2
-// #define REQ_SPEAK_MSG 3
-// #define REQ_SPEAK_MSG2 4
 
 extern String SERVER_NAME;
 extern int WK_LAST_ERR_NO;
@@ -58,6 +51,9 @@ extern int SV_MD_NAME_NO;
 extern const String WSS_VERSION;
 extern const String WSS_NAME;
 extern const String WSS_VER;
+extern void avatarStop();
+extern void avatarStop2();
+extern void avatarResume();
 
 //------------------------------------------------------------
 void wsHandleSysInfo(String txS, String dispS, String modeS);
@@ -67,7 +63,8 @@ void sysInfoDispStart(uint8_t mode_no);
 void sysInfoDispEnd();
 uint8_t getBatteryLevel();
 void sysInfoDispMake(uint8_t mode_no);
-#define SYSINFO_LEN 7
+
+#define STM2X_SYSINFO_LEN 7
 void sysInfo_m00_DispMake();
 void sysInfo_m01_DispMake();
 void sysInfo_m02_DispMake();

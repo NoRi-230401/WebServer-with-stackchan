@@ -6,7 +6,7 @@ int REQ_EXPR = -1;
 int REQ_EXPR_AFTER = -1;
 String REQ_BALLOON_STR = "";
 int REQUEST_NO = 0; // 0 : no request
-String REQUEST_STR ="";
+String REQUEST_STR = "";
 String REQ_MSG = "";
 
 void requestManage()
@@ -15,6 +15,7 @@ void requestManage()
     return;
 
   int req = REQUEST_NO;
+  String flname = "";
 
   switch (req)
   {
@@ -24,7 +25,7 @@ void requestManage()
       REQUEST_NO = 0;
       Req_stackchanDo();
     }
-    break;
+    return;
 
   case REQ_SV_MD_ADJUST:
     if (!isTalking())
@@ -32,40 +33,53 @@ void requestManage()
       REQUEST_NO = 0;
       SV_MD = SV_MD_ADJUST;
     }
-    break;
+    return;
 
   case REQ_REBOOT:
     REBOOT();
-    break;
+    return;
 
   case REQ_SHUTDOWN:
     POWER_OFF();
-    break;
+    return;
 
   case REQ_SDUPDATER_SAVE:
     REQUEST_NO = 0;
-    sdupdater_save(REQUEST_STR);
-    // REQUEST_STR="";
-    break;
+    flname = REQUEST_STR;
+    avatarStop();
+    avatarStop2();
+    Serial.println("Will store BIN_FILE to SD");
+    SDU_saveBin(flname);
+    delay(50);
+    avatarResume();
+    return;
 
-  default:
+  case REQ_SDUPDATER_SAVE2:
     REQUEST_NO = 0;
-    break;
+    flname = REQUEST_STR;
+    avatarStop();
+    avatarStop2();
+    Serial.println("Will store BIN_FILE to SD");
+    SDU_saveBin(flname);
+    delay(50);
+    SDU_disp();
+    return;
   }
+
+  REQUEST_NO = 0;
+  return;
 }
 
-void sendReq(int reqNo )
+void sendReq(int reqNo)
 {
   REQUEST_NO = reqNo;
 }
 
-void sendReq2(int reqNo, const String reqString )
+void sendReq2(int reqNo, const String reqString)
 {
   REQUEST_NO = reqNo;
   REQUEST_STR = reqString;
 }
-
-
 
 void sendReq_stackchan(const String &speakStr, int expr, const String balloonStr, int afterExpr)
 {

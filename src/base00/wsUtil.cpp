@@ -338,7 +338,8 @@ void SDU_fromSD()
   updateFromFS(SD);
 }
 
-#define SDU_SKIP_TMR 10000 // skip timer : ms
+// #define SDU_SKIP_TMR 10000 // skip timer : ms
+#define SDU_SKIP_TMR 5000 // skip timer : ms
 void SDU_lobby()
 {
   SDUCfg.setAppName(WSS_NAME.c_str()); // lobby screen label: application name

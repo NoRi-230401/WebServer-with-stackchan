@@ -9,8 +9,8 @@ const String SV_MD_NAME[] = {"Moving", "Home", "Random", "Center", "Swing", "Sto
 const String SV_AXIS_NAME[] = {"X", "Y", "XY"};
 const String SERVO_ITEM[] = {"servo", "servoPort", "servoMode", "servoHomeX", "servoHomeY"};
 String SV_PORT = "";
-const String jsonSERVO = "{\"servo\":[{\"servo\":\"on\",\"servoPort\":\"portC\",\"servoMode\":\"home\",\"servoHomeX\":\"90\",\"servoHomeY\":\"80\"}]}";
-bool SV_USE = true;
+const String jsonSERVO = "{\"servo\":[{\"servo\":\"off\",\"servoPort\":\"portC\",\"servoMode\":\"home\",\"servoHomeX\":\"90\",\"servoHomeY\":\"80\"}]}";
+bool SV_USE = false;
 bool SV_ADJUST_STATE = false;
 bool SV_MD_RANDOM_1st = false;
 bool SV_MD_MOVING_1st = false;
@@ -407,21 +407,22 @@ void stackchanSpkBalllonAdj(String msg)
 
 void servoSetup2()
 { // 起動中の変更
-  if (SV_USE)
+  if (!SV_USE)
+    return;
+
+  if (SV_MD == SV_MD_MOVING)
   {
-    if (SV_MD == SV_MD_MOVING)
-    {
-      servo_x.setEasingType(EASE_QUADRATIC_IN_OUT);
-      servo_y.setEasingType(EASE_QUADRATIC_IN_OUT);
-      setSpeedForAllServos(30);
-    }
-    else
-    {
-      servo_x.setEasingType(EASE_LINEAR);
-      servo_y.setEasingType(EASE_LINEAR);
-      setSpeedForAllServos(60);
-    }
+    servo_x.setEasingType(EASE_QUADRATIC_IN_OUT);
+    servo_y.setEasingType(EASE_QUADRATIC_IN_OUT);
+    setSpeedForAllServos(30);
   }
+  else
+  {
+    servo_x.setEasingType(EASE_LINEAR);
+    servo_y.setEasingType(EASE_LINEAR);
+    setSpeedForAllServos(60);
+  }
+
 }
 
 void servoSetup()
@@ -640,8 +641,8 @@ void servoSetting()
 void servoInit()
 {
   // ****** 初期値設定　**********
-  SV_USE = true;
-  SV_PORT = "portA";
+  SV_USE = false;
+  SV_PORT = "portC";
   SV_PIN_X = SV_PIN_X_CORE2_PA;
   SV_PIN_Y = SV_PIN_Y_CORE2_PA;
   SV_MD = SV_MD_MOVING; // moving

@@ -62,7 +62,6 @@ void requestManage()
     Serial.println("Will store BIN_FILE to SD");
     SDU_saveBin(flname);
     delay(50);
-    // avatarResume();
     SDU_disp();
     return;
   }

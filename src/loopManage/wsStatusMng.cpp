@@ -52,9 +52,9 @@ void statusModeSelect()
     break;
 
   case STM3X_SETTING:
-    // avatar.setBatteryIcon(true, BATTERY_MD_INVISIBLE);
-    // delay(10);
-    // avatarStop();
+    avatar.setBatteryIcon(true, BATTERY_MD_INVISIBLE);
+    delay(10);
+    avatarStop();
     SDU_disp();
     break;
 

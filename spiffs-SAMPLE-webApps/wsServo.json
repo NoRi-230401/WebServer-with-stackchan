@@ -1,11 +1,11 @@
 {
   "servo": [
     {
-      "servo": "on",
+      "servo": "off",
       "servoPort": "portC",
       "servoMode": "home",
       "servoHomeX": "90",
-      "servoHomeY": "70"
+      "servoHomeY": "80"
     }
   ]
 }

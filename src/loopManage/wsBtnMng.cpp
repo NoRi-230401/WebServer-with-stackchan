@@ -261,8 +261,8 @@ void BtnB_Do()
   case STM3X_SETTING:
     Serial.println("Will Load menu binary");
     SDU_fromSD();
-    // updateFromFS(SD);
     ESP.restart();
+    delay(200);
     break;
 
   default:
@@ -294,12 +294,7 @@ void BtnC_Do()
 
   case STM3X_SETTING:
     sendReq2(REQ_SDUPDATER_SAVE2, bin_flname);
-    // avatarStop();
-    // avatarStop2();
-    // Serial.println("Will store BIN_FILE to SD");
-    // SDU_saveBin(bin_flname);
-    // delay(50);
-    // SDU_disp();
+    delay(200);
     break;
 
   default:

@@ -1,9 +1,8 @@
 # WebServer-with-stackchan (WSS)
-## v3.08（変更・新機能）
-・初期設定で、SERVOはOFFに変更。(サーボなし使用)<br>
-・SD-Updatar使用するBINファイルをSDに直接書込みする機能。<br>
-（書込みに失敗することがあります。その時は、再起動してください）
-<br><br>
+## v3.08a（変更・新機能）
+RootCA変更による「わかりません」現象の解消。
+<br>
+
 
 ## Features（特徴）
 <b>(1).ファイル管理機能つき、WebServer</b><br>
@@ -129,7 +128,14 @@ https://github.com/meganetaaan/stack-chan
 
 ## history
 
+### Ver3.08a 2024-02-25
+RootCA変更による「わかりません」現象の解消。
+<br>
+
 ### Ver3.08 2024-02-23
+・初期設定で、SERVOはOFFに変更。(サーボなし使用)<br>
+・SD-Updatar使用するBINファイルをSDに直接書込みする機能。<br>
+（書込みに失敗することがあります。その時は、再起動してください）
 <br>
 
 ### Ver3.07 2024-02-18

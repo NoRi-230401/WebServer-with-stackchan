@@ -225,8 +225,11 @@ bool sysInfoGet(String txArg, String &txData)
 
 void sysInfoDispStart(uint8_t mode_no)
 {
-  M5.Lcd.setTextColor(TFT_WHITE, TFT_BLUE);
-  M5.Lcd.fillScreen(BLUE);
+  M5.Display.setTextColor(TFT_WHITE, TFT_BLUE);
+  M5.Display.fillScreen(BLUE);
+  M5.Display.setTextDatum(0);
+  M5.Display.setCursor(0, 0);
+  
   delay(50);
   sysInfoDispMake(mode_no);
   M5.Display.print(SYSINFO_MSG);

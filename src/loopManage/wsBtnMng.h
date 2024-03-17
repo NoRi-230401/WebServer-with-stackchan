@@ -34,7 +34,7 @@ extern void timerStop2();
 extern void randomSpeakStop2();
 extern void timerStart();
 extern void timerStop();
-extern void sysInfoDispStart(uint8_t mode_no);
+// extern void sysInfoDispStart(uint8_t mode_no);
 extern void tone(int mode);
 extern void SST_ChatGPT();
 extern bool TM_STOP_GET;

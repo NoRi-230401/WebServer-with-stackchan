@@ -44,12 +44,12 @@ void avatarStop()
 
 void avatarStop2()
 {
-  M5.Lcd.setTextFont(0);
-  M5.Lcd.setTextSize(2);
-  M5.Lcd.setTextColor(WHITE, BLACK);
-  M5.Lcd.setTextDatum(0);
-  M5.Lcd.setCursor(0, 0);
-  M5.Lcd.fillScreen(BLACK);
+  M5.Display.setTextFont(0);
+  M5.Display.setTextSize(2);
+  M5.Display.setTextColor(WHITE, BLACK);
+  M5.Display.setTextDatum(0);
+  M5.Display.setCursor(0, 0);
+  M5.Display.fillScreen(BLACK);
   delay(100);
 }
 

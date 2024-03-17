@@ -1,7 +1,7 @@
 .pio
 .vscode
 logs
-APIKEY
-BACKUP
 WSS-APIKEY
+WSS-SAMPLE
+WSS-DOC-OLD
 

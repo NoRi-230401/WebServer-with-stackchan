@@ -104,7 +104,7 @@ extern bool sysInfoGet(String txArg, String &txData);
 extern void sysInfoDispEnd();
 extern String SYSINFO_MSG;
 extern void sysInfoDispMake(uint8_t mode_no);
-extern void sysInfoDispStart(uint8_t mode_no);
+// extern void sysInfoDispStart(uint8_t mode_no);
 extern bool RANDOM_SPEAK_STATE;
 extern bool RANDOM_SPEAK_ON_GET;
 

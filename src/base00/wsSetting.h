@@ -36,7 +36,7 @@ extern void randomSpeakStop2();
 extern void timerStart();
 extern void timerStop();
 extern void timerStop2();
-extern void sysInfoDispStart(uint8_t mode_no);
+// extern void sysInfoDispStart(uint8_t mode_no);
 extern bool jsonDocSave(DynamicJsonDocument &jsonDoc, String saveFile);
 extern bool jsonRead(int flType, DynamicJsonDocument &jsonDoc, String readFile);
 extern bool setJsonItem(String flName, String item, String setData, DynamicJsonDocument &jsonDoc, String arrayName);

@@ -1,11 +1,8 @@
 # WebServer-with-stackchan (WSS)
-## v3.09a（変更・新機能）
+## v3.09a（変更）
 ステータス表示(StatusDisp)が正しく表示されないBug修正
-<br>
+<br><br>
 
-## v3.08a（変更・新機能）
-RootCA変更による「わかりません」現象の解消。
-<br>
 
 
 ## Features（特徴）
@@ -132,9 +129,13 @@ https://github.com/meganetaaan/stack-chan
 
 ## history
 
+### Ver3.09a 2024-02-25
+ステータス表示(StatusDisp)が正しく表示されないBug修正
+<br><br>
+
 ### Ver3.08a 2024-02-25
 RootCA変更による「わかりません」現象の解消。
-<br>
+<br><br>
 
 ### Ver3.08 2024-02-23
 ・初期設定で、SERVOはOFFに変更。(サーボなし使用)<br>

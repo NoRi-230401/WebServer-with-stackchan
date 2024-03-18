@@ -129,7 +129,7 @@ https://github.com/meganetaaan/stack-chan
 
 ## history
 
-### Ver3.09a 2024-02-25
+### Ver3.09a 2024-03-17
 ステータス表示(StatusDisp)が正しく表示されないBug修正
 <br><br>
 

@@ -10,7 +10,7 @@
 SPIFFS/SDにPCから直接ファイルをアップロードまたは、PCにファイルをダウンロードすることが可能になりました。
 
 
-![画像](images/gazo01.png )<br>
+![画像](doc/images/gazo01.png )<br>
 <br>
 
 <b>ファイル管理機能</b><br>
@@ -71,13 +71,13 @@ Webアプリは、html、styleSheet、javaScript、画像ファイルなどを�
 https://nori.rdy.jp/wss/   　　　(WSS-Support)<br>
 
 
-![画像](images/s-support-page.png)<br>
+![画像](doc/images/s-support-page.png)<br>
 <br>
 
 ## M5Burner
 M5Burnerで、ファームウエアを入手することもできます。<br>
 （デバイス種類は「CORE2 & TOUGH」）<br>
-![画像](images/s-M5Burner03.png)<br>
+![画像](doc/images/s-M5Burner03.png)<br>
 <br>
 
 ## LICENSE
@@ -145,7 +145,7 @@ RootCA変更による「わかりません」現象の解消。
 
 ### Ver3.07 2024-02-18
 #### SD-Updater対応
-![画像](images/wss-sdupdater.jpg)<br>
+![画像](doc/images/wss-sdupdater.jpg)<br>
 
 立上げ時に SD-UpdaterのMenuに移行できるようしました。<br>
 SD直下に、firmware（ファイル名"wss.bin"）をコピーしておくと、SD-Updater対応のアプリと切替えができるようになります。<br>
@@ -171,7 +171,7 @@ Ver304に引き続き、バッテリー・アイコンを拡張し、情報表�
 StatsuLineモードと同様に、画面上部の左右をタッチすると違う種類を選択することができます。
 全部で７種類の情報があります。<br>
 
-![モード](images/stackV305gazo2.jpg)<br>
+![モード](doc/images/stackV305gazo2.jpg)<br>
 <br> 
 
 #### (2).その他
@@ -204,7 +204,7 @@ ChatGPTの操作に特化したリモコンを追加しました。<br>
 ９つのキャラクター（ロールと音声）をワンタッチで変更<br>
 ・　チャット履歴表示（chat History）<br>
 
-![画像](images/chatRemoCon.png )<br>
+![画像](doc/images/chatRemoCon.png )<br>
 
 <b>(2).　暫定版：ＳＤファイル管理のフォルダ機能</b><br>
 Spiffs/SDで、ＳＤを選択するとフォルダ機能のメニューが出ます。<br>

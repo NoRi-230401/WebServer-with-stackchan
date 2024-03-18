@@ -1,0 +1,15 @@
+{
+  "startup": [
+    {
+      "serverName": "stackchan",
+      "volume": "-1",
+      "led": "on",
+      "toneMode": "-1",
+      "mute": "off",
+      "keyLock": "off",
+      "vSpkNo": "-1",
+      "randomSpeak": "off",
+      "timer": "-1"
+    }
+  ]
+}

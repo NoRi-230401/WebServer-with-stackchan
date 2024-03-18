@@ -1,0 +1,11 @@
+{
+  "servo": [
+    {
+      "servo": "off",
+      "servoPort": "portC",
+      "servoMode": "home",
+      "servoHomeX": "90",
+      "servoHomeY": "80"
+    }
+  ]
+}

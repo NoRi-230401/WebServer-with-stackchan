@@ -9,7 +9,7 @@ String SPEECH_TEXT = "";
 void ttsDo(const String &speechText)
 {
   WST = WST_TTS_start;
-  log_free_size("VOICEVOX：IN");
+  log_free_size("VOICEVOX : IN");
   Serial.println("------- [ speak to you ] -------");
   Serial.println(speechText);
   Serial.println("--------------------------------");
@@ -30,7 +30,7 @@ void ttsDo(const String &speechText)
     if ( return_string != "")
         tts_voiceVox->talk_https(return_string);
 
-    showExeTime("VOICEVOX：mp3Url get then start speaking");
+    showExeTime("VOICEVOX : mp3Url get then start speaking");
   }
 }
 
@@ -55,7 +55,7 @@ void wsHandleSpeech(String sayS, String expressionS, String balloonS, String voi
       expr = tmp_expr;
 
     webpage += "speech : expression = " + EXPR_STR[expr] ;
-    webpage += "　expr = " + String(expr,DEC) + "<br>";
+    webpage += " expr = " + String(expr,DEC) + "<br>";
   }
 
   if (afterExpS != "")
@@ -65,7 +65,7 @@ void wsHandleSpeech(String sayS, String expressionS, String balloonS, String voi
       afterExpr = tmp_expr;
 
     webpage += "speech : afterExpr = " + EXPR_STR[afterExpr] ;
-    webpage += "　expr = " + String(afterExpr,DEC) + "<br>";
+    webpage += " expr = " + String(afterExpr,DEC) + "<br>";
   }
 
   if ( balloonS != "$$SKIP$$")

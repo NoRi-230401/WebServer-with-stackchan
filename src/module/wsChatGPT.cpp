@@ -550,7 +550,7 @@ String chatGpt(String json_string)
 void exec_chatGPT(String toChatGptText)
 {
   showExeTime("", EXE_TM_MD_START); // timer start
-  log_free_size("\nchatGPT ：IN");
+  log_free_size("\nChatGPT  : IN");
   WST = WST_chatGPT_start;
 
   Serial.println("----- [ talk to chatGPT ] -----");
@@ -597,8 +597,8 @@ void exec_chatGPT(String toChatGptText)
     { // chatGPT応答が正常な場合
       chatHistory.push_back(chatResponse);
       stackchanReq(chatResponse, EXPR_HAPPY, "$$SKIP$$", EXPR_NEUTRAL);
-      showExeTime("ChatGPT ：chatResponse get, then move to VOICEVOX");
-      log_free_size("chatGPT ：OUT");
+      showExeTime("ChatGPT  : chatResponse get, then move to VOICEVOX");
+      log_free_size("ChatGPT  : OUT");
       WST = WST_chatGPT_done;
       return;
     }

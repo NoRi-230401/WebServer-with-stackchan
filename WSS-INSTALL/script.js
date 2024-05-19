@@ -6,7 +6,7 @@
 
   function MovePowerOffCheck() {
     if (confirm("終了してもいいですか？")) {
-      window.location.href = "http://192.168.0.100/shutdown";
+      window.location.href = "http://stackchan/shutdown";
     }
     else {
       alert("「終了」をやめました。");
@@ -15,7 +15,7 @@
 
   function MoveRebootCheck() {
     if (confirm("再起動してもいいですか？")) {
-      window.location.href = "http://192.168.0.100/shutdown?reboot=on";
+      window.location.href = "http://stackchan/shutdown?reboot=on";
     }
     else {
       alert("「再起動」をやめました。");

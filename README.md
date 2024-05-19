@@ -1,7 +1,10 @@
 # WebServer-with-stackchan (WSS)
-## v3.09a（変更）
-ステータス表示(StatusDisp)が正しく表示されないBug修正
+## v3.10a（変更）
+webAppでResetとPowerOffが利かない不具合を修正。<br>
+"script.js" (java Scriptファイル)<br>
+その他、いくつかの表示上の修正をおこないました。
 <br><br>
+
 
 
 

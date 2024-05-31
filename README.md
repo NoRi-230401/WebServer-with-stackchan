@@ -95,8 +95,7 @@ M5Burnerで、ファームウエアを入手することもできます。<br>
 <br>
 
 
-## 参考リポジトリ
-- [AI_StackChan2 (robo8080さん)](https://github.com/robo8080/AI_StackChan2)「MIT License」
+　
 - [M5Stack_Stack-chan_another_dimension(つゆきぱぱさん)](https://github.com/yakumo0623/M5Stack_Stack-chan_another_dimension)「MIT License」 
 - [stack-chan-tester (タカオさん)](https://github.com/mongonta0716/stack-chan-tester)「MIT License」
 

@@ -1,4 +1,7 @@
 # WebServer-with-stackchan (WSS)
+## v3.11（2024-07-11変更）
+OpenAIのルート証明を更新しました。「rootCACertificate.h」<br><br>
+
 ## v3.10a（変更）
 webAppでResetとPowerOffが利かない不具合を修正。<br>
 "script.js" (java Scriptファイル)<br>

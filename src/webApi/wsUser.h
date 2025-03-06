@@ -36,8 +36,10 @@ void handle_wss1();
 void handle_wss2();
 void handle_wss3();
 void handle_wss4();
+void handle_script();
 // void handle_wss5();
 bool htmlConv(const String flname);
+bool scriptConv(const String flname);
 
 // ---- end of < WS_USER_H > --------------------------------------
 #endif

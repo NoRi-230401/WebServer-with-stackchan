@@ -7,11 +7,14 @@ const String WSS2_HTML = "/wss2.html";
 const String WSS3_HTML = "/wss3.html";
 const String WSS4_HTML = "/wss4.html";
 const String WSS5_HTML = "/wss5.html";
+const String SCRIPT_JS = "/script.js";
 const String NAME_WSS1 = "Setting";
 const String NAME_WSS2 = "Servo";
 const String NAME_WSS3 = "Remote";
 const String NAME_WSS4 = "Chat";
 const String NAME_WSS5 = "wss5";
+
+String scriptPage="";
 
 void setupUserHandler()
 {
@@ -36,8 +39,11 @@ void setupUserHandler()
   server.on("/icon.gif", HTTP_GET, [](AsyncWebServerRequest *request)
             { request->send(SPIFFS, "/icon.gif", "image/gif"); });
 
+  // server.on("/script.js", HTTP_GET, [](AsyncWebServerRequest *request)
+  //           { request->send(SPIFFS, "/script.js", "application/javascript"); });
+
   server.on("/script.js", HTTP_GET, [](AsyncWebServerRequest *request)
-            { request->send(SPIFFS, "/script.js", "application/javascript"); });
+            { handle_script(); request->send(200,"application/javascript",scriptPage); });
 
   server.on("/style.css", HTTP_GET, [](AsyncWebServerRequest *request)
             { request->send(SPIFFS, "/style.css", "text/css"); });
@@ -85,7 +91,6 @@ void serverSend3(AsyncWebServerRequest *request)
 }
 
 
-
 void handle_wss1()
 {
   htmlConv(WSS1_HTML);
@@ -110,6 +115,65 @@ void handle_wss5()
 {
   htmlConv(WSS5_HTML);
 }
+
+void handle_script()
+{
+  scriptConv(SCRIPT_JS);
+}
+
+
+
+// #define DEBUG_INDEX_HTML
+bool scriptConv(const String flname)
+{
+  // *************************************************************
+  // htmlファイル中の  "http://stackchan/"  を実際のIPアドレスに変換
+  const char *findStr = "http://stackchan/";
+  // *************************************************************
+  scriptPage = "";
+
+  File fl = SPIFFS.open(flname.c_str(), "r");
+  if (!fl)
+  {
+    fl.close();
+    String msg = "Error handleRoot : cannot open " + flname;
+    scriptPage = msg;
+    Serial.println(msg);
+    return false;
+  }
+
+  // *** Buffer確保 ******
+  size_t sz = fl.size();
+  Serial.println(flname + " :  file size = " + String(sz, DEC));
+
+  char *buff;
+  buff = (char *)malloc(sz + 1);
+  if (!buff)
+  {
+    String msg = "ERROR:  Unable to malloc " + String(sz, DEC) + " bytes for app";
+    scriptPage = String(msg);
+    Serial.println(msg);
+    fl.close();
+    return false;
+  }
+
+  fl.read((uint8_t *)buff, sz);
+  buff[sz] = 0;
+  fl.close();
+
+  scriptPage = String(buff);
+  free(buff);
+
+#ifndef DEBUG_INDEX_HTML
+  // ** 本体のIP_ADDRに変換 **
+  String replacedStr = "http://" + IP_ADDR + "/";
+  scriptPage.replace(findStr, (const char *)replacedStr.c_str());
+#endif
+  return true;
+}
+
+
+
 
 // #define DEBUG_INDEX_HTML
 bool htmlConv(const String flname)

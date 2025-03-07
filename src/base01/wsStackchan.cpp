@@ -106,7 +106,11 @@ void wsHandleFace(String expression)
     return;
 
   stackchanReq("", expr);
+// --- 20250307 by NoRi -----------
   webpage = "face No. =  " + String(expr, DEC) + " : " + EXPR_STR[expr];
+  // webpage = "OK";
+// --------------------------------
+
 }
 
 void setAvatarExpr(int expr)

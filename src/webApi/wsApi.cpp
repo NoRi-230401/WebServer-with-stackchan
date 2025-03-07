@@ -41,15 +41,16 @@ void setupApiHandler()
 
   // ##################### speech ############################
   server.on("/speech", HTTP_GET, [](AsyncWebServerRequest *request)
-            {    handle_speech(request);  serverSend(request); });
+            {  handle_speech(request);  serverSend(request); });
 
   // ##################### face ############################
   server.on("/face", HTTP_GET, [](AsyncWebServerRequest *request)
-            {    handle_face(request); serverSend(request); });
+          { handle_face(request); serverSend(request); });
+          // { Serial.println("face"); handle_face(request); serverSend(request); });
 
   // ##################### face ############################
   server.on("/balloon", HTTP_GET, [](AsyncWebServerRequest *request)
-            {    handle_balloon(request); serverSend(request); });
+            { handle_balloon(request); serverSend(request); });
 
   // ##################### chatGpt ############################
   server.on("/chatGpt", HTTP_GET, [](AsyncWebServerRequest *request)
@@ -300,6 +301,6 @@ void handle_servoSetting(AsyncWebServerRequest *request)
   String servoModeS = request->arg("servoMode");
   String servoHomeXS = request->arg("servoHomeX");
   String servoHomeYS = request->arg("servoHomeY");
-    wsServoSetting( txS, servoS, servoPortS,servoModeS,servoHomeXS, servoHomeYS);
+  wsServoSetting( txS, servoS, servoPortS,servoModeS,servoHomeXS, servoHomeYS);
 }
 

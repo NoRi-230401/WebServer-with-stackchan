@@ -59,13 +59,15 @@ void setupUserHandler()
 
 void serverSend(AsyncWebServerRequest *request)
 {
-  if (webpage == "NG")
-  {
+  if (webpage.equals("NG"))  {
     webpage = HTML_Header2Ng() + webpage + HTML_Footer2();
     request->send(400, "text/html", webpage);
   }
-  else
-  {
+  else if(webpage.equals("OK"))  {
+    Serial.println("send -> OK");
+    request->send(200, "text/plain", String("OK"));
+  }
+  else  {
     String tmpPage;
     tmpPage = HTML_Header2() + webpage + HTML_Footer2();
     webpage = tmpPage;
@@ -73,10 +75,9 @@ void serverSend(AsyncWebServerRequest *request)
   }
 }
 
-
 void serverSend3(AsyncWebServerRequest *request)
 {
-  if (webpage == "NG")
+  if (webpage.equals("NG"))
   {
     webpage = HTML_Header2Ng() + webpage + HTML_Footer2();
     request->send(400, "text/html", webpage);
@@ -123,11 +124,10 @@ void handle_script()
 
 
 
-// #define DEBUG_INDEX_HTML
 bool scriptConv(const String flname)
 {
   // *************************************************************
-  // htmlファイル中の  "http://stackchan/"  を実際のIPアドレスに変換
+  // "script.js" ファイル中の  "http://stackchan/"  を実際のIPアドレスに変換
   const char *findStr = "http://stackchan/";
   // *************************************************************
   scriptPage = "";
@@ -164,18 +164,15 @@ bool scriptConv(const String flname)
   scriptPage = String(buff);
   free(buff);
 
-#ifndef DEBUG_INDEX_HTML
   // ** 本体のIP_ADDRに変換 **
   String replacedStr = "http://" + IP_ADDR + "/";
   scriptPage.replace(findStr, (const char *)replacedStr.c_str());
-#endif
   return true;
 }
 
 
 
 
-// #define DEBUG_INDEX_HTML
 bool htmlConv(const String flname)
 {
   // *************************************************************
@@ -216,11 +213,10 @@ bool htmlConv(const String flname)
   webpage = String(buff);
   free(buff);
 
-#ifndef DEBUG_INDEX_HTML
   // ** 本体のIP_ADDRに変換 **
   String replacedStr = "http://" + IP_ADDR + "/";
   webpage.replace(findStr, (const char *)replacedStr.c_str());
-#endif
+
   return true;
 }
 
@@ -231,23 +227,27 @@ String processor05(const String &var)
   // を書き換える。本体の状態をWEB上で表示することができます。
   // **************************************************************************
   Serial.println(var);
-  if (var == "IP_ADDR")
+  if (var.equals("IP_ADDR"))
   {
     Serial.println(IP_ADDR);
     return IP_ADDR;
   }
-  else if (var == "SERVER_NAME")
+  else if (var.equals("IP_ADDR"))
+  {
+    Serial.println(IP_ADDR);
+    return IP_ADDR;
+  }
+  else if (var.equals("SERVER_NAME"))
   {
     Serial.println(SERVER_NAME);
     return SERVER_NAME;
   }
-  if (var == "VOLUME_VALUE")
+  if (var.equals("VOLUME_VALUE")) 
   {
     int vol = (int)VOLUME_VALUE;
     String vol_str = String(vol, DEC);
     return vol_str;
   }
-
   return String();
 }
 
@@ -329,7 +329,8 @@ String HTML_Header()
     // page += "<br>";
   }
 
-  page += "<br>";
+  // page += "<br>";
+  page += "<br><br>";
   page += "<div class = 'topnav2'>";
   page += "<a href='/' target='Home'>Home</a>";
   page += "<a href='/wss1' target='" + NAME_WSS1 + "'>" + NAME_WSS1 + "</a> ";
@@ -341,7 +342,8 @@ String HTML_Header()
   page += "<a href='/system'>Status</a>";
   page += "<a href='https://nori.rdy.jp/wss/' target='WSS-Support'>Support</a>";
   page += "</div>";
-
+  page += "<br><br>";
+  
   return page;
 }
 

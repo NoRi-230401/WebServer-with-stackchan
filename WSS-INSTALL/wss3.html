@@ -32,7 +32,7 @@
   <a href="http://stackchan/setting?keyLock=toggle" class="btn btn--orange btn--orenge"
     onclick="window.open('http://stackchan/setting?keyLock=toggle','subwin','width=300,height=200');return false;">KeyLk</a>
   <a href="http://stackchan/button?push=BOX_SERVO" class="btn btn--BtnBOX"
-    onclick="window.open('http://stackchan/button?push=BOX_SERVO','subwin','width=300,height=200');return false;">&nbsp;&nbsp;Servo&nbsp;&nbsp;&nbsp<br>mode<br>change</a>
+    onclick="window.open('http://stackchan/button?push=BOX_SERVO','subwin','width=300,height=200');return false;">&nbsp;&nbsp;Servo&nbsp;&nbsp;<br>mode<br>select</a>
   <a href="http://stackchan/sysInfo" class="btn btn--LightSkyBlue btn--LightSkyBlue"
     onclick="window.open('http://stackchan/sysInfo','subwin','width=400,height=650','scrollbars=yes');return false;">SysInfo</a>
 </div>
@@ -53,14 +53,17 @@
 </p>
 
 <div class="just2">
-  <a href="http://stackchan/button?push=BtnA" class=" btn btn--BtnABC"
-    onclick="window.open('http://stackchan/button?push=BtnA','subwin','width=300,height=200');return false;">BtnA<br>&nbsp;&nbsp;self-talk&nbsp;&nbsp;</a>
-  <a href="http://stackchan/button?push=BtnB" class="btn btn--BtnABC"
-    onclick="window.open('http://stackchan/button?push=BtnB','subwin','width=300,height=200');return false;">BtnB
-    talkTo<br>chatGPT</a>
-  <a href="http://stackchan/button?push=BtnC" class="btn btn--BtnABC"
-    onclick="window.open('http://stackchan/button?push=BtnC','subwin','width=300,height=200');return false;">BtnC Tmr<br>start / stop</a>
-</div>
+    <a href="http://stackchan/button?push=BtnA" class=" btn btn--BtnABC"
+    onclick="window.open('http://stackchan/button?push=BtnA','subwin','width=300,height=200');return false;">self-talk<br>On/Off</a>
+  
+    <!-- <a href="http://stackchan/button?push=BOX_STT" class="btn btn--BtnABC"
+    onclick="window.open('http://stackchan/button?push=BtnB','subwin','width=300,height=200');return false;">talk to<br>ChatGPT</a> -->
+    <a href="http://stackchan/button?push=BOX_STT" class="btn btn--BtnBOX"
+    onclick="window.open('http://stackchan/button?push=BOX_STT','subwin','width=300,height=200');return false;">talk to<br>ChatGPT</a>
+
+    <a href="http://stackchan/button?push=BtnC" class="btn btn--BtnABC"
+    onclick="window.open('http://stackchan/button?push=BtnC','subwin','width=300,height=200');return false;">Timer<br>go/stop</a>
+  </div>
 <br>
 <div class="just2">
   <a href="http://stackchan/timer?setTimeMin=1&mode=Start" class="btn btn--Lavender btn--Lavender"
@@ -87,8 +90,10 @@
 <div class="just2">
   <a href="http://stackchan/setting?led=toggle" class="btn btn--yellow btn--yellow"
     onclick="window.open('http://stackchan/setting?led=toggle','subwin','width=300,height=200');return false;">LED</a>
+  
   <a href="http://stackchan/setting?toneMode=next" class="btn btn--green btn--green"
-    onclick="window.open('http://stackchan/setting?toneMode=next','subwin','width=300,height=200');return false;">ToneM</a>
+    onclick="window.open('http://stackchan/setting?toneMode=next','subwin','width=300,height=200');return false;">toneM</a>
+  
   <a href="http://stackchan/setting?mute=toggle" class="btn btn--pink btn--pink"
     onclick="window.open('http://stackchan/setting?mute=toggle','subwin','width=300,height=200');return false;">Mute</a>
 </div>
@@ -97,7 +102,7 @@
   <p class="formbottom">
   <div class="just2">
     <font size="4"><b>Volume (0-255)</b></font>
-    <input type="text" style="text-align:right;font-size:180%;" name="volume" value="180" size="3" maxlength="3">
+    <input type="text" style="text-align:right;font-size:180%;" name="volume" value="150" size="3" maxlength="3">
     <input type="submit" style="font-size:180%;" value="SUBMIT" class="btns submit"
       onclick="disp('http://stackchan/setting')">
   </div>
